@@ -102,6 +102,8 @@
 
         <!-- region Editor -->
         <postStartupActivity implementation="org.tonstudio.tact.ide.TactPostStartupActivity"/>
+        <lang.formatter language="tact"
+            implementationClass="org.tonstudio.tact.lang.formatter.TactFormattingModelBuilder"/>
         <!-- endregion Editor -->
 
         <!-- region Toolchains -->
