@@ -19,7 +19,14 @@ class TactLocalToolchain(
 
     override fun compiler(): VirtualFile? = executable
 
-    override fun stdlibDir(): VirtualFile? = libDir
+    override fun stdlibDir(): VirtualFile? {
+        if (rootDir.path.contains("node_modules")) {
+            return libDir
+        }
+
+        // most likely compiler repo
+        return rootDir.resolveFromRootOrRelative(TactConfigurationUtil.COMPILER_REPO_STANDARD_LIB_PATH) ?: libDir
+    }
 
     override fun rootDir(): VirtualFile = rootDir
 

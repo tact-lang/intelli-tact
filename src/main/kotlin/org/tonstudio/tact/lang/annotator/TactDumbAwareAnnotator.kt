@@ -23,6 +23,7 @@ class TactDumbAwareAnnotator : Annotator, DumbAware {
 
     private fun highlightLeaf(element: PsiElement): TactColor? {
         if (element.elementType == TactTypes.INIT_OF && element.inside<TactInitOfExpr>()) return TactColor.KEYWORD
+        if (element.elementType == TactTypes.CODE_OF && element.inside<TactCodeOfExpr>()) return TactColor.KEYWORD
         if (element.elementType != TactTypes.IDENTIFIER) return null
 
         // special soft keywords cases
@@ -32,6 +33,7 @@ class TactDumbAwareAnnotator : Annotator, DumbAware {
         if (element.textMatches("init") && element.inside<TactContractInitDeclaration>()) return TactColor.KEYWORD
         if (element.textMatches("message") && element.parent is TactMessageType) return TactColor.KEYWORD
         if (element.textMatches("get") && element.parent is TactGetAttribute) return TactColor.KEYWORD
+        if (element.textMatches("map") && element.parent is TactMapType) return TactColor.KEYWORD
 
         val parent = element.parent as? TactCompositeElement ?: return null
 

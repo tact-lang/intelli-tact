@@ -197,6 +197,7 @@ REGULAR_STRING_PART=[^\\\"]+
 "<"                                       { return LESS; }
 
 "^"                                       { return BIT_XOR; }
+"^="                                      { return BIT_XOR_ASSIGN; }
 
 "*="                                      { return MUL_ASSIGN; }
 "*"                                       { return MUL; }
