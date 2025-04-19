@@ -151,6 +151,7 @@ abstract class TactBaseTypeEx(protected val anchor: PsiElement? = null) : UserDa
                 is TactMessageType   -> TactMessageTypeEx(parentName(type), type)
                 is TactPrimitiveType -> TactPrimitiveTypeEx(TactPrimitiveTypes.find(type.text) ?: TactPrimitiveTypes.INT)
                 is TactMapType       -> TactMapTypeEx(type.keyType.toEx(visited), type.valueType.toEx(visited), type)
+                is TactBouncedType   -> TactBouncedTypeEx(type.type.toEx(visited), type)
                 is TactTupleType     -> TactTupleTypeEx(
                     (type.typeListNoPin?.typeList ?: emptyList()).map { it.toEx(visited) },
                     type

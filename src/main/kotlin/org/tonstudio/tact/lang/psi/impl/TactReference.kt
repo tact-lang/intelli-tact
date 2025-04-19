@@ -168,6 +168,10 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
             }
         }
 
+        if (typ is TactBouncedTypeEx) {
+            return processExistingType(typ.inner, processor, newState)
+        }
+
         if (!processMethods(typ, processor, newState, localResolve)) return false
 
         return true

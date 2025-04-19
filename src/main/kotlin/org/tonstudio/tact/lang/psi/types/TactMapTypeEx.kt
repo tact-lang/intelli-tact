@@ -7,22 +7,25 @@ class TactMapTypeEx(val key: TactTypeEx, val value: TactTypeEx, anchor: PsiEleme
     override fun toString() = buildString {
         append("map<")
         append(key)
-        append(">")
+        append(", ")
         append(value)
+        append(">")
     }
 
     override fun qualifiedName(): String = buildString {
         append("map<")
         append(key.qualifiedName())
-        append(">")
+        append(", ")
         append(value.qualifiedName())
+        append(">")
     }
 
     override fun readableName(context: PsiElement, detailed: Boolean) = buildString {
         append("map<")
         append(key.readableName(context))
-        append(">")
+        append(", ")
         append(value.readableName(context))
+        append(">")
     }
 
     override fun module() = value.module()
