@@ -23,6 +23,9 @@ public interface TactFunctionDeclaration extends TactSignatureOwner, TactFunctio
   @NotNull
   TactSignature getSignature();
 
+  @Nullable
+  PsiElement getSemicolon();
+
   @NotNull
   PsiElement getFun();
 

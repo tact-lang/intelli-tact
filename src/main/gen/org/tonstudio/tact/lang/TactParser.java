@@ -1169,7 +1169,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Attributes? FunctionAttribute* fun identifier Signature Block?
+  // Attributes? FunctionAttribute* fun identifier Signature (Block | ';')
   public static boolean FunctionDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunctionDeclaration")) return false;
     boolean r, p;
@@ -1202,11 +1202,13 @@ public class TactParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // Block?
+  // Block | ';'
   private static boolean FunctionDeclaration_5(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunctionDeclaration_5")) return false;
-    Block(b, l + 1);
-    return true;
+    boolean r;
+    r = Block(b, l + 1);
+    if (!r) r = consumeToken(b, SEMICOLON);
+    return r;
   }
 
   /* ********************************************************** */

@@ -12,6 +12,7 @@ import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.psi.util.parentOfType
 import com.intellij.psi.util.parentOfTypes
 import com.intellij.util.ArrayUtil
+import org.tonstudio.tact.configurations.TactConfiguration
 import org.tonstudio.tact.ide.codeInsight.TactCodeInsightUtil
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.impl.TactPsiImplUtil.processNamedElements
@@ -209,6 +210,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         if (!processDirectory(file.originalFile.parent, processor, state, true)) return false
         if (!processBuiltin(processor, state)) return false
         if (!processModulesEntities(processor, state)) return false
+        if (!processStubs(processor, state)) return false
 
         if (identText == "self") {
             val owner = identifier!!.parentOfTypes(TactTraitDeclaration::class, TactContractDeclaration::class) ?: return true
@@ -232,6 +234,23 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
             }
 
         return true
+    }
+
+    private fun processStubs(processor: TactScopeProcessor, state: ResolveState): Boolean {
+        val stdlib = TactConfiguration.getInstance(myElement.project).stubsLocation ?: return true
+        val psiManager = PsiManager.getInstance(myElement.project)
+
+        val compileTimeFile = stdlib.findChild("stubs.tact") ?: return true
+        val compileTimePsiFile = psiManager.findFile(compileTimeFile) as? TactFile ?: return true
+
+        return processNamedElements(
+            processor,
+            state,
+            compileTimePsiFile.getFunctions(),
+            Conditions.alwaysTrue(),
+            localResolve = false,
+            checkContainingFile = false
+        )
     }
 
     private fun processDirectory(

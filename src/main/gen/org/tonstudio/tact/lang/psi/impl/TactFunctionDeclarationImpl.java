@@ -59,6 +59,12 @@ public class TactFunctionDeclarationImpl extends TactFunctionOrMethodDeclaration
   }
 
   @Override
+  @Nullable
+  public PsiElement getSemicolon() {
+    return findChildByType(SEMICOLON);
+  }
+
+  @Override
   @NotNull
   public PsiElement getFun() {
     return notNullChild(findChildByType(FUN));
