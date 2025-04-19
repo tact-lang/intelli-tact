@@ -1902,6 +1902,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // !(
   //       '!'
+  //     | '@'
   //     | '?'
   //     | '&'
   //     | '['
@@ -1955,6 +1956,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   // '!'
+  //     | '@'
   //     | '?'
   //     | '&'
   //     | '['
@@ -2001,6 +2003,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "StatementRecover_0")) return false;
     boolean r;
     r = consumeToken(b, NOT);
+    if (!r) r = consumeToken(b, AT);
     if (!r) r = consumeToken(b, QUESTION);
     if (!r) r = consumeToken(b, BIT_AND);
     if (!r) r = consumeToken(b, LBRACK);
@@ -2212,7 +2215,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     contract |
   //     trait |
   //     import |
-  //     '[' |
+  //     '@' |
   //     '!' |
   //     '?' |
   //     '&' |
@@ -2259,7 +2262,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     contract |
   //     trait |
   //     import |
-  //     '[' |
+  //     '@' |
   //     '!' |
   //     '?' |
   //     '&' |
@@ -2299,7 +2302,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, CONTRACT);
     if (!r) r = consumeToken(b, TRAIT);
     if (!r) r = consumeToken(b, IMPORT);
-    if (!r) r = consumeToken(b, LBRACK);
+    if (!r) r = consumeToken(b, AT);
     if (!r) r = consumeToken(b, NOT);
     if (!r) r = consumeToken(b, QUESTION);
     if (!r) r = consumeToken(b, BIT_AND);

@@ -5,6 +5,8 @@ import com.intellij.extapi.psi.StubBasedPsiElementBase
 import com.intellij.openapi.util.Conditions
 import com.intellij.openapi.util.RecursionManager
 import com.intellij.openapi.util.TextRange
+import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.openapi.vfs.resolveFromRootOrRelative
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.psi.util.parentOfType
@@ -219,16 +221,9 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
     private fun processBuiltin(processor: TactScopeProcessor, state: ResolveState): Boolean {
         val builtin = myElement.project.toolchainSettings.toolchain().stdlibDir() ?: return true
         val psiManager = PsiManager.getInstance(myElement.project)
-        builtin.children
-            .map { psiManager.findFile(it) }
-            .filterIsInstance<TactFile>()
-            .forEach {
-                if (!processFileEntities(it, processor, state, false))
-                    return false
-            }
 
-        val modules = myElement.project.toolchainSettings.toolchain().rootDir()?.findChild("libs") ?: return true
-        modules.children
+        val std = builtin.resolveFromRootOrRelative("./std/internal/")?.children ?: arrayOf<VirtualFile>()
+        std
             .map { psiManager.findFile(it) }
             .filterIsInstance<TactFile>()
             .forEach {

@@ -125,7 +125,7 @@ private TopLevelDeclarationRecover ::= !(
     contract |
     trait |
     import |
-    '[' |
+    '@' |
     '!' |
     '?' |
     '&' |
@@ -178,6 +178,7 @@ Statement ::=
 
 private StatementRecover ::= !(
       '!'
+    | '@'
     | '?'
     | '&'
     | '['

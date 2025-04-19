@@ -32,7 +32,7 @@ class TactPostStartupActivity : ProjectActivity {
         fun setupToolchainCandidates(project: Project): List<String> {
             val projectDir = project.guessProjectDir() ?: return emptyList()
 
-            val toolchainCandidates = listOf(projectDir.path + "/node_modules/@tact-lang/compiler/stdlib")
+            val toolchainCandidates = listOf(projectDir.path + "/node_modules/@tact-lang/compiler")
 
             if (toolchainCandidates.isEmpty()) {
                 return emptyList()

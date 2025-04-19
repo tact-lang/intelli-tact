@@ -8,8 +8,8 @@ object TactConfigurationUtil {
 
     const val TOOLCHAIN_NOT_SETUP = "Tact executable not found, toolchain not setup correctly?"
     const val UNDEFINED_VERSION = "N/A"
-    const val STANDARD_LIB_PATH = "std"
-    val STANDARD_TACT_COMPILER = "./.bin/tact"
+    const val STANDARD_LIB_PATH = "dist/stdlib/stdlib"
+    val STANDARD_TACT_COMPILER = "./bin/tact.js"
 
     fun getStdlibLocation(path: String): String? {
         if (path.isBlank()) {

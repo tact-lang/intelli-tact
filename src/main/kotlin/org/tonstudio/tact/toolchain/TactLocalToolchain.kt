@@ -2,6 +2,7 @@ package org.tonstudio.tact.toolchain
 
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.openapi.vfs.resolveFromRootOrRelative
 import org.tonstudio.tact.configurations.TactConfigurationUtil
 
 class TactLocalToolchain(
@@ -9,8 +10,8 @@ class TactLocalToolchain(
     private val rootDir: VirtualFile,
 ) : TactToolchain {
     private val homePath = rootDir.path
-    private val executable = rootDir.findChild(TactConfigurationUtil.STANDARD_TACT_COMPILER)
-    private val libDir = rootDir.findChild(TactConfigurationUtil.STANDARD_LIB_PATH)
+    private val executable = rootDir.resolveFromRootOrRelative(TactConfigurationUtil.STANDARD_TACT_COMPILER)
+    private val libDir = rootDir.resolveFromRootOrRelative(TactConfigurationUtil.STANDARD_LIB_PATH)
 
     override fun name(): String = version
 
