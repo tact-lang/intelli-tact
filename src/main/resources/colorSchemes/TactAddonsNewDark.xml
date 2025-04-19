@@ -1,0 +1,21 @@
+<?xml version='1.0'?>
+<list>
+    <option name="org.tonstudio.tact.CONSTANT" baseAttributes="DEFAULT_CONSTANT"/>
+    <option name="org.tonstudio.tact.STRUCT" baseAttributes="DEFAULT_CLASS_NAME"/>
+    <option name="org.tonstudio.tact.FUNCTION">
+        <value>
+            <option name="FOREGROUND" value="ffc66d"/>
+            <option name="FONT_TYPE" value="2"/>
+        </value>
+    </option>
+    <option name="org.tonstudio.tact.COMMENT_REFERENCE">
+        <value>
+            <option name="FOREGROUND" value="A1A1A1"/>
+        </value>
+    </option>
+    <option name="org.tonstudio.tact.TYPE_PARAMETER">
+        <value>
+            <option name="FOREGROUND" value="B189F5"/>
+        </value>
+    </option>
+</list>

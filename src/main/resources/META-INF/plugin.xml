@@ -1,0 +1,104 @@
+<!--suppress PluginXmlValidity -->
+<idea-plugin>
+    <id>org.tonstudio.tact</id>
+    <name>Tact</name>
+    <vendor>TON Studio</vendor>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <resource-bundle>messages.TactBundle</resource-bundle>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Tact Language -->
+        <fileType name="Tact"
+                  implementationClass="org.tonstudio.tact.lang.TactFileType"
+                  fieldName="INSTANCE"
+                  language="tact"
+                  extensions="tact"/>
+
+        <!-- region Language general -->
+        <lang.parserDefinition language="tact" implementationClass="org.tonstudio.tact.lang.TactParserDefinition"/>
+        <lang.syntaxHighlighter language="tact" implementationClass="org.tonstudio.tact.lang.TactSyntaxHighlighter"/>
+        <lang.commenter language="tact" implementationClass="org.tonstudio.tact.lang.TactCommenter"/>
+        <lang.braceMatcher language="tact" implementationClass="org.tonstudio.tact.lang.TactBraceMatcher"/>
+        <lang.quoteHandler language="tact" implementationClass="org.tonstudio.tact.lang.TactQuoteHandler"/>
+        <lang.foldingBuilder language="tact" implementationClass="org.tonstudio.tact.lang.folding.TactFoldingBuilder"/>
+        <!-- endregion Language general -->
+
+        <!-- region Completion -->
+        <!-- TODO: completion.contributor -->
+        <!-- endregion Completion -->
+
+        <!-- region Indexes -->
+        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactModulesIndex"/>
+        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactModulesFingerprintIndex"/>
+        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactMethodIndex"/>
+        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactFieldFingerprintIndex"/>
+        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactMethodFingerprintIndex"/>
+        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactNamesIndex"/>
+        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactClassLikeIndex"/>
+        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactStructIndex"/>
+        <stubElementTypeHolder class="org.tonstudio.tact.lang.TactTypes" externalIdPrefix="tact."/>
+        <!-- endregion Indexes -->
+
+        <!-- region Annotator -->
+        <annotator language="tact" order="first" implementationClass="org.tonstudio.tact.lang.annotator.TactDumbAwareAnnotator"/>
+        <annotator language="tact" implementationClass="org.tonstudio.tact.lang.annotator.TactAnnotator"/>
+        <!-- endregion Annotator -->
+
+        <!-- region CodeVision & Hints -->
+        <!-- Hints -->
+        <codeInsight.declarativeInlayProvider language="tact"
+                                              bundle="messages.TactBundle"
+                                              nameKey="tact.inlay.hints.variables"
+                                              group="VALUES_GROUP"
+                                              implementationClass="org.tonstudio.tact.ide.hints.TactVariableTypeHintsProvider"
+                                              isEnabledByDefault="true"
+                                              providerId="tact.inlay.hints.variables"/>
+
+        <codeInsight.parameterNameHints language="tact" id="TactParameterNameHintsProvider"
+                                        implementationClass="org.tonstudio.tact.ide.hints.TactParameterNameHintsProvider"/>
+
+        <!-- Code vision -->
+        <codeInsight.daemonBoundCodeVisionProvider implementation="org.tonstudio.tact.ide.hints.TactUsagesCodeVisionProvider"/>
+<!--        <vcs.codeVisionLanguageContext language="tact" implementationClass="org.tonstudio.tact.ide.hints.TactCodeVisionLanguageContext"/>-->
+        <codeInsight.codeVisionSettingsPreviewLanguage modelId="vcs.code.vision" language="tact"/>
+        <codeInsight.codeVisionSettingsPreviewLanguage modelId="references" language="tact"/>
+
+        <!-- endregion CodeVision & Hints -->
+
+        <!-- region Code Insight -->
+        <codeInsight.typeInfo language="tact" implementationClass="org.tonstudio.tact.ide.codeInsight.TactTypeInfoProvider"/>
+        <!-- endregion Code Insight -->
+
+        <!-- region Documentation -->
+        <!-- TODO -->
+        <!-- endregion Documentation -->
+
+        <!-- region Formatter -->
+        <!-- TODO: lang.formatter -->
+        <!-- TODO: langCodeStyleSettingsProvider -->
+        <!-- endregion Formatter -->
+
+        <!-- region Color Settings & Schemes -->
+        <colorSettingsPage implementation="org.tonstudio.tact.ide.colors.TactColorsSettingsPage"/>
+
+        <additionalTextAttributes scheme="Default" file="colorSchemes/TactAddonsDefault.xml"/>
+        <additionalTextAttributes scheme="Darcula" file="colorSchemes/TactAddonsDarcula.xml"/>
+        <additionalTextAttributes scheme="New Dark" file="colorSchemes/TactAddonsNewDark.xml"/>
+        <!-- endregion Color Schemes -->
+
+        <!-- region Editor -->
+        <postStartupActivity implementation="org.tonstudio.tact.ide.TactPostStartupActivity"/>
+        <!-- endregion Editor -->
+
+        <!-- region Toolchains -->
+<!--        <editorNotificationProvider implementation="org.tonstudio.tact.project.TactMissingToolchainNotificationProvider"/>-->
+        <applicationService serviceImplementation="org.tonstudio.tact.toolchain.TactKnownToolchainsState"/>
+        <!-- endregion Toolchains -->
+
+        <!-- region Project -->
+        <additionalLibraryRootsProvider implementation="org.tonstudio.tact.project.TactAdditionalLibraryRootsProvider"/>
+        <!-- endregion Project -->
+    </extensions>
+</idea-plugin>
