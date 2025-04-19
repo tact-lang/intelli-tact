@@ -43,6 +43,7 @@ public interface TactTypes {
   IElementType CONST_DEFINITION = TactElementTypeFactory.stubFactory("CONST_DEFINITION");
   IElementType CONTRACT_DECLARATION = TactElementTypeFactory.stubFactory("CONTRACT_DECLARATION");
   IElementType CONTRACT_INIT_DECLARATION = TactElementTypeFactory.stubFactory("CONTRACT_INIT_DECLARATION");
+  IElementType CONTRACT_PARAMETERS = TactElementTypeFactory.stubFactory("CONTRACT_PARAMETERS");
   IElementType CONTRACT_TYPE = TactElementTypeFactory.stubFactory("CONTRACT_TYPE");
   IElementType DEFAULT_FIELD_VALUE = new TactCompositeElementType("DEFAULT_FIELD_VALUE");
   IElementType DESTRUCT_ITEM = new TactCompositeElementType("DESTRUCT_ITEM");
@@ -305,6 +306,9 @@ public interface TactTypes {
       }
       else if (type == CONTRACT_INIT_DECLARATION) {
         return new TactContractInitDeclarationImpl(node);
+      }
+      else if (type == CONTRACT_PARAMETERS) {
+        return new TactContractParametersImpl(node);
       }
       else if (type == CONTRACT_TYPE) {
         return new TactContractTypeImpl(node);

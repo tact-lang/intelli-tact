@@ -207,7 +207,8 @@ object TactPsiImplUtil {
 
     @JvmStatic
     fun getFieldList(o: TactContractType): List<TactFieldDefinition> {
-        return o.fieldDeclarationList.mapNotNull { it.fieldDefinition }
+        val parameters = o.contractParameters?.fieldDeclarationList?.mapNotNull { it.fieldDefinition } ?: emptyList()
+        return o.fieldDeclarationList.mapNotNull { it.fieldDefinition } + parameters
     }
 
     @JvmStatic

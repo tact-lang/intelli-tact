@@ -41,6 +41,7 @@ object TactElementTypeFactory {
         "VAR_DEFINITION"               -> TactVarDefinitionStubElementType(name)
         "SIGNATURE"                    -> TactSignatureStubElementType(name)
         "PARAMETERS"                   -> TactParametersStubElementType(name)
+        "CONTRACT_PARAMETERS"          -> TactContractParametersStubElementType(name)
         "RESULT"                       -> TactResultStubElementType(name)
         "TYPE_REFERENCE_EXPRESSION"    -> TactTypeReferenceExpressionStubElementType(name)
         "ATTRIBUTES"                   -> TactAttributesStubElementType(name)

@@ -140,6 +140,10 @@ public class TactVisitor extends PsiElementVisitor {
     visitNamedElement(o);
   }
 
+  public void visitContractParameters(@NotNull TactContractParameters o) {
+    visitCompositeElement(o);
+  }
+
   public void visitContractType(@NotNull TactContractType o) {
     visitType(o);
     // visitStorageMembersOwner(o);

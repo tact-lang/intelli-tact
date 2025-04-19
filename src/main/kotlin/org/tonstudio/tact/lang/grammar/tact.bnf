@@ -82,10 +82,10 @@
   implements("(Struct|Function)Declaration")="org.tonstudio.tact.lang.psi.TactAttributeOwner"
 
   extends("(Function)Declaration")="org.tonstudio.tact.lang.psi.impl.TactFunctionOrMethodDeclarationImpl<?>"
-  extends("Type|Signature|Result|Parameters|TypeReferenceExpression|Attributes|Attribute|PlainAttribute|AttributeExpression|AttributeValue|AttributeKey|FieldDeclaration|ImportDeclaration")="org.tonstudio.tact.lang.psi.impl.TactStubbedElementImpl<?>"
+  extends("Type|Signature|Result|Parameters|ContractParameters|TypeReferenceExpression|Attributes|Attribute|PlainAttribute|AttributeExpression|AttributeValue|AttributeKey|FieldDeclaration|ImportDeclaration")="org.tonstudio.tact.lang.psi.impl.TactStubbedElementImpl<?>"
   extends("(Struct|Message|Trait|Contract|MessageFunction|ContractInit|Primitive|NativeFunction|AsmFunction)Declaration|(Var|Param|Field|Const)Definition")="org.tonstudio.tact.lang.psi.impl.TactNamedElementImpl<?>"
 
-  elementTypeFactory("(Function|Struct|Field|Message|Trait|Contract|MessageFunction|ContractInit|Primitive|NativeFunction|AsmFunction)Declaration|.*Type|(Var|Field|Param|Const)Definition|Parameters|Result|Signature|TypeReferenceExpression|Attributes|Attribute|PlainAttribute|AttributeExpression|AttributeValue|AttributeKey|ImportDeclaration")='org.tonstudio.tact.lang.stubs.TactElementTypeFactory.stubFactory'
+  elementTypeFactory("(Function|Struct|Field|Message|Trait|Contract|MessageFunction|ContractInit|Primitive|NativeFunction|AsmFunction)Declaration|.*Type|(Var|Field|Param|Const)Definition|Parameters|ContractParameters|Result|Signature|TypeReferenceExpression|Attributes|Attribute|PlainAttribute|AttributeExpression|AttributeValue|AttributeKey|ImportDeclaration")='org.tonstudio.tact.lang.stubs.TactElementTypeFactory.stubFactory'
 
   extends(".*Statement")=Statement
   extends(".*Type|TypeList")=Type
@@ -276,10 +276,18 @@ ContractDeclaration ::= Attributes? ContractType {
   methods=[getIdentifier getName getTypeInner]
 }
 
-ContractType ::= contract identifier WithClause? '{' MemberItem* '}' {
+ContractType ::= contract identifier ContractParameters? WithClause? '{' MemberItem* '}' {
   implements="org.tonstudio.tact.lang.psi.TactStorageMembersOwner"
   methods=[getFieldList getMethodsList getConstantsList]
 }
+
+ContractParameters ::= '(' ContractParameterList? ','? ')' {
+  pin=1
+  stubClass="org.tonstudio.tact.lang.stubs.TactContractParametersStub"
+}
+
+private ContractParameterList ::= FieldDeclaration (',' (FieldDeclaration | &')'))* ','? {pin(".*")=1}
+
 
 private MemberItem ::=
     FieldDeclaration
@@ -359,7 +367,7 @@ StructType ::= struct identifier '{' FieldDeclaration* '}' {
   methods=[getFieldList]
 }
 
-FieldDeclaration ::= FieldDefinition ':' Type DefaultFieldValue? ';' {
+FieldDeclaration ::= FieldDefinition ':' Type DefaultFieldValue? ';'? {
   stubClass="org.tonstudio.tact.lang.stubs.TactFieldDeclarationStub"
 }
 DefaultFieldValue ::= '=' Expression {pin=1}

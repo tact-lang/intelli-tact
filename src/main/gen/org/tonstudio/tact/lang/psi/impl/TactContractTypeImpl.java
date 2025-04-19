@@ -46,6 +46,12 @@ public class TactContractTypeImpl extends TactTypeImpl implements TactContractTy
   }
 
   @Override
+  @Nullable
+  public TactContractParameters getContractParameters() {
+    return TactPsiTreeUtil.getStubChildOfType(this, TactContractParameters.class);
+  }
+
+  @Override
   @NotNull
   public List<TactFieldDeclaration> getFieldDeclarationList() {
     return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactFieldDeclaration.class);

@@ -13,6 +13,9 @@ public interface TactContractType extends TactType, TactStorageMembersOwner {
   @NotNull
   List<TactContractInitDeclaration> getContractInitDeclarationList();
 
+  @Nullable
+  TactContractParameters getContractParameters();
+
   @NotNull
   List<TactFieldDeclaration> getFieldDeclarationList();
 

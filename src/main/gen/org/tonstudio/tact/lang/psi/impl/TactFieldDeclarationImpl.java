@@ -57,9 +57,9 @@ public class TactFieldDeclarationImpl extends TactStubbedElementImpl<TactFieldDe
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getSemicolon() {
-    return notNullChild(findChildByType(SEMICOLON));
+    return findChildByType(SEMICOLON);
   }
 
 }
