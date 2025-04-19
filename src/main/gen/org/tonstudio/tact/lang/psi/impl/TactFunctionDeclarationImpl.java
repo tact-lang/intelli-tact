@@ -11,6 +11,7 @@ import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.stubs.TactFunctionDeclarationStub;
 import org.tonstudio.tact.lang.psi.*;
 import com.intellij.psi.ResolveState;
+import kotlin.Pair;
 import org.tonstudio.tact.lang.psi.types.TactTypeEx;
 import com.intellij.psi.stubs.IStubElementType;
 
@@ -86,6 +87,17 @@ public class TactFunctionDeclarationImpl extends TactFunctionOrMethodDeclaration
   @Nullable
   public TactTypeEx getTypeInner(@Nullable ResolveState context) {
     return TactPsiImplUtil.getTypeInner(this, context);
+  }
+
+  @Override
+  public boolean isGet() {
+    return TactPsiImplUtil.isGet(this);
+  }
+
+  @Override
+  @NotNull
+  public Pair<String, Boolean> computeMethodId() {
+    return TactPsiImplUtil.computeMethodId(this);
   }
 
 }

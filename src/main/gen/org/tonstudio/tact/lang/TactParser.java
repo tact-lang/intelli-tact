@@ -1227,7 +1227,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // 'get' ('(' Expression ')')?
+  // GetAttribute
   //   | mutates
   //   | extends
   //   | virtual
@@ -1238,7 +1238,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "FunctionAttribute")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FUNCTION_ATTRIBUTE, "<function attribute>");
-    r = FunctionAttribute_0(b, l + 1);
+    r = GetAttribute(b, l + 1);
     if (!r) r = consumeToken(b, MUTATES);
     if (!r) r = consumeToken(b, EXTENDS);
     if (!r) r = consumeToken(b, VIRTUAL);
@@ -1246,36 +1246,6 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, INLINE);
     if (!r) r = consumeToken(b, ABSTRACT);
     exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // 'get' ('(' Expression ')')?
-  private static boolean FunctionAttribute_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FunctionAttribute_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, "get");
-    r = r && FunctionAttribute_0_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // ('(' Expression ')')?
-  private static boolean FunctionAttribute_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FunctionAttribute_0_1")) return false;
-    FunctionAttribute_0_1_0(b, l + 1);
-    return true;
-  }
-
-  // '(' Expression ')'
-  private static boolean FunctionAttribute_0_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FunctionAttribute_0_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, LPAREN);
-    r = r && Expression(b, l + 1, -1);
-    r = r && consumeToken(b, RPAREN);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1319,6 +1289,37 @@ public class TactParser implements PsiParser, LightPsiParser {
     boolean r;
     r = Block(b, l + 1);
     if (!r) r = consumeToken(b, SEMICOLON);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // 'get' ('(' Expression ')')?
+  public static boolean GetAttribute(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GetAttribute")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, GET_ATTRIBUTE, "<get attribute>");
+    r = consumeToken(b, "get");
+    r = r && GetAttribute_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // ('(' Expression ')')?
+  private static boolean GetAttribute_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GetAttribute_1")) return false;
+    GetAttribute_1_0(b, l + 1);
+    return true;
+  }
+
+  // '(' Expression ')'
+  private static boolean GetAttribute_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "GetAttribute_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, LPAREN);
+    r = r && Expression(b, l + 1, -1);
+    r = r && consumeToken(b, RPAREN);
+    exit_section_(b, m, null, r);
     return r;
   }
 

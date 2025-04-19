@@ -8,13 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface TactFunctionAttribute extends TactCompositeElement {
 
   @Nullable
-  TactExpression getExpression();
-
-  @Nullable
-  PsiElement getLparen();
-
-  @Nullable
-  PsiElement getRparen();
+  TactGetAttribute getGetAttribute();
 
   @Nullable
   PsiElement getAbstract();

@@ -203,6 +203,10 @@ public class TactVisitor extends PsiElementVisitor {
     // visitAttributeOwner(o);
   }
 
+  public void visitGetAttribute(@NotNull TactGetAttribute o) {
+    visitCompositeElement(o);
+  }
+
   public void visitIdent(@NotNull TactIdent o) {
     visitCompositeElement(o);
   }

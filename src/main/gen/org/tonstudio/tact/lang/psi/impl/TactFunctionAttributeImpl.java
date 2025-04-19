@@ -28,20 +28,8 @@ public class TactFunctionAttributeImpl extends TactCompositeElementImpl implemen
 
   @Override
   @Nullable
-  public TactExpression getExpression() {
-    return TactPsiTreeUtil.getChildOfType(this, TactExpression.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getLparen() {
-    return findChildByType(LPAREN);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getRparen() {
-    return findChildByType(RPAREN);
+  public TactGetAttribute getGetAttribute() {
+    return TactPsiTreeUtil.getChildOfType(this, TactGetAttribute.class);
   }
 
   @Override

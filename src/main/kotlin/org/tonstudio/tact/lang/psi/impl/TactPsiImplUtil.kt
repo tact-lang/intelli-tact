@@ -11,6 +11,7 @@ import com.intellij.psi.*
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferenceSet
 import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.*
+import org.tonstudio.tact.compiler.crc16
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.impl.TactReferenceBase.Companion.LOCAL_RESOLVE
 import org.tonstudio.tact.lang.psi.impl.TactTypeInferer.getVarType
@@ -602,6 +603,25 @@ object TactPsiImplUtil {
     @JvmStatic
     fun getTypeInner(o: TactSignatureOwner, context: ResolveState?): TactTypeEx? {
         return TactFunctionTypeEx.from(o)
+    }
+
+    @JvmStatic
+    fun isGet(o: TactFunctionDeclaration): Boolean {
+        return o.functionAttributeList.any { it.getAttribute != null }
+    }
+
+    @JvmStatic
+    fun computeMethodId(o: TactFunctionDeclaration): Pair<String, Boolean> {
+        val getAttribute = o.functionAttributeList.map { it.getAttribute }.firstOrNull()
+        if (getAttribute != null) {
+            val value = getAttribute.expression
+            if (value != null) {
+                // explicit ID
+                return value.text to true
+            }
+        }
+
+        return "0x" + ((crc16(o.name) and 0xFF_FF) or 0x1_00_00).toString(16) to false
     }
 
     @JvmStatic

@@ -58,6 +58,7 @@ public interface TactTypes {
   IElementType FOR_EACH_STATEMENT = new TactCompositeElementType("FOR_EACH_STATEMENT");
   IElementType FUNCTION_ATTRIBUTE = new TactCompositeElementType("FUNCTION_ATTRIBUTE");
   IElementType FUNCTION_DECLARATION = TactElementTypeFactory.stubFactory("FUNCTION_DECLARATION");
+  IElementType GET_ATTRIBUTE = new TactCompositeElementType("GET_ATTRIBUTE");
   IElementType IDENT = new TactCompositeElementType("IDENT");
   IElementType IF_STATEMENT = new TactCompositeElementType("IF_STATEMENT");
   IElementType IMPORT_DECLARATION = TactElementTypeFactory.stubFactory("IMPORT_DECLARATION");
@@ -348,6 +349,9 @@ public interface TactTypes {
       }
       else if (type == FUNCTION_DECLARATION) {
         return new TactFunctionDeclarationImpl(node);
+      }
+      else if (type == GET_ATTRIBUTE) {
+        return new TactGetAttributeImpl(node);
       }
       else if (type == IDENT) {
         return new TactIdentImpl(node);

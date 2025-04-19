@@ -379,17 +379,19 @@ FieldDefinition ::= identifier {
 FunctionDeclaration ::= Attributes? FunctionAttribute* fun identifier Signature (Block | ';') {
   pin=5
   stubClass="org.tonstudio.tact.lang.stubs.TactFunctionDeclarationStub"
-  methods=[getName getTypeInner]
+  methods=[getName getTypeInner isGet computeMethodId]
 }
 
 FunctionAttribute ::=
-    'get' ('(' Expression ')')?
+    GetAttribute
   | mutates
   | extends
   | virtual
   | override
   | inline
   | abstract
+
+GetAttribute ::= 'get' ('(' Expression ')')?
 
 Signature ::= Parameters Result? {
   pin=1
