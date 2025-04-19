@@ -59,7 +59,7 @@ class TactFunctionDeclarationStubElementType(name: String) :
             if (type is TactMapType) {
                 return "map"
             }
-            return type.text
+            return type.typeReferenceExpression?.text ?: type.text
         }
     }
 }
