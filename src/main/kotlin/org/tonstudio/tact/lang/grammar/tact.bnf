@@ -37,8 +37,10 @@
     MINUS_ASSIGN         =  '-='
     MINUS                =  '-'
     COND_OR              =  '||'
+    OR_ASSIGN            =  '||='
     BIT_OR_ASSIGN        =  '|='
     COND_AND             =  '&&'
+    AND_ASSIGN           =  '&&='
     BIT_AND_ASSIGN       =  '&='
     BIT_AND              =  '&'
     BIT_OR               =  '|'
@@ -263,7 +265,7 @@ left AssignmentStatement ::= AssignOp Expression {
   pin=1
   methods=[left="Expression[0]" right="Expression[1]"]
 }
-AssignOp ::= '=' | '+=' | '-=' | '|=' | '^=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&='
+AssignOp ::= '=' | '+=' | '-=' | '|=' | '^=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '&&=' | '||='
 
 
 ReturnStatement ::= return Expression? ';' {pin=1}

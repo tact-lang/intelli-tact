@@ -28,6 +28,12 @@ public class TactAssignOpImpl extends TactCompositeElementImpl implements TactAs
 
   @Override
   @Nullable
+  public PsiElement getAndAssign() {
+    return findChildByType(AND_ASSIGN);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getAssign() {
     return findChildByType(ASSIGN);
   }
@@ -60,6 +66,12 @@ public class TactAssignOpImpl extends TactCompositeElementImpl implements TactAs
   @Nullable
   public PsiElement getMulAssign() {
     return findChildByType(MUL_ASSIGN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getOrAssign() {
+    return findChildByType(OR_ASSIGN);
   }
 
   @Override

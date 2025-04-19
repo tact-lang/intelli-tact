@@ -114,6 +114,7 @@ public interface TactTypes {
   IElementType WITH_CLAUSE = new TactCompositeElementType("WITH_CLAUSE");
 
   IElementType ABSTRACT = new TactTokenType("abstract");
+  IElementType AND_ASSIGN = new TactTokenType("&&=");
   IElementType ARROW = new TactTokenType("->");
   IElementType AS = new TactTokenType("as");
   IElementType ASM = new TactTokenType("asm");
@@ -178,6 +179,7 @@ public interface TactTypes {
   IElementType NULL = new TactTokenType("null");
   IElementType OCT = new TactTokenType("oct");
   IElementType OPEN_QUOTE = new TactTokenType("OPEN_QUOTE");
+  IElementType OR_ASSIGN = new TactTokenType("||=");
   IElementType OVERRIDE = new TactTokenType("override");
   IElementType PLUS = new TactTokenType("+");
   IElementType PLUS_ASSIGN = new TactTokenType("+=");

@@ -334,7 +334,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // '=' | '+=' | '-=' | '|=' | '^=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&='
+  // '=' | '+=' | '-=' | '|=' | '^=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '&&=' | '||='
   public static boolean AssignOp(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "AssignOp")) return false;
     boolean r;
@@ -350,6 +350,8 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, SHIFT_LEFT_ASSIGN);
     if (!r) r = consumeToken(b, SHIFT_RIGHT_ASSIGN);
     if (!r) r = consumeToken(b, BIT_AND_ASSIGN);
+    if (!r) r = consumeToken(b, AND_ASSIGN);
+    if (!r) r = consumeToken(b, OR_ASSIGN);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

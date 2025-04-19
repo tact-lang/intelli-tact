@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface TactAssignOp extends TactCompositeElement {
 
   @Nullable
+  PsiElement getAndAssign();
+
+  @Nullable
   PsiElement getAssign();
 
   @Nullable
@@ -24,6 +27,9 @@ public interface TactAssignOp extends TactCompositeElement {
 
   @Nullable
   PsiElement getMulAssign();
+
+  @Nullable
+  PsiElement getOrAssign();
 
   @Nullable
   PsiElement getPlusAssign();

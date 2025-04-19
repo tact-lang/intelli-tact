@@ -182,10 +182,12 @@ REGULAR_STRING_PART=[^\\\"]+
 "-"                                       { return MINUS; }
 
 "||"                                      { return COND_OR; }
+"||="                                     { return OR_ASSIGN; }
 "|="                                      { return BIT_OR_ASSIGN; }
 "|"                                       { return BIT_OR; }
 
 "&&"                                      { return COND_AND; }
+"&&="                                     { return AND_ASSIGN; }
 "&="                                      { return BIT_AND_ASSIGN; }
 "&"                                       { return BIT_AND; }
 
