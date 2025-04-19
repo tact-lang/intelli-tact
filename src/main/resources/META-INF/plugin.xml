@@ -23,6 +23,10 @@
         <lang.braceMatcher language="tact" implementationClass="org.tonstudio.tact.lang.TactBraceMatcher"/>
         <lang.quoteHandler language="tact" implementationClass="org.tonstudio.tact.lang.TactQuoteHandler"/>
         <lang.foldingBuilder language="tact" implementationClass="org.tonstudio.tact.lang.folding.TactFoldingBuilder"/>
+        <lang.findUsagesProvider language="tact" implementationClass="org.tonstudio.tact.lang.usages.TactFindUsagesProvider"/>
+        <readWriteAccessDetector implementation="org.tonstudio.tact.lang.usages.TactReadWriteAccessDetector"/>
+        <elementDescriptionProvider implementation="org.tonstudio.tact.lang.usages.TactDescriptionProvider"/>
+        <spellchecker.support language="tact" implementationClass="org.tonstudio.tact.lang.TactSpellcheckingStrategy"/>
         <!-- endregion Language general -->
 
         <!-- region Completion -->

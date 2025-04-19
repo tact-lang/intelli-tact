@@ -5,6 +5,7 @@ import com.intellij.openapi.editor.highlighter.HighlighterIterator
 
 class TactQuoteHandler : SimpleTokenSetQuoteHandler(
     TactTypes.OPEN_QUOTE,
+    TactTypes.CLOSING_QUOTE,
     TactTypes.CHAR,
 ) {
     override fun isClosingQuote(iterator: HighlighterIterator, offset: Int): Boolean {
