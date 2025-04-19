@@ -10,6 +10,7 @@ import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.stubs.TactTypeStub;
 import org.tonstudio.tact.lang.psi.*;
+import kotlin.Pair;
 import com.intellij.psi.stubs.IStubElementType;
 
 public class TactTypeImpl extends TactStubbedElementImpl<TactTypeStub> implements TactType {
@@ -58,7 +59,7 @@ public class TactTypeImpl extends TactStubbedElementImpl<TactTypeStub> implement
 
   @Override
   @NotNull
-  public TactType resolveType() {
+  public Pair<TactType, TactTypeExtra> resolveType() {
     return TactPsiImplUtil.resolveType(this);
   }
 

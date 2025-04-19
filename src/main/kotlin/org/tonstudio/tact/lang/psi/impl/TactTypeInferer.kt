@@ -50,7 +50,7 @@ object TactTypeInferer {
             // true -> bool
             if (expr.`true` != null || expr.`false` != null) return TactPrimitiveTypeEx.BOOL
             // nil -> null
-            if (expr.`null` != null) return TactPrimitiveTypeEx.NULL
+            if (expr.`null` != null) return TactNullTypeEx.INSTANCE
         }
 
         // type1 + type2 -> type1
@@ -91,6 +91,22 @@ object TactTypeInferer {
                 val type = expr.expression.getType(context)
                 return unwrapOptionType(type)
             }
+        }
+
+        if (expr is TactTernaryExpr) {
+            val thenBranch = expr.thenBranch ?: return null
+            val elseBranch = expr.elseBranch ?: return null
+
+            val thenTy = thenBranch.getType(context)
+            val elseTy = elseBranch.getType(context)
+
+            if (thenTy == null) return elseTy
+            if (elseTy == null) return thenTy
+
+            if (thenTy is TactNullTypeEx) return TactOptionTypeEx(elseTy, elseTy.anchor(expr.project) ?: expr)
+            if (elseTy is TactNullTypeEx) return TactOptionTypeEx(thenTy, thenTy.anchor(expr.project) ?: expr)
+
+            return thenTy
         }
 
         if (expr is TactInitOfExpr) {

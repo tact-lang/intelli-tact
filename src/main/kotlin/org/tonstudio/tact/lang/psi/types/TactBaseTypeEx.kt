@@ -140,27 +140,37 @@ abstract class TactBaseTypeEx(protected val anchor: PsiElement? = null) : UserDa
         }
 
         private fun TactType.toExInner(visited: MutableMap<TactType, TactTypeEx>): TactTypeEx {
-            val type = resolveType()
+            val (type, extra) = resolveType()
             if (type is TactStructType && type.parent is TactStructDeclaration) {
-                return TactStructTypeEx(parentName(type), type)
+                return withExtra(TactStructTypeEx(parentName(type), type), extra)
             }
 
             return when (type) {
-                is TactTraitType     -> TactTraitTypeEx(parentName(type), type)
-                is TactContractType  -> TactContractTypeEx(parentName(type), type)
-                is TactMessageType   -> TactMessageTypeEx(parentName(type), type)
-                is TactPrimitiveType -> TactPrimitiveTypeEx(TactPrimitiveTypes.find(type.text) ?: TactPrimitiveTypes.INT)
-                is TactMapType       -> TactMapTypeEx(type.keyType.toEx(visited), type.valueType.toEx(visited), type)
+                is TactTraitType     -> withExtra(TactTraitTypeEx(parentName(type), type), extra)
+                is TactContractType  -> withExtra(TactContractTypeEx(parentName(type), type), extra)
+                is TactMessageType   -> withExtra(TactMessageTypeEx(parentName(type), type), extra)
+                is TactPrimitiveType -> {
+                    val name = type.identifier.let { it?.text }
+                    if (name == null) {
+                        return TactUnknownTypeEx.INSTANCE
+                    }
+                    val primitiveType = TactPrimitiveTypes.find(name) ?: return TactUnknownTypeEx.INSTANCE
+                    withExtra(TactPrimitiveTypeEx(primitiveType, type), extra)
+                }
+
+                is TactMapType       -> withExtra(TactMapTypeEx(type.keyType.toEx(visited), type.valueType.toEx(visited), type), extra)
                 is TactBouncedType   -> TactBouncedTypeEx(type.type.toEx(visited), type)
-                is TactTupleType     -> TactTupleTypeEx(
-                    (type.typeListNoPin?.typeList ?: emptyList()).map { it.toEx(visited) },
-                    type
+                is TactTupleType     -> withExtra(
+                    TactTupleTypeEx(
+                        (type.typeListNoPin?.typeList ?: emptyList()).map { it.toEx(visited) },
+                        type
+                    ), extra
                 )
 
                 else                 -> {
                     val primitive = TactPrimitiveTypes.find(type.text)
                     if (primitive != null) {
-                        return TactPrimitiveTypeEx(primitive, type)
+                        return withExtra(TactPrimitiveTypeEx(primitive, type), extra)
                     }
 
                     // only for tests
@@ -177,6 +187,19 @@ abstract class TactBaseTypeEx(protected val anchor: PsiElement? = null) : UserDa
                     TactUnknownTypeEx.INSTANCE
                 }
             }
+        }
+
+        private fun withExtra(type: TactTypeEx, extra: TactTypeExtra?): TactTypeEx {
+            if (extra == null) {
+                return type
+            }
+
+            if (extra.question != null) {
+                val anchor = type.anchor(extra.project) ?: return type
+                return TactOptionTypeEx(type, anchor)
+            }
+
+            return type
         }
 
         private fun parentName(type: PsiElement) = (type.parent as TactNamedElement).name!!

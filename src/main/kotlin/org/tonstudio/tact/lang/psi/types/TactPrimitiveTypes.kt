@@ -7,8 +7,7 @@ enum class TactPrimitiveTypes(val value: String, val size: Int) {
     CELL("Cell", 0),
     ADDRESS("Address", 0),
     SLICE("Slice", 0),
-    STRING("String", 0),
-    NULL("null", 0);
+    STRING("String", 0);
 
     companion object {
         fun find(name: String): TactPrimitiveTypes? = entries.find { it.value == name }

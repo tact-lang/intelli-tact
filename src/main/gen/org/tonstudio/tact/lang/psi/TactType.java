@@ -6,6 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.StubBasedPsiElement;
 import org.tonstudio.tact.lang.stubs.TactTypeStub;
+import kotlin.Pair;
 
 public interface TactType extends TactCompositeElement, StubBasedPsiElement<TactTypeStub> {
 
@@ -22,6 +23,6 @@ public interface TactType extends TactCompositeElement, StubBasedPsiElement<Tact
   PsiElement getIdentifier();
 
   @NotNull
-  TactType resolveType();
+  Pair<TactType, TactTypeExtra> resolveType();
 
 }
