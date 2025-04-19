@@ -24,13 +24,10 @@ object TactLangUtil {
 
     private fun calcMethods(project: Project, type: TactTypeEx): List<TactNamedElement> {
         val typeName = getTypeName(type)
-        val moduleName = if (typeName == "Array" || typeName == "Map") "builtin" else type.module()
-        if (moduleName.isEmpty() || typeName.isEmpty()) return emptyList()
-        val key = "$moduleName.$typeName"
 
         val scope = GlobalSearchScope.allScope(project)
 
-        val declarations = TactMethodIndex.find(key, project, scope)
+        val declarations = TactMethodIndex.find(typeName, project, scope)
         if (declarations.isEmpty()) return emptyList()
         if (declarations.size == 1 || type !is TactResolvableTypeEx<*>) {
             return declarations.toList()
