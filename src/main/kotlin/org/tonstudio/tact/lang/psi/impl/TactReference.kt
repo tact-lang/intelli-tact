@@ -147,6 +147,8 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
 
             if (!processNamedElements(processor, newState, structType.fieldList, localResolve)) return false
             if (!processMethods(typ, processor, newState, localResolve)) return false
+
+            return processAnyStruct(processor, state)
         }
 
         if (typ is TactMessageTypeEx) {
@@ -155,6 +157,8 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
 
             if (!processNamedElements(processor, newState, messageType.fieldList, localResolve)) return false
             if (!processMethods(typ, processor, newState, localResolve)) return false
+
+            return processAnyMessage(processor, state)
         }
 
         if (typ is StorageMembersOwnerTy<*>) {
@@ -240,21 +244,37 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         return true
     }
 
-    private fun processStubs(processor: TactScopeProcessor, state: ResolveState): Boolean {
-        val stdlib = TactConfiguration.getInstance(myElement.project).stubsLocation ?: return true
-        val psiManager = PsiManager.getInstance(myElement.project)
+    private fun processAnyStruct(processor: TactScopeProcessor, state: ResolveState): Boolean {
+        val stubsPsiFile = findStubsFile() ?: return true
+        val anyStruct = stubsPsiFile.getPrimitives().find { it.name == "AnyStruct" } ?: return true
+        return processNativeMethods(anyStruct.primitiveType, processor, state, false)
+    }
 
-        val compileTimeFile = stdlib.findChild("stubs.tact") ?: return true
-        val compileTimePsiFile = psiManager.findFile(compileTimeFile) as? TactFile ?: return true
+    private fun processAnyMessage(processor: TactScopeProcessor, state: ResolveState): Boolean {
+        val stubsPsiFile = findStubsFile() ?: return true
+        val anyStruct = stubsPsiFile.getPrimitives().find { it.name == "AnyMessage" } ?: return true
+        return processNativeMethods(anyStruct.primitiveType, processor, state, false)
+    }
+
+    private fun processStubs(processor: TactScopeProcessor, state: ResolveState): Boolean {
+        val stubsPsiFile = findStubsFile() ?: return true
 
         return processNamedElements(
             processor,
             state,
-            compileTimePsiFile.getFunctions(),
+            stubsPsiFile.getFunctions(),
             Conditions.alwaysTrue(),
             localResolve = false,
             checkContainingFile = false
         )
+    }
+
+    private fun findStubsFile(): TactFile? {
+        val stdlib = TactConfiguration.getInstance(myElement.project).stubsLocation ?: return null
+        val psiManager = PsiManager.getInstance(myElement.project)
+
+        val stubsFile = stdlib.findChild("stubs.tact") ?: return null
+        return psiManager.findFile(stubsFile) as? TactFile
     }
 
     private fun processDirectory(
