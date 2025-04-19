@@ -113,4 +113,10 @@
         <additionalLibraryRootsProvider implementation="org.tonstudio.tact.project.TactAdditionalLibraryRootsProvider"/>
         <!-- endregion Project -->
     </extensions>
+
+    <actions>
+        <action id="tact.new.file" class="org.tonstudio.tact.ide.actions.CreateTactFileAction">
+            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
+        </action>
+    </actions>
 </idea-plugin>
