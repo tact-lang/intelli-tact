@@ -33,6 +33,8 @@ object TactTokenTypes {
 
     val KEYWORDS = TokenSet.create(
         CONST,
+        TRY,
+        CATCH,
         ELSE,
         FOR,
         FUN,

@@ -28,6 +28,7 @@ fun map(tokenType: IElementType): TactColor? = when (tokenType) {
     LBRACK, RBRACK             -> TactColor.BRACKETS
     ASSERT_NOT_NULL_EXPRESSION -> TactColor.NOT_NULL_OPERATOR
 
+    STRING_ESCAPE_ENTRY        -> TactColor.VALID_STRING_ESCAPE
     DOT                        -> TactColor.DOT
     COMMA                      -> TactColor.COMMA
 

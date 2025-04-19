@@ -27,7 +27,7 @@ class TactUsagesCodeVisionProvider : ReferencesCodeVisionProvider() {
     override fun acceptsFile(file: PsiFile): Boolean = file is TactFile
 
     override fun acceptsElement(element: PsiElement): Boolean {
-        return element is TactFunctionDeclaration ||
+        return (element is TactFunctionDeclaration && !element.isGet) ||
                 element is TactAsmFunctionDeclaration ||
                 element is TactNativeFunctionDeclaration ||
                 element is TactStructDeclaration ||

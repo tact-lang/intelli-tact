@@ -11,7 +11,7 @@ public interface TactCatchClause extends TactCompositeElement {
   TactBlock getBlock();
 
   @Nullable
-  TactReferenceExpression getReferenceExpression();
+  TactVarDefinition getVarDefinition();
 
   @Nullable
   PsiElement getLparen();

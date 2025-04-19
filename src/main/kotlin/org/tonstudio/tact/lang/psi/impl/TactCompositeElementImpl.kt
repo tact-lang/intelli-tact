@@ -21,6 +21,7 @@ open class TactCompositeElementImpl(node: ASTNode) : ASTWrapperPsiElement(node),
             this is TactIfStatement ||
             this is TactWhileStatement ||
             this is TactUntilStatement ||
+            this is TactTryStatement ||
             this is TactForEachStatement
         ) {
             if (!processor.execute(this, state)) {
@@ -45,7 +46,7 @@ open class TactCompositeElementImpl(node: ASTNode) : ASTWrapperPsiElement(node),
             if (!processor.execute(o, state)) {
                 return false
             }
-            if ((o is TactIfStatement || o is TactWhileStatement || o is TactUntilStatement || o is TactForEachStatement || o is TactBlock)
+            if ((o is TactIfStatement || o is TactWhileStatement || o is TactUntilStatement || o is TactForEachStatement || o is TactTryStatement || o is TactBlock)
                 && processor is TactScopeProcessorBase
             ) {
                 if (!PsiTreeUtil.isAncestor(o, processor.origin, false)) {

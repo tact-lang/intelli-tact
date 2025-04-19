@@ -34,8 +34,8 @@ public class TactCatchClauseImpl extends TactCompositeElementImpl implements Tac
 
   @Override
   @Nullable
-  public TactReferenceExpression getReferenceExpression() {
-    return TactPsiTreeUtil.getChildOfType(this, TactReferenceExpression.class);
+  public TactVarDefinition getVarDefinition() {
+    return TactPsiTreeUtil.getChildOfType(this, TactVarDefinition.class);
   }
 
   @Override

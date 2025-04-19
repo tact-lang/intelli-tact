@@ -519,7 +519,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // catch '(' ReferenceExpression ')' Block
+  // catch '(' VarDefinition ')' Block
   public static boolean CatchClause(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "CatchClause")) return false;
     if (!nextTokenIs(b, CATCH)) return false;
@@ -527,7 +527,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, CATCH_CLAUSE, null);
     r = consumeTokens(b, 1, CATCH, LPAREN);
     p = r; // pin = 1
-    r = r && report_error_(b, ReferenceExpression(b, l + 1));
+    r = r && report_error_(b, VarDefinition(b, l + 1));
     r = p && report_error_(b, consumeToken(b, RPAREN)) && r;
     r = p && Block(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
@@ -2122,6 +2122,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     | '&&'
   //     | '}'
   //     | let
+  //     | try
   //     | while
   //     | until
   //     | do
@@ -2176,6 +2177,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     | '&&'
   //     | '}'
   //     | let
+  //     | try
   //     | while
   //     | until
   //     | do
@@ -2223,6 +2225,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, COND_AND);
     if (!r) r = consumeToken(b, RBRACE);
     if (!r) r = consumeToken(b, LET);
+    if (!r) r = consumeToken(b, TRY);
     if (!r) r = consumeToken(b, WHILE);
     if (!r) r = consumeToken(b, UNTIL);
     if (!r) r = consumeToken(b, DO);
@@ -2418,6 +2421,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     contract |
   //     trait |
   //     import |
+  //     try |
   //     '@' |
   //     '!' |
   //     '?' |
@@ -2465,6 +2469,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     contract |
   //     trait |
   //     import |
+  //     try |
   //     '@' |
   //     '!' |
   //     '?' |
@@ -2505,6 +2510,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, CONTRACT);
     if (!r) r = consumeToken(b, TRAIT);
     if (!r) r = consumeToken(b, IMPORT);
+    if (!r) r = consumeToken(b, TRY);
     if (!r) r = consumeToken(b, AT);
     if (!r) r = consumeToken(b, NOT);
     if (!r) r = consumeToken(b, QUESTION);

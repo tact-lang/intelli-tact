@@ -21,6 +21,9 @@ open class TactVarProcessor(
             if (e.parent is TactForEachStatement) {
                 return false
             }
+            if (e.parent is TactCatchClause) {
+                return false
+            }
 
             val decl = e.parent as TactVarDeclaration
             // forbid to resolve to `<var>` inside `let <var> = <caret>`

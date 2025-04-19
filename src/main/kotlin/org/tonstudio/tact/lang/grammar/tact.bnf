@@ -127,6 +127,7 @@ private TopLevelDeclarationRecover ::= !(
     contract |
     trait |
     import |
+    try |
     '@' |
     '!' |
     '?' |
@@ -197,6 +198,7 @@ private StatementRecover ::= !(
     | '&&'
     | '}'
     | let
+    | try
     | while
     | until
     | do
@@ -595,7 +597,7 @@ ForEachStatement ::= foreach '(' VarDefinition ',' VarDefinition in Expression '
 }
 
 TryStatement ::= try Block CatchClause? {pin=1}
-CatchClause ::= catch '(' ReferenceExpression ')' Block {pin=1}
+CatchClause ::= catch '(' VarDefinition ')' Block {pin=1}
 
 AssertNotNullExpression ::= '!!' {pin=1}
 
