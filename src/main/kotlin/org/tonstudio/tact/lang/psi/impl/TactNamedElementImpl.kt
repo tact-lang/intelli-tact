@@ -92,16 +92,18 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
 
     override fun getIcon(flags: Int): Icon? {
         val icon = when (this) {
-            is TactStructDeclaration   -> Icons.Struct
-            is TactMessageDeclaration  -> Icons.Message
-            is TactContractDeclaration -> Icons.Contract
-            is TactTraitDeclaration    -> Icons.Trait
-            is TactFunctionDeclaration -> Icons.Function
-            is TactVarDefinition       -> Icons.Variable
-            is TactConstDefinition     -> Icons.Constant
-            is TactFieldDefinition     -> Icons.Field
-            is TactParamDefinition     -> Icons.Parameter
-            else                       -> null
+            is TactStructDeclaration         -> Icons.Struct
+            is TactMessageDeclaration        -> Icons.Message
+            is TactContractDeclaration       -> Icons.Contract
+            is TactTraitDeclaration          -> Icons.Trait
+            is TactFunctionDeclaration       -> Icons.Function
+            is TactNativeFunctionDeclaration -> Icons.Function
+            is TactAsmFunctionDeclaration    -> Icons.Function
+            is TactVarDefinition             -> Icons.Variable
+            is TactConstDefinition           -> Icons.Constant
+            is TactFieldDefinition           -> Icons.Field
+            is TactParamDefinition           -> Icons.Parameter
+            else                             -> null
         } ?: return super.getIcon(flags)
 
         if (flags and ICON_FLAG_VISIBILITY == 0) {

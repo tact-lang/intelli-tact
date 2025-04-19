@@ -423,14 +423,29 @@ NativeFunctionDeclaration ::= Attributes? FunctionAttribute* native identifier S
 AsmHeader ::= 'asm' AsmShuffle? {pin=1}
 
 AsmFunctionDeclaration ::= AsmHeader FunctionAttribute* fun identifier Signature '{' AsmInstruction* '}' {
+  pin=1
   stubClass="org.tonstudio.tact.lang.stubs.TactAsmFunctionDeclarationStub"
   methods=[getTypeInner]
 }
 
 AsmShuffle ::= '(' ReferenceExpression* ('->' int+)? ')'
 
-AsmInstruction ::= identifier | Literal | 'b{' Literal '}'
+AsmInstruction ::=
+      Literal
+    | AsmCreateBuilder
+    | AsmToCellBuilder
+    | AsmHexLiteral
+    | AsmBinLiteral
+    | AsmStoreSlice
+    | AsmBLock
+    | identifier
 
+AsmCreateBuilder ::= '<''b'
+AsmToCellBuilder ::= 'b''>'
+AsmHexLiteral ::= HEX_LITERAL
+AsmBinLiteral ::= BIN_LITERAL
+AsmStoreSlice ::= 's'','
+AsmBLock ::= '<''{' AsmInstruction* '}''>'
 
 Expression ::=
     OrExpr

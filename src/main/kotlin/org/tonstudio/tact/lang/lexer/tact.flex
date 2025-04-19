@@ -259,6 +259,10 @@ REGULAR_STRING_PART=[^\\\"]+
 "true"                                    { return TRUE; }
 "false"                                   { return FALSE; }
 
+// asm
+"x{" {HEX_DIGIT}* "}"                     { return HEX_LITERAL; }
+"b{" {BIN_DIGIT}* "}"                     { return BIN_LITERAL; }
+
 {IDENT}                                   { return IDENTIFIER; }
 
 {NUM_BIN}                                 { return BIN; }

@@ -28,14 +28,32 @@ public class TactAsmInstructionImpl extends TactCompositeElementImpl implements 
 
   @Override
   @Nullable
-  public TactExpression getExpression() {
-    return TactPsiTreeUtil.getChildOfType(this, TactExpression.class);
+  public TactAsmBLock getAsmBLock() {
+    return TactPsiTreeUtil.getChildOfType(this, TactAsmBLock.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getRbrace() {
-    return findChildByType(RBRACE);
+  public TactAsmCreateBuilder getAsmCreateBuilder() {
+    return TactPsiTreeUtil.getChildOfType(this, TactAsmCreateBuilder.class);
+  }
+
+  @Override
+  @Nullable
+  public TactAsmStoreSlice getAsmStoreSlice() {
+    return TactPsiTreeUtil.getChildOfType(this, TactAsmStoreSlice.class);
+  }
+
+  @Override
+  @Nullable
+  public TactAsmToCellBuilder getAsmToCellBuilder() {
+    return TactPsiTreeUtil.getChildOfType(this, TactAsmToCellBuilder.class);
+  }
+
+  @Override
+  @Nullable
+  public TactExpression getExpression() {
+    return TactPsiTreeUtil.getChildOfType(this, TactExpression.class);
   }
 
   @Override

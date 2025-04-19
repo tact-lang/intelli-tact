@@ -8,10 +8,19 @@ import com.intellij.psi.PsiElement;
 public interface TactAsmInstruction extends TactCompositeElement {
 
   @Nullable
-  TactExpression getExpression();
+  TactAsmBLock getAsmBLock();
 
   @Nullable
-  PsiElement getRbrace();
+  TactAsmCreateBuilder getAsmCreateBuilder();
+
+  @Nullable
+  TactAsmStoreSlice getAsmStoreSlice();
+
+  @Nullable
+  TactAsmToCellBuilder getAsmToCellBuilder();
+
+  @Nullable
+  TactExpression getExpression();
 
   @Nullable
   PsiElement getIdentifier();

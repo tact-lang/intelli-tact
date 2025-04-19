@@ -19,6 +19,18 @@ public class TactVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitAsmBLock(@NotNull TactAsmBLock o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitAsmBinLiteral(@NotNull TactAsmBinLiteral o) {
+    visitExpression(o);
+  }
+
+  public void visitAsmCreateBuilder(@NotNull TactAsmCreateBuilder o) {
+    visitCompositeElement(o);
+  }
+
   public void visitAsmFunctionDeclaration(@NotNull TactAsmFunctionDeclaration o) {
     visitNamedElement(o);
     // visitSignatureOwner(o);
@@ -28,11 +40,23 @@ public class TactVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitAsmHexLiteral(@NotNull TactAsmHexLiteral o) {
+    visitExpression(o);
+  }
+
   public void visitAsmInstruction(@NotNull TactAsmInstruction o) {
     visitCompositeElement(o);
   }
 
   public void visitAsmShuffle(@NotNull TactAsmShuffle o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitAsmStoreSlice(@NotNull TactAsmStoreSlice o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitAsmToCellBuilder(@NotNull TactAsmToCellBuilder o) {
     visitCompositeElement(o);
   }
 

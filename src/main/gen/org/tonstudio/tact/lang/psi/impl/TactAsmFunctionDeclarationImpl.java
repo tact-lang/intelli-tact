@@ -53,33 +53,33 @@ public class TactAsmFunctionDeclarationImpl extends TactNamedElementImpl<TactAsm
   }
 
   @Override
-  @NotNull
+  @Nullable
   public TactSignature getSignature() {
-    return notNullChild(TactPsiTreeUtil.getStubChildOfType(this, TactSignature.class));
+    return TactPsiTreeUtil.getStubChildOfType(this, TactSignature.class);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getLbrace() {
-    return notNullChild(findChildByType(LBRACE));
+    return findChildByType(LBRACE);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getRbrace() {
-    return notNullChild(findChildByType(RBRACE));
+    return findChildByType(RBRACE);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getFun() {
-    return notNullChild(findChildByType(FUN));
+    return findChildByType(FUN);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getIdentifier() {
-    return notNullChild(findChildByType(IDENTIFIER));
+    return findChildByType(IDENTIFIER);
   }
 
   @Override

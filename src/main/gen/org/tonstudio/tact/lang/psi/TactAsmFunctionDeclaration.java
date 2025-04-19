@@ -20,19 +20,19 @@ public interface TactAsmFunctionDeclaration extends TactNamedElement, TactSignat
   @NotNull
   List<TactFunctionAttribute> getFunctionAttributeList();
 
-  @NotNull
+  @Nullable
   TactSignature getSignature();
 
-  @NotNull
+  @Nullable
   PsiElement getLbrace();
 
-  @NotNull
+  @Nullable
   PsiElement getRbrace();
 
-  @NotNull
+  @Nullable
   PsiElement getFun();
 
-  @NotNull
+  @Nullable
   PsiElement getIdentifier();
 
   @Nullable

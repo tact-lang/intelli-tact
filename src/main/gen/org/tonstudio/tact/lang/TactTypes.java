@@ -14,10 +14,16 @@ public interface TactTypes {
   IElementType ADD_EXPR = new TactCompositeElementType("ADD_EXPR");
   IElementType AND_EXPR = new TactCompositeElementType("AND_EXPR");
   IElementType ARGUMENT_LIST = new TactCompositeElementType("ARGUMENT_LIST");
+  IElementType ASM_BIN_LITERAL = new TactCompositeElementType("ASM_BIN_LITERAL");
+  IElementType ASM_B_LOCK = new TactCompositeElementType("ASM_B_LOCK");
+  IElementType ASM_CREATE_BUILDER = new TactCompositeElementType("ASM_CREATE_BUILDER");
   IElementType ASM_FUNCTION_DECLARATION = TactElementTypeFactory.stubFactory("ASM_FUNCTION_DECLARATION");
   IElementType ASM_HEADER = new TactCompositeElementType("ASM_HEADER");
+  IElementType ASM_HEX_LITERAL = new TactCompositeElementType("ASM_HEX_LITERAL");
   IElementType ASM_INSTRUCTION = new TactCompositeElementType("ASM_INSTRUCTION");
   IElementType ASM_SHUFFLE = new TactCompositeElementType("ASM_SHUFFLE");
+  IElementType ASM_STORE_SLICE = new TactCompositeElementType("ASM_STORE_SLICE");
+  IElementType ASM_TO_CELL_BUILDER = new TactCompositeElementType("ASM_TO_CELL_BUILDER");
   IElementType ASSERT_NOT_NULL_EXPRESSION = new TactCompositeElementType("ASSERT_NOT_NULL_EXPRESSION");
   IElementType ASSIGNMENT_STATEMENT = new TactCompositeElementType("ASSIGNMENT_STATEMENT");
   IElementType ASSIGN_OP = new TactCompositeElementType("ASSIGN_OP");
@@ -113,6 +119,7 @@ public interface TactTypes {
   IElementType ASSIGN = new TactTokenType("=");
   IElementType AT = new TactTokenType("@");
   IElementType BIN = new TactTokenType("bin");
+  IElementType BIN_LITERAL = new TactTokenType("BIN_LITERAL");
   IElementType BIT_AND = new TactTokenType("&");
   IElementType BIT_AND_ASSIGN = new TactTokenType("&=");
   IElementType BIT_NOT = new TactTokenType("~");
@@ -143,6 +150,7 @@ public interface TactTypes {
   IElementType GREATER = new TactTokenType(">");
   IElementType GREATER_OR_EQUAL = new TactTokenType(">=");
   IElementType HEX = new TactTokenType("hex");
+  IElementType HEX_LITERAL = new TactTokenType("HEX_LITERAL");
   IElementType IDENTIFIER = new TactTokenType("identifier");
   IElementType IF = new TactTokenType("if");
   IElementType IMPORT = new TactTokenType("import");
@@ -211,17 +219,35 @@ public interface TactTypes {
       else if (type == ARGUMENT_LIST) {
         return new TactArgumentListImpl(node);
       }
+      else if (type == ASM_BIN_LITERAL) {
+        return new TactAsmBinLiteralImpl(node);
+      }
+      else if (type == ASM_B_LOCK) {
+        return new TactAsmBLockImpl(node);
+      }
+      else if (type == ASM_CREATE_BUILDER) {
+        return new TactAsmCreateBuilderImpl(node);
+      }
       else if (type == ASM_FUNCTION_DECLARATION) {
         return new TactAsmFunctionDeclarationImpl(node);
       }
       else if (type == ASM_HEADER) {
         return new TactAsmHeaderImpl(node);
       }
+      else if (type == ASM_HEX_LITERAL) {
+        return new TactAsmHexLiteralImpl(node);
+      }
       else if (type == ASM_INSTRUCTION) {
         return new TactAsmInstructionImpl(node);
       }
       else if (type == ASM_SHUFFLE) {
         return new TactAsmShuffleImpl(node);
+      }
+      else if (type == ASM_STORE_SLICE) {
+        return new TactAsmStoreSliceImpl(node);
+      }
+      else if (type == ASM_TO_CELL_BUILDER) {
+        return new TactAsmToCellBuilderImpl(node);
       }
       else if (type == ASSERT_NOT_NULL_EXPRESSION) {
         return new TactAssertNotNullExpressionImpl(node);

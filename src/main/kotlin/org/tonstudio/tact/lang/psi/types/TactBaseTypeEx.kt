@@ -181,7 +181,7 @@ abstract class TactBaseTypeEx(protected val anchor: PsiElement? = null) : UserDa
         private fun parentName(type: PsiElement) = (type.parent as TactNamedElement).name!!
 
         fun stateInitType(project: Project): TactStructTypeEx {
-            val errorFile = resolveStdlibPath(project, "contract.tact") ?: error("Cannot find contract.tact file in stdlib")
+            val errorFile = resolveStdlibPath(project, "std/internal/contract.tact") ?: error("Cannot find contract.tact file in stdlib")
             val errorDecl = errorFile.getStructs().find { it.name == "StateInit" } ?: error("Cannot find StateInit struct in contract.tact")
             return errorDecl.getType(null) as TactStructTypeEx
         }
