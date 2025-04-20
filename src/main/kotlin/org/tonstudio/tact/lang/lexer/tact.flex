@@ -5,6 +5,7 @@ import com.intellij.psi.tree.IElementType;
 import java.util.Stack;
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static org.tonstudio.tact.lang.psi.TactTokenTypes.*;
+import static org.tonstudio.tact.lang.psi.TactDocElementTypes.DOC_COMMENT;
 
 %%
 
@@ -145,7 +146,7 @@ REGULAR_STRING_PART=[^\\\"]+
 {WS}                                      { return WS; }
 {NL}+                                     { return NLS; }
 
-{EOL_DOC_COMMENT}                         { return LINE_COMMENT; }
+{EOL_DOC_COMMENT}                         { return DOC_COMMENT; }
 {LINE_COMMENT}                            { return LINE_COMMENT; }
 
 // without this rule /*****/ is parsed as doc comment and /**/ is parsed as not closed doc comment, thanks Dart plugin

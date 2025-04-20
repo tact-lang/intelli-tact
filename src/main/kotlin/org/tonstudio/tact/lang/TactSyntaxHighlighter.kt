@@ -5,6 +5,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.tree.IElementType
 import org.tonstudio.tact.ide.colors.TactColor
 import org.tonstudio.tact.lang.TactTypes.*
+import org.tonstudio.tact.lang.psi.TactDocElementTypes.DOC_COMMENT
 import org.tonstudio.tact.lang.psi.TactTokenTypes.BOOL_LITERALS
 import org.tonstudio.tact.lang.psi.TactTokenTypes.COMMENTS
 import org.tonstudio.tact.lang.psi.TactTokenTypes.KEYWORDS
@@ -21,6 +22,7 @@ class TactSyntaxHighlighter : SyntaxHighlighterBase() {
 }
 
 fun map(tokenType: IElementType): TactColor? = when (tokenType) {
+    DOC_COMMENT                -> TactColor.LINE_COMMENT
     LINE_COMMENT               -> TactColor.LINE_COMMENT
 
     LPAREN, RPAREN             -> TactColor.PARENTHESES

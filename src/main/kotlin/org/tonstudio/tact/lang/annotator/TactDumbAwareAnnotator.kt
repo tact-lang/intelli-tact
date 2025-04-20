@@ -22,6 +22,7 @@ class TactDumbAwareAnnotator : Annotator, DumbAware {
     }
 
     private fun highlightLeaf(element: PsiElement): TactColor? {
+        if (element.elementType == TactTypes.AT && element.parent is TactAttribute) return TactColor.ATTRIBUTE
         if (element.elementType == TactTypes.INIT_OF && element.inside<TactInitOfExpr>()) return TactColor.KEYWORD
         if (element.elementType == TactTypes.CODE_OF && element.inside<TactCodeOfExpr>()) return TactColor.KEYWORD
         if (element.elementType != TactTypes.IDENTIFIER) return null

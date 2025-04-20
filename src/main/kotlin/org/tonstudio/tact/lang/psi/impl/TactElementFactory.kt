@@ -9,7 +9,7 @@ import org.tonstudio.tact.lang.TactLanguage
 import org.tonstudio.tact.lang.psi.*
 
 object TactElementFactory {
-    private fun createFileFromText(project: Project, text: String): TactFile {
+    fun createFileFromText(project: Project, text: String): TactFile {
         return PsiFileFactory.getInstance(project).createFileFromText("dummy.sp", TactLanguage, text) as TactFile
     }
 

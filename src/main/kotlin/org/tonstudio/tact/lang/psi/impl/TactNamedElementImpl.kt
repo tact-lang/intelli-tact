@@ -128,6 +128,7 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
     }
 
     override fun getDocumentation(): TactDocComment? {
+        // TODO: use CommentsConverter?
         return PsiTreeUtil.getPrevSiblingOfType(this, TactDocComment::class.java)
     }
 

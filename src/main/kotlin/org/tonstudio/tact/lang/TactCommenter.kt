@@ -10,6 +10,7 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.util.text.CharArrayUtil
+import org.tonstudio.tact.lang.psi.TactDocElementTypes
 import org.tonstudio.tact.lang.psi.TactTokenTypes
 
 class TactCommenter : CodeDocumentationAwareCommenterEx, SelfManagingCommenter<TactCommenter.TactCommenterDataHolder> {
@@ -29,7 +30,7 @@ class TactCommenter : CodeDocumentationAwareCommenterEx, SelfManagingCommenter<T
 
     override fun getBlockCommentTokenType() = TactTokenTypes.MULTI_LINE_COMMENT
 
-    override fun getDocumentationCommentTokenType() = TactTokenTypes.LINE_COMMENT
+    override fun getDocumentationCommentTokenType() = TactDocElementTypes.DOC_COMMENT
 
     override fun getDocumentationCommentPrefix() = "/**"
 
@@ -41,7 +42,7 @@ class TactCommenter : CodeDocumentationAwareCommenterEx, SelfManagingCommenter<T
 
     override fun isDocumentationCommentText(element: PsiElement): Boolean {
         val node = element.node ?: return false
-        return node.elementType == TactTokenTypes.LINE_COMMENT
+        return node.elementType == TactDocElementTypes.DOC_COMMENT
     }
 
     override fun getBlockCommentPrefix(selectionStart: Int, document: Document, data: TactCommenterDataHolder): String {

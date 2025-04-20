@@ -89,8 +89,13 @@
         <!-- endregion Code Insight -->
 
         <!-- region Documentation -->
-        <!-- TODO -->
+        <lang.documentationProvider language="tact"
+                                    implementationClass="org.tonstudio.tact.ide.documentation.TactDocumentationProvider"/>
         <!-- endregion Documentation -->
+
+        <!-- region Injection -->
+        <multiHostInjector implementation="org.tonstudio.tact.ide.injections.TactDoctestLanguageInjector"/>
+        <!-- endregion Injection -->
 
         <!-- region Formatter -->
         <!-- TODO: lang.formatter -->

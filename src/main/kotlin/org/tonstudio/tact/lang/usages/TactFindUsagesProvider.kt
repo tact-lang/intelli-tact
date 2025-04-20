@@ -30,11 +30,13 @@ class TactFindUsagesProvider : FindUsagesProvider {
 
     override fun getType(element: PsiElement) = when (element) {
         is TactStructDeclaration                        -> "struct"
-        is TactMessageDeclaration                       -> "struct"
+        is TactMessageDeclaration                       -> "message"
         is TactTraitDeclaration                         -> "trait"
         is TactContractDeclaration                      -> "contract"
         is TactFieldDefinition                          -> "field"
         is TactFunctionDeclaration                      -> "function"
+        is TactAsmFunctionDeclaration                   -> "asm function"
+        is TactNativeFunctionDeclaration                -> "native function"
         is TactConstDefinition, is TactConstDeclaration -> "constant"
         is TactVarDefinition, is TactVarDeclaration     -> "variable"
         is TactParamDefinition                          -> "parameter"
