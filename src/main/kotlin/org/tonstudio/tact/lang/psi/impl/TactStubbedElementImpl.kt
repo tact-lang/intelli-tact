@@ -2,6 +2,7 @@ package org.tonstudio.tact.lang.psi.impl
 
 import com.intellij.extapi.psi.StubBasedPsiElementBase
 import com.intellij.lang.ASTNode
+import com.intellij.openapi.application.runReadAction
 import com.intellij.psi.PsiElement
 import com.intellij.psi.ResolveState
 import com.intellij.psi.scope.PsiScopeProcessor
@@ -25,7 +26,7 @@ abstract class TactStubbedElementImpl<T : StubBase<*>> : StubBasedPsiElementBase
         return super.getText()
     }
 
-    override fun getParent(): PsiElement = parentByStub
+    override fun getParent(): PsiElement = runReadAction { parentByStub }
 
     override fun processDeclarations(
         processor: PsiScopeProcessor,
