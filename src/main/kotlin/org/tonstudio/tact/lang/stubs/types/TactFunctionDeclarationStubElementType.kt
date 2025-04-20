@@ -55,7 +55,10 @@ class TactFunctionDeclarationStubElementType(name: String) :
         fun calcTypeText(psi: TactSignatureOwner): String? {
             val params = psi.getSignature()?.parameters?.paramDefinitionList ?: return null
             if (params.isEmpty()) return null
-            val type = params.first().type
+            val firstParam = params.first()
+            if (firstParam.name != "self") return null // not a method
+
+            val type = firstParam.type
             if (type is TactMapType) {
                 return "map"
             }

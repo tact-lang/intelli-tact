@@ -9,9 +9,11 @@ import com.intellij.openapi.util.Key
 import com.intellij.openapi.util.RecursionManager
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferenceSet
+import com.intellij.psi.impl.source.tree.LeafElement
 import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.*
 import org.tonstudio.tact.compiler.crc16
+import org.tonstudio.tact.lang.TactTypes.DOT
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.impl.TactReferenceBase.Companion.LOCAL_RESOLVE
 import org.tonstudio.tact.lang.psi.impl.TactTypeInferer.getVarType
@@ -670,5 +672,10 @@ object TactPsiImplUtil {
                 return false
         }
         return true
+    }
+
+    fun prevDot(e: PsiElement?): Boolean {
+        val prev = if (e == null) null else PsiTreeUtil.prevVisibleLeaf(e)
+        return prev is LeafElement && (prev as LeafElement).elementType === DOT
     }
 }

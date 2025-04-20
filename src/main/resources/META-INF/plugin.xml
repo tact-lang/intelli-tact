@@ -30,7 +30,12 @@
         <!-- endregion Language general -->
 
         <!-- region Completion -->
-        <!-- TODO: completion.contributor -->
+        <completion.contributor
+                language="tact"
+                implementationClass="org.tonstudio.tact.lang.completion.contributors.TactKeywordsCompletionContributor"/>
+        <completion.contributor
+                language="tact"
+                implementationClass="org.tonstudio.tact.lang.completion.contributors.TactCompletionContributor"/>
         <!-- endregion Completion -->
 
         <!-- region Indexes -->

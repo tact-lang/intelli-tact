@@ -2,12 +2,8 @@
 
 package org.tonstudio.tact.lang.psi
 
-import com.intellij.lang.ASTNode
-import com.intellij.openapi.util.Couple
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.StubBasedPsiElement
-import com.intellij.psi.impl.source.tree.TreeUtil
 import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.SmartList
@@ -64,13 +60,5 @@ object TactPsiTreeUtil {
     @JvmStatic
     fun <T : PsiElement?> getChildOfType(element: PsiElement?, aClass: Class<T>): T? {
         return PsiTreeUtil.getChildOfType(element, aClass)
-    }
-
-    private fun findNotWhiteSpaceElementAtOffset(file: TactFile, offset: Int, forward: Boolean): PsiElement? {
-        var element = file.findElementAt(offset)
-        while (element is PsiWhiteSpace) {
-            element = file.findElementAt(if (forward) element.getTextRange().endOffset else element.getTextRange().startOffset - 1)
-        }
-        return element
     }
 }

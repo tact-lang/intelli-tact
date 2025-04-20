@@ -4,7 +4,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.ResolveState
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.parentOfType
-import org.tonstudio.tact.ide.codeInsight.TactCodeInsightUtil
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.types.*
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
@@ -230,7 +229,7 @@ object TactTypeInferer {
             return assign.right?.getType(null)
         }
 
-        val callExpr = TactCodeInsightUtil.findCallExpr(element)
+        val callExpr = TactLangUtil.findCallExpr(element)
         if (callExpr != null) {
             val index = callExpr.paramIndexOf(element)
             if (index == -1) return null

@@ -13,7 +13,6 @@ import com.intellij.psi.util.parentOfType
 import com.intellij.psi.util.parentOfTypes
 import com.intellij.util.ArrayUtil
 import org.tonstudio.tact.configurations.TactConfiguration
-import org.tonstudio.tact.ide.codeInsight.TactCodeInsightUtil
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.impl.TactPsiImplUtil.processNamedElements
 import org.tonstudio.tact.lang.psi.types.*
@@ -79,7 +78,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         return result.toTypedArray()
     }
 
-    private fun processResolveVariants(processor: TactScopeProcessor): Boolean {
+    fun processResolveVariants(processor: TactScopeProcessor): Boolean {
         val element = myElement
         val file = element.containingFile as? TactFile ?: return false
 
@@ -437,7 +436,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
     }
 
     private fun processNamedParams(processor: TactScopeProcessor, state: ResolveState): Boolean {
-        val callExpr = TactCodeInsightUtil.findCallExpr(myElement) ?: return true
+        val callExpr = TactLangUtil.findCallExpr(myElement) ?: return true
         val resolved = callExpr.resolve() as? TactSignatureOwner ?: return true
         val params = resolved.getSignature()?.parameters?.paramDefinitionList ?: return true
         return processNamedElements(processor, state, params, true)
@@ -503,7 +502,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
 
         val inSameFile = definitionFile.isEquivalentTo(referenceFile)
         if (inSameFile) return true
-        return if (TactCodeInsightUtil.sameModule(referenceFile, definitionFile))
+        return if (TactLangUtil.sameModule(referenceFile, definitionFile))
             true
         else
             reference !is TactNamedElement

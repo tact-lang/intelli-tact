@@ -13,6 +13,8 @@ abstract class TactScopeProcessorBase(
 
     private val result = mutableSetOf<TactNamedElement>()
 
+    constructor(origin: PsiElement) : this(origin, origin, false)
+
     override fun execute(e: PsiElement, state: ResolveState): Boolean {
         if (e is TactFunctionOrMethodDeclaration) {
             return false
