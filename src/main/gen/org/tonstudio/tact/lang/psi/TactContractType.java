@@ -28,16 +28,16 @@ public interface TactContractType extends TactType, TactStorageMembersOwner {
   @Nullable
   TactWithClause getWithClause();
 
-  @NotNull
+  @Nullable
   PsiElement getLbrace();
 
-  @NotNull
+  @Nullable
   PsiElement getRbrace();
 
   @NotNull
   PsiElement getContract();
 
-  @NotNull
+  @Nullable
   PsiElement getIdentifier();
 
   @NotNull

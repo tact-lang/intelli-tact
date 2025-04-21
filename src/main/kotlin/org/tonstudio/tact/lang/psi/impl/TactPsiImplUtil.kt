@@ -80,7 +80,7 @@ object TactPsiImplUtil {
             return stub.name ?: ""
         }
 
-        return o.getIdentifier().text ?: ""
+        return o.getIdentifier()?.text ?: ""
     }
 
     @JvmStatic
@@ -159,7 +159,7 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun getIdentifier(o: TactContractDeclaration): PsiElement {
+    fun getIdentifier(o: TactContractDeclaration): PsiElement? {
         return o.contractType.identifier
     }
 

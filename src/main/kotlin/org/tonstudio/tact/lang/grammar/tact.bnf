@@ -281,6 +281,7 @@ ContractDeclaration ::= Attributes? ContractType {
 }
 
 ContractType ::= contract identifier ContractParameters? WithClause? '{' MemberItem* '}' {
+  pin=1
   implements="org.tonstudio.tact.lang.psi.TactStorageMembersOwner"
   methods=[getFieldList getMethodsList getConstantsList]
 }

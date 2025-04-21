@@ -264,7 +264,7 @@ REGULAR_STRING_PART=[^\\\"]+
 "false"                                   { return FALSE; }
 
 // asm
-"x{" {HEX_DIGIT}* "}"                     { return HEX_LITERAL; }
+"x{" {HEX_DIGIT_OR_SEP}* "}"              { return HEX_LITERAL; }
 "b{" {BIN_DIGIT}* "}"                     { return BIN_LITERAL; }
 
 {IDENT}                                   { return IDENTIFIER; }

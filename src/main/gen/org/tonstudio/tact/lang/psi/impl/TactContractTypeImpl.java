@@ -76,15 +76,15 @@ public class TactContractTypeImpl extends TactTypeImpl implements TactContractTy
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getLbrace() {
-    return notNullChild(findChildByType(LBRACE));
+    return findChildByType(LBRACE);
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getRbrace() {
-    return notNullChild(findChildByType(RBRACE));
+    return findChildByType(RBRACE);
   }
 
   @Override
@@ -94,9 +94,9 @@ public class TactContractTypeImpl extends TactTypeImpl implements TactContractTy
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getIdentifier() {
-    return notNullChild(findChildByType(IDENTIFIER));
+    return findChildByType(IDENTIFIER);
   }
 
   @Override

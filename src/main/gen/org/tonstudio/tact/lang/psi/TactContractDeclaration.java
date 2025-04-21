@@ -17,7 +17,7 @@ public interface TactContractDeclaration extends TactNamedElement, StubBasedPsiE
   @NotNull
   TactContractType getContractType();
 
-  @NotNull
+  @Nullable
   PsiElement getIdentifier();
 
   @NotNull

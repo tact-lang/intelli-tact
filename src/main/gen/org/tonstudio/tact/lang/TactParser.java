@@ -798,16 +798,17 @@ public class TactParser implements PsiParser, LightPsiParser {
   public static boolean ContractType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ContractType")) return false;
     if (!nextTokenIs(b, CONTRACT)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, CONTRACT, IDENTIFIER);
-    r = r && ContractType_2(b, l + 1);
-    r = r && ContractType_3(b, l + 1);
-    r = r && consumeToken(b, LBRACE);
-    r = r && ContractType_5(b, l + 1);
-    r = r && consumeToken(b, RBRACE);
-    exit_section_(b, m, CONTRACT_TYPE, r);
-    return r;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, CONTRACT_TYPE, null);
+    r = consumeTokens(b, 1, CONTRACT, IDENTIFIER);
+    p = r; // pin = 1
+    r = r && report_error_(b, ContractType_2(b, l + 1));
+    r = p && report_error_(b, ContractType_3(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, LBRACE)) && r;
+    r = p && report_error_(b, ContractType_5(b, l + 1)) && r;
+    r = p && consumeToken(b, RBRACE) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   // ContractParameters?
