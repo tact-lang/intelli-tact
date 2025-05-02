@@ -16,11 +16,11 @@ public interface TactVarDeclaration extends TactCompositeElement {
   @NotNull
   TactVarDefinition getVarDefinition();
 
+  @Nullable
+  TactSemi getSemi();
+
   @NotNull
   PsiElement getAssign();
-
-  @Nullable
-  PsiElement getSemicolon();
 
   @NotNull
   PsiElement getLet();

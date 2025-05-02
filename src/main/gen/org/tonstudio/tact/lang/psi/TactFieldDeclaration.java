@@ -18,10 +18,10 @@ public interface TactFieldDeclaration extends TactCompositeElement, StubBasedPsi
   @NotNull
   TactType getType();
 
+  @Nullable
+  TactSemi getSemi();
+
   @NotNull
   PsiElement getColon();
-
-  @Nullable
-  PsiElement getSemicolon();
 
 }

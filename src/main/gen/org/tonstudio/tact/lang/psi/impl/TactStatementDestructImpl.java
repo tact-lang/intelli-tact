@@ -40,6 +40,12 @@ public class TactStatementDestructImpl extends TactCompositeElementImpl implemen
 
   @Override
   @Nullable
+  public TactSemi getSemi() {
+    return TactPsiTreeUtil.getChildOfType(this, TactSemi.class);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getAssign() {
     return findChildByType(ASSIGN);
   }
@@ -54,12 +60,6 @@ public class TactStatementDestructImpl extends TactCompositeElementImpl implemen
   @Nullable
   public PsiElement getRbrace() {
     return findChildByType(RBRACE);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getSemicolon() {
-    return findChildByType(SEMICOLON);
   }
 
   @Override

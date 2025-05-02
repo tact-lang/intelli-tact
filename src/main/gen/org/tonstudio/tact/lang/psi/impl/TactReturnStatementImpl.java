@@ -35,8 +35,8 @@ public class TactReturnStatementImpl extends TactStatementImpl implements TactRe
 
   @Override
   @Nullable
-  public PsiElement getSemicolon() {
-    return findChildByType(SEMICOLON);
+  public TactSemi getSemi() {
+    return TactPsiTreeUtil.getChildOfType(this, TactSemi.class);
   }
 
   @Override

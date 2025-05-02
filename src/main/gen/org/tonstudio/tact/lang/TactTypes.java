@@ -87,6 +87,7 @@ public interface TactTypes {
   IElementType REPEAT_STATEMENT = new TactCompositeElementType("REPEAT_STATEMENT");
   IElementType RESULT = TactElementTypeFactory.stubFactory("RESULT");
   IElementType RETURN_STATEMENT = new TactCompositeElementType("RETURN_STATEMENT");
+  IElementType SEMI = new TactCompositeElementType("SEMI");
   IElementType SIGNATURE = TactElementTypeFactory.stubFactory("SIGNATURE");
   IElementType SIMPLE_STATEMENT = new TactCompositeElementType("SIMPLE_STATEMENT");
   IElementType STATEMENT = new TactCompositeElementType("STATEMENT");
@@ -438,6 +439,9 @@ public interface TactTypes {
       }
       else if (type == RETURN_STATEMENT) {
         return new TactReturnStatementImpl(node);
+      }
+      else if (type == SEMI) {
+        return new TactSemiImpl(node);
       }
       else if (type == SIGNATURE) {
         return new TactSignatureImpl(node);

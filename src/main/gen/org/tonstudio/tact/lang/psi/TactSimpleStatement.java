@@ -20,6 +20,6 @@ public interface TactSimpleStatement extends TactStatement {
   TactVarDeclaration getVarDeclaration();
 
   @Nullable
-  PsiElement getSemicolon();
+  TactSemi getSemi();
 
 }

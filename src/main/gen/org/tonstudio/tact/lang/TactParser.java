@@ -357,7 +357,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Expression AssignmentStatement ';'
+  // Expression AssignmentStatement semi
   static boolean AssignStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "AssignStatement")) return false;
     boolean r, p;
@@ -365,7 +365,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     r = Expression(b, l + 1, -1);
     r = r && AssignmentStatement(b, l + 1);
     p = r; // pin = 2
-    r = r && consumeToken(b, SEMICOLON);
+    r = r && semi(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -1101,20 +1101,20 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Expression ';'
+  // Expression semi
   static boolean ExpressionStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ExpressionStatement")) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_);
     r = Expression(b, l + 1, -1);
     p = r; // pin = 1
-    r = r && consumeToken(b, SEMICOLON);
+    r = r && semi(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
   /* ********************************************************** */
-  // FieldDefinition ':' Type DefaultFieldValue? ';'?
+  // FieldDefinition ':' Type DefaultFieldValue? semi?
   public static boolean FieldDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FieldDeclaration")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
@@ -1136,10 +1136,10 @@ public class TactParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // ';'?
+  // semi?
   private static boolean FieldDeclaration_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FieldDeclaration_4")) return false;
-    consumeToken(b, SEMICOLON);
+    semi(b, l + 1);
     return true;
   }
 
@@ -1973,7 +1973,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // return Expression? ';'
+  // return Expression? semi
   public static boolean ReturnStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ReturnStatement")) return false;
     if (!nextTokenIs(b, RETURN)) return false;
@@ -1982,7 +1982,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, RETURN);
     p = r; // pin = 1
     r = r && report_error_(b, ReturnStatement_1(b, l + 1));
-    r = p && consumeToken(b, SEMICOLON) && r;
+    r = p && semi(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -2085,7 +2085,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // let ReferenceExpression "{" DestructList "}" "=" Expression ";"
+  // let ReferenceExpression "{" DestructList "}" "=" Expression semi
   public static boolean StatementDestruct(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StatementDestruct")) return false;
     if (!nextTokenIs(b, LET)) return false;
@@ -2098,7 +2098,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     r = r && report_error_(b, DestructList(b, l + 1));
     r = p && report_error_(b, consumeTokens(b, -1, RBRACE, ASSIGN)) && r;
     r = p && report_error_(b, Expression(b, l + 1, -1)) && r;
-    r = p && consumeToken(b, SEMICOLON) && r;
+    r = p && semi(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -2807,7 +2807,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // do Block until Expression ';'
+  // do Block until Expression semi
   public static boolean UntilStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "UntilStatement")) return false;
     if (!nextTokenIs(b, DO)) return false;
@@ -2818,7 +2818,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     r = r && report_error_(b, Block(b, l + 1));
     r = p && report_error_(b, consumeToken(b, UNTIL)) && r;
     r = p && report_error_(b, Expression(b, l + 1, -1)) && r;
-    r = p && consumeToken(b, SEMICOLON) && r;
+    r = p && semi(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -2835,7 +2835,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // let VarDefinition TypeHint? '=' Expression ';'
+  // let VarDefinition TypeHint? '=' Expression semi
   public static boolean VarDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "VarDeclaration")) return false;
     if (!nextTokenIs(b, LET)) return false;
@@ -2847,7 +2847,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     r = r && consumeToken(b, ASSIGN);
     p = r; // pin = 4
     r = r && report_error_(b, Expression(b, l + 1, -1));
-    r = p && consumeToken(b, SEMICOLON) && r;
+    r = p && semi(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -2898,6 +2898,29 @@ public class TactParser implements PsiParser, LightPsiParser {
     r = r && TypeListNoPin(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
+  }
+
+  /* ********************************************************** */
+  // ';' | &'}'
+  public static boolean semi(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "semi")) return false;
+    if (!nextTokenIs(b, "<semi>", RBRACE, SEMICOLON)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, SEMI, "<semi>");
+    r = consumeToken(b, SEMICOLON);
+    if (!r) r = semi_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // &'}'
+  private static boolean semi_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "semi_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _AND_);
+    r = consumeToken(b, RBRACE);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   /* ********************************************************** */

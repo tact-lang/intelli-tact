@@ -426,6 +426,10 @@ public class TactVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitSemi(@NotNull TactSemi o) {
+    visitCompositeElement(o);
+  }
+
   public void visitNamedElement(@NotNull TactNamedElement o) {
     visitCompositeElement(o);
   }

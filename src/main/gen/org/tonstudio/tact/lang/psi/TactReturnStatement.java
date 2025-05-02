@@ -11,7 +11,7 @@ public interface TactReturnStatement extends TactStatement {
   TactExpression getExpression();
 
   @Nullable
-  PsiElement getSemicolon();
+  TactSemi getSemi();
 
   @NotNull
   PsiElement getReturn();

@@ -14,6 +14,9 @@ public interface TactStatementDestruct extends TactCompositeElement {
   List<TactExpression> getExpressionList();
 
   @Nullable
+  TactSemi getSemi();
+
+  @Nullable
   PsiElement getAssign();
 
   @NotNull
@@ -21,9 +24,6 @@ public interface TactStatementDestruct extends TactCompositeElement {
 
   @Nullable
   PsiElement getRbrace();
-
-  @Nullable
-  PsiElement getSemicolon();
 
   @NotNull
   PsiElement getLet();

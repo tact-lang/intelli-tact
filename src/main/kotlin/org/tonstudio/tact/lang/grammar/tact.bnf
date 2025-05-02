@@ -105,6 +105,7 @@ ImportDeclaration ::= import StringLiteral ';' {
   methods=[getPath]
 }
 
+semi ::= ';' | &'}'
 
 private TopLevelDeclaration ::= !<<eof>> TopDeclaration {pin=1 recoverWhile=TopLevelDeclarationRecover}
 private TopDeclaration ::=
@@ -257,10 +258,10 @@ SimpleStatement ::=
   | AssignStatement
   | ExpressionStatement
 
-private ExpressionStatement ::= Expression ';' {pin=1}
-private AssignStatement     ::= Expression AssignmentStatement ';' {pin=2}
+private ExpressionStatement ::= Expression semi {pin=1}
+private AssignStatement     ::= Expression AssignmentStatement semi {pin=2}
 
-VarDeclaration ::= let VarDefinition TypeHint? '=' Expression ';' {pin=4}
+VarDeclaration ::= let VarDefinition TypeHint? '=' Expression semi {pin=4}
 
 TypeHint ::= ':' Type
 
@@ -271,7 +272,7 @@ left AssignmentStatement ::= AssignOp Expression {
 AssignOp ::= '=' | '+=' | '-=' | '|=' | '^=' | '*=' | '/=' | '%=' | '<<=' | '>>=' | '&=' | '&&=' | '||='
 
 
-ReturnStatement ::= return Expression? ';' {pin=1}
+ReturnStatement ::= return Expression? semi {pin=1}
 
 WithClause ::= with TypeListNoPin {pin=1}
 
@@ -373,7 +374,7 @@ StructType ::= struct identifier '{' FieldDeclaration* '}' {
   methods=[getFieldList]
 }
 
-FieldDeclaration ::= FieldDefinition ':' Type DefaultFieldValue? ';'? {
+FieldDeclaration ::= FieldDefinition ':' Type DefaultFieldValue? semi? {
   stubClass="org.tonstudio.tact.lang.stubs.TactFieldDeclarationStub"
 }
 DefaultFieldValue ::= '=' Expression {pin=1}
@@ -422,7 +423,7 @@ ParamDefinition ::= identifier ':' Type {
 }
 
 
-StatementDestruct ::= let ReferenceExpression "{" DestructList "}" "=" Expression ";" {pin=3}
+StatementDestruct ::= let ReferenceExpression "{" DestructList "}" "=" Expression semi {pin=3}
 
 private DestructList ::= DestructItem ("," DestructItem)* ("," "..")? ","?
 
@@ -589,7 +590,7 @@ ParenthesesExpr ::= '(' Expression ')' {pin=3}
 
 WhileStatement ::= while Expression Block {pin=1}
 RepeatStatement ::= repeat Expression Block {pin=1}
-UntilStatement ::= do Block until Expression ';' {pin=1}
+UntilStatement ::= do Block until Expression semi {pin=1}
 ForEachStatement ::= foreach '(' VarDefinition ',' VarDefinition in Expression ')' Block {
   pin=1
   methods=[

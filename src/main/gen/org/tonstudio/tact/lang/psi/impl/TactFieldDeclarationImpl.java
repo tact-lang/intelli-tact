@@ -51,15 +51,15 @@ public class TactFieldDeclarationImpl extends TactStubbedElementImpl<TactFieldDe
   }
 
   @Override
-  @NotNull
-  public PsiElement getColon() {
-    return notNullChild(findChildByType(COLON));
+  @Nullable
+  public TactSemi getSemi() {
+    return TactPsiTreeUtil.getChildOfType(this, TactSemi.class);
   }
 
   @Override
-  @Nullable
-  public PsiElement getSemicolon() {
-    return findChildByType(SEMICOLON);
+  @NotNull
+  public PsiElement getColon() {
+    return notNullChild(findChildByType(COLON));
   }
 
 }
