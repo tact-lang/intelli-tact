@@ -5,7 +5,7 @@ import com.intellij.codeInsight.lookup.LookupElement
 /**
  * A weigher for Tact completion variants.
  *
- * @see SPAWN_COMPLETION_WEIGHERS
+ * @see TACT_COMPLETION_WEIGHERS
  */
 interface TactCompletionWeigher {
     /**

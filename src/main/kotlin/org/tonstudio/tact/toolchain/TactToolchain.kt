@@ -2,6 +2,7 @@ package org.tonstudio.tact.toolchain
 
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileManager
+import org.tonstudio.tact.configurations.TactConfigurationUtil
 import java.nio.file.Path
 
 interface TactToolchain {
@@ -25,7 +26,7 @@ interface TactToolchain {
         }
 
         private fun fromDirectory(rootDir: VirtualFile): TactToolchain {
-            val version = "0.0.1" // TODO: implement version
+            val version = TactConfigurationUtil.guessToolchainVersion(rootDir.path)
             return TactLocalToolchain(version, rootDir)
         }
 

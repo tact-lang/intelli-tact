@@ -117,12 +117,15 @@
         <!-- endregion Editor -->
 
         <!-- region Toolchains -->
-<!--        <editorNotificationProvider implementation="org.tonstudio.tact.project.TactMissingToolchainNotificationProvider"/>-->
+        <editorNotificationProvider implementation="org.tonstudio.tact.project.TactMissingToolchainNotificationProvider"/>
         <applicationService serviceImplementation="org.tonstudio.tact.toolchain.TactKnownToolchainsState"/>
         <!-- endregion Toolchains -->
 
         <!-- region Project -->
         <additionalLibraryRootsProvider implementation="org.tonstudio.tact.project.TactAdditionalLibraryRootsProvider"/>
+        <projectConfigurable groupId="language" instance="org.tonstudio.tact.configurations.TactProjectSettingsConfigurable"
+                             id="MainTactSettings"
+                             dynamic="true" displayName="Tact"/>
         <!-- endregion Project -->
     </extensions>
 
@@ -131,4 +134,19 @@
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
         </action>
     </actions>
+
+    <extensions defaultExtensionNs="org.tonstudio.tact">
+        <!-- Toolchain flavors -->
+        <toolchainFlavor id="tact.localToolchainFlavor"
+                         implementation="org.tonstudio.tact.projectWizard.flavors.TactLocalToolchainFlavor"/>
+       <toolchainFlavor id="tact.compilerRepositoryToolchainFlavor"
+                         implementation="org.tonstudio.tact.projectWizard.flavors.TactCompilerRepositoryToolchainFlavor"/>
+        <!-- Toolchain flavors End -->
+    </extensions>
+
+    <extensionPoints>
+        <extensionPoint interface="org.tonstudio.tact.projectWizard.TactToolchainFlavor"
+                        dynamic="true" name="toolchainFlavor"/>
+    </extensionPoints>
+
 </idea-plugin>

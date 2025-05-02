@@ -1,13 +1,11 @@
 package org.tonstudio.tact.ide
 
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.startup.ProjectActivity
+import org.tonstudio.tact.projectWizard.TactToolchainFlavor
 import org.tonstudio.tact.toolchain.TactKnownToolchainsState
 import org.tonstudio.tact.toolchain.TactToolchain
 import org.tonstudio.tact.toolchain.TactToolchainService.Companion.toolchainSettings
-import kotlin.io.path.Path
-import kotlin.io.path.exists
 
 class TactPostStartupActivity : ProjectActivity {
     override suspend fun execute(project: Project) {
@@ -32,12 +30,10 @@ class TactPostStartupActivity : ProjectActivity {
 
     object Util {
         fun setupToolchainCandidates(project: Project): List<String> {
-            val projectDir = project.guessProjectDir() ?: return emptyList()
-
-            val toolchainCandidates = listOf(
-                projectDir.path + "/node_modules/@tact-lang/compiler",
-                projectDir.path + "/" // compiler repo
-            ).filter { path -> Path(path).exists() }
+            val toolchainCandidates = TactToolchainFlavor.getApplicableFlavors()
+                .flatMap { it.suggestHomePaths(project) }
+                .distinct()
+                .map { it.toString() }
 
             if (toolchainCandidates.isEmpty()) {
                 return emptyList()
