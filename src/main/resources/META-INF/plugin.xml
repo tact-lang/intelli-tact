@@ -74,7 +74,7 @@
 
         <!-- Code vision -->
         <codeInsight.daemonBoundCodeVisionProvider implementation="org.tonstudio.tact.ide.hints.TactUsagesCodeVisionProvider"/>
-<!--        <vcs.codeVisionLanguageContext language="tact" implementationClass="org.tonstudio.tact.ide.hints.TactCodeVisionLanguageContext"/>-->
+        <vcs.codeVisionLanguageContext language="tact" implementationClass="org.tonstudio.tact.ide.hints.TactCodeVisionLanguageContext"/>
         <codeInsight.codeVisionSettingsPreviewLanguage modelId="vcs.code.vision" language="tact"/>
         <codeInsight.codeVisionSettingsPreviewLanguage modelId="references" language="tact"/>
 
