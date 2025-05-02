@@ -122,6 +122,7 @@ class TactFoldingBuilder : FoldingBuilderEx(), DumbAware {
                 val textRange = comment.textRange
                 val group = FoldingGroup.newGroup("TactFoldingGroup")
                 val foldingRange = TextRange(textRange.startOffset + 2, textRange.endOffset - 2)
+                if (foldingRange.isEmpty) return
                 descriptors.add(FoldingDescriptor(comment.node, foldingRange, group))
                 super.visitComment(comment)
             }

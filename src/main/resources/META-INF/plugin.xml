@@ -113,6 +113,7 @@
         <!-- region Formatter -->
         <!-- TODO: lang.formatter -->
         <!-- TODO: langCodeStyleSettingsProvider -->
+        <formattingService implementation="org.tonstudio.tact.lang.formatter.TactFormattingService"/>
         <!-- endregion Formatter -->
 
         <!-- region Color Settings & Schemes -->
@@ -139,6 +140,11 @@
         <projectConfigurable groupId="language" instance="org.tonstudio.tact.configurations.TactProjectSettingsConfigurable"
                              id="MainTactSettings"
                              dynamic="true" displayName="Tact"/>
+        <projectConfigurable parentId="MainTactSettings"
+                             instance="org.tonstudio.tact.configurations.TactFmtSettingsConfigurable"
+                             id="org.tonstudio.tact.configurations.TactFmtSettingsConfigurable"
+                             dynamic="true" displayName="Tactfmt"/>
+        <fileDocumentManagerListener implementation="org.tonstudio.tact.project.TactFmtWatcher$TactFmtListener"/>
         <!-- endregion Project -->
     </extensions>
 
