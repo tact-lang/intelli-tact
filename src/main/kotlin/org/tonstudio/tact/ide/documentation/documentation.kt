@@ -17,17 +17,33 @@ import org.tonstudio.tact.lang.psi.types.*
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
 import kotlin.math.max
 import io.ktor.util.*
+import org.tonstudio.tact.ide.documentation.DocumentationUtils.asBraces
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asBuiltin
+import org.tonstudio.tact.ide.documentation.DocumentationUtils.asConst
+import org.tonstudio.tact.ide.documentation.DocumentationUtils.asField
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asFunction
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asMessage
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asNativeFunction
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asNumber
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asOperator
+import org.tonstudio.tact.ide.documentation.DocumentationUtils.asPrimitive
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asString
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asStruct
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asTrait
 import org.tonstudio.tact.lang.TactSyntaxHighlighter
 import org.tonstudio.tact.lang.doc.psi.TactDocComment
+
+private fun StringBuilder.generateOwnerDpc(element: TactNamedElement) {
+    val owner = element.getOwner() ?: return
+
+    val kind = owner.kindPresentation()
+    val name = owner.name ?: ""
+
+    colorize(kind, asKeyword)
+    append(" ")
+    colorize(name, asStruct)
+    append("\n")
+}
 
 fun TactFunctionDeclaration.generateDoc(): String {
     val parameters = getSignature().parameters
@@ -35,6 +51,8 @@ fun TactFunctionDeclaration.generateDoc(): String {
 
     return buildString {
         append(DocumentationMarkup.DEFINITION_START)
+        generateOwnerDpc(this@generateDoc)
+
         line(attributes?.generateDoc())
 
         append(functionAttributeList.generateDoc())
@@ -59,6 +77,7 @@ fun TactAsmFunctionDeclaration.generateDoc(): String {
 
     return buildString {
         append(DocumentationMarkup.DEFINITION_START)
+        generateOwnerDpc(this@generateDoc)
 
         append(functionAttributeList.generateDoc())
 
@@ -85,6 +104,7 @@ fun TactNativeFunctionDeclaration.generateDoc(): String? {
     return buildString {
         append(DocumentationMarkup.DEFINITION_START)
         line(attributes?.generateDoc())
+        generateOwnerDpc(this@generateDoc)
 
         append(functionAttributeList.generateDoc())
 
@@ -182,8 +202,115 @@ private fun TactAttributes.generateDoc(): String {
     }
 }
 
+private fun generateDocForConstantModifiers(attrs: List<TactConstantModifier>): String {
+    return attrs.joinToString(" ") { it.text }
+}
+
 private fun TactAttribute.generateDoc(): String {
     return colorize("@", asAttribute) + (attributeExpression?.text ?: "")
+}
+
+fun TactStructDeclaration.generateDoc(): String {
+    return buildString {
+        append(DocumentationMarkup.DEFINITION_START)
+
+        part("struct", asKeyword)
+        colorize(name, asStruct)
+
+        val fields = structType.fieldDeclarationList
+
+        generateFields(fields)
+
+        append(DocumentationMarkup.DEFINITION_END)
+        generateCommentsPart(this@generateDoc)
+    }
+}
+
+fun TactMessageDeclaration.generateDoc(): String {
+    return buildString {
+        append(DocumentationMarkup.DEFINITION_START)
+
+        colorize("message", asKeyword)
+
+        val messageId = messageType.messageId
+        if (messageId != null) {
+            colorize("(", asParen)
+            append(messageId.expression?.generateDoc())
+            colorize(")", asParen)
+        }
+
+        append(" ")
+        colorize(name, asStruct)
+
+        val fields = messageType.fieldDeclarationList
+
+        generateFields(fields)
+
+        append(DocumentationMarkup.DEFINITION_END)
+        generateCommentsPart(this@generateDoc)
+    }
+}
+
+private fun StringBuilder.generateFields(fields: List<TactFieldDeclaration>) {
+    colorize(" {", asBraces)
+    appendLine()
+    append(
+        fields.joinToString("\n") { field ->
+            val def = field.fieldDefinition
+            buildString {
+                append("   ")
+                colorize(def.name ?: "", asField)
+                append(": ")
+                append(def.getType(null)?.generateDoc(field) ?: "<unknown>")
+
+                if (field.defaultFieldValue != null) {
+                    append(" = ")
+                    append(field.defaultFieldValue?.expression?.generateDoc())
+                }
+
+                append(";")
+            }
+        }
+    )
+    append("\n")
+    colorize("}", asBraces)
+}
+
+fun TactPrimitiveDeclaration.generateDoc(): String {
+    return buildString {
+        append(DocumentationMarkup.DEFINITION_START)
+
+        part("primitive", asKeyword)
+        colorize(name, asPrimitive)
+
+        append(DocumentationMarkup.DEFINITION_END)
+        generateCommentsPart(this@generateDoc)
+    }
+}
+
+fun TactConstDefinition.generateDoc(): String {
+    return buildString {
+        append(DocumentationMarkup.DEFINITION_START)
+
+        val decl = this@generateDoc.parent as? TactConstDeclaration ?: return "unknown constant"
+
+        part(generateDocForConstantModifiers(decl.constantModifierList))
+        part("const", asKeyword)
+        colorize(name, asConst)
+
+        val type = getType(null)
+        append(": ")
+        append(type?.generateDoc(this@generateDoc))
+
+        if (expression != null) {
+            append(" = ")
+            val defaultValue = expression
+            append(defaultValue?.generateDoc())
+        }
+
+        append(DocumentationMarkup.DEFINITION_END)
+        generateCommentsPart(this@generateDoc)
+    }
 }
 
 fun TactExpression.generateDoc(): String {

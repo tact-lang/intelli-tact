@@ -10,7 +10,6 @@ import com.intellij.usageView.UsageViewLongNameLocation
 import com.intellij.usageView.UsageViewShortNameLocation
 import org.tonstudio.tact.lang.lexer.TactLexer
 import org.tonstudio.tact.lang.psi.TactNamedElement
-import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.TactTokenTypes
 
 class TactFindUsagesProvider : FindUsagesProvider {
@@ -28,21 +27,7 @@ class TactFindUsagesProvider : FindUsagesProvider {
     @Suppress("UnstableApiUsage")
     override fun getHelpId(psiElement: PsiElement) = HelpID.FIND_OTHER_USAGES
 
-    override fun getType(element: PsiElement) = when (element) {
-        is TactStructDeclaration                        -> "struct"
-        is TactMessageDeclaration                       -> "message"
-        is TactTraitDeclaration                         -> "trait"
-        is TactContractDeclaration                      -> "contract"
-        is TactFieldDefinition                          -> "field"
-        is TactFunctionDeclaration                      -> "function"
-        is TactAsmFunctionDeclaration                   -> "asm function"
-        is TactNativeFunctionDeclaration                -> "native function"
-        is TactConstDefinition, is TactConstDeclaration -> "constant"
-        is TactVarDefinition, is TactVarDeclaration     -> "variable"
-        is TactParamDefinition                          -> "parameter"
-        is TactImportDeclaration                        -> "import"
-        else                                            -> "declaration"
-    }
+    override fun getType(element: PsiElement) = if (element is TactNamedElement) element.kindPresentation() else ""
 
     override fun getDescriptiveName(element: PsiElement): String {
         return ElementDescriptionUtil.getElementDescription(element, UsageViewLongNameLocation.INSTANCE)

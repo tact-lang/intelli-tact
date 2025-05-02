@@ -6,10 +6,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.SyntaxTraverser
 import org.tonstudio.tact.lang.doc.psi.TactDocComment
-import org.tonstudio.tact.lang.psi.TactAsmFunctionDeclaration
-import org.tonstudio.tact.lang.psi.TactFile
-import org.tonstudio.tact.lang.psi.TactFunctionDeclaration
-import org.tonstudio.tact.lang.psi.TactNativeFunctionDeclaration
+import org.tonstudio.tact.lang.psi.*
 import java.util.function.Consumer
 
 class TactDocumentationProvider : AbstractDocumentationProvider() {
@@ -17,6 +14,10 @@ class TactDocumentationProvider : AbstractDocumentationProvider() {
         is TactFunctionDeclaration       -> element.generateDoc()
         is TactAsmFunctionDeclaration    -> element.generateDoc()
         is TactNativeFunctionDeclaration -> element.generateDoc()
+        is TactStructDeclaration         -> element.generateDoc()
+        is TactMessageDeclaration        -> element.generateDoc()
+        is TactPrimitiveDeclaration      -> element.generateDoc()
+        is TactConstDefinition           -> element.generateDoc()
         else                             -> null
     }
 

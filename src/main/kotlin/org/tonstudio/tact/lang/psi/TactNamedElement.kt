@@ -8,5 +8,6 @@ interface TactNamedElement : TactTypeOwner, TactDocumentationOwner, TactComposit
     fun isBlank(): Boolean
     fun getIdentifier(): PsiElement?
     fun getQualifiedName(): String?
-    fun getOwner(): PsiElement?
+    fun getOwner(): TactNamedElement?
+    fun kindPresentation(): String
 }

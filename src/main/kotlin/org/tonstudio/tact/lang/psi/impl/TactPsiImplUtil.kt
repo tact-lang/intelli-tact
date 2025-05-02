@@ -30,7 +30,8 @@ object TactPsiImplUtil {
             return stub.name ?: ""
         }
 
-        return o.getIdentifier().text ?: ""
+        val name = o.getIdentifier().text ?: ""
+        return name.removePrefix("AnyMessage_").removePrefix("AnyStruct_")
     }
 
     @JvmStatic

@@ -15,10 +15,8 @@ import com.intellij.util.PlatformIcons
 import org.tonstudio.tact.ide.ui.Icons
 import org.tonstudio.tact.lang.doc.psi.TactDocComment
 import org.tonstudio.tact.lang.psi.*
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil.parentStubOfType
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
 import org.tonstudio.tact.lang.psi.types.TactTypeEx
-import org.tonstudio.tact.lang.stubs.TactFileStub
 import org.tonstudio.tact.lang.stubs.TactNamedStub
 import javax.swing.Icon
 
@@ -45,10 +43,12 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
         return name
     }
 
-    override fun getOwner(): PsiElement? {
+    override fun getOwner(): TactNamedElement? {
         return parentOfTypes(
             TactStructDeclaration::class,
-            TactFile::class,
+            TactMessageDeclaration::class,
+            TactTraitDeclaration::class,
+            TactContractDeclaration::class,
         )
     }
 
@@ -147,5 +147,23 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
             if (f != null) return LocalSearchScope(f.getBlockIfAny() ?: f)
         }
         return GlobalSearchScope.allScope(project)
+    }
+
+    override fun kindPresentation(): String {
+        return when (this) {
+            is TactStructDeclaration                        -> "struct"
+            is TactMessageDeclaration                       -> "message"
+            is TactTraitDeclaration                         -> "trait"
+            is TactContractDeclaration                      -> "contract"
+            is TactFieldDefinition                          -> "field"
+            is TactFunctionDeclaration                      -> "function"
+            is TactAsmFunctionDeclaration                   -> "asm function"
+            is TactNativeFunctionDeclaration                -> "native function"
+            is TactConstDefinition, is TactConstDeclaration -> "constant"
+            is TactVarDefinition, is TactVarDeclaration     -> "variable"
+            is TactParamDefinition                          -> "parameter"
+            is TactImportDeclaration                        -> "import"
+            else                                            -> "declaration"
+        }
     }
 }
