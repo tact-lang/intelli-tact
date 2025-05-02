@@ -11,9 +11,11 @@ class TactCodeVisionLanguageContext : VcsCodeVisionLanguageContext {
     override fun isAccepted(element: PsiElement) = element is TactFunctionDeclaration ||
             element is TactAsmFunctionDeclaration ||
             element is TactNativeFunctionDeclaration ||
+            element is TactMessageFunctionDeclaration ||
             element is TactStructDeclaration ||
-            element is TactTraitDeclaration ||
             element is TactMessageDeclaration ||
+            element is TactTraitDeclaration ||
+            element is TactContractDeclaration ||
             element is TactConstDeclaration
 
     override fun handleClick(mouseEvent: MouseEvent, editor: Editor, element: PsiElement) {}
