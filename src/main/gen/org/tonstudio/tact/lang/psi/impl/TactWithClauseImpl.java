@@ -8,9 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
+import org.tonstudio.tact.lang.stubs.TactWithClauseStub;
 import org.tonstudio.tact.lang.psi.*;
+import com.intellij.psi.stubs.IStubElementType;
 
-public class TactWithClauseImpl extends TactCompositeElementImpl implements TactWithClause {
+public class TactWithClauseImpl extends TactStubbedElementImpl<TactWithClauseStub> implements TactWithClause {
+
+  public TactWithClauseImpl(@NotNull TactWithClauseStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
+  }
 
   public TactWithClauseImpl(@NotNull ASTNode node) {
     super(node);
@@ -27,9 +33,9 @@ public class TactWithClauseImpl extends TactCompositeElementImpl implements Tact
   }
 
   @Override
-  @Nullable
-  public TactTypeListNoPin getTypeListNoPin() {
-    return TactPsiTreeUtil.getChildOfType(this, TactTypeListNoPin.class);
+  @NotNull
+  public List<TactType> getTypeList() {
+    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactType.class);
   }
 
   @Override

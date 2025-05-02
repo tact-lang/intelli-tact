@@ -95,6 +95,11 @@ public class TactFunctionDeclarationImpl extends TactFunctionOrMethodDeclaration
   }
 
   @Override
+  public boolean isAbstract() {
+    return TactPsiImplUtil.isAbstract(this);
+  }
+
+  @Override
   @NotNull
   public Pair<String, Boolean> computeMethodId() {
     return TactPsiImplUtil.computeMethodId(this);

@@ -5,10 +5,13 @@ import org.tonstudio.tact.lang.psi.types.TactTraitTypeEx
 import org.tonstudio.tact.lang.stubs.index.TactNamesIndex
 
 interface TactStorageMembersOwner : TactCompositeElement {
+    val name: String?
+
     fun getWithClause(): TactWithClause?
     fun getFieldList(): List<TactFieldDefinition>
     fun getMethodsList(): List<TactFunctionDeclaration>
     fun getConstantsList(): List<TactConstDefinition>
+    fun getInheritedTraits(): List<TactTraitDeclaration>
 }
 
 fun TactStorageMembersOwner.methods(): List<TactFunctionDeclaration> {
@@ -30,7 +33,7 @@ fun TactStorageMembersOwner.inheritTraits(): List<TactTraitType> {
 
     val baseTrait = TactNamesIndex.find("BaseTrait", project, null).firstOrNull() as? TactTraitDeclaration ?: return emptyList()
 
-    val inheritedTraitsList = this.getWithClause()?.typeListNoPin?.typeList ?: return emptyList()
+    val inheritedTraitsList = this.getWithClause()?.typeList ?: return emptyList()
     val inheritedTraits = inheritedTraitsList
         .map { it.toEx() }
         .filterIsInstance<TactTraitTypeEx>()

@@ -41,6 +41,8 @@ public interface TactFunctionDeclaration extends TactSignatureOwner, TactFunctio
 
   boolean isGet();
 
+  boolean isAbstract();
+
   @NotNull
   Pair<String, Boolean> computeMethodId();
 

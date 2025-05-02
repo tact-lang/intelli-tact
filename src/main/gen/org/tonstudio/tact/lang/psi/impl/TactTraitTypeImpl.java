@@ -66,7 +66,7 @@ public class TactTraitTypeImpl extends TactTypeImpl implements TactTraitType {
   @Override
   @Nullable
   public TactWithClause getWithClause() {
-    return TactPsiTreeUtil.getChildOfType(this, TactWithClause.class);
+    return TactPsiTreeUtil.getStubChildOfType(this, TactWithClause.class);
   }
 
   @Override
@@ -109,6 +109,12 @@ public class TactTraitTypeImpl extends TactTypeImpl implements TactTraitType {
   @NotNull
   public List<TactConstDefinition> getConstantsList() {
     return TactPsiImplUtil.getConstantsList(this);
+  }
+
+  @Override
+  @NotNull
+  public List<TactTraitDeclaration> getInheritedTraits() {
+    return TactPsiImplUtil.getInheritedTraits(this);
   }
 
 }

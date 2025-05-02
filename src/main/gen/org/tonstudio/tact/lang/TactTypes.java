@@ -112,7 +112,7 @@ public interface TactTypes {
   IElementType VAR_DECLARATION = new TactCompositeElementType("VAR_DECLARATION");
   IElementType VAR_DEFINITION = TactElementTypeFactory.stubFactory("VAR_DEFINITION");
   IElementType WHILE_STATEMENT = new TactCompositeElementType("WHILE_STATEMENT");
-  IElementType WITH_CLAUSE = new TactCompositeElementType("WITH_CLAUSE");
+  IElementType WITH_CLAUSE = TactElementTypeFactory.stubFactory("WITH_CLAUSE");
 
   IElementType ABSTRACT = new TactTokenType("abstract");
   IElementType AND_ASSIGN = new TactTokenType("&&=");

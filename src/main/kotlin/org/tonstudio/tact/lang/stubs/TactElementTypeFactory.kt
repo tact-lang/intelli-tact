@@ -49,6 +49,7 @@ object TactElementTypeFactory {
         "ATTRIBUTE_EXPRESSION"         -> TactAttributeExpressionStubElementType(name)
         "PLAIN_ATTRIBUTE"              -> TactPlainAttributeStubElementType(name)
         "ATTRIBUTE_KEY"                -> TactAttributeKeyStubElementType(name)
+        "WITH_CLAUSE"                  -> TactWithClauseStub.Type(name)
 
         else                           -> {
             val c = TYPES[name] ?: throw RuntimeException("Unknown element type: $name")

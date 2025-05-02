@@ -20,6 +20,7 @@ import org.tonstudio.tact.lang.psi.impl.TactTypeInferer.getVarType
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
 import org.tonstudio.tact.lang.psi.types.TactFunctionTypeEx
 import org.tonstudio.tact.lang.psi.types.TactTypeEx
+import org.tonstudio.tact.lang.stubs.index.TactContractsTraitsIndex
 import org.tonstudio.tact.utils.stubOrPsiParentOfType
 
 object TactPsiImplUtil {
@@ -238,6 +239,52 @@ object TactPsiImplUtil {
     @JvmStatic
     fun getConstantsList(o: TactContractType): List<TactConstDefinition> {
         return o.constDeclarationList.mapNotNull { it.constDefinition }
+    }
+
+    @JvmStatic
+    fun getInheritedTraits(o: TactTraitType): List<TactTraitDeclaration> {
+        return o.getInheritedTraitsBase()
+    }
+
+    @JvmStatic
+    fun getInheritedTraits(o: TactContractType): List<TactTraitDeclaration> {
+        return o.getInheritedTraitsBase()
+    }
+
+    @JvmStatic
+    fun TactStorageMembersOwner.getInheritedTraitsBase(visited: MutableSet<String> = mutableSetOf()): List<TactTraitDeclaration> {
+        val parent = parent as? TactNamedElement ?: return emptyList()
+        val name = parent.name ?: return emptyList()
+        if (name == "BaseTrait") return emptyList()
+
+        if (visited.contains(name)) {
+            return emptyList()
+        }
+        visited.add(name)
+
+        val baseTrait = findBaseTrait(this)
+
+        val traitsNode = getWithClause()
+        if (traitsNode == null) {
+            if (baseTrait != null) {
+                return listOf(baseTrait)
+            }
+            return emptyList()
+        }
+
+        val traitsList = traitsNode.typeList
+        val traits = traitsList
+            .mapNotNull { it.typeReferenceExpression?.resolve() as? TactTraitDeclaration }
+            .filter { it.name != name }
+
+        return traits + traits.flatMap { it.traitType.getInheritedTraitsBase(visited) }
+    }
+
+    private fun findBaseTrait(anchor: PsiElement): TactTraitDeclaration? {
+        return CachedValuesManager.getCachedValue(anchor) {
+            val result = TactContractsTraitsIndex.find("BaseTrait", anchor.project, null).firstOrNull() as? TactTraitDeclaration
+            CachedValueProvider.Result(result, PsiModificationTracker.MODIFICATION_COUNT)
+        }
     }
 
     @JvmStatic
@@ -613,6 +660,11 @@ object TactPsiImplUtil {
     @JvmStatic
     fun isGet(o: TactFunctionDeclaration): Boolean {
         return o.functionAttributeList.any { it.getAttribute != null }
+    }
+
+    @JvmStatic
+    fun isAbstract(o: TactFunctionDeclaration): Boolean {
+        return o.functionAttributeList.any { it.abstract != null }
     }
 
     @JvmStatic

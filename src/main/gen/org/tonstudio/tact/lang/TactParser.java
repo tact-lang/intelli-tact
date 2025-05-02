@@ -2892,7 +2892,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // with TypeListNoPin
+  // with Type (',' Type)* ','?
   public static boolean WithClause(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "WithClause")) return false;
     if (!nextTokenIs(b, WITH)) return false;
@@ -2900,9 +2900,40 @@ public class TactParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, WITH_CLAUSE, null);
     r = consumeToken(b, WITH);
     p = r; // pin = 1
-    r = r && TypeListNoPin(b, l + 1);
+    r = r && report_error_(b, Type(b, l + 1));
+    r = p && report_error_(b, WithClause_2(b, l + 1)) && r;
+    r = p && WithClause_3(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
+  }
+
+  // (',' Type)*
+  private static boolean WithClause_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "WithClause_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!WithClause_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "WithClause_2", c)) break;
+    }
+    return true;
+  }
+
+  // ',' Type
+  private static boolean WithClause_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "WithClause_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && Type(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // ','?
+  private static boolean WithClause_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "WithClause_3")) return false;
+    consumeToken(b, COMMA);
+    return true;
   }
 
   /* ********************************************************** */

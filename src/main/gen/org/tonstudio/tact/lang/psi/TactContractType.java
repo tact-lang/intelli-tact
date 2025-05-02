@@ -49,4 +49,7 @@ public interface TactContractType extends TactType, TactStorageMembersOwner {
   @NotNull
   List<TactConstDefinition> getConstantsList();
 
+  @NotNull
+  List<TactTraitDeclaration> getInheritedTraits();
+
 }

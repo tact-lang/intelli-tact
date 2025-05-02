@@ -45,6 +45,7 @@
         <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactFieldFingerprintIndex"/>
         <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactMethodFingerprintIndex"/>
         <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactNamesIndex"/>
+        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactContractsTraitsIndex"/>
         <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactClassLikeIndex"/>
         <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactStructIndex"/>
         <stubElementTypeHolder class="org.tonstudio.tact.lang.TactTypes" externalIdPrefix="tact."/>
@@ -83,6 +84,18 @@
         <codeInsight.codeVisionSettingsPreviewLanguage modelId="references" language="tact"/>
 
         <!-- endregion CodeVision & Hints -->
+
+        <!-- region Searches -->
+        <definitionsScopedSearch implementation="org.tonstudio.tact.lang.search.TactSuperMethodSearch"/>
+        <definitionsScopedSearch implementation="org.tonstudio.tact.lang.search.TactImplementationsSearch"/>
+        <definitionsScopedSearch implementation="org.tonstudio.tact.lang.search.TactFunctionImplementationsSearch"/>
+        <codeInsight.lineMarkerProvider language="tact"
+                                        implementationClass="org.tonstudio.tact.lang.search.TactSuperMarkerProvider"/>
+        <codeInsight.lineMarkerProvider language="tact"
+                                        implementationClass="org.tonstudio.tact.lang.search.TactImplementationsProvider"/>
+        <codeInsight.gotoSuper language="tact"
+                               implementationClass="org.tonstudio.tact.lang.search.TactGotoSuperHandler"/>
+        <!--  endregion Searches -->
 
         <!-- region Code Insight -->
         <codeInsight.typeInfo language="tact" implementationClass="org.tonstudio.tact.ide.codeInsight.TactTypeInfoProvider"/>
