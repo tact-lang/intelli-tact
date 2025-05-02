@@ -39,14 +39,9 @@
         <!-- endregion Completion -->
 
         <!-- region Indexes -->
-        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactModulesIndex"/>
-        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactModulesFingerprintIndex"/>
         <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactMethodIndex"/>
-        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactFieldFingerprintIndex"/>
-        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactMethodFingerprintIndex"/>
         <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactNamesIndex"/>
         <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactContractsTraitsIndex"/>
-        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactClassLikeIndex"/>
         <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactStructIndex"/>
         <stubElementTypeHolder class="org.tonstudio.tact.lang.TactTypes" externalIdPrefix="tact."/>
         <!-- endregion Indexes -->

@@ -18,7 +18,6 @@ import org.tonstudio.tact.lang.psi.impl.TactPsiImplUtil.processNamedElements
 import org.tonstudio.tact.lang.psi.types.*
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
 import org.tonstudio.tact.lang.stubs.StubWithText
-import org.tonstudio.tact.lang.stubs.index.TactModulesIndex
 import org.tonstudio.tact.lang.stubs.index.TactNamesIndex
 import org.tonstudio.tact.toolchain.TactToolchainService.Companion.toolchainSettings
 
@@ -216,7 +215,6 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         if (!processFileEntities(file, processor, state, true)) return false
         if (!processDirectory(file.originalFile.parent, processor, state, true)) return false
         if (!processBuiltin(processor, state)) return false
-        if (!processModulesEntities(processor, state)) return false
         if (!processStubs(processor, state)) return false
 
         if (identText == "self") {
@@ -306,29 +304,6 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         element: TactCompositeElement,
     ): Boolean {
         // TODO: implement
-        return true
-    }
-
-    private fun processModulesEntities(processor: TactScopeProcessor, state: ResolveState): Boolean {
-        if (!processor.isCompletion()) {
-            // This method is only for autocompletion when a user writes
-            // a symbol (from another module) name, and we want to import
-            // the symbol, and the module that contains it.
-            return true
-        }
-
-        if (identifier?.textMatches(CompletionUtil.DUMMY_IDENTIFIER_TRIMMED) == true) {
-            return true
-        }
-
-        val modules = TactModulesIndex.getAll(element.project)
-        for (moduleFile in modules) {
-
-            if (!processFileEntities(moduleFile, processor, state, false)) {
-                return false
-            }
-        }
-
         return true
     }
 

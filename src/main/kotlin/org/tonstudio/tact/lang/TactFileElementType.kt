@@ -8,8 +8,6 @@ import com.intellij.psi.tree.IStubFileElementType
 import org.tonstudio.tact.lang.psi.TactFile
 import org.tonstudio.tact.lang.psi.TactTokenTypes.COMMENTS
 import org.tonstudio.tact.lang.stubs.TactFileStub
-import org.tonstudio.tact.lang.stubs.index.TactModulesFingerprintIndex
-import org.tonstudio.tact.lang.stubs.index.TactModulesIndex
 
 class TactFileElementType : IStubFileElementType<TactFileStub>("TACT_FILE", TactLanguage) {
     override fun getStubVersion() = VERSION
@@ -31,16 +29,6 @@ class TactFileElementType : IStubFileElementType<TactFileStub>("TACT_FILE", Tact
     override fun indexStub(stub: PsiFileStub<*>, sink: IndexSink) {
         super.indexStub(stub, sink)
         if (stub !is TactFileStub) return
-
-        val fqn = stub.getModuleQualifiedName()
-        if (fqn.isNotEmpty()) {
-            sink.occurrence(TactModulesIndex.KEY, fqn)
-        }
-
-        val name = stub.getModuleName()
-        if (name.isNotEmpty()) {
-            sink.occurrence(TactModulesFingerprintIndex.KEY, name)
-        }
     }
 
     override fun serialize(stub: TactFileStub, dataStream: StubOutputStream) {}
@@ -74,6 +62,6 @@ class TactFileElementType : IStubFileElementType<TactFileStub>("TACT_FILE", Tact
 
     companion object {
         val INSTANCE = TactFileElementType()
-        const val VERSION = 4
+        const val VERSION = 5
     }
 }
