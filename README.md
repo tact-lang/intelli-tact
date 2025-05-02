@@ -16,8 +16,6 @@ This plugin adds support of [Tact](https://tact-lang.org) language to JetBrains 
   Download the [latest release](https://github.com/tact-lang/intelli-tact/releases/latest) and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
-All the plugin's features are described in [documentation](https://plugins.jetbrains.com/plugin/20287-vlang/docs).
-
 ## License
 
 This project is under the **MIT License**. See the
