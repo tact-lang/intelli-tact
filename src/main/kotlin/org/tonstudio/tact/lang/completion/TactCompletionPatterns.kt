@@ -1,7 +1,7 @@
 package org.tonstudio.tact.lang.completion
 
 import com.intellij.patterns.PatternCondition
-import com.intellij.patterns.PlatformPatterns.psiElement
+import com.intellij.patterns.PlatformPatterns.*
 import com.intellij.patterns.PsiElementPattern
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiErrorElement
@@ -54,6 +54,17 @@ object TactCompletionPatterns {
             .notAfterDot()
             .notAfterLiteral()
 
+    /**
+     * Any declarations inside trait or contract like:
+     *
+     *     fun bar() {}
+     */
+    fun onContractTraitTopLevel(): PsiElementPattern.Capture<PsiElement> =
+        psiElement()
+            .withSuperParent(4, or(instanceOf(TactTraitDeclaration::class.java), instanceOf(TactContractDeclaration::class.java)))
+            .withSuperParent(5, TactFile::class.java)
+            .notAfterDot()
+            .notAfterLiteral()
 
     /**
      * Any place where type expected like:

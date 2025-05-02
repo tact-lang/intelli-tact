@@ -15,13 +15,13 @@ public interface TactFieldDeclaration extends TactCompositeElement, StubBasedPsi
   @NotNull
   TactFieldDefinition getFieldDefinition();
 
-  @NotNull
+  @Nullable
   TactType getType();
 
   @Nullable
   TactSemi getSemi();
 
-  @NotNull
+  @Nullable
   PsiElement getColon();
 
 }

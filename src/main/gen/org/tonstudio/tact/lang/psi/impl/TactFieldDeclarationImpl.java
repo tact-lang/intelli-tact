@@ -45,9 +45,9 @@ public class TactFieldDeclarationImpl extends TactStubbedElementImpl<TactFieldDe
   }
 
   @Override
-  @NotNull
+  @Nullable
   public TactType getType() {
-    return notNullChild(TactPsiTreeUtil.getStubChildOfType(this, TactType.class));
+    return TactPsiTreeUtil.getStubChildOfType(this, TactType.class);
   }
 
   @Override
@@ -57,9 +57,9 @@ public class TactFieldDeclarationImpl extends TactStubbedElementImpl<TactFieldDe
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getColon() {
-    return notNullChild(findChildByType(COLON));
+    return findChildByType(COLON);
   }
 
 }

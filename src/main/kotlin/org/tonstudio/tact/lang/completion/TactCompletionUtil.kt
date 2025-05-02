@@ -150,7 +150,7 @@ object TactCompletionUtil {
 
         return PrioritizedLookupElement.withPriority(
             LookupElementBuilder.createWithSmartPointer(name, element)
-                .withRenderer(ClassLikeRenderer(Icons.Struct))
+                .withRenderer(ClassLikeRenderer(Icons.Struct, needBrackets))
                 .withInsertHandler(StructInsertHandler(needBrackets)),
             0.0,
         )
@@ -164,7 +164,7 @@ object TactCompletionUtil {
 
         return PrioritizedLookupElement.withPriority(
             LookupElementBuilder.createWithSmartPointer(name, element)
-                .withRenderer(ClassLikeRenderer(Icons.Message))
+                .withRenderer(ClassLikeRenderer(Icons.Message, needBrackets))
                 .withInsertHandler(StructInsertHandler(needBrackets)),
             0.0,
         )
@@ -198,12 +198,11 @@ object TactCompletionUtil {
     }
 
     private fun createClassLikeLookupElement(
-        element: TactNamedElement, lookupString: String,
-        icon: Icon,
+        element: TactNamedElement, lookupString: String, icon: Icon,
     ): LookupElement {
         return PrioritizedLookupElement.withPriority(
             LookupElementBuilder.createWithSmartPointer(lookupString, element)
-                .withRenderer(ClassLikeRenderer(icon))
+                .withRenderer(ClassLikeRenderer(icon, false))
                 .withInsertHandler(ClassLikeInsertHandler(false)),
             0.0,
         )
@@ -416,13 +415,13 @@ object TactCompletionUtil {
         }
     }
 
-    class ClassLikeRenderer(private val icon: Icon) : ElementRenderer() {
+    class ClassLikeRenderer(private val icon: Icon, private val needBraces: Boolean) : ElementRenderer() {
         override fun render(element: LookupElement, p: LookupElementPresentation) {
             p.icon = icon
             p.itemText = element.lookupString
 
             if (icon == Icons.Struct || icon == Icons.Message) {
-                p.tailText = " {}"
+                p.tailText = if (needBraces) " {}" else ""
             }
         }
     }

@@ -297,13 +297,11 @@ private ContractParameterList ::= FieldDeclaration (',' (FieldDeclaration | &')'
 
 
 private MemberItem ::=
-    FieldDeclaration
-  | ConstDeclaration
+    ConstDeclaration
   | ContractInitDeclaration
   | MessageFunctionDeclaration
   | FunctionDeclaration
-  // TODO: FunctionDeclaration without body
-  // TODO: ConstDeclaration without body
+  | FieldDeclaration
 
 ConstantModifier ::= virtual | override | abstract
 ConstDeclaration ::= ConstantModifier* const ConstDefinition ';' {pin=2}
@@ -375,10 +373,12 @@ StructType ::= struct identifier '{' FieldDeclaration* '}' {
 }
 
 FieldDeclaration ::= FieldDefinition ':' Type DefaultFieldValue? semi? {
+  pin=1
   stubClass="org.tonstudio.tact.lang.stubs.TactFieldDeclarationStub"
 }
 DefaultFieldValue ::= '=' Expression {pin=1}
 FieldDefinition ::= identifier {
+  pin=1
   methods=[getQualifier getQualifiedName getTypeInner getOwner]
   stubClass="org.tonstudio.tact.lang.stubs.TactFieldDefinitionStub"
 }
