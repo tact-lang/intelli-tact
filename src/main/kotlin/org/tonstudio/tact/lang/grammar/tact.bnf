@@ -496,11 +496,11 @@ private MaxGroup ::=
     DotExpression
   | Literal
 
-TypeExtra ::= '?' | Tlb // TODO: proper support
+TypeExtra ::= '?' | Tlb
 
 Tlb ::= as TypeReferenceExpression
 
-Type ::= (TypeLit | TypeName) TypeExtra? {
+Type ::= (TypeLit | TypeName) TypeExtra* {
   stubClass="org.tonstudio.tact.lang.stubs.TactTypeStub"
   methods=[getIdentifier resolveType]
 }

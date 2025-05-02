@@ -269,18 +269,14 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun resolveType(type: TactType): Pair<TactType, TactTypeExtra?> {
+    fun resolveType(type: TactType): Pair<TactType, List<TactTypeExtra>> {
         if (isConcreteType(type)) {
-            return type to null
+            return type to emptyList()
         }
 
-        val resolved = type.typeReferenceExpression?.resolve() ?: return type to null
+        val resolved = type.typeReferenceExpression?.resolve() ?: return type to emptyList()
         val resolvedType = elementToType(resolved) ?: type
-        val extra = type.lastChild
-        if (extra != null && extra is TactTypeExtra) {
-            return resolvedType to extra
-        }
-        return resolvedType to null
+        return resolvedType to type.typeExtraList
     }
 
     private fun elementToType(resolved: PsiElement): TactType? = when (resolved) {

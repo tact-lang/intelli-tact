@@ -40,9 +40,9 @@ public class TactTypeImpl extends TactStubbedElementImpl<TactTypeStub> implement
   }
 
   @Override
-  @Nullable
-  public TactTypeExtra getTypeExtra() {
-    return TactPsiTreeUtil.getChildOfType(this, TactTypeExtra.class);
+  @NotNull
+  public List<TactTypeExtra> getTypeExtraList() {
+    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactTypeExtra.class);
   }
 
   @Override
@@ -59,7 +59,7 @@ public class TactTypeImpl extends TactStubbedElementImpl<TactTypeStub> implement
 
   @Override
   @NotNull
-  public Pair<TactType, TactTypeExtra> resolveType() {
+  public Pair<TactType, List<TactTypeExtra>> resolveType() {
     return TactPsiImplUtil.resolveType(this);
   }
 

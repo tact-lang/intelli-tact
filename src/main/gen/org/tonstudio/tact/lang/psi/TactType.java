@@ -13,8 +13,8 @@ public interface TactType extends TactCompositeElement, StubBasedPsiElement<Tact
   @Nullable
   TactType getType();
 
-  @Nullable
-  TactTypeExtra getTypeExtra();
+  @NotNull
+  List<TactTypeExtra> getTypeExtraList();
 
   @Nullable
   TactTypeReferenceExpression getTypeReferenceExpression();
@@ -23,6 +23,6 @@ public interface TactType extends TactCompositeElement, StubBasedPsiElement<Tact
   PsiElement getIdentifier();
 
   @NotNull
-  Pair<TactType, TactTypeExtra> resolveType();
+  Pair<TactType, List<TactTypeExtra>> resolveType();
 
 }

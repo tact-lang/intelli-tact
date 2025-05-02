@@ -189,17 +189,30 @@ abstract class TactBaseTypeEx(protected val anchor: PsiElement? = null) : UserDa
             }
         }
 
-        private fun withExtra(type: TactTypeEx, extra: TactTypeExtra?): TactTypeEx {
-            if (extra == null) {
+        private fun withExtra(type: TactTypeEx, extra: List<TactTypeExtra>): TactTypeEx {
+            if (extra.isEmpty()) {
                 return type
             }
 
-            if (extra.question != null) {
-                val anchor = type.anchor(extra.project) ?: return type
-                return TactOptionTypeEx(type, anchor)
+            var resultType = type
+
+            extra.forEach { extraType ->
+                if (extraType.question != null) {
+                    val anchor = type.anchor(extraType.project) ?: return@forEach
+                    resultType = TactOptionTypeEx(type, anchor)
+                }
+
+                if (extraType.tlb != null) {
+                    val tlb = extraType.tlb ?: return@forEach
+                    val ref = tlb.typeReferenceExpression
+                    val typeName = ref.text
+                    if (type is TactPrimitiveTypeEx) {
+                        type.tlbType = typeName
+                    }
+                }
             }
 
-            return type
+            return resultType
         }
 
         private fun parentName(type: PsiElement) = (type.parent as TactNamedElement).name!!

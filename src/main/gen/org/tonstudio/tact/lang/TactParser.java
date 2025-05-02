@@ -2647,7 +2647,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (TypeLit | TypeName) TypeExtra?
+  // (TypeLit | TypeName) TypeExtra*
   public static boolean Type(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Type")) return false;
     boolean r;
@@ -2667,10 +2667,14 @@ public class TactParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // TypeExtra?
+  // TypeExtra*
   private static boolean Type_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Type_1")) return false;
-    TypeExtra(b, l + 1);
+    while (true) {
+      int c = current_position_(b);
+      if (!TypeExtra(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "Type_1", c)) break;
+    }
     return true;
   }
 
