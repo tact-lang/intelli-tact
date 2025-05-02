@@ -24,14 +24,15 @@ class TactAnnotator : Annotator {
     private fun highlightLeaf(element: PsiElement): TactColor? {
         val parent = element.parent as? TactCompositeElement ?: return null
 
-        if (element.elementType == TactTypes.IDENTIFIER && parent is TactReferenceExpressionBase && parent.reference != null) {
+        if (
+            element.elementType == TactTypes.IDENTIFIER &&
+            parent is TactReferenceExpressionBase &&
+            parent.reference != null
+        ) {
             return highlightReference(parent, parent.reference as TactReference)
         }
 
-        return when (element.elementType) {
-            TactTypes.IDENTIFIER -> null
-            else                 -> null
-        }
+        return null
     }
 
     private fun highlightReference(
