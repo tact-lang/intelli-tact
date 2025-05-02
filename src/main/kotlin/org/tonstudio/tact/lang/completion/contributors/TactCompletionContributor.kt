@@ -6,6 +6,7 @@ import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.completion.CompletionType
 import org.tonstudio.tact.lang.completion.TactCompletionPatterns.cachedReferenceExpression
 import org.tonstudio.tact.lang.completion.TactCompletionPatterns.onContractTraitTopLevel
+import org.tonstudio.tact.lang.completion.TactCompletionPatterns.onStatement
 import org.tonstudio.tact.lang.completion.TactCompletionPatterns.referenceExpression
 import org.tonstudio.tact.lang.completion.providers.*
 import org.tonstudio.tact.lang.completion.sort.withTactSorter
@@ -17,6 +18,8 @@ class TactCompletionContributor : CompletionContributor() {
 
         extend(CompletionType.BASIC, onContractTraitTopLevel(), ReceiversCompletionProvider)
         extend(CompletionType.BASIC, onContractTraitTopLevel(), ContractInitCompletionProvider)
+
+        extend(CompletionType.BASIC, onStatement(), ReturnCompletionProvider)
     }
 
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
