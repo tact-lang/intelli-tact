@@ -1,9 +1,5 @@
 package org.tonstudio.tact.lang.psi
 
-import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
-import org.tonstudio.tact.lang.psi.types.TactTraitTypeEx
-import org.tonstudio.tact.lang.stubs.index.TactNamesIndex
-
 interface TactStorageMembersOwner : TactCompositeElement {
     val name: String?
 
@@ -16,30 +12,14 @@ interface TactStorageMembersOwner : TactCompositeElement {
 
 fun TactStorageMembersOwner.methods(): List<TactFunctionDeclaration> {
     val own = getMethodsList()
-    val inherited = inheritTraits().flatMap { it.getMethodsList() }
+    val inherited = getInheritedTraits().flatMap { it.traitType.getMethodsList() }
     return own + inherited
 }
 
 fun TactStorageMembersOwner.fields(): List<TactFieldDefinition> {
     val own = getFieldList()
-    val inherited = inheritTraits().flatMap { it.getFieldList() }
+    val inherited = getInheritedTraits().flatMap { it.traitType.getFieldList() }
     return own + inherited
-}
-
-fun TactStorageMembersOwner.inheritTraits(): List<TactTraitType> {
-    if (this.name() == "BaseTrait") {
-        return emptyList()
-    }
-
-    val baseTrait = TactNamesIndex.find("BaseTrait", project, null).firstOrNull() as? TactTraitDeclaration ?: return emptyList()
-
-    val inheritedTraitsList = this.getWithClause()?.typeList ?: return emptyList()
-    val inheritedTraits = inheritedTraitsList
-        .map { it.toEx() }
-        .filterIsInstance<TactTraitTypeEx>()
-        .mapNotNull { it.resolve(project)?.traitType }
-
-    return inheritedTraits + baseTrait.traitType
 }
 
 fun TactStorageMembersOwner.name(): String {
