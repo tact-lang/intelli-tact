@@ -252,6 +252,11 @@ fun TactMessageDeclaration.generateDoc(): String {
 }
 
 private fun StringBuilder.generateFields(fields: List<TactFieldDeclaration>) {
+    if (fields.isEmpty()) {
+        colorize(" {}", asBraces)
+        return
+    }
+
     colorize(" {", asBraces)
     appendLine()
     append(
