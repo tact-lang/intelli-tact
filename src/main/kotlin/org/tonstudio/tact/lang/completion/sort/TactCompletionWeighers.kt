@@ -9,7 +9,7 @@ import com.intellij.codeInsight.lookup.LookupElementWeigher
 import org.tonstudio.tact.lang.completion.TactLookupElement
 import org.tonstudio.tact.lang.completion.TactLookupElementProperties
 
-val SPAWN_COMPLETION_WEIGHERS: List<Any> = listOf(
+val TACT_COMPLETION_WEIGHERS: List<Any> = listOf(
     /**
      * Based on the value passed via [com.intellij.codeInsight.completion.PrioritizedLookupElement.withPriority].
      * Unused in our case.
@@ -45,12 +45,12 @@ val SPAWN_COMPLETION_WEIGHERS: List<Any> = listOf(
     "proximity",
 )
 
-val SPAWN_COMPLETION_WEIGHERS_GROUPED: List<AnchoredWeigherGroup> = splitIntoGroups(SPAWN_COMPLETION_WEIGHERS)
+val TACT_COMPLETION_WEIGHERS_GROUPED: List<AnchoredWeigherGroup> = splitIntoGroups(TACT_COMPLETION_WEIGHERS)
 
 fun withTactSorter(parameters: CompletionParameters, result: CompletionResultSet): CompletionResultSet {
     var sorter = (CompletionSorter.defaultSorter(parameters, result.prefixMatcher) as CompletionSorterImpl)
         .withoutClassifiers { it.id == "liftShorter" }
-    for (weigherGroups in SPAWN_COMPLETION_WEIGHERS_GROUPED) {
+    for (weigherGroups in TACT_COMPLETION_WEIGHERS_GROUPED) {
         sorter = sorter.weighAfter(weigherGroups.anchor, *weigherGroups.weighers)
     }
     return result.withRelevanceSorter(sorter)
