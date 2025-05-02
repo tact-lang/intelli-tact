@@ -2417,6 +2417,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   // !(
   //     inline |
   //     extends |
+  //     mutates |
   //     message |
   //     primitive |
   //     contract |
@@ -2465,6 +2466,7 @@ public class TactParser implements PsiParser, LightPsiParser {
 
   // inline |
   //     extends |
+  //     mutates |
   //     message |
   //     primitive |
   //     contract |
@@ -2506,6 +2508,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     boolean r;
     r = consumeToken(b, INLINE);
     if (!r) r = consumeToken(b, EXTENDS);
+    if (!r) r = consumeToken(b, MUTATES);
     if (!r) r = consumeToken(b, MESSAGE);
     if (!r) r = consumeToken(b, PRIMITIVE);
     if (!r) r = consumeToken(b, CONTRACT);
@@ -2839,11 +2842,11 @@ public class TactParser implements PsiParser, LightPsiParser {
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, VAR_DECLARATION, null);
     r = consumeToken(b, LET);
-    p = r; // pin = 1
-    r = r && report_error_(b, VarDefinition(b, l + 1));
-    r = p && report_error_(b, VarDeclaration_2(b, l + 1)) && r;
-    r = p && report_error_(b, consumeToken(b, ASSIGN)) && r;
-    r = p && report_error_(b, Expression(b, l + 1, -1)) && r;
+    r = r && VarDefinition(b, l + 1);
+    r = r && VarDeclaration_2(b, l + 1);
+    r = r && consumeToken(b, ASSIGN);
+    p = r; // pin = 4
+    r = r && report_error_(b, Expression(b, l + 1, -1));
     r = p && consumeToken(b, SEMICOLON) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;

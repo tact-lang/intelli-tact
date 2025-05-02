@@ -122,6 +122,7 @@ private TopDeclaration ::=
 private TopLevelDeclarationRecover ::= !(
     inline |
     extends |
+    mutates |
     message |
     primitive |
     contract |
@@ -259,7 +260,7 @@ SimpleStatement ::=
 private ExpressionStatement ::= Expression ';' {pin=1}
 private AssignStatement     ::= Expression AssignmentStatement ';' {pin=2}
 
-VarDeclaration ::= let VarDefinition TypeHint? '=' Expression ';' {pin=1}
+VarDeclaration ::= let VarDefinition TypeHint? '=' Expression ';' {pin=4}
 
 TypeHint ::= ':' Type
 

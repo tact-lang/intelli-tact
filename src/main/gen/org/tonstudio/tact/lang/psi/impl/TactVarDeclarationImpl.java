@@ -39,15 +39,15 @@ public class TactVarDeclarationImpl extends TactCompositeElementImpl implements 
   }
 
   @Override
-  @Nullable
+  @NotNull
   public TactVarDefinition getVarDefinition() {
-    return TactPsiTreeUtil.getChildOfType(this, TactVarDefinition.class);
+    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactVarDefinition.class));
   }
 
   @Override
-  @Nullable
+  @NotNull
   public PsiElement getAssign() {
-    return findChildByType(ASSIGN);
+    return notNullChild(findChildByType(ASSIGN));
   }
 
   @Override

@@ -13,10 +13,10 @@ public interface TactVarDeclaration extends TactCompositeElement {
   @Nullable
   TactTypeHint getTypeHint();
 
-  @Nullable
+  @NotNull
   TactVarDefinition getVarDefinition();
 
-  @Nullable
+  @NotNull
   PsiElement getAssign();
 
   @Nullable
