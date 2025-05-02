@@ -16,6 +16,7 @@ class TactCompletionContributor : CompletionContributor() {
         extend(CompletionType.BASIC, cachedReferenceExpression(), ReferenceCompletionProvider)
 
         extend(CompletionType.BASIC, onContractTraitTopLevel(), ReceiversCompletionProvider)
+        extend(CompletionType.BASIC, onContractTraitTopLevel(), ContractInitCompletionProvider)
     }
 
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
