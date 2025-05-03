@@ -71,6 +71,8 @@
     BIT_OR               =  '|'
     BIT_XOR              =  '^'
     BIT_NOT              =  '~'
+    EMPTY_BOC_LITERAL    =  '<b b>'
+    TO_BOC_FIFT          =  'B>boc'
   ]
 
   extends("(Or|And|Add|Conversion|Mul|Selector|Conditional)Expr")=BinaryExpr
@@ -467,7 +469,7 @@ NativeFunctionDeclaration ::= Attributes? FunctionAttribute* native identifier S
 
 AsmHeader ::= 'asm' AsmShuffle? {pin=1}
 
-AsmFunctionDeclaration ::= AsmHeader FunctionAttribute* fun identifier Signature '{' AsmInstruction* '}' {
+AsmFunctionDeclaration ::= AsmHeader FunctionAttribute* fun identifier Signature '{' AsmExpression* '}' {
   pin=1
   stubClass="org.tonstudio.tact.lang.stubs.TactAsmFunctionDeclarationStub"
   methods=[getTypeInner]
@@ -475,22 +477,45 @@ AsmFunctionDeclaration ::= AsmHeader FunctionAttribute* fun identifier Signature
 
 AsmShuffle ::= '(' ReferenceExpression* ('->' int+)? ')'
 
-AsmInstruction ::=
-      Literal
+AsmExpression ::= AsmArguments AsmInstruction
+
+AsmArguments ::= AsmPrimitive*
+
+AsmPrimitive ::=
+      AsmSequence
+    | AsmString
+    | AsmHexBitstring
+    | AsmBinBitstring
+    | AsmBocHex
+    | AsmControlRegister
+    | AsmStackElement
+    | AsmInteger
     | AsmCreateBuilder
     | AsmToCellBuilder
-    | AsmHexLiteral
-    | AsmBinLiteral
     | AsmStoreSlice
-    | AsmBLock
-    | identifier
+
+AsmSequence ::= '<''{' AsmExpression* ('}''>' ('c' | 's' | 'CONT')? | )
+
+AsmString ::= ('abort' | '.' | '+') StringLiteral
+
+AsmHexBitstring ::= HEX_LITERAL
+AsmBinBitstring ::= BIN_LITERAL
+AsmBocHex       ::= (BOC_LITERAL | EMPTY_BOC_LITERAL) TO_BOC_FIFT?
+
+AsmControlRegister ::= 'c0' | 'c1' | 'c2' | 'c3' | 'c4' | 'c5' | 'c6' | 'c7'
+AsmStackElement    ::= 's0' | 's1' | 's2' | 's3' | 's4' | 's5' | 's6' | 's7' | 's8' | 's9' | 's10' | 's11' | 's12' | 's13' | 's14' | 's15' | 's()' | 's(-1)' | 's(-2)' | 's(-3)' | 's(-4)'
+
+AsmInteger ::=
+      int
+    | hex
+    | oct
+    | bin
 
 AsmCreateBuilder ::= '<''b'
 AsmToCellBuilder ::= 'b''>'
-AsmHexLiteral ::= HEX_LITERAL
-AsmBinLiteral ::= BIN_LITERAL
 AsmStoreSlice ::= 's'','
-AsmBLock ::= '<''{' AsmInstruction* '}''>'
+
+AsmInstruction ::= identifier
 
 Expression ::=
     OrExpr

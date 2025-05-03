@@ -12,10 +12,10 @@ import org.tonstudio.tact.lang.psi.types.TactTypeEx;
 public interface TactAsmFunctionDeclaration extends TactNamedElement, TactSignatureOwner, StubBasedPsiElement<TactAsmFunctionDeclarationStub> {
 
   @NotNull
-  TactAsmHeader getAsmHeader();
+  List<TactAsmExpression> getAsmExpressionList();
 
   @NotNull
-  List<TactAsmInstruction> getAsmInstructionList();
+  TactAsmHeader getAsmHeader();
 
   @NotNull
   List<TactFunctionAttribute> getFunctionAttributeList();

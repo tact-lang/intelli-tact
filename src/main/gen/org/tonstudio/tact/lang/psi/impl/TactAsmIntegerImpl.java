@@ -10,14 +10,14 @@ import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
-public class TactAsmBLockImpl extends TactCompositeElementImpl implements TactAsmBLock {
+public class TactAsmIntegerImpl extends TactCompositeElementImpl implements TactAsmInteger {
 
-  public TactAsmBLockImpl(@NotNull ASTNode node) {
+  public TactAsmIntegerImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull TactVisitor visitor) {
-    visitor.visitAsmBLock(this);
+    visitor.visitAsmInteger(this);
   }
 
   @Override
@@ -27,33 +27,27 @@ public class TactAsmBLockImpl extends TactCompositeElementImpl implements TactAs
   }
 
   @Override
-  @NotNull
-  public List<TactAsmInstruction> getAsmInstructionList() {
-    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactAsmInstruction.class);
+  @Nullable
+  public PsiElement getBin() {
+    return findChildByType(BIN);
   }
 
   @Override
-  @NotNull
-  public PsiElement getGreater() {
-    return notNullChild(findChildByType(GREATER));
+  @Nullable
+  public PsiElement getHex() {
+    return findChildByType(HEX);
   }
 
   @Override
-  @NotNull
-  public PsiElement getLbrace() {
-    return notNullChild(findChildByType(LBRACE));
+  @Nullable
+  public PsiElement getInt() {
+    return findChildByType(INT);
   }
 
   @Override
-  @NotNull
-  public PsiElement getLess() {
-    return notNullChild(findChildByType(LESS));
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getRbrace() {
-    return notNullChild(findChildByType(RBRACE));
+  @Nullable
+  public PsiElement getOct() {
+    return findChildByType(OCT);
   }
 
 }

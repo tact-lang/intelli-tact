@@ -10,27 +10,20 @@ import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
-public class TactAsmHexLiteralImpl extends TactExpressionImpl implements TactAsmHexLiteral {
+public class TactAsmControlRegisterImpl extends TactCompositeElementImpl implements TactAsmControlRegister {
 
-  public TactAsmHexLiteralImpl(@NotNull ASTNode node) {
+  public TactAsmControlRegisterImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull TactVisitor visitor) {
-    visitor.visitAsmHexLiteral(this);
+    visitor.visitAsmControlRegister(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof TactVisitor) accept((TactVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getHexLiteral() {
-    return notNullChild(findChildByType(HEX_LITERAL));
   }
 
 }

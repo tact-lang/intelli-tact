@@ -10,14 +10,14 @@ import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
-public class TactAsmInstructionImpl extends TactCompositeElementImpl implements TactAsmInstruction {
+public class TactAsmHexBitstringImpl extends TactCompositeElementImpl implements TactAsmHexBitstring {
 
-  public TactAsmInstructionImpl(@NotNull ASTNode node) {
+  public TactAsmHexBitstringImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull TactVisitor visitor) {
-    visitor.visitAsmInstruction(this);
+    visitor.visitAsmHexBitstring(this);
   }
 
   @Override
@@ -28,8 +28,8 @@ public class TactAsmInstructionImpl extends TactCompositeElementImpl implements 
 
   @Override
   @NotNull
-  public PsiElement getIdentifier() {
-    return notNullChild(findChildByType(IDENTIFIER));
+  public PsiElement getHexLiteral() {
+    return notNullChild(findChildByType(HEX_LITERAL));
   }
 
 }

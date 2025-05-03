@@ -19,15 +19,27 @@ public class TactVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
-  public void visitAsmBLock(@NotNull TactAsmBLock o) {
+  public void visitAsmArguments(@NotNull TactAsmArguments o) {
     visitCompositeElement(o);
   }
 
-  public void visitAsmBinLiteral(@NotNull TactAsmBinLiteral o) {
-    visitExpression(o);
+  public void visitAsmBinBitstring(@NotNull TactAsmBinBitstring o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitAsmBocHex(@NotNull TactAsmBocHex o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitAsmControlRegister(@NotNull TactAsmControlRegister o) {
+    visitCompositeElement(o);
   }
 
   public void visitAsmCreateBuilder(@NotNull TactAsmCreateBuilder o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitAsmExpression(@NotNull TactAsmExpression o) {
     visitCompositeElement(o);
   }
 
@@ -40,11 +52,23 @@ public class TactVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
-  public void visitAsmHexLiteral(@NotNull TactAsmHexLiteral o) {
-    visitExpression(o);
+  public void visitAsmHexBitstring(@NotNull TactAsmHexBitstring o) {
+    visitCompositeElement(o);
   }
 
   public void visitAsmInstruction(@NotNull TactAsmInstruction o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitAsmInteger(@NotNull TactAsmInteger o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitAsmPrimitive(@NotNull TactAsmPrimitive o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitAsmSequence(@NotNull TactAsmSequence o) {
     visitCompositeElement(o);
   }
 
@@ -52,7 +76,15 @@ public class TactVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitAsmStackElement(@NotNull TactAsmStackElement o) {
+    visitCompositeElement(o);
+  }
+
   public void visitAsmStoreSlice(@NotNull TactAsmStoreSlice o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitAsmString(@NotNull TactAsmString o) {
     visitCompositeElement(o);
   }
 

@@ -10,15 +10,14 @@ import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
-public class TactAsmBinLiteralImpl extends TactExpressionImpl implements TactAsmBinLiteral {
+public class TactAsmArgumentsImpl extends TactCompositeElementImpl implements TactAsmArguments {
 
-  public TactAsmBinLiteralImpl(@NotNull ASTNode node) {
+  public TactAsmArgumentsImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull TactVisitor visitor) {
-    visitor.visitAsmBinLiteral(this);
+    visitor.visitAsmArguments(this);
   }
 
   @Override
@@ -29,8 +28,8 @@ public class TactAsmBinLiteralImpl extends TactExpressionImpl implements TactAsm
 
   @Override
   @NotNull
-  public PsiElement getBinLiteral() {
-    return notNullChild(findChildByType(BIN_LITERAL));
+  public List<TactAsmPrimitive> getAsmPrimitiveList() {
+    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactAsmPrimitive.class);
   }
 
 }

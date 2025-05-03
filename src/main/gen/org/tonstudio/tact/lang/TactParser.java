@@ -42,11 +42,11 @@ public class TactParser implements PsiParser, LightPsiParser {
     create_token_set_(ASSIGNMENT_STATEMENT, FOR_EACH_STATEMENT, IF_STATEMENT, REPEAT_STATEMENT,
       RETURN_STATEMENT, SIMPLE_STATEMENT, STATEMENT, TRY_STATEMENT,
       UNTIL_STATEMENT, WHILE_STATEMENT),
-    create_token_set_(ADD_EXPR, AND_EXPR, ASM_BIN_LITERAL, ASM_HEX_LITERAL,
-      CALL_EXPR, CODE_OF_EXPR, CONDITIONAL_EXPR, DOT_EXPRESSION,
-      EXPRESSION, INIT_OF_EXPR, LITERAL, LITERAL_VALUE_EXPRESSION,
-      MUL_EXPR, OR_EXPR, PARENTHESES_EXPR, REFERENCE_EXPRESSION,
-      STRING_LITERAL, TERNARY_EXPR, UNARY_EXPR),
+    create_token_set_(ADD_EXPR, AND_EXPR, CALL_EXPR, CODE_OF_EXPR,
+      CONDITIONAL_EXPR, DOT_EXPRESSION, EXPRESSION, INIT_OF_EXPR,
+      LITERAL, LITERAL_VALUE_EXPRESSION, MUL_EXPR, OR_EXPR,
+      PARENTHESES_EXPR, REFERENCE_EXPRESSION, STRING_LITERAL, TERNARY_EXPR,
+      UNARY_EXPR),
   };
 
   /* ********************************************************** */
@@ -92,39 +92,75 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // '<''{' AsmInstruction* '}''>'
-  public static boolean AsmBLock(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "AsmBLock")) return false;
-    if (!nextTokenIs(b, LESS)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, LESS, LBRACE);
-    r = r && AsmBLock_2(b, l + 1);
-    r = r && consumeTokens(b, 0, RBRACE, GREATER);
-    exit_section_(b, m, ASM_B_LOCK, r);
-    return r;
-  }
-
-  // AsmInstruction*
-  private static boolean AsmBLock_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "AsmBLock_2")) return false;
+  // AsmPrimitive*
+  public static boolean AsmArguments(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmArguments")) return false;
+    Marker m = enter_section_(b, l, _NONE_, ASM_ARGUMENTS, "<asm arguments>");
     while (true) {
       int c = current_position_(b);
-      if (!AsmInstruction(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "AsmBLock_2", c)) break;
+      if (!AsmPrimitive(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "AsmArguments", c)) break;
     }
+    exit_section_(b, l, m, true, false, null);
     return true;
   }
 
   /* ********************************************************** */
   // BIN_LITERAL
-  public static boolean AsmBinLiteral(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "AsmBinLiteral")) return false;
+  public static boolean AsmBinBitstring(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmBinBitstring")) return false;
     if (!nextTokenIs(b, BIN_LITERAL)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, BIN_LITERAL);
-    exit_section_(b, m, ASM_BIN_LITERAL, r);
+    exit_section_(b, m, ASM_BIN_BITSTRING, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // (BOC_LITERAL | EMPTY_BOC_LITERAL) TO_BOC_FIFT?
+  public static boolean AsmBocHex(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmBocHex")) return false;
+    if (!nextTokenIs(b, "<asm boc hex>", BOC_LITERAL, EMPTY_BOC_LITERAL)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ASM_BOC_HEX, "<asm boc hex>");
+    r = AsmBocHex_0(b, l + 1);
+    r = r && AsmBocHex_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // BOC_LITERAL | EMPTY_BOC_LITERAL
+  private static boolean AsmBocHex_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmBocHex_0")) return false;
+    boolean r;
+    r = consumeToken(b, BOC_LITERAL);
+    if (!r) r = consumeToken(b, EMPTY_BOC_LITERAL);
+    return r;
+  }
+
+  // TO_BOC_FIFT?
+  private static boolean AsmBocHex_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmBocHex_1")) return false;
+    consumeToken(b, TO_BOC_FIFT);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // 'c0' | 'c1' | 'c2' | 'c3' | 'c4' | 'c5' | 'c6' | 'c7'
+  public static boolean AsmControlRegister(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmControlRegister")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ASM_CONTROL_REGISTER, "<asm control register>");
+    r = consumeToken(b, "c0");
+    if (!r) r = consumeToken(b, "c1");
+    if (!r) r = consumeToken(b, "c2");
+    if (!r) r = consumeToken(b, "c3");
+    if (!r) r = consumeToken(b, "c4");
+    if (!r) r = consumeToken(b, "c5");
+    if (!r) r = consumeToken(b, "c6");
+    if (!r) r = consumeToken(b, "c7");
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -142,7 +178,19 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // AsmHeader FunctionAttribute* fun identifier Signature '{' AsmInstruction* '}'
+  // AsmArguments AsmInstruction
+  public static boolean AsmExpression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmExpression")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ASM_EXPRESSION, "<asm expression>");
+    r = AsmArguments(b, l + 1);
+    r = r && AsmInstruction(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // AsmHeader FunctionAttribute* fun identifier Signature '{' AsmExpression* '}'
   public static boolean AsmFunctionDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "AsmFunctionDeclaration")) return false;
     boolean r, p;
@@ -170,12 +218,12 @@ public class TactParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // AsmInstruction*
+  // AsmExpression*
   private static boolean AsmFunctionDeclaration_6(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "AsmFunctionDeclaration_6")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!AsmInstruction(b, l + 1)) break;
+      if (!AsmExpression(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "AsmFunctionDeclaration_6", c)) break;
     }
     return true;
@@ -203,38 +251,137 @@ public class TactParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // HEX_LITERAL
-  public static boolean AsmHexLiteral(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "AsmHexLiteral")) return false;
+  public static boolean AsmHexBitstring(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmHexBitstring")) return false;
     if (!nextTokenIs(b, HEX_LITERAL)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, HEX_LITERAL);
-    exit_section_(b, m, ASM_HEX_LITERAL, r);
+    exit_section_(b, m, ASM_HEX_BITSTRING, r);
     return r;
   }
 
   /* ********************************************************** */
-  // Literal
-  //     | AsmCreateBuilder
-  //     | AsmToCellBuilder
-  //     | AsmHexLiteral
-  //     | AsmBinLiteral
-  //     | AsmStoreSlice
-  //     | AsmBLock
-  //     | identifier
+  // identifier
   public static boolean AsmInstruction(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "AsmInstruction")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ASM_INSTRUCTION, "<asm instruction>");
-    r = Literal(b, l + 1);
+    Marker m = enter_section_(b);
+    r = consumeToken(b, IDENTIFIER);
+    exit_section_(b, m, ASM_INSTRUCTION, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // int
+  //     | hex
+  //     | oct
+  //     | bin
+  public static boolean AsmInteger(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmInteger")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ASM_INTEGER, "<asm integer>");
+    r = consumeToken(b, INT);
+    if (!r) r = consumeToken(b, HEX);
+    if (!r) r = consumeToken(b, OCT);
+    if (!r) r = consumeToken(b, BIN);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // AsmSequence
+  //     | AsmString
+  //     | AsmHexBitstring
+  //     | AsmBinBitstring
+  //     | AsmBocHex
+  //     | AsmControlRegister
+  //     | AsmStackElement
+  //     | AsmInteger
+  //     | AsmCreateBuilder
+  //     | AsmToCellBuilder
+  //     | AsmStoreSlice
+  public static boolean AsmPrimitive(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmPrimitive")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ASM_PRIMITIVE, "<asm primitive>");
+    r = AsmSequence(b, l + 1);
+    if (!r) r = AsmString(b, l + 1);
+    if (!r) r = AsmHexBitstring(b, l + 1);
+    if (!r) r = AsmBinBitstring(b, l + 1);
+    if (!r) r = AsmBocHex(b, l + 1);
+    if (!r) r = AsmControlRegister(b, l + 1);
+    if (!r) r = AsmStackElement(b, l + 1);
+    if (!r) r = AsmInteger(b, l + 1);
     if (!r) r = AsmCreateBuilder(b, l + 1);
     if (!r) r = AsmToCellBuilder(b, l + 1);
-    if (!r) r = AsmHexLiteral(b, l + 1);
-    if (!r) r = AsmBinLiteral(b, l + 1);
     if (!r) r = AsmStoreSlice(b, l + 1);
-    if (!r) r = AsmBLock(b, l + 1);
-    if (!r) r = consumeToken(b, IDENTIFIER);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // '<''{' AsmExpression* ('}''>' ('c' | 's' | 'CONT')? | )
+  public static boolean AsmSequence(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmSequence")) return false;
+    if (!nextTokenIs(b, LESS)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, LESS, LBRACE);
+    r = r && AsmSequence_2(b, l + 1);
+    r = r && AsmSequence_3(b, l + 1);
+    exit_section_(b, m, ASM_SEQUENCE, r);
+    return r;
+  }
+
+  // AsmExpression*
+  private static boolean AsmSequence_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmSequence_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!AsmExpression(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "AsmSequence_2", c)) break;
+    }
+    return true;
+  }
+
+  // '}''>' ('c' | 's' | 'CONT')? | 
+  private static boolean AsmSequence_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmSequence_3")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = AsmSequence_3_0(b, l + 1);
+    if (!r) r = consumeToken(b, ASMSEQUENCE_3_1_0);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // '}''>' ('c' | 's' | 'CONT')?
+  private static boolean AsmSequence_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmSequence_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, RBRACE, GREATER);
+    r = r && AsmSequence_3_0_2(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // ('c' | 's' | 'CONT')?
+  private static boolean AsmSequence_3_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmSequence_3_0_2")) return false;
+    AsmSequence_3_0_2_0(b, l + 1);
+    return true;
+  }
+
+  // 'c' | 's' | 'CONT'
+  private static boolean AsmSequence_3_0_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmSequence_3_0_2_0")) return false;
+    boolean r;
+    r = consumeToken(b, "c");
+    if (!r) r = consumeToken(b, "s");
+    if (!r) r = consumeToken(b, "CONT");
     return r;
   }
 
@@ -298,6 +445,37 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // 's0' | 's1' | 's2' | 's3' | 's4' | 's5' | 's6' | 's7' | 's8' | 's9' | 's10' | 's11' | 's12' | 's13' | 's14' | 's15' | 's()' | 's(-1)' | 's(-2)' | 's(-3)' | 's(-4)'
+  public static boolean AsmStackElement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmStackElement")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ASM_STACK_ELEMENT, "<asm stack element>");
+    r = consumeToken(b, "s0");
+    if (!r) r = consumeToken(b, "s1");
+    if (!r) r = consumeToken(b, "s2");
+    if (!r) r = consumeToken(b, "s3");
+    if (!r) r = consumeToken(b, "s4");
+    if (!r) r = consumeToken(b, "s5");
+    if (!r) r = consumeToken(b, "s6");
+    if (!r) r = consumeToken(b, "s7");
+    if (!r) r = consumeToken(b, "s8");
+    if (!r) r = consumeToken(b, "s9");
+    if (!r) r = consumeToken(b, "s10");
+    if (!r) r = consumeToken(b, "s11");
+    if (!r) r = consumeToken(b, "s12");
+    if (!r) r = consumeToken(b, "s13");
+    if (!r) r = consumeToken(b, "s14");
+    if (!r) r = consumeToken(b, "s15");
+    if (!r) r = consumeToken(b, "s()");
+    if (!r) r = consumeToken(b, "s(-1)");
+    if (!r) r = consumeToken(b, "s(-2)");
+    if (!r) r = consumeToken(b, "s(-3)");
+    if (!r) r = consumeToken(b, "s(-4)");
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
   // 's'','
   public static boolean AsmStoreSlice(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "AsmStoreSlice")) return false;
@@ -306,6 +484,28 @@ public class TactParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, "s");
     r = r && consumeToken(b, COMMA);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // ('abort' | '.' | '+') StringLiteral
+  public static boolean AsmString(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmString")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ASM_STRING, "<asm string>");
+    r = AsmString_0(b, l + 1);
+    r = r && StringLiteral(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // 'abort' | '.' | '+'
+  private static boolean AsmString_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmString_0")) return false;
+    boolean r;
+    r = consumeToken(b, "abort");
+    if (!r) r = consumeToken(b, DOT);
+    if (!r) r = consumeToken(b, PLUS);
     return r;
   }
 

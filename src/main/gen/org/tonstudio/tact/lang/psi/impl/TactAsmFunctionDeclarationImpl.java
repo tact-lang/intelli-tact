@@ -36,14 +36,14 @@ public class TactAsmFunctionDeclarationImpl extends TactNamedElementImpl<TactAsm
 
   @Override
   @NotNull
-  public TactAsmHeader getAsmHeader() {
-    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactAsmHeader.class));
+  public List<TactAsmExpression> getAsmExpressionList() {
+    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactAsmExpression.class);
   }
 
   @Override
   @NotNull
-  public List<TactAsmInstruction> getAsmInstructionList() {
-    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactAsmInstruction.class);
+  public TactAsmHeader getAsmHeader() {
+    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactAsmHeader.class));
   }
 
   @Override

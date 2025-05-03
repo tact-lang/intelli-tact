@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface TactAsmBLock extends TactCompositeElement {
+public interface TactAsmSequence extends TactCompositeElement {
 
   @NotNull
-  List<TactAsmInstruction> getAsmInstructionList();
+  List<TactAsmExpression> getAsmExpressionList();
 
-  @NotNull
+  @Nullable
   PsiElement getGreater();
 
   @NotNull
@@ -19,7 +19,7 @@ public interface TactAsmBLock extends TactCompositeElement {
   @NotNull
   PsiElement getLess();
 
-  @NotNull
+  @Nullable
   PsiElement getRbrace();
 
 }

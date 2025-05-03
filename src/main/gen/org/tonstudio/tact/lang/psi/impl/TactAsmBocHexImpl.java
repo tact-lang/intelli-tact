@@ -10,14 +10,14 @@ import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
-public class TactAsmInstructionImpl extends TactCompositeElementImpl implements TactAsmInstruction {
+public class TactAsmBocHexImpl extends TactCompositeElementImpl implements TactAsmBocHex {
 
-  public TactAsmInstructionImpl(@NotNull ASTNode node) {
+  public TactAsmBocHexImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull TactVisitor visitor) {
-    visitor.visitAsmInstruction(this);
+    visitor.visitAsmBocHex(this);
   }
 
   @Override
@@ -27,9 +27,21 @@ public class TactAsmInstructionImpl extends TactCompositeElementImpl implements 
   }
 
   @Override
-  @NotNull
-  public PsiElement getIdentifier() {
-    return notNullChild(findChildByType(IDENTIFIER));
+  @Nullable
+  public PsiElement getBocLiteral() {
+    return findChildByType(BOC_LITERAL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getEmptyBocLiteral() {
+    return findChildByType(EMPTY_BOC_LITERAL);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getToBocFift() {
+    return findChildByType(TO_BOC_FIFT);
   }
 
 }

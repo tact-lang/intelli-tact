@@ -267,6 +267,16 @@ REGULAR_STRING_PART=[^\\\"]+
 "x{" {HEX_DIGIT_OR_SEP}* "}"              { return HEX_LITERAL; }
 "b{" {BIN_DIGIT}* "}"                     { return BIN_LITERAL; }
 
+// B{DEADBEEF_}
+// B{babecafe}
+// B{}
+// <b b>
+"B{" {HEX_DIGIT_OR_SEP}* "}"              { return BOC_LITERAL; }
+"<b b>"                                   { return EMPTY_BOC_LITERAL; }
+
+// B>boc
+"B>boc"                                   { return TO_BOC_FIFT; }
+
 {IDENT}                                   { return IDENTIFIER; }
 
 {NUM_BIN}                                 { return BIN; }

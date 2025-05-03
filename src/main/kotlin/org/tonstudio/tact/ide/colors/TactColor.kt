@@ -54,6 +54,11 @@ enum class TactColor(readableName: @NlsContexts.AttributeDescriptor String, defa
     // Attributes
     ATTRIBUTE("Attributes//Attribute", Default.METADATA),
 
+    // Asm
+    ASM_INSTRUCTION("Assembly//Instruction", Default.KEYWORD),
+    ASM_STACK_ELEMENT("Assembly//Stack element", Default.IDENTIFIER),
+    ASM_CONTROL_REGISTER("Assembly//Control register", Default.IDENTIFIER),
+
     // Docs
     DOC_COMMENT("Doc//Comment", Default.DOC_COMMENT),
     DOC_HEADING("Doc//Heading", Default.DOC_COMMENT_TAG),

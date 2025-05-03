@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface TactAsmInstruction extends TactCompositeElement {
+public interface TactAsmHexBitstring extends TactCompositeElement {
 
   @NotNull
-  PsiElement getIdentifier();
+  PsiElement getHexLiteral();
 
 }

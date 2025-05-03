@@ -5,9 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface TactAsmInstruction extends TactCompositeElement {
+public interface TactAsmBocHex extends TactCompositeElement {
 
-  @NotNull
-  PsiElement getIdentifier();
+  @Nullable
+  PsiElement getBocLiteral();
+
+  @Nullable
+  PsiElement getEmptyBocLiteral();
+
+  @Nullable
+  PsiElement getToBocFift();
 
 }
