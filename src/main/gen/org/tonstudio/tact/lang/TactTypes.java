@@ -20,6 +20,7 @@ public interface TactTypes {
   IElementType ASM_CONTROL_REGISTER = new TactCompositeElementType("ASM_CONTROL_REGISTER");
   IElementType ASM_CREATE_BUILDER = new TactCompositeElementType("ASM_CREATE_BUILDER");
   IElementType ASM_EXPRESSION = new TactCompositeElementType("ASM_EXPRESSION");
+  IElementType ASM_FUNCTION_BODY = new TactCompositeElementType("ASM_FUNCTION_BODY");
   IElementType ASM_FUNCTION_DECLARATION = TactElementTypeFactory.stubFactory("ASM_FUNCTION_DECLARATION");
   IElementType ASM_HEADER = new TactCompositeElementType("ASM_HEADER");
   IElementType ASM_HEX_BITSTRING = new TactCompositeElementType("ASM_HEX_BITSTRING");
@@ -255,6 +256,9 @@ public interface TactTypes {
       }
       else if (type == ASM_EXPRESSION) {
         return new TactAsmExpressionImpl(node);
+      }
+      else if (type == ASM_FUNCTION_BODY) {
+        return new TactAsmFunctionBodyImpl(node);
       }
       else if (type == ASM_FUNCTION_DECLARATION) {
         return new TactAsmFunctionDeclarationImpl(node);

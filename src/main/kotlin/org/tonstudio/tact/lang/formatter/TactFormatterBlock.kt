@@ -19,6 +19,7 @@ class TactFormatterBlock(
         TactTypes.STRUCT_TYPE,
         TactTypes.MESSAGE_TYPE,
         TactTypes.BLOCK,
+        TactTypes.ASM_FUNCTION_BODY,
              -> Indent.getNormalIndent()
 
         else -> Indent.getNoneIndent()

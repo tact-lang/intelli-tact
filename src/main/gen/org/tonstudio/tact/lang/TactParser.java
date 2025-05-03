@@ -190,7 +190,32 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // AsmHeader FunctionAttribute* fun identifier Signature '{' AsmExpression* '}'
+  // '{' AsmExpression* '}'
+  public static boolean AsmFunctionBody(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmFunctionBody")) return false;
+    if (!nextTokenIs(b, LBRACE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, LBRACE);
+    r = r && AsmFunctionBody_1(b, l + 1);
+    r = r && consumeToken(b, RBRACE);
+    exit_section_(b, m, ASM_FUNCTION_BODY, r);
+    return r;
+  }
+
+  // AsmExpression*
+  private static boolean AsmFunctionBody_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmFunctionBody_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!AsmExpression(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "AsmFunctionBody_1", c)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
+  // AsmHeader FunctionAttribute* fun identifier Signature AsmFunctionBody
   public static boolean AsmFunctionDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "AsmFunctionDeclaration")) return false;
     boolean r, p;
@@ -200,9 +225,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     r = r && report_error_(b, AsmFunctionDeclaration_1(b, l + 1));
     r = p && report_error_(b, consumeTokens(b, -1, FUN, IDENTIFIER)) && r;
     r = p && report_error_(b, Signature(b, l + 1)) && r;
-    r = p && report_error_(b, consumeToken(b, LBRACE)) && r;
-    r = p && report_error_(b, AsmFunctionDeclaration_6(b, l + 1)) && r;
-    r = p && consumeToken(b, RBRACE) && r;
+    r = p && AsmFunctionBody(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -214,17 +237,6 @@ public class TactParser implements PsiParser, LightPsiParser {
       int c = current_position_(b);
       if (!FunctionAttribute(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "AsmFunctionDeclaration_1", c)) break;
-    }
-    return true;
-  }
-
-  // AsmExpression*
-  private static boolean AsmFunctionDeclaration_6(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "AsmFunctionDeclaration_6")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!AsmExpression(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "AsmFunctionDeclaration_6", c)) break;
     }
     return true;
   }
@@ -262,15 +274,23 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // identifier
+  // '-'? identifier
   public static boolean AsmInstruction(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "AsmInstruction")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<asm instruction>", IDENTIFIER, MINUS)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, IDENTIFIER);
-    exit_section_(b, m, ASM_INSTRUCTION, r);
+    Marker m = enter_section_(b, l, _NONE_, ASM_INSTRUCTION, "<asm instruction>");
+    r = AsmInstruction_0(b, l + 1);
+    r = r && consumeToken(b, IDENTIFIER);
+    exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  // '-'?
+  private static boolean AsmInstruction_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmInstruction_0")) return false;
+    consumeToken(b, MINUS);
+    return true;
   }
 
   /* ********************************************************** */

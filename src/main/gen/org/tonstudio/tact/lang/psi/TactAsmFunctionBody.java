@@ -5,12 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface TactAsmInstruction extends TactCompositeElement {
-
-  @Nullable
-  PsiElement getMinus();
+public interface TactAsmFunctionBody extends TactCompositeElement {
 
   @NotNull
-  PsiElement getIdentifier();
+  List<TactAsmExpression> getAsmExpressionList();
+
+  @NotNull
+  PsiElement getLbrace();
+
+  @NotNull
+  PsiElement getRbrace();
 
 }

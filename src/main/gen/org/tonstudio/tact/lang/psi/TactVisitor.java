@@ -43,6 +43,10 @@ public class TactVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitAsmFunctionBody(@NotNull TactAsmFunctionBody o) {
+    visitCompositeElement(o);
+  }
+
   public void visitAsmFunctionDeclaration(@NotNull TactAsmFunctionDeclaration o) {
     visitNamedElement(o);
     // visitSignatureOwner(o);

@@ -43,6 +43,15 @@ object TactCompletionPatterns {
             .noTopLevelNext()
 
     /**
+     * Assembly instructions like:
+     *
+     *     ADD
+     */
+    fun onAsmInstruction(): PsiElementPattern.Capture<PsiElement> =
+        psiElement()
+            .withSuperParent(1, TactAsmInstruction::class.java)
+
+    /**
      * Any top-level statements like:
      *
      *     fun bar() {}

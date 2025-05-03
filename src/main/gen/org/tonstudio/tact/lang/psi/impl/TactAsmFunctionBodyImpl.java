@@ -10,14 +10,14 @@ import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
-public class TactAsmInstructionImpl extends TactCompositeElementImpl implements TactAsmInstruction {
+public class TactAsmFunctionBodyImpl extends TactCompositeElementImpl implements TactAsmFunctionBody {
 
-  public TactAsmInstructionImpl(@NotNull ASTNode node) {
+  public TactAsmFunctionBodyImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull TactVisitor visitor) {
-    visitor.visitAsmInstruction(this);
+    visitor.visitAsmFunctionBody(this);
   }
 
   @Override
@@ -27,15 +27,21 @@ public class TactAsmInstructionImpl extends TactCompositeElementImpl implements 
   }
 
   @Override
-  @Nullable
-  public PsiElement getMinus() {
-    return findChildByType(MINUS);
+  @NotNull
+  public List<TactAsmExpression> getAsmExpressionList() {
+    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactAsmExpression.class);
   }
 
   @Override
   @NotNull
-  public PsiElement getIdentifier() {
-    return notNullChild(findChildByType(IDENTIFIER));
+  public PsiElement getLbrace() {
+    return notNullChild(findChildByType(LBRACE));
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRbrace() {
+    return notNullChild(findChildByType(RBRACE));
   }
 
 }

@@ -5,6 +5,7 @@ import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.completion.CompletionType
 import org.tonstudio.tact.lang.completion.TactCompletionPatterns.cachedReferenceExpression
+import org.tonstudio.tact.lang.completion.TactCompletionPatterns.onAsmInstruction
 import org.tonstudio.tact.lang.completion.TactCompletionPatterns.onContractTraitTopLevel
 import org.tonstudio.tact.lang.completion.TactCompletionPatterns.onStatement
 import org.tonstudio.tact.lang.completion.TactCompletionPatterns.referenceExpression
@@ -21,6 +22,8 @@ class TactCompletionContributor : CompletionContributor() {
         extend(CompletionType.BASIC, onContractTraitTopLevel(), ContractTraitMembersCompletionProvider)
 
         extend(CompletionType.BASIC, onStatement(), ReturnCompletionProvider)
+
+        extend(CompletionType.BASIC, onAsmInstruction(), AsmInstructionsCompletionProvider)
     }
 
     override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
