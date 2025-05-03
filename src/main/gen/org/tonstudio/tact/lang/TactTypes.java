@@ -131,6 +131,7 @@ public interface TactTypes {
   IElementType BIT_OR_ASSIGN = new TactTokenType("|=");
   IElementType BIT_XOR = new TactTokenType("^");
   IElementType BIT_XOR_ASSIGN = new TactTokenType("^=");
+  IElementType BOUNCED = new TactTokenType("bounced");
   IElementType CATCH = new TactTokenType("catch");
   IElementType CHAR = new TactTokenType("char");
   IElementType CLOSING_QUOTE = new TactTokenType("CLOSING_QUOTE");
@@ -159,6 +160,7 @@ public interface TactTypes {
   IElementType IF = new TactTokenType("if");
   IElementType IMPORT = new TactTokenType("import");
   IElementType IN = new TactTokenType("in");
+  IElementType INIT = new TactTokenType("init");
   IElementType INIT_OF = new TactTokenType("initOf");
   IElementType INLINE = new TactTokenType("inline");
   IElementType INT = new TactTokenType("int");

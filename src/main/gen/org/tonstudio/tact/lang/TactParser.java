@@ -1544,11 +1544,76 @@ public class TactParser implements PsiParser, LightPsiParser {
   static boolean MemberItem(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MemberItem")) return false;
     boolean r;
+    Marker m = enter_section_(b, l, _NONE_);
     r = ConstDeclaration(b, l + 1);
     if (!r) r = ContractInitDeclaration(b, l + 1);
     if (!r) r = MessageFunctionDeclaration(b, l + 1);
     if (!r) r = FunctionDeclaration(b, l + 1);
     if (!r) r = FieldDeclaration(b, l + 1);
+    exit_section_(b, l, m, r, false, TactParser::MembersRecover);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // !(
+  //       '@'
+  //     | '}'
+  //     | receive
+  //     | external
+  //     | bounced
+  //     | fun
+  //     | inline
+  //     | abstract
+  //     | virtual
+  //     | const
+  //     | init
+  //     | identifier
+  //     | mutates
+  //     | extends
+  //     | override
+  // )
+  static boolean MembersRecover(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MembersRecover")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !MembersRecover_0(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // '@'
+  //     | '}'
+  //     | receive
+  //     | external
+  //     | bounced
+  //     | fun
+  //     | inline
+  //     | abstract
+  //     | virtual
+  //     | const
+  //     | init
+  //     | identifier
+  //     | mutates
+  //     | extends
+  //     | override
+  private static boolean MembersRecover_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MembersRecover_0")) return false;
+    boolean r;
+    r = consumeToken(b, AT);
+    if (!r) r = consumeToken(b, RBRACE);
+    if (!r) r = consumeToken(b, RECEIVE);
+    if (!r) r = consumeToken(b, EXTERNAL);
+    if (!r) r = consumeToken(b, BOUNCED);
+    if (!r) r = consumeToken(b, FUN);
+    if (!r) r = consumeToken(b, INLINE);
+    if (!r) r = consumeToken(b, ABSTRACT);
+    if (!r) r = consumeToken(b, VIRTUAL);
+    if (!r) r = consumeToken(b, CONST);
+    if (!r) r = consumeToken(b, INIT);
+    if (!r) r = consumeToken(b, IDENTIFIER);
+    if (!r) r = consumeToken(b, MUTATES);
+    if (!r) r = consumeToken(b, EXTENDS);
+    if (!r) r = consumeToken(b, OVERRIDE);
     return r;
   }
 
