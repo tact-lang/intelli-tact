@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface TactElement extends TactCompositeElement {
 
   @Nullable
+  TactExpression getExpression();
+
+  @Nullable
   TactKey getKey();
 
   @Nullable

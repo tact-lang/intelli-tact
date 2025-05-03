@@ -27,15 +27,9 @@ public class TactKeyImpl extends TactCompositeElementImpl implements TactKey {
   }
 
   @Override
-  @Nullable
-  public TactExpression getExpression() {
-    return TactPsiTreeUtil.getChildOfType(this, TactExpression.class);
-  }
-
-  @Override
-  @Nullable
+  @NotNull
   public TactFieldName getFieldName() {
-    return TactPsiTreeUtil.getChildOfType(this, TactFieldName.class);
+    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactFieldName.class));
   }
 
 }

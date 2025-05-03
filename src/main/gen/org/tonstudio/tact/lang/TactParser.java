@@ -4,7 +4,7 @@ package org.tonstudio.tact.lang;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
 import static org.tonstudio.tact.lang.TactTypes.*;
-import static org.tonstudio.tact.lang.TactParserUtil.*;
+import static com.intellij.lang.parser.GeneratedParserUtilBase.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.TokenSet;
@@ -1436,14 +1436,12 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Key | <<keyOrValueExpression>>
+  // Key | Expression
   static boolean First(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "First")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = Key(b, l + 1);
-    if (!r) r = keyOrValueExpression(b, l + 1);
-    exit_section_(b, m, null, r);
+    if (!r) r = Expression(b, l + 1, -1);
     return r;
   }
 
@@ -1675,63 +1673,26 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (FieldName &':') | !() Expression
+  // FieldName &':'
   public static boolean Key(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Key")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = Key_0(b, l + 1);
-    if (!r) r = Key_1(b, l + 1);
+    r = FieldName(b, l + 1);
+    r = r && Key_1(b, l + 1);
     exit_section_(b, m, KEY, r);
     return r;
   }
 
-  // FieldName &':'
-  private static boolean Key_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Key_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = FieldName(b, l + 1);
-    r = r && Key_0_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
   // &':'
-  private static boolean Key_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Key_0_1")) return false;
+  private static boolean Key_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Key_1")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _AND_);
     r = consumeToken(b, COLON);
     exit_section_(b, l, m, r, false, null);
     return r;
-  }
-
-  // !() Expression
-  private static boolean Key_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Key_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = Key_1_0(b, l + 1);
-    r = r && Expression(b, l + 1, -1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // !()
-  private static boolean Key_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Key_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NOT_);
-    r = !Key_1_0_0(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // ()
-  private static boolean Key_1_0_0(PsiBuilder b, int l) {
-    return true;
   }
 
   /* ********************************************************** */

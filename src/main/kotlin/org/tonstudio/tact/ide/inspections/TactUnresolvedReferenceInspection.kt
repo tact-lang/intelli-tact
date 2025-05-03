@@ -7,11 +7,13 @@ import com.intellij.psi.PsiReference
 import org.tonstudio.tact.lang.imports.TactImportFileQuickFix
 import org.tonstudio.tact.lang.psi.TactCompositeElement
 import org.tonstudio.tact.lang.psi.TactFieldName
+import org.tonstudio.tact.lang.psi.TactPlainAttribute
 import org.tonstudio.tact.lang.psi.TactReferenceExpression
 import org.tonstudio.tact.lang.psi.TactTlb
 import org.tonstudio.tact.lang.psi.TactTypeReferenceExpression
 import org.tonstudio.tact.lang.psi.TactVisitor
 import org.tonstudio.tact.lang.psi.impl.TactReference
+import org.tonstudio.tact.utils.inside
 
 class TactUnresolvedReferenceInspection : TactBaseInspection() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
@@ -31,6 +33,7 @@ class TactUnresolvedReferenceInspection : TactBaseInspection() {
                 super.visitReferenceExpression(o)
 
                 if (o.parent is TactFieldName) return
+                if (o.inside<TactPlainAttribute>()) return
 
                 val reference = o.reference
                 val qualifier = o.getQualifier()

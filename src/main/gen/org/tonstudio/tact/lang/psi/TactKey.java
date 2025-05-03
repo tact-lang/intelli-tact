@@ -7,10 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface TactKey extends TactCompositeElement {
 
-  @Nullable
-  TactExpression getExpression();
-
-  @Nullable
+  @NotNull
   TactFieldName getFieldName();
 
 }

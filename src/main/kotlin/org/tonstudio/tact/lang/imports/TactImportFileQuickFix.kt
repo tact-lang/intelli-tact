@@ -121,10 +121,7 @@ class TactImportFileQuickFix : LocalQuickFixAndIntentionActionOnPsiElement, Hint
         val firstFileToImport = filesToImport.firstOrNull()
 
         if (filesToImport.size == 1) {
-            if (
-                ApplicationManager.getApplication().isUnitTestMode ||
-                DaemonListeners.canChangeFileSilently(file, true, ThreeState.UNSURE)
-            ) {
+            if (ApplicationManager.getApplication().isUnitTestMode) {
                 CommandProcessor.getInstance().runUndoTransparentAction { perform(file, firstFileToImport) }
                 return true
             }
@@ -219,7 +216,9 @@ class TactImportFileQuickFix : LocalQuickFixAndIntentionActionOnPsiElement, Hint
     companion object {
         private fun canBeAutoImported(path: String): Boolean {
             val normalizedPath = path.replace(File.separatorChar, '/')
-            return !normalizedPath.contains("stdlib/std") && !normalizedPath.contains("test/")
+            return !normalizedPath.contains("stdlib/std") &&
+                    !normalizedPath.contains("test/") &&
+                    !normalizedPath.contains("types/")
         }
 
         private fun isSupportedReference(reference: PsiReference?) = reference is TactReference

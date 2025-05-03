@@ -14,7 +14,6 @@
   psiPackage='org.tonstudio.tact.lang.psi'
   psiImplPackage='org.tonstudio.tact.lang.psi.impl'
   psiImplUtilClass="org.tonstudio.tact.lang.psi.impl.TactPsiImplUtil"
-  parserUtilClass="org.tonstudio.tact.lang.TactParserUtil"
 
   tokens=[
     QUESTION             =  '?'
@@ -541,8 +540,8 @@ private CommaElementList ::= ElementInner (',' ElementInner?)*
 private ElementList ::= ElementInner (',' ElementInner?)*
 private ElementInner ::= Element | (!() Element)
 Element ::= First [':' Value]  {pin(".*")=1}
-private First ::= Key | <<keyOrValueExpression>>
-Key ::= (FieldName &':') | !() Expression // nullability hack for key without reference inside
+private First ::= Key | Expression
+Key ::= FieldName &':'
 FieldName ::= ReferenceExpression { methods=[getIdentifier getQualifier resolve getIdentifierBounds] }
 Value ::= Expression
 
