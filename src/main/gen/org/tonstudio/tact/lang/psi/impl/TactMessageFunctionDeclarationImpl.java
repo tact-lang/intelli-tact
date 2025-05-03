@@ -68,4 +68,10 @@ public class TactMessageFunctionDeclarationImpl extends TactNamedElementImpl<Tac
     return TactPsiImplUtil.getName(this);
   }
 
+  @Override
+  @NotNull
+  public String nameLike() {
+    return TactPsiImplUtil.nameLike(this);
+  }
+
 }

@@ -27,4 +27,7 @@ public interface TactMessageFunctionDeclaration extends TactNamedElement, StubBa
   @NotNull
   String getName();
 
+  @NotNull
+  String nameLike();
+
 }

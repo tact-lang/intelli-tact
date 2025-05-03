@@ -96,6 +96,21 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
+    fun nameLike(o: TactMessageFunctionDeclaration): String {
+        val kind = o.messageKind.text
+        val parameters = o.parameters?.paramDefinitionList ?: emptyList()
+        if (kind == null) {
+            return "unknown()"
+        }
+
+        if (parameters.isEmpty()) {
+            return "$kind()"
+        }
+
+        return "$kind(${parameters.joinToString(", ") { it.text }})"
+    }
+
+    @JvmStatic
     fun getName(o: TactContractInitDeclaration): String {
         val stub = o.stub
         if (stub != null) {

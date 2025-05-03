@@ -350,7 +350,7 @@ fun TactVarDefinition.generateDoc(): String {
         part("let", asKeyword)
         colorize(name, asIdentifier)
         append(": ")
-        append(type?.generateDoc(this@generateDoc) ?: append("unknown"))
+        append(type?.generateDoc(this@generateDoc) ?: "unknown")
         append(DocumentationMarkup.DEFINITION_END)
 
         generateCommentsPart(this@generateDoc)
@@ -365,7 +365,7 @@ fun TactParamDefinition.generateDoc(): String {
         part("parameter", asKeyword)
         colorize(name ?: "", asIdentifier)
         append(": ")
-        append(type?.generateDoc(this@generateDoc) ?: append("unknown"))
+        append(type?.generateDoc(this@generateDoc) ?: "unknown")
         append(DocumentationMarkup.DEFINITION_END)
 
         generateCommentsPart(this@generateDoc)

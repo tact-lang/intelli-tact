@@ -327,7 +327,7 @@ MessageKind ::= receive | external | 'bounced'
 MessageFunctionDeclaration ::= MessageKind (ReceiveStringId | Parameters) Block {
   pin=1
   stubClass="org.tonstudio.tact.lang.stubs.TactMessageFunctionDeclarationStub"
-  methods=[getIdentifier getName]
+  methods=[getIdentifier getName nameLike]
 }
 
 PrimitiveDeclaration ::= PrimitiveType ';' {

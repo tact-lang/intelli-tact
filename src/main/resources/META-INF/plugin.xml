@@ -123,6 +123,7 @@
         <postStartupActivity implementation="org.tonstudio.tact.ide.TactPostStartupActivity"/>
         <lang.formatter language="tact"
             implementationClass="org.tonstudio.tact.lang.formatter.TactFormattingModelBuilder"/>
+        <breadcrumbsInfoProvider implementation="org.tonstudio.tact.ide.editor.TactBreadcrumbsInfoProvider"/>
         <!-- endregion Editor -->
 
         <!-- region Toolchains -->
