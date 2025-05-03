@@ -219,7 +219,6 @@ private StatementRecover ::= !(
     | int
     | oct
     | return
-    | char
     | struct
     | true
     | false

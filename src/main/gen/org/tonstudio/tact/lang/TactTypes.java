@@ -144,7 +144,6 @@ public interface TactTypes {
   IElementType BOC_LITERAL = new TactTokenType("BOC_LITERAL");
   IElementType BOUNCED = new TactTokenType("bounced");
   IElementType CATCH = new TactTokenType("catch");
-  IElementType CHAR = new TactTokenType("char");
   IElementType CLOSING_QUOTE = new TactTokenType("CLOSING_QUOTE");
   IElementType CODE_OF = new TactTokenType("codeOf");
   IElementType COLON = new TactTokenType(":");

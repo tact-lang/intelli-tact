@@ -2434,7 +2434,6 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     | int
   //     | oct
   //     | return
-  //     | char
   //     | struct
   //     | true
   //     | false
@@ -2492,7 +2491,6 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     | int
   //     | oct
   //     | return
-  //     | char
   //     | struct
   //     | true
   //     | false
@@ -2543,7 +2541,6 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, INT);
     if (!r) r = consumeToken(b, OCT);
     if (!r) r = consumeToken(b, RETURN);
-    if (!r) r = consumeToken(b, CHAR);
     if (!r) r = consumeToken(b, STRUCT);
     if (!r) r = consumeToken(b, TRUE);
     if (!r) r = consumeToken(b, FALSE);

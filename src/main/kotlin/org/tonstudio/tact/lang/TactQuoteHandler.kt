@@ -6,19 +6,12 @@ import com.intellij.openapi.editor.highlighter.HighlighterIterator
 class TactQuoteHandler : SimpleTokenSetQuoteHandler(
     TactTypes.OPEN_QUOTE,
     TactTypes.CLOSING_QUOTE,
-    TactTypes.CHAR,
 ) {
     override fun isClosingQuote(iterator: HighlighterIterator, offset: Int): Boolean {
-        if (iterator.tokenType == TactTypes.CHAR) {
-            return super.isClosingQuote(iterator, offset)
-        }
-        return iterator.tokenType == TactTypes.OPEN_QUOTE
+        return iterator.tokenType == TactTypes.CLOSING_QUOTE
     }
 
     override fun isOpeningQuote(iterator: HighlighterIterator, offset: Int): Boolean {
-        if (iterator.tokenType == TactTypes.CHAR) {
-            return super.isOpeningQuote(iterator, offset)
-        }
         return iterator.tokenType == TactTypes.OPEN_QUOTE
     }
 

@@ -18,7 +18,6 @@ object TactTokenTypes {
     val IDENTIFIERS = TokenSet.create(IDENTIFIER)
     val COMMENTS = TokenSet.create(LINE_COMMENT, MULTI_LINE_COMMENT, TactDocElementTypes.DOC_COMMENT)
     val STRING_LITERALS = TokenSet.create(
-        CHAR,
         STRING_ENTRY,
         CLOSING_QUOTE,
         OPEN_QUOTE,
