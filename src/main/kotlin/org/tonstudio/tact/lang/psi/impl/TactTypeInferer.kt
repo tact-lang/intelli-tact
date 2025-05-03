@@ -201,6 +201,10 @@ object TactTypeInferer {
             }
         }
 
+        if (parent is TactCatchClause) {
+            return TactPrimitiveTypeEx.INT
+        }
+
         val literal = PsiTreeUtil.getNextSiblingOfType(this, TactLiteral::class.java)
         if (literal != null) {
             return literal.getType(context)
