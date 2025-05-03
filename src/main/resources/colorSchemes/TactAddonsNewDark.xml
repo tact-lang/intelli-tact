@@ -4,7 +4,7 @@
     <option name="org.tonstudio.tact.STRUCT" baseAttributes="DEFAULT_CLASS_NAME"/>
     <option name="org.tonstudio.tact.FUNCTION">
         <value>
-            <option name="FOREGROUND" value="ffc66d"/>
+            <option name="FOREGROUND" value="DEBC7E"/>
             <option name="FONT_TYPE" value="2"/>
         </value>
     </option>
