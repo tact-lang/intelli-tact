@@ -36,6 +36,10 @@ open class TactFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, 
         return ResolveUtil.processChildren(this, processor, state, lastParent, place)
     }
 
+    fun fromStubs(): Boolean {
+        return virtualFile.path.endsWith("stubs.tact")
+    }
+
     fun getModuleQualifiedName(): String = "" // TODO: remove
 
     fun addImport(path: String): TactImportDeclaration? {

@@ -7,11 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.startOffset
 import org.tonstudio.tact.lang.TactLanguage
-import org.tonstudio.tact.lang.psi.TactCallExpr
-import org.tonstudio.tact.lang.psi.TactExpression
-import org.tonstudio.tact.lang.psi.TactNamedElement
-import org.tonstudio.tact.lang.psi.TactReferenceExpression
-import org.tonstudio.tact.lang.psi.TactSignature
+import org.tonstudio.tact.lang.psi.*
 import kotlin.math.min
 
 @Suppress("UnstableApiUsage")
@@ -51,6 +47,12 @@ class TactParameterNameHintsProvider : InlayParameterHintsProvider {
 
         if (skipSelf && params.isNotEmpty()) {
             params.removeFirst()
+        }
+
+        val fromStubs = (resolved.containingFile as? TactFile)?.fromStubs() ?: false
+        if (args.size == 1 && fromStubs) {
+            // don't show any hints for unary functions from stubs like `ton()`
+            return hints
         }
 
         for (i in 0 until min(params.size, args.size)) {
