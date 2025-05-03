@@ -18,6 +18,9 @@ class TactDocumentationProvider : AbstractDocumentationProvider() {
         is TactMessageDeclaration        -> element.generateDoc()
         is TactPrimitiveDeclaration      -> element.generateDoc()
         is TactConstDefinition           -> element.generateDoc()
+        is TactVarDefinition             -> element.generateDoc()
+        is TactParamDefinition           -> element.generateDoc()
+        is TactFieldDefinition           -> element.generateDoc()
         else                             -> null
     }
 

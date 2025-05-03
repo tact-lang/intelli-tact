@@ -22,6 +22,7 @@ import org.tonstudio.tact.ide.documentation.DocumentationUtils.asBuiltin
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asConst
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asField
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asFunction
+import org.tonstudio.tact.ide.documentation.DocumentationUtils.asIdentifier
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asMessage
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asNativeFunction
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asNumber
@@ -281,6 +282,29 @@ private fun StringBuilder.generateFields(fields: List<TactFieldDeclaration>) {
     colorize("}", asBraces)
 }
 
+fun TactFieldDefinition.generateDoc(): String {
+    return buildString {
+        append(DocumentationMarkup.DEFINITION_START)
+        val parent = parent as? TactFieldDeclaration ?: return@buildString
+        val type = parent.type
+
+        generateOwnerDpc(this@generateDoc)
+
+        colorize(name ?: "", asField)
+        append(": ")
+        append(type.toEx().generateDoc(this@generateDoc))
+
+        val valueDoc = parent.defaultFieldValue?.expression?.generateDoc()
+        if (valueDoc != null) {
+            part(" =")
+            append(valueDoc)
+        }
+
+        append(DocumentationMarkup.DEFINITION_END)
+        generateCommentsPart(this@generateDoc)
+    }
+}
+
 fun TactPrimitiveDeclaration.generateDoc(): String {
     return buildString {
         append(DocumentationMarkup.DEFINITION_START)
@@ -314,6 +338,36 @@ fun TactConstDefinition.generateDoc(): String {
         }
 
         append(DocumentationMarkup.DEFINITION_END)
+        generateCommentsPart(this@generateDoc)
+    }
+}
+
+fun TactVarDefinition.generateDoc(): String {
+    return buildString {
+        append(DocumentationMarkup.DEFINITION_START)
+        val type = getType(null)
+
+        part("let", asKeyword)
+        colorize(name, asIdentifier)
+        append(": ")
+        append(type?.generateDoc(this@generateDoc) ?: append("unknown"))
+        append(DocumentationMarkup.DEFINITION_END)
+
+        generateCommentsPart(this@generateDoc)
+    }
+}
+
+fun TactParamDefinition.generateDoc(): String {
+    return buildString {
+        append(DocumentationMarkup.DEFINITION_START)
+        val type = getType(null)
+
+        part("parameter", asKeyword)
+        colorize(name ?: "", asIdentifier)
+        append(": ")
+        append(type?.generateDoc(this@generateDoc) ?: append("unknown"))
+        append(DocumentationMarkup.DEFINITION_END)
+
         generateCommentsPart(this@generateDoc)
     }
 }
