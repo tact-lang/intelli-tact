@@ -193,6 +193,10 @@ public class TactVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitDestructStatement(@NotNull TactDestructStatement o) {
+    visitStatement(o);
+  }
+
   public void visitDotExpression(@NotNull TactDotExpression o) {
     visitExpression(o);
   }
@@ -367,10 +371,6 @@ public class TactVisitor extends PsiElementVisitor {
   }
 
   public void visitStatement(@NotNull TactStatement o) {
-    visitCompositeElement(o);
-  }
-
-  public void visitStatementDestruct(@NotNull TactStatementDestruct o) {
     visitCompositeElement(o);
   }
 

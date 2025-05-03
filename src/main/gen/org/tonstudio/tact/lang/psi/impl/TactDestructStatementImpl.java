@@ -10,14 +10,15 @@ import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
-public class TactStatementDestructImpl extends TactCompositeElementImpl implements TactStatementDestruct {
+public class TactDestructStatementImpl extends TactStatementImpl implements TactDestructStatement {
 
-  public TactStatementDestructImpl(@NotNull ASTNode node) {
+  public TactDestructStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull TactVisitor visitor) {
-    visitor.visitStatementDestruct(this);
+    visitor.visitDestructStatement(this);
   }
 
   @Override
@@ -33,9 +34,15 @@ public class TactStatementDestructImpl extends TactCompositeElementImpl implemen
   }
 
   @Override
+  @Nullable
+  public TactExpression getExpression() {
+    return TactPsiTreeUtil.getChildOfType(this, TactExpression.class);
+  }
+
+  @Override
   @NotNull
-  public List<TactExpression> getExpressionList() {
-    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactExpression.class);
+  public TactTypeReferenceExpression getTypeReferenceExpression() {
+    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactTypeReferenceExpression.class));
   }
 
   @Override

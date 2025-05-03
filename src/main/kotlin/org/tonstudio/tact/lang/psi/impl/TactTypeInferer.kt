@@ -205,6 +205,21 @@ object TactTypeInferer {
             return TactPrimitiveTypeEx.INT
         }
 
+        if (parent is TactDestructItem) {
+            val grand = parent.parent as? TactDestructStatement ?: return null
+            val resolved = grand.typeReferenceExpression.resolve() ?: return null
+            val type = when (resolved) {
+                is TactStructDeclaration  -> resolved.structType
+                is TactMessageDeclaration -> resolved.messageType
+                else                      -> return null
+            }
+            val fields = type.fieldList
+            val searchName =
+                if (parent.referenceExpression != null) parent.referenceExpression?.getIdentifier()?.text else parent.varDefinition.name
+            val field = fields.find { it.name == searchName }
+            return field?.getType(null)
+        }
+
         val literal = PsiTreeUtil.getNextSiblingOfType(this, TactLiteral::class.java)
         if (literal != null) {
             return literal.getType(context)

@@ -27,9 +27,15 @@ public class TactDestructItemImpl extends TactCompositeElementImpl implements Ta
   }
 
   @Override
+  @Nullable
+  public TactReferenceExpression getReferenceExpression() {
+    return TactPsiTreeUtil.getChildOfType(this, TactReferenceExpression.class);
+  }
+
+  @Override
   @NotNull
-  public List<TactReferenceExpression> getReferenceExpressionList() {
-    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactReferenceExpression.class);
+  public TactVarDefinition getVarDefinition() {
+    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactVarDefinition.class));
   }
 
   @Override

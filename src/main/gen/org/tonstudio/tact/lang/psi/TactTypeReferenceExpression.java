@@ -23,10 +23,6 @@ public interface TactTypeReferenceExpression extends TactReferenceExpressionBase
   @Nullable
   PsiElement resolve();
 
-  //WARNING: getType(...) is skipped
-  //matching getType(TactTypeReferenceExpression, ...)
-  //methods are not found in TactPsiImplUtil
-
   @NotNull
   Pair<Integer, Integer> getIdentifierBounds();
 

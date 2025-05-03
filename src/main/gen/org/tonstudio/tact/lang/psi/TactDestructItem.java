@@ -7,8 +7,11 @@ import com.intellij.psi.PsiElement;
 
 public interface TactDestructItem extends TactCompositeElement {
 
+  @Nullable
+  TactReferenceExpression getReferenceExpression();
+
   @NotNull
-  List<TactReferenceExpression> getReferenceExpressionList();
+  TactVarDefinition getVarDefinition();
 
   @Nullable
   PsiElement getColon();

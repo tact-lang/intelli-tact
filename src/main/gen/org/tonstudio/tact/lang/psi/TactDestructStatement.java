@@ -5,13 +5,16 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface TactStatementDestruct extends TactCompositeElement {
+public interface TactDestructStatement extends TactStatement {
 
   @NotNull
   List<TactDestructItem> getDestructItemList();
 
+  @Nullable
+  TactExpression getExpression();
+
   @NotNull
-  List<TactExpression> getExpressionList();
+  TactTypeReferenceExpression getTypeReferenceExpression();
 
   @Nullable
   TactSemi getSemi();

@@ -39,9 +39,9 @@ public class TactParser implements PsiParser, LightPsiParser {
     create_token_set_(BOUNCED_TYPE, CONTRACT_TYPE, MAP_TYPE, MESSAGE_TYPE,
       PRIMITIVE_TYPE, STRUCT_TYPE, TRAIT_TYPE, TUPLE_TYPE,
       TYPE),
-    create_token_set_(ASSIGNMENT_STATEMENT, FOR_EACH_STATEMENT, IF_STATEMENT, REPEAT_STATEMENT,
-      RETURN_STATEMENT, SIMPLE_STATEMENT, STATEMENT, TRY_STATEMENT,
-      UNTIL_STATEMENT, WHILE_STATEMENT),
+    create_token_set_(ASSIGNMENT_STATEMENT, DESTRUCT_STATEMENT, FOR_EACH_STATEMENT, IF_STATEMENT,
+      REPEAT_STATEMENT, RETURN_STATEMENT, SIMPLE_STATEMENT, STATEMENT,
+      TRY_STATEMENT, UNTIL_STATEMENT, WHILE_STATEMENT),
     create_token_set_(ADD_EXPR, AND_EXPR, CALL_EXPR, CODE_OF_EXPR,
       CONDITIONAL_EXPR, DOT_EXPRESSION, EXPRESSION, INIT_OF_EXPR,
       LITERAL, LITERAL_VALUE_EXPRESSION, MUL_EXPR, OR_EXPR,
@@ -1071,27 +1071,27 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ReferenceExpression ':' ReferenceExpression
-  //   | ReferenceExpression
+  // ReferenceExpression ':' VarDefinition
+  //   | VarDefinition
   public static boolean DestructItem(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "DestructItem")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = DestructItem_0(b, l + 1);
-    if (!r) r = ReferenceExpression(b, l + 1);
+    if (!r) r = VarDefinition(b, l + 1);
     exit_section_(b, m, DESTRUCT_ITEM, r);
     return r;
   }
 
-  // ReferenceExpression ':' ReferenceExpression
+  // ReferenceExpression ':' VarDefinition
   private static boolean DestructItem_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "DestructItem_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = ReferenceExpression(b, l + 1);
     r = r && consumeToken(b, COLON);
-    r = r && ReferenceExpression(b, l + 1);
+    r = r && VarDefinition(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -1126,13 +1126,12 @@ public class TactParser implements PsiParser, LightPsiParser {
   // "," DestructItem
   private static boolean DestructList_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "DestructList_1_0")) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_);
+    boolean r;
+    Marker m = enter_section_(b);
     r = consumeToken(b, COMMA);
-    p = r; // pin = 1
     r = r && DestructItem(b, l + 1);
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   // ("," "..")?
@@ -1145,13 +1144,12 @@ public class TactParser implements PsiParser, LightPsiParser {
   // "," ".."
   private static boolean DestructList_2_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "DestructList_2_0")) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_);
+    boolean r;
+    Marker m = enter_section_(b);
     r = consumeToken(b, COMMA);
-    p = r; // pin = 1
     r = r && consumeToken(b, "..");
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   // ","?
@@ -1159,6 +1157,25 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "DestructList_3")) return false;
     consumeToken(b, COMMA);
     return true;
+  }
+
+  /* ********************************************************** */
+  // let TypeReferenceExpression "{" DestructList "}" "=" Expression semi
+  public static boolean DestructStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "DestructStatement")) return false;
+    if (!nextTokenIs(b, LET)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, DESTRUCT_STATEMENT, null);
+    r = consumeToken(b, LET);
+    r = r && TypeReferenceExpression(b, l + 1);
+    r = r && consumeToken(b, LBRACE);
+    p = r; // pin = 3
+    r = r && report_error_(b, DestructList(b, l + 1));
+    r = p && report_error_(b, consumeTokens(b, -1, RBRACE, ASSIGN)) && r;
+    r = p && report_error_(b, Expression(b, l + 1, -1)) && r;
+    r = p && semi(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   /* ********************************************************** */
@@ -2336,7 +2353,7 @@ public class TactParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // VarDeclaration
-  //   | StatementDestruct
+  //   | DestructStatement
   //   | AssignStatement
   //   | ExpressionStatement
   public static boolean SimpleStatement(PsiBuilder b, int l) {
@@ -2344,7 +2361,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     boolean r;
     Marker m = enter_section_(b, l, _COLLAPSE_, SIMPLE_STATEMENT, "<simple statement>");
     r = VarDeclaration(b, l + 1);
-    if (!r) r = StatementDestruct(b, l + 1);
+    if (!r) r = DestructStatement(b, l + 1);
     if (!r) r = AssignStatement(b, l + 1);
     if (!r) r = ExpressionStatement(b, l + 1);
     exit_section_(b, l, m, r, false, null);
@@ -2376,25 +2393,6 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = SimpleStatement(b, l + 1);
     exit_section_(b, l, m, r, false, TactParser::StatementRecover);
     return r;
-  }
-
-  /* ********************************************************** */
-  // let ReferenceExpression "{" DestructList "}" "=" Expression semi
-  public static boolean StatementDestruct(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "StatementDestruct")) return false;
-    if (!nextTokenIs(b, LET)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, STATEMENT_DESTRUCT, null);
-    r = consumeToken(b, LET);
-    r = r && ReferenceExpression(b, l + 1);
-    r = r && consumeToken(b, LBRACE);
-    p = r; // pin = 3
-    r = r && report_error_(b, DestructList(b, l + 1));
-    r = p && report_error_(b, consumeTokens(b, -1, RBRACE, ASSIGN)) && r;
-    r = p && report_error_(b, Expression(b, l + 1, -1)) && r;
-    r = p && semi(b, l + 1) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
   }
 
   /* ********************************************************** */

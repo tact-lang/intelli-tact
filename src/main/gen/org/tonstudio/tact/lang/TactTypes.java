@@ -56,6 +56,7 @@ public interface TactTypes {
   IElementType CONTRACT_TYPE = TactElementTypeFactory.stubFactory("CONTRACT_TYPE");
   IElementType DEFAULT_FIELD_VALUE = new TactCompositeElementType("DEFAULT_FIELD_VALUE");
   IElementType DESTRUCT_ITEM = new TactCompositeElementType("DESTRUCT_ITEM");
+  IElementType DESTRUCT_STATEMENT = new TactCompositeElementType("DESTRUCT_STATEMENT");
   IElementType DOT_EXPRESSION = new TactCompositeElementType("DOT_EXPRESSION");
   IElementType ELEMENT = new TactCompositeElementType("ELEMENT");
   IElementType ELSE_BRANCH = new TactCompositeElementType("ELSE_BRANCH");
@@ -100,7 +101,6 @@ public interface TactTypes {
   IElementType SIGNATURE = TactElementTypeFactory.stubFactory("SIGNATURE");
   IElementType SIMPLE_STATEMENT = new TactCompositeElementType("SIMPLE_STATEMENT");
   IElementType STATEMENT = new TactCompositeElementType("STATEMENT");
-  IElementType STATEMENT_DESTRUCT = new TactCompositeElementType("STATEMENT_DESTRUCT");
   IElementType STRING_LITERAL = new TactCompositeElementType("STRING_LITERAL");
   IElementType STRUCT_DECLARATION = TactElementTypeFactory.stubFactory("STRUCT_DECLARATION");
   IElementType STRUCT_TYPE = TactElementTypeFactory.stubFactory("STRUCT_TYPE");
@@ -364,6 +364,9 @@ public interface TactTypes {
       else if (type == DESTRUCT_ITEM) {
         return new TactDestructItemImpl(node);
       }
+      else if (type == DESTRUCT_STATEMENT) {
+        return new TactDestructStatementImpl(node);
+      }
       else if (type == DOT_EXPRESSION) {
         return new TactDotExpressionImpl(node);
       }
@@ -492,9 +495,6 @@ public interface TactTypes {
       }
       else if (type == STATEMENT) {
         return new TactStatementImpl(node);
-      }
-      else if (type == STATEMENT_DESTRUCT) {
-        return new TactStatementDestructImpl(node);
       }
       else if (type == STRING_LITERAL) {
         return new TactStringLiteralImpl(node);

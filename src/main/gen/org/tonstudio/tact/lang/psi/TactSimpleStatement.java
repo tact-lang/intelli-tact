@@ -14,9 +14,6 @@ public interface TactSimpleStatement extends TactStatement {
   TactExpression getExpression();
 
   @Nullable
-  TactStatementDestruct getStatementDestruct();
-
-  @Nullable
   TactVarDeclaration getVarDeclaration();
 
   @Nullable

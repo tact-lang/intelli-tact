@@ -256,11 +256,32 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         }
 
         when (myElement.parent) {
-            is TactFieldName -> {
+            is TactFieldName    -> {
                 if (!processNamedParams(processor, state)) return false
                 if (!processLiteralValueField(processor, state)) return false
 
                 return true
+            }
+
+            is TactDestructItem -> {
+                val item = myElement.parent as TactDestructItem
+                val destruct = myElement.parent.parent as? TactDestructStatement ?: return true
+                val resolved = destruct.typeReferenceExpression.resolve() ?: return true
+
+                val type = when (resolved) {
+                    is TactStructDeclaration  -> resolved.structType
+                    is TactMessageDeclaration -> resolved.messageType
+                    else                      -> return false
+                }
+                val fields = type.fieldList
+
+                val searchName =
+                    if (item.referenceExpression != null)
+                        item.referenceExpression?.getIdentifier()?.text
+                    else
+                        item.varDefinition.name
+
+                if (!processNamedElements(processor, state.put(SEARCH_NAME, searchName), fields, false)) return false
             }
         }
 

@@ -41,12 +41,6 @@ public class TactSimpleStatementImpl extends TactStatementImpl implements TactSi
 
   @Override
   @Nullable
-  public TactStatementDestruct getStatementDestruct() {
-    return TactPsiTreeUtil.getChildOfType(this, TactStatementDestruct.class);
-  }
-
-  @Override
-  @Nullable
   public TactVarDeclaration getVarDeclaration() {
     return TactPsiTreeUtil.getChildOfType(this, TactVarDeclaration.class);
   }

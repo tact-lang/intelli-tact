@@ -258,7 +258,7 @@ AttributeIdentifier ::= identifier
 
 SimpleStatement ::=
     VarDeclaration
-  | StatementDestruct
+  | DestructStatement
   | AssignStatement
   | ExpressionStatement
 
@@ -452,14 +452,13 @@ ParamDefinition ::= identifier ':' Type {
   stubClass="org.tonstudio.tact.lang.stubs.TactParamDefinitionStub"
 }
 
+DestructStatement ::= let TypeReferenceExpression "{" DestructList "}" "=" Expression semi {pin=3}
 
-StatementDestruct ::= let ReferenceExpression "{" DestructList "}" "=" Expression semi {pin=3}
-
-private DestructList ::= DestructItem ("," DestructItem)* ("," "..")? ","?
+private DestructList ::= DestructItem ("," DestructItem)* ("," "..")? ","? {pin=1}
 
 DestructItem ::=
-    ReferenceExpression ':' ReferenceExpression
-  | ReferenceExpression
+    ReferenceExpression ':' VarDefinition
+  | VarDefinition
 
 NativeFunctionDeclaration ::= Attributes? FunctionAttribute* native identifier Signature ';' {
   pin=3
@@ -565,7 +564,7 @@ private TypeName ::= TypeReferenceExpression QualifiedTypeReferenceExpression*
 left QualifiedTypeReferenceExpression ::= '.' identifier {elementType=TypeReferenceExpression}
 TypeReferenceExpression ::= identifier {
   stubClass="org.tonstudio.tact.lang.stubs.TactTypeReferenceExpressionStub"
-  methods=[getReference getQualifier resolve getType getIdentifierBounds]
+  methods=[getReference getQualifier resolve getIdentifierBounds]
 }
 
 private TypeLit ::=
