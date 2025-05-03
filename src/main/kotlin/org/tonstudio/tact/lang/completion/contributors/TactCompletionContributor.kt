@@ -16,6 +16,7 @@ class TactCompletionContributor : CompletionContributor() {
     init {
         extend(CompletionType.BASIC, referenceExpression(), ReferenceCompletionProvider)
         extend(CompletionType.BASIC, cachedReferenceExpression(), ReferenceCompletionProvider)
+        extend(CompletionType.BASIC, referenceExpression(), TlbTypesCompletionProvider)
 
         extend(CompletionType.BASIC, onContractTraitTopLevel(), ReceiversCompletionProvider)
         extend(CompletionType.BASIC, onContractTraitTopLevel(), ContractInitCompletionProvider)

@@ -2656,12 +2656,13 @@ public class TactParser implements PsiParser, LightPsiParser {
   public static boolean Tlb(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Tlb")) return false;
     if (!nextTokenIs(b, AS)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, TLB, null);
     r = consumeToken(b, AS);
+    p = r; // pin = 1
     r = r && TypeReferenceExpression(b, l + 1);
-    exit_section_(b, m, TLB, r);
-    return r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   /* ********************************************************** */

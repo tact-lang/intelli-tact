@@ -30,6 +30,8 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
         val set = TactCompletionUtil.withCamelHumpPrefixMatcher(result)
 
         val expression = element.parentOfType<TactReferenceExpressionBase>() ?: return
+        if (expression.parent is TactTlb) return
+
         val ref = expression.reference
         if (ref is TactReference) {
             val refExpression = ref.element as? TactReferenceExpression

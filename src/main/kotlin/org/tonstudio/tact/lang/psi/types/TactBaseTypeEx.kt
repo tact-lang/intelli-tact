@@ -205,7 +205,7 @@ abstract class TactBaseTypeEx(protected val anchor: PsiElement? = null) : UserDa
                 if (extraType.tlb != null) {
                     val tlb = extraType.tlb ?: return@forEach
                     val ref = tlb.typeReferenceExpression
-                    val typeName = ref.text
+                    val typeName = ref?.text
                     if (type is TactPrimitiveTypeEx) {
                         type.tlbType = typeName
                     }

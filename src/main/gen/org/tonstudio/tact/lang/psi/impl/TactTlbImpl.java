@@ -27,9 +27,9 @@ public class TactTlbImpl extends TactCompositeElementImpl implements TactTlb {
   }
 
   @Override
-  @NotNull
+  @Nullable
   public TactTypeReferenceExpression getTypeReferenceExpression() {
-    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactTypeReferenceExpression.class));
+    return TactPsiTreeUtil.getChildOfType(this, TactTypeReferenceExpression.class);
   }
 
   @Override

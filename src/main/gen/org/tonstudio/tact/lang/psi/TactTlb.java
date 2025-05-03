@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface TactTlb extends TactCompositeElement {
 
-  @NotNull
+  @Nullable
   TactTypeReferenceExpression getTypeReferenceExpression();
 
   @NotNull
