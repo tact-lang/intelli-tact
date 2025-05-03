@@ -38,6 +38,7 @@
         <completion.contributor
                 language="tact"
                 implementationClass="org.tonstudio.tact.lang.completion.contributors.TactCompletionContributor"/>
+        <enterHandlerDelegate implementation="org.tonstudio.tact.lang.completion.TripleSlashEnterHandler"/>
         <!-- endregion Completion -->
 
         <!-- region Indexes -->

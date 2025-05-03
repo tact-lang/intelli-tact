@@ -58,7 +58,7 @@ import static org.tonstudio.tact.lang.psi.TactDocElementTypes.DOC_COMMENT;
 NL = \n
 WS = [ \t\f]
 
-EOL_DOC_COMMENT = ({WS}*"//".*{NL})*({WS}*"//".*)
+EOL_DOC_COMMENT = ({WS}*"///".*{NL})*({WS}*"///".*)
 LINE_COMMENT = "//" [^\r\n]*
 
 MULTI_LINE_DEGENERATE_COMMENT = "/*" "*"+ "/"
