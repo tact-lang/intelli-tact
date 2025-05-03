@@ -42,7 +42,8 @@ class TactVariableTypeHintsProvider : InlayHintsProvider {
             sink.addPresentation(
                 InlineInlayPosition(element.textRange.endOffset, true),
                 listOf(),
-                null, HintFormat.default.withColorKind(HintColorKind.Parameter).withHorizontalMargin(HintMarginPadding.MarginAndSmallerPadding)
+                null,
+                HintFormat.default.withColorKind(HintColorKind.Parameter).withHorizontalMargin(HintMarginPadding.MarginAndSmallerPadding)
             ) {
                 text(": ")
                 text(type.readableName(element))
@@ -66,6 +67,15 @@ class TactVariableTypeHintsProvider : InlayHintsProvider {
             if (element is TactLiteralValueExpression) {
                 // let a = Foo {};
                 return true
+            }
+
+            if (element is TactCallExpr) {
+                if (element.qualifier == null) {
+                    return false
+                }
+                val name = element.identifier?.text ?: return false
+                // let a = Foo.fromCell(cell);
+                return name == "fromCell" || name == "fromSlice"
             }
 
             return false
