@@ -3,12 +3,8 @@
 package org.tonstudio.tact.lang.psi.impl
 
 import com.intellij.codeInsight.highlighting.ReadWriteAccessDetector.Access
-import com.intellij.openapi.util.Condition
-import com.intellij.openapi.util.Conditions
-import com.intellij.openapi.util.Key
-import com.intellij.openapi.util.RecursionManager
+import com.intellij.openapi.util.*
 import com.intellij.psi.*
-import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferenceSet
 import com.intellij.psi.impl.source.tree.LeafElement
 import com.intellij.psi.scope.PsiScopeProcessor
 import com.intellij.psi.util.*
@@ -22,6 +18,7 @@ import org.tonstudio.tact.lang.psi.types.TactFunctionTypeEx
 import org.tonstudio.tact.lang.psi.types.TactTypeEx
 import org.tonstudio.tact.lang.stubs.index.TactContractsTraitsIndex
 import org.tonstudio.tact.utils.stubOrPsiParentOfType
+import kotlin.Pair
 
 object TactPsiImplUtil {
     @JvmStatic
@@ -441,19 +438,14 @@ object TactPsiImplUtil {
     @JvmStatic
     fun isPublic(o: TactParamDefinition): Boolean = true
 
-    class TactLiteralFileReferenceSet(
-        str: String,
-        element: TactStringLiteral,
-        startOffset: Int,
-        isCaseSensitive: Boolean,
-    ) : FileReferenceSet(str, element, startOffset, null, isCaseSensitive)
-
     @JvmStatic
-    fun getReferences(o: TactStringLiteral): Array<out PsiReference> {
-        if (o.textLength < 2) return PsiReference.EMPTY_ARRAY
-        val fs = o.containingFile.originalFile.virtualFile.fileSystem
-        val literalValue = o.contents
-        return TactLiteralFileReferenceSet(literalValue, o, 1, fs.isCaseSensitive).allReferences
+    fun getReferences(literal: TactStringLiteral): Array<out PsiReference> {
+        if (literal.textLength < 2) return PsiReference.EMPTY_ARRAY
+        val fs = literal.containingFile.originalFile.virtualFile.fileSystem
+        val literalValue = literal.contents
+        val fromStdlib = literalValue.startsWith("@stdlib")
+        val set = TactLiteralFileReferenceSet(literalValue, fromStdlib, literal, 1, fs.isCaseSensitive)
+        return set.allReferences
     }
 
     @JvmStatic

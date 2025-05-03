@@ -25,7 +25,7 @@ class TactKeywordsCompletionContributor : CompletionContributor() {
     init {
         // Top Level
         extend(CompletionType.BASIC, onTopLevel(), ConstCompletionProvider)
-        extend(CompletionType.BASIC, onTopLevel(), CompletionAfterContextKeywordsCompletionProvider("import"))
+        extend(CompletionType.BASIC, onTopLevel(), ImportsCompletionProvider())
 
         extend(
             CompletionType.BASIC,
@@ -216,28 +216,18 @@ class TactKeywordsCompletionContributor : CompletionContributor() {
         }
     }
 
-    class CompletionAfterContextKeywordsCompletionProvider(vararg keywords: String) :
-        CompletionAfterKeywordsCompletionProvider(*keywords, properties = TactLookupElementProperties(isContextElement = true))
-
-    open class CompletionAfterKeywordsCompletionProvider(
-        private vararg val keywords: String,
-        private val properties: TactLookupElementProperties = TactLookupElementProperties(),
-    ) :
-        CompletionProvider<CompletionParameters>() {
-
+    class ImportsCompletionProvider : CompletionProvider<CompletionParameters>() {
         override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
-            val elements = keywords.map { keyword ->
-                LookupElementBuilder.create(keyword)
-                    .withInsertHandler { ctx, item ->
-                        StringInsertHandler(" ", 1).handleInsert(ctx, item)
-                        showCompletion(ctx.editor)
-                    }
-                    .bold()
-                    .withPriority(KEYWORD_PRIORITY)
-                    .toTactLookupElement(properties)
-            }
+            val element = LookupElementBuilder.create("import")
+                .withTailText(" \"\"")
+                .withInsertHandler { ctx, item ->
+                    StringInsertHandler(" \"\"", 2).handleInsert(ctx, item)
+                    showCompletion(ctx.editor)
+                }
+                .bold()
+                .withPriority(KEYWORD_PRIORITY)
 
-            result.addAllElements(elements)
+            result.addElement(element)
         }
     }
 }

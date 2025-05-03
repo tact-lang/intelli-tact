@@ -27,6 +27,8 @@
         <readWriteAccessDetector implementation="org.tonstudio.tact.lang.usages.TactReadWriteAccessDetector"/>
         <elementDescriptionProvider implementation="org.tonstudio.tact.lang.usages.TactDescriptionProvider"/>
         <spellchecker.support language="tact" implementationClass="org.tonstudio.tact.lang.TactSpellcheckingStrategy"/>
+        <lang.elementManipulator forClass="org.tonstudio.tact.lang.psi.TactStringLiteral"
+                                 implementationClass="org.tonstudio.tact.lang.psi.impl.manipulator.TactStringLiteralManipulator"/>
         <!-- endregion Language general -->
 
         <!-- region Completion -->
