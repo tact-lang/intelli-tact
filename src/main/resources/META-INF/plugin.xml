@@ -94,6 +94,8 @@
 
         <!-- region Code Insight -->
         <codeInsight.typeInfo language="tact" implementationClass="org.tonstudio.tact.ide.codeInsight.TactTypeInfoProvider"/>
+        <codeInsight.parameterInfo language="tact"
+                                   implementationClass="org.tonstudio.tact.ide.codeInsight.TactParameterInfoHandler"/>
         <!-- endregion Code Insight -->
 
         <!-- region Documentation -->

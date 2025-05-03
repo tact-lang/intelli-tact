@@ -2224,6 +2224,8 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     | override
   //     | inline
   //     | abstract
+  //     | 'initOf'
+  //     | 'codeOf'
   // )
   static boolean StatementRecover(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StatementRecover")) return false;
@@ -2279,6 +2281,8 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     | override
   //     | inline
   //     | abstract
+  //     | 'initOf'
+  //     | 'codeOf'
   private static boolean StatementRecover_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StatementRecover_0")) return false;
     boolean r;
@@ -2327,6 +2331,8 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, OVERRIDE);
     if (!r) r = consumeToken(b, INLINE);
     if (!r) r = consumeToken(b, ABSTRACT);
+    if (!r) r = consumeToken(b, INIT_OF);
+    if (!r) r = consumeToken(b, CODE_OF);
     return r;
   }
 

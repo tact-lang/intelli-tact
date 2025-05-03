@@ -227,6 +227,8 @@ private StatementRecover ::= !(
     | override
     | inline
     | abstract
+    | 'initOf'
+    | 'codeOf'
 )
 
 Attributes ::= Attribute Attribute* {

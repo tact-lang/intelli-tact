@@ -84,7 +84,10 @@ object TactTypeInferer {
             val qualifier = (calledExpr as? TactReferenceExpression)?.getQualifier()
             if (qualifier is TactExpression) {
                 val type = qualifier.getType(null)
-                return processPseudoStaticCall(qualifier, calledExpr as TactReferenceExpression, type)
+                val resultType = processPseudoStaticCall(qualifier, calledExpr as TactReferenceExpression, type)
+                if (resultType != null) {
+                    return resultType
+                }
             }
 
             val exprType = calledExpr?.getType(context) ?: return null
