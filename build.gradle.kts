@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.intelliJPlatform)
     alias(libs.plugins.changelog)
     alias(libs.plugins.kover)
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.25"
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -26,6 +27,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     testImplementation(libs.junit)
 
     intellijPlatform {
