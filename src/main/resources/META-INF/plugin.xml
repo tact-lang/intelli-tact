@@ -99,6 +99,7 @@
 
         <!-- region Imports -->
         <lang.importOptimizer language="tact" implementationClass="org.tonstudio.tact.lang.imports.TactImportOptimizer"/>
+        <referenceImporter implementation="org.tonstudio.tact.lang.imports.TactReferenceImporter"/>
         <!-- endregion Imports -->
 
         <!-- region Searches -->
@@ -167,6 +168,12 @@
         <!-- endregion Project -->
 
         <!-- region General inspections -->
+        <localInspection language="tact" groupPath="Tact"
+                         groupName="General" shortName="TactUnresolvedReferenceInspection"
+                         displayName="Unresolved reference"
+                         enabledByDefault="true" level="INFO"
+                         implementationClass="org.tonstudio.tact.ide.inspections.TactUnresolvedReferenceInspection"/>
+
         <localInspection language="tact" groupPath="Tact"
                          groupName="Unused" shortName="TactUnusedImportInspection"
                          displayName="Unused import inspection"

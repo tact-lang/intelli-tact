@@ -288,7 +288,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         if (!processBlock(processor, state, true)) return false
         if (!processImportedFiles(file, processor, state)) return false
         if (!processFileEntities(file, processor, state, true)) return false
-        if (!processDirectory(file.originalFile.parent, processor, state, true)) return false
+        // if (!processDirectory(file.originalFile.parent, processor, state, true)) return false
         if (!processBuiltin(processor, state)) return false
         if (!processStubs(processor, state)) return false
 

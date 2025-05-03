@@ -15,7 +15,7 @@ object TactElementFactory {
 
     fun createIdentifier(project: Project, text: String): PsiElement {
         val file = createFileFromText(project, "let $text = 10;")
-        return PsiTreeUtil.findChildOfType(file, TactVarDeclaration::class.java)!!.varDefinition!!.getIdentifier()
+        return PsiTreeUtil.findChildOfType(file, TactVarDeclaration::class.java)!!.varDefinition.getIdentifier()
     }
 
     fun createImportDeclaration(project: Project, name: String): TactImportDeclaration? {
@@ -38,7 +38,7 @@ object TactElementFactory {
     }
 
     fun createImportList(project: Project, name: String): TactImportList? {
-        val file = createFileFromText(project, "import \"$name\"")
+        val file = createFileFromText(project, "import \"$name\";")
         return file.getImportList()
     }
 }
