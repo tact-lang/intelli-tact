@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface TactCodeOfExpr extends TactExpression {
 
   @Nullable
-  TactReferenceExpression getReferenceExpression();
+  TactTypeReferenceExpression getTypeReferenceExpression();
 
   @NotNull
   PsiElement getCodeOf();

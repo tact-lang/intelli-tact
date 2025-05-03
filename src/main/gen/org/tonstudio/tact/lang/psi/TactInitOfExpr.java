@@ -11,7 +11,7 @@ public interface TactInitOfExpr extends TactExpression {
   TactArgumentList getArgumentList();
 
   @Nullable
-  TactReferenceExpression getReferenceExpression();
+  TactTypeReferenceExpression getTypeReferenceExpression();
 
   @NotNull
   PsiElement getInitOf();

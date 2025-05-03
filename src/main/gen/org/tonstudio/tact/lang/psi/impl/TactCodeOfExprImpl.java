@@ -29,8 +29,8 @@ public class TactCodeOfExprImpl extends TactExpressionImpl implements TactCodeOf
 
   @Override
   @Nullable
-  public TactReferenceExpression getReferenceExpression() {
-    return TactPsiTreeUtil.getChildOfType(this, TactReferenceExpression.class);
+  public TactTypeReferenceExpression getTypeReferenceExpression() {
+    return TactPsiTreeUtil.getChildOfType(this, TactTypeReferenceExpression.class);
   }
 
   @Override

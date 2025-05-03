@@ -755,7 +755,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // 'codeOf' ReferenceExpression
+  // 'codeOf' TypeReferenceExpression
   public static boolean CodeOfExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "CodeOfExpr")) return false;
     if (!nextTokenIs(b, CODE_OF)) return false;
@@ -763,7 +763,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, CODE_OF_EXPR, null);
     r = consumeToken(b, CODE_OF);
     p = r; // pin = 1
-    r = r && ReferenceExpression(b, l + 1);
+    r = r && TypeReferenceExpression(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -1643,7 +1643,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // 'initOf' ReferenceExpression ArgumentList
+  // 'initOf' TypeReferenceExpression ArgumentList
   public static boolean InitOfExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "InitOfExpr")) return false;
     if (!nextTokenIs(b, INIT_OF)) return false;
@@ -1651,7 +1651,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, INIT_OF_EXPR, null);
     r = consumeToken(b, INIT_OF);
     p = r; // pin = 1
-    r = r && report_error_(b, ReferenceExpression(b, l + 1));
+    r = r && report_error_(b, TypeReferenceExpression(b, l + 1));
     r = p && ArgumentList(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
@@ -2416,6 +2416,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     | '||'
   //     | '&&'
   //     | '}'
+  //     | OPEN_QUOTE
   //     | let
   //     | try
   //     | while
@@ -2473,6 +2474,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     | '||'
   //     | '&&'
   //     | '}'
+  //     | OPEN_QUOTE
   //     | let
   //     | try
   //     | while
@@ -2523,6 +2525,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, COND_OR);
     if (!r) r = consumeToken(b, COND_AND);
     if (!r) r = consumeToken(b, RBRACE);
+    if (!r) r = consumeToken(b, OPEN_QUOTE);
     if (!r) r = consumeToken(b, LET);
     if (!r) r = consumeToken(b, TRY);
     if (!r) r = consumeToken(b, WHILE);

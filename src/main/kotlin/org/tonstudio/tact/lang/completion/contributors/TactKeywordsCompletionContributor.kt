@@ -19,6 +19,7 @@ import org.tonstudio.tact.lang.completion.TactCompletionUtil.withPriority
 import org.tonstudio.tact.lang.completion.TactLookupElementProperties
 import org.tonstudio.tact.lang.completion.sort.withTactSorter
 import org.tonstudio.tact.lang.psi.TactContractDeclaration
+import org.tonstudio.tact.lang.psi.TactFile
 import org.tonstudio.tact.lang.psi.TactTraitDeclaration
 
 class TactKeywordsCompletionContributor : CompletionContributor() {
@@ -66,6 +67,12 @@ class TactKeywordsCompletionContributor : CompletionContributor() {
             CompletionType.BASIC,
             onExpression(),
             SelfCompletionProvider,
+        )
+
+        extend(
+            CompletionType.BASIC,
+            onExpression(),
+            InitOfCodeOfProvider,
         )
 
         // Other
@@ -118,6 +125,37 @@ class TactKeywordsCompletionContributor : CompletionContributor() {
                 .withPriority(KEYWORD_PRIORITY)
 
             result.addElement(constElement)
+        }
+    }
+
+    private object InitOfCodeOfProvider : CompletionProvider<CompletionParameters>() {
+        override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+            val file = parameters.position.containingFile as? TactFile ?: return
+            val contractToSuggest = file.getContracts().firstOrNull()?.name ?: "Foo"
+
+            val initOfElement = LookupElementBuilder.create("initOf")
+                .bold()
+                .withTailText(" Contract(<params>)")
+                .withInsertHandler(
+                    TemplateStringInsertHandler(
+                        " \$name$(\$params$)\$END$", true, "name" to ConstantNode(contractToSuggest), "params" to ConstantNode("")
+                    )
+                )
+                .withPriority(KEYWORD_PRIORITY)
+
+            result.addElement(initOfElement)
+
+            val codeOfElement = LookupElementBuilder.create("codeOf")
+                .bold()
+                .withTailText(" Contract")
+                .withInsertHandler(
+                    TemplateStringInsertHandler(
+                        " \$name$\$END$", true, "name" to ConstantNode(contractToSuggest)
+                    )
+                )
+                .withPriority(KEYWORD_PRIORITY)
+
+            result.addElement(codeOfElement)
         }
     }
 

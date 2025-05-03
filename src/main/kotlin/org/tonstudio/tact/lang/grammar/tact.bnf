@@ -201,6 +201,7 @@ private StatementRecover ::= !(
     | '||'
     | '&&'
     | '}'
+    | OPEN_QUOTE
     | let
     | try
     | while
@@ -659,8 +660,8 @@ CatchClause ::= catch '(' VarDefinition ')' Block {pin=1}
 
 AssertNotNullExpression ::= '!!' {pin=1}
 
-InitOfExpr ::= 'initOf' ReferenceExpression ArgumentList {pin=1}
-CodeOfExpr ::= 'codeOf' ReferenceExpression {pin=1}
+InitOfExpr ::= 'initOf' TypeReferenceExpression ArgumentList {pin=1}
+CodeOfExpr ::= 'codeOf' TypeReferenceExpression {pin=1}
 
 // <expr> ? <expr> : <expr>
 TernaryExpr ::= Expression '?' Expression ':' Expression {
