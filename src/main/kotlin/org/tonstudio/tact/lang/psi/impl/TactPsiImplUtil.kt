@@ -480,6 +480,11 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
+    fun withSelf(o: TactSignature): Boolean {
+        return o.parameters.paramDefinitionList.firstOrNull()?.name == "self"
+    }
+
+    @JvmStatic
     fun getType(o: TactResult, context: ResolveState?): TactTypeEx {
         return o.type.toEx()
     }

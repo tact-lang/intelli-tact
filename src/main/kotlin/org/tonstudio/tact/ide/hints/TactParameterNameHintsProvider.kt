@@ -8,8 +8,10 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.util.startOffset
 import org.tonstudio.tact.lang.TactLanguage
 import org.tonstudio.tact.lang.psi.TactCallExpr
+import org.tonstudio.tact.lang.psi.TactExpression
 import org.tonstudio.tact.lang.psi.TactNamedElement
 import org.tonstudio.tact.lang.psi.TactReferenceExpression
+import org.tonstudio.tact.lang.psi.TactSignature
 import kotlin.math.min
 
 @Suppress("UnstableApiUsage")
@@ -35,9 +37,9 @@ class TactParameterNameHintsProvider : InlayParameterHintsProvider {
 
     private fun handleCallExpr(element: TactCallExpr): MutableList<InlayInfo> {
         val hints = mutableListOf<InlayInfo>()
-        val (_, resolved) = element.resolveSignature() ?: return hints
+        val (signature, resolved) = element.resolveSignature() ?: return hints
         val expression = element.expression ?: return hints
-        val skipSelf = expression is TactReferenceExpression && expression.getQualifier() != null
+        val skipSelf = needSkipSelf(expression, signature)
 
         val parameters = resolved.getSignature()?.parameters ?: return hints
         val params = parameters.paramDefinitionList
@@ -68,6 +70,12 @@ class TactParameterNameHintsProvider : InlayParameterHintsProvider {
         }
 
         return hints
+    }
+
+    private fun needSkipSelf(expression: TactExpression, signature: TactSignature): Boolean {
+        if (expression !is TactReferenceExpression) return false
+        expression.getQualifier() ?: return false
+        return signature.withSelf()
     }
 
     override fun getDefaultBlackList() = setOf<String>()

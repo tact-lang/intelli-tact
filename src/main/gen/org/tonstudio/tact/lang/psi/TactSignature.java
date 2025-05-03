@@ -15,4 +15,6 @@ public interface TactSignature extends TactCompositeElement, StubBasedPsiElement
   @Nullable
   TactResult getResult();
 
+  boolean withSelf();
+
 }

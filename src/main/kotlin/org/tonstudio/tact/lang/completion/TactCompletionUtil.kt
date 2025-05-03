@@ -231,8 +231,8 @@ object TactCompletionUtil {
 
             val parent = element?.parent as? TactReferenceExpression
             val takeZeroArguments = TactLangUtil.takeZeroArguments(function)
-            val methodCall = parent?.getQualifier() != null && TactLangUtil.takeSingleArgument(function)
-            val cursorAfterParens = takeZeroArguments || methodCall
+            val methodCallWithNoArgs = isMethodCallWithNoArgs(parent)
+            val cursorAfterParens = takeZeroArguments || methodCallWithNoArgs
 
             val prevChar = context.document.charsSequence.getOrNull(caretOffset)
             val withParenAfterCursor = prevChar == '('
@@ -254,6 +254,13 @@ object TactCompletionUtil {
 
             // invoke parameter info to automatically show parameter info popup
             AutoPopupController.getInstance(context.project).autoPopupParameterInfo(context.editor, null)
+        }
+
+        private fun isMethodCallWithNoArgs(parent: TactReferenceExpression?): Boolean {
+            if (parent?.getQualifier() == null) return false
+            val withSelf = function.getSignature()?.withSelf() ?: false
+            if (!withSelf) return false
+            return TactLangUtil.takeSingleArgument(function) // only self parameter
         }
     }
 

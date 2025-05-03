@@ -428,6 +428,7 @@ GetAttribute ::= 'get' ('(' Expression ')')?
 Signature ::= Parameters Result? {
   pin=1
   stubClass="org.tonstudio.tact.lang.stubs.TactSignatureStub"
+  methods=[withSelf]
 }
 Result ::= ':'? Type {
   pin=2

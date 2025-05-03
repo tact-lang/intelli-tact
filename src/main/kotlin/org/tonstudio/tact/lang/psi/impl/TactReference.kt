@@ -1,6 +1,5 @@
 package org.tonstudio.tact.lang.psi.impl
 
-import com.intellij.codeInsight.completion.CompletionUtil
 import com.intellij.extapi.psi.StubBasedPsiElementBase
 import com.intellij.openapi.util.Conditions
 import com.intellij.openapi.util.RecursionManager
@@ -9,10 +8,12 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.resolveFromRootOrRelative
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.resolve.ResolveCache
+import com.intellij.psi.util.elementType
 import com.intellij.psi.util.parentOfType
 import com.intellij.psi.util.parentOfTypes
 import com.intellij.util.ArrayUtil
 import org.tonstudio.tact.configurations.TactConfiguration
+import org.tonstudio.tact.lang.TactTypes
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.impl.TactPsiImplUtil.processNamedElements
 import org.tonstudio.tact.lang.psi.types.*
@@ -45,10 +46,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
 
         fun isLocalResolve(origin: TactFile, external: TactFile?): Boolean {
             if (external == null) return true
-
-            val originModule = origin.getModuleQualifiedName()
-            val externalModule = external.getModuleQualifiedName()
-            return originModule == externalModule
+            return origin.virtualFile?.path == external.virtualFile?.path
         }
     }
 
@@ -87,7 +85,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         return if (qualifier != null) {
             // foo.bar
             // ^^^ qualifier
-            processQualifierExpression(qualifier, processor, state)
+            processQualifierExpression(qualifier, element, processor, state)
         } else {
             //  bar()
             // ^ no qualifier
@@ -97,6 +95,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
 
     private fun processQualifierExpression(
         qualifier: TactCompositeElement,
+        element: TactReferenceExpressionBase,
         processor: TactScopeProcessor,
         state: ResolveState,
     ): Boolean {
@@ -104,6 +103,8 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
             val type = qualifier.getType(null)
 
             if (type != null) {
+                if (!processPseudoStaticCall(qualifier, element, type, processor, state)) return false
+
                 if (!processType(type, processor, state)) {
                     return false
                 }
@@ -111,6 +112,59 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         }
 
         return true
+    }
+
+    private fun processPseudoStaticCall(
+        qualifier: TactCompositeElement,
+        element: TactReferenceExpressionBase,
+        type: TactTypeEx?,
+        processor: TactScopeProcessor,
+        state: ResolveState,
+    ): Boolean {
+        if (qualifier.elementType != TactTypes.REFERENCE_EXPRESSION) {
+            // complex qualifier: foo().bar()
+            return true
+        }
+
+        if (type !is TactStructTypeEx && type !is TactMessageTypeEx) {
+            // pseudo statics only defined on messages and structs
+            return true
+        }
+
+        val resolvedQualifier = (qualifier as? TactReferenceExpression)?.resolve() ?: return true
+        if (resolvedQualifier !is TactStructDeclaration && resolvedQualifier !is TactMessageDeclaration) {
+            // case like:
+            // let a: Foo = Foo {}
+            // a.fromCell()
+            // ^ not a static call
+            return true
+        }
+
+        val searchedName = element.getIdentifier()?.text ?: ""
+
+        val prefix = if (resolvedQualifier is TactStructDeclaration) "AnyStruct_" else "AnyMessage_"
+
+        if (processPseudoStaticCandidate(prefix, "fromSlice", searchedName, processor, state)) return false
+        if (processPseudoStaticCandidate(prefix, "fromCell", searchedName, processor, state)) return false
+        if (processPseudoStaticCandidate(prefix, "opcode", searchedName, processor, state)) return false
+
+        return false
+    }
+
+    private fun processPseudoStaticCandidate(
+        prefix: String,
+        name: String,
+        searchedName: String,
+        processor: TactScopeProcessor,
+        state: ResolveState,
+    ): Boolean {
+        val fullName = prefix + name
+        val func = findStubsFunction(fullName)
+        if (func != null) {
+            val newState = state.put(ACTUAL_NAME, fullName).put(SEARCH_NAME, prefix + searchedName)
+            if (!processor.execute(func, newState)) return true
+        }
+        return false
     }
 
     private fun processType(type: TactTypeEx, processor: TactScopeProcessor, state: ResolveState): Boolean {
@@ -264,6 +318,12 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
             localResolve = false,
             checkContainingFile = false
         )
+    }
+
+    private fun findStubsFunction(name: String): TactFunctionDeclaration? {
+        val stubsPsiFile = findStubsFile() ?: return null
+        val functions = stubsPsiFile.getFunctions()
+        return functions.find { it.getIdentifier().text == name }
     }
 
     private fun findStubsFile(): TactFile? {

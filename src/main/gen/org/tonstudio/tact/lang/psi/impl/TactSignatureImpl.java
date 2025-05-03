@@ -44,4 +44,9 @@ public class TactSignatureImpl extends TactStubbedElementImpl<TactSignatureStub>
     return TactPsiTreeUtil.getStubChildOfType(this, TactResult.class);
   }
 
+  @Override
+  public boolean withSelf() {
+    return TactPsiImplUtil.withSelf(this);
+  }
+
 }

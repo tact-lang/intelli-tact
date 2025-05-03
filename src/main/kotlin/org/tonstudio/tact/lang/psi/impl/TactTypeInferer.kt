@@ -3,7 +3,9 @@ package org.tonstudio.tact.lang.psi.impl
 import com.intellij.psi.PsiElement
 import com.intellij.psi.ResolveState
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
 import com.intellij.psi.util.parentOfType
+import org.tonstudio.tact.lang.TactTypes
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.types.*
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
@@ -78,6 +80,13 @@ object TactTypeInferer {
 
         if (expr is TactCallExpr) {
             val calledExpr = expr.expression
+
+            val qualifier = (calledExpr as? TactReferenceExpression)?.getQualifier()
+            if (qualifier is TactExpression) {
+                val type = qualifier.getType(null)
+                return processPseudoStaticCall(qualifier, calledExpr as TactReferenceExpression, type)
+            }
+
             val exprType = calledExpr?.getType(context) ?: return null
             if (exprType !is TactFunctionTypeEx) {
                 return exprType
@@ -128,15 +137,44 @@ object TactTypeInferer {
         return result.type.toEx()
     }
 
+    private fun processPseudoStaticCall(
+        qualifier: TactCompositeElement,
+        element: TactReferenceExpressionBase,
+        type: TactTypeEx?,
+    ): TactTypeEx? {
+        if (qualifier.elementType != TactTypes.REFERENCE_EXPRESSION) {
+            // complex qualifier: foo().bar()
+            return null
+        }
+
+        if (type !is TactStructTypeEx && type !is TactMessageTypeEx) {
+            // pseudo statics only defined on messages and structs
+            return null
+        }
+
+        val resolvedQualifier = (qualifier as? TactReferenceExpression)?.resolve() ?: return null
+        if (resolvedQualifier !is TactStructDeclaration && resolvedQualifier !is TactMessageDeclaration) {
+            // case like:
+            // let a: Foo = Foo {}
+            // a.fromCell()
+            // ^ not a static call
+            return null
+        }
+
+        val searchedName = element.getIdentifier()?.text ?: ""
+        if (searchedName == "fromSlice" || searchedName == "fromCell") {
+            return type
+        }
+
+        return null
+    }
+
     private fun typeOrParameterType(typeOwner: TactTypeOwner, context: ResolveState?): TactTypeEx? {
         return typeOwner.getType(context)
     }
 
     fun TactVarDefinition.getVarType(context: ResolveState?): TactTypeEx? {
         val parent = PsiTreeUtil.getStubOrPsiParent(this)
-//        if (parent is TactRangeClause) {
-//            return processRangeClause(this, parent, context)
-//        }
 
         if (parent is TactVarDeclaration) {
             val hint = parent.typeHint
