@@ -95,8 +95,11 @@
         <vcs.codeVisionLanguageContext language="tact" implementationClass="org.tonstudio.tact.ide.hints.TactCodeVisionLanguageContext"/>
         <codeInsight.codeVisionSettingsPreviewLanguage modelId="vcs.code.vision" language="tact"/>
         <codeInsight.codeVisionSettingsPreviewLanguage modelId="references" language="tact"/>
-
         <!-- endregion CodeVision & Hints -->
+
+        <!-- region Imports -->
+        <lang.importOptimizer language="tact" implementationClass="org.tonstudio.tact.lang.imports.TactImportOptimizer"/>
+        <!-- endregion Imports -->
 
         <!-- region Searches -->
         <definitionsScopedSearch implementation="org.tonstudio.tact.lang.search.TactSuperMethodSearch"/>
@@ -162,6 +165,20 @@
                              dynamic="true" displayName="Tactfmt"/>
         <fileDocumentManagerListener implementation="org.tonstudio.tact.project.TactFmtWatcher$TactFmtListener"/>
         <!-- endregion Project -->
+
+        <!-- region General inspections -->
+        <localInspection language="tact" groupPath="Tact"
+                         groupName="Unused" shortName="TactUnusedImportInspection"
+                         displayName="Unused import inspection"
+                         enabledByDefault="true" level="WARNING"
+                         implementationClass="org.tonstudio.tact.ide.inspections.unused.TactUnusedImportInspection"/>
+        <localInspection language="tact" groupPath="Tact"
+                         groupName="Unused" shortName="TactAmbiguousImportInspection"
+                         displayName="Ambiguous import"
+                         enabledByDefault="true" level="ERROR"
+                         implementationClass="org.tonstudio.tact.ide.inspections.TactAmbiguousImportInspection"/>
+        <!-- endregion General inspections -->
+
     </extensions>
 
     <actions>

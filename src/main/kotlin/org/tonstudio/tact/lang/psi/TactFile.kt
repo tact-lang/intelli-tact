@@ -80,15 +80,6 @@ open class TactFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, 
             ?: emptyList()
     }
 
-    fun resolveImportSpec(name: String): TactImportDeclaration? {
-        return resolveImportNameAndSpec(name).second
-    }
-
-    private fun resolveImportNameAndSpec(name: String): Triple<String?, TactImportDeclaration?, Boolean> {
-        // TODO: Implement
-        return Triple(null, null, false)
-    }
-
     fun getFunctions(): List<TactFunctionDeclaration> =
         getNamedElements(TactTypes.FUNCTION_DECLARATION, TactFunctionDeclarationStubElementType.ARRAY_FACTORY)
 
@@ -136,6 +127,31 @@ open class TactFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, 
             val elements = getChildrenByType(stub, elementType, arrayFactory).toMutableList()
 
             CachedValueProvider.Result.create(elements, this)
+        }
+    }
+
+    fun getNames(): Set<String> {
+        return CachedValuesManager.getCachedValue(this) {
+            val stub = stub
+
+            if (stub == null) {
+                val names = mutableSetOf<String>()
+                for (it in this.children) {
+                    if (it is TactNamedElement) {
+                        if (it.name != null) {
+                            names.add(it.name!!)
+                        }
+                    }
+                    if (it is TactConstDeclaration) {
+                        val name = it.constDefinition?.name ?: continue
+                        names.add(name)
+                    }
+                }
+                return@getCachedValue CachedValueProvider.Result.create(names, this)
+            }
+
+            val names = stub.childrenStubs.mapNotNull { if (it is TactNamedStub<*>) it.name else null }.toSet()
+            CachedValueProvider.Result.create(names, this)
         }
     }
 
