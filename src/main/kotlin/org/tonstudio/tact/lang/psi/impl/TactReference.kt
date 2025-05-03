@@ -265,7 +265,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         }
 
         if (!processBlock(processor, state, true)) return false
-        if (!processImportedFiles(file, processor, state, myElement)) return false
+        if (!processImportedFiles(file, processor, state)) return false
         if (!processFileEntities(file, processor, state, true)) return false
         if (!processDirectory(file.originalFile.parent, processor, state, true)) return false
         if (!processBuiltin(processor, state)) return false
@@ -361,9 +361,17 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         file: TactFile,
         processor: TactScopeProcessor,
         state: ResolveState,
-        element: TactCompositeElement,
     ): Boolean {
-        // TODO: implement
+        val imports = file.getImports()
+        for (import in imports) {
+            val refs = import.stringLiteral?.references ?: continue
+            val lastReference = refs.lastOrNull() ?: continue
+            val importedFile = lastReference.resolve() as? TactFile ?: continue
+
+            if (!processFileEntities(importedFile, processor, state, false)) {
+                return false
+            }
+        }
         return true
     }
 
