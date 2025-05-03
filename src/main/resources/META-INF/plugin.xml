@@ -79,6 +79,14 @@
                                               isEnabledByDefault="true"
                                               providerId="tact.inlay.hints.assembly.info"/>
 
+       <codeInsight.declarativeInlayProvider language="tact"
+                                              bundle="messages.TactBundle"
+                                              nameKey="tact.inlay.hints.require.exit.code.info"
+                                              group="VALUES_GROUP"
+                                              implementationClass="org.tonstudio.tact.ide.hints.TacRequireExitCodeHintsProvider"
+                                              isEnabledByDefault="true"
+                                              providerId="tact.inlay.hints.require.exit.code.info"/>
+
         <codeInsight.parameterNameHints language="tact" id="TactParameterNameHintsProvider"
                                         implementationClass="org.tonstudio.tact.ide.hints.TactParameterNameHintsProvider"/>
 
