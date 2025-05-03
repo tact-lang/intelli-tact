@@ -33,15 +33,16 @@ fun TactDocComment.documentationAsHtml(renderMode: TactDocRenderMode = TactDocRe
         .removeDecoration(text)
         .joinToString("\n")
 
-    return documentationAsHtml(documentationText, this, renderMode)
+    return documentationAsHtml(documentationText, this, renderMode, this)
 }
 
-private fun documentationAsHtml(
+fun documentationAsHtml(
     documentationText: String,
-    context: TactDocComment,
+    context: TactDocComment?,
     renderMode: TactDocRenderMode,
+    anchor: PsiElement,
 ): String {
-    val owner = context.owner
+    val owner = context?.owner
     val path = qualifiedPathFor(owner)
 
     // We need some host with unique scheme to
@@ -58,7 +59,7 @@ private fun documentationAsHtml(
         null
     }
 
-    val flavour = TactDocMarkdownFlavourDescriptor(context, baseURI, renderMode)
+    val flavour = TactDocMarkdownFlavourDescriptor(context ?: anchor, baseURI, renderMode)
     val root = MarkdownParser(flavour).buildMarkdownTreeFromString(documentationText)
     return HtmlGenerator(documentationText, root, flavour).generateHtml()
         .replace("psi://element/", DocumentationManagerProtocol.PSI_ELEMENT_PROTOCOL)

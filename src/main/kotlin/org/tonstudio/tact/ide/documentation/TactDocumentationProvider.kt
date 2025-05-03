@@ -1,6 +1,7 @@
 package org.tonstudio.tact.ide.documentation
 
 import com.intellij.lang.documentation.AbstractDocumentationProvider
+import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiDocCommentBase
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
@@ -21,7 +22,15 @@ class TactDocumentationProvider : AbstractDocumentationProvider() {
         is TactVarDefinition             -> element.generateDoc()
         is TactParamDefinition           -> element.generateDoc()
         is TactFieldDefinition           -> element.generateDoc()
+        is TactAsmInstruction            -> element.generateDoc()
         else                             -> null
+    }
+
+    override fun getCustomDocumentationElement(editor: Editor, file: PsiFile, contextElement: PsiElement?, targetOffset: Int): PsiElement? {
+        if (contextElement?.parent is TactAsmInstruction) {
+            return contextElement.parent
+        }
+        return super.getCustomDocumentationElement(editor, file, contextElement, targetOffset)
     }
 
     override fun collectDocComments(file: PsiFile, sink: Consumer<in PsiDocCommentBase>) {

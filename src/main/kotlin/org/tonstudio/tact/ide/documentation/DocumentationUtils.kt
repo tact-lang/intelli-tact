@@ -36,6 +36,7 @@ object DocumentationUtils {
     val asTrait = loadKey(TactColor.TRAIT.textAttributesKey)
     val asPrimitive = loadKey(TactColor.PRIMITIVE.textAttributesKey)
     val asConst = loadKey(TactColor.CONSTANT.textAttributesKey)
+    val asAsmInstruction = loadKey(TactColor.ASM_INSTRUCTION.textAttributesKey)
 
     @Suppress("UnstableApiUsage")
     fun StringBuilder.colorize(text: String, attrs: TextAttributes, noHtml: Boolean = false) {

@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.json.Json
 import com.intellij.psi.PsiElement
+import kotlinx.serialization.json.JsonElement
 import org.tonstudio.tact.lang.psi.TactAsmStackElement
 import java.io.InputStream
 
@@ -35,6 +36,7 @@ data class AsmAlias(
     @SerialName("doc_stack")
     val docStack: String? = null,
     val description: String? = null,
+    val operands: Map<String, JsonElement>,
 )
 
 @Serializable

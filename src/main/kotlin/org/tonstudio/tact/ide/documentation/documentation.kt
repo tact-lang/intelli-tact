@@ -17,8 +17,12 @@ import org.tonstudio.tact.lang.psi.types.*
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
 import kotlin.math.max
 import io.ktor.util.*
+import org.tonstudio.tact.asm.findInstruction
+import org.tonstudio.tact.asm.getStackPresentation
+import org.tonstudio.tact.ide.documentation.DocumentationUtils.asAsmInstruction
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asBraces
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asBuiltin
+import org.tonstudio.tact.ide.documentation.DocumentationUtils.asComment
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asConst
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asField
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asFunction
@@ -371,6 +375,61 @@ fun TactParamDefinition.generateDoc(): String {
         generateCommentsPart(this@generateDoc)
     }
 }
+
+fun formatOperands(operands: Map<String, Any?>): String {
+    return operands.values.joinToString(" ") { it.toString() }
+}
+
+fun TactAsmInstruction.generateDoc(): String {
+    val expr = parent as? TactAsmExpression ?: return "unknown instruction"
+    val instr = expr.asmInstruction
+    val arguments = expr.asmArguments.asmPrimitiveList
+
+    val info = findInstruction(instr.identifier.text, arguments) ?: return "unknown instruction"
+
+    val stackInfo = "<li>Stack (top is on the right): <code>${getStackPresentation(info.doc.stack)}</code></li>"
+
+    val gas = info.doc.gas.ifEmpty { "unknown" }
+
+    val actualInstructionDescription = mutableListOf(
+        wrapDefinition(colorize(info.mnemonic, asAsmInstruction)),
+        DocumentationMarkup.CONTENT_START,
+        "<ul>",
+        stackInfo,
+        "<li>Gas: <code>$gas</code></li>",
+        "</ul>",
+        documentationAsHtml(info.doc.description, null, TactDocRenderMode.QUICK_DOC_POPUP, this),
+        DocumentationMarkup.CONTENT_END,
+    )
+
+    val alias = info.aliasInfo
+    if (alias != null) {
+        val operandsStr = formatOperands(alias.operands) + " "
+        val aliasInfoDescription = " (alias of $operandsStr${alias.aliasOf})"
+
+        val aliasStackInfo = alias.docStack?.let {
+            "<li>Stack (top is on the right): <code>${getStackPresentation(it)}</code></li>"
+        } ?: ""
+
+        val withAliasDescription = listOf(
+            wrapDefinition(colorize(alias.mnemonic, asAsmInstruction) + colorize(aliasInfoDescription, asComment)),
+            DocumentationMarkup.CONTENT_START,
+            "<ul>",
+            aliasStackInfo,
+            "</ul>",
+            documentationAsHtml(alias.description ?: "", null, TactDocRenderMode.QUICK_DOC_POPUP, this),
+            DocumentationMarkup.CONTENT_END,
+            "<hr>",
+            "Aliased instruction info:",
+            "<br>",
+        ) + actualInstructionDescription
+        return withAliasDescription.joinToString("\n")
+    }
+
+    return actualInstructionDescription.joinToString("\n")
+}
+
+fun wrapDefinition(content: String): String = DocumentationMarkup.DEFINITION_START + content + DocumentationMarkup.DEFINITION_END
 
 fun TactExpression.generateDoc(): String {
     val text = text
