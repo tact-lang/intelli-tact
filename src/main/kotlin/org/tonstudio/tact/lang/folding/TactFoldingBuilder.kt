@@ -109,6 +109,16 @@ class TactFoldingBuilder : FoldingBuilderEx(), DumbAware {
                 super.visitElement(el)
             }
 
+            override fun visitAsmFunctionBody(el: TactAsmFunctionBody) {
+                genericFolding(el)
+                super.visitElement(el)
+            }
+
+            override fun visitAsmSequence(el: TactAsmSequence) {
+                genericFolding(el)
+                super.visitElement(el)
+            }
+
             override fun visitComment(comment: PsiComment) {
                 if (comment.tokenType != TactTokenTypes.MULTI_LINE_COMMENT) {
                     return
@@ -143,6 +153,7 @@ class TactFoldingBuilder : FoldingBuilderEx(), DumbAware {
 
                 val endOffset = when (el) {
                     is TactIfStatement -> el.block?.endOffset ?: el.textRange.endOffset
+                    is TactAsmSequence -> el.rbrace?.endOffset ?: el.textRange.endOffset
                     else               -> el.textRange.endOffset
                 }
 
