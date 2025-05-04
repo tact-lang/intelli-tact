@@ -31,6 +31,10 @@ dependencies {
     testImplementation(libs.junit)
 
     intellijPlatform {
+        description = """
+        Provides official support for <a href="https://tact-lang.org/">Tact</a> programming language
+        """.trimIndent()
+
         create(providers.gradleProperty("platformType"), providers.gradleProperty("platformVersion"))
 
         bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })

@@ -4,6 +4,11 @@
     <name>Tact</name>
     <vendor>TON Studio</vendor>
 
+    <category>Languages</category>
+    <description><![CDATA[
+Provides official support for <a href="https://tact-lang.org/">Tact</a> programming language
+    ]]></description>
+
     <depends>com.intellij.modules.platform</depends>
 
     <resource-bundle>messages.TactBundle</resource-bundle>
