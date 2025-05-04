@@ -14,7 +14,7 @@ public interface TactConstDeclaration extends TactCompositeElement {
   List<TactConstantModifier> getConstantModifierList();
 
   @Nullable
-  PsiElement getSemicolon();
+  TactSemi getSemi();
 
   @NotNull
   PsiElement getConst();

@@ -508,7 +508,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ('abort' | '.' | '+') StringLiteral
+  // ('abort' | '.' | '+')? StringLiteral
   public static boolean AsmString(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "AsmString")) return false;
     boolean r;
@@ -519,9 +519,16 @@ public class TactParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // 'abort' | '.' | '+'
+  // ('abort' | '.' | '+')?
   private static boolean AsmString_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "AsmString_0")) return false;
+    AsmString_0_0(b, l + 1);
+    return true;
+  }
+
+  // 'abort' | '.' | '+'
+  private static boolean AsmString_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AsmString_0_0")) return false;
     boolean r;
     r = consumeToken(b, "abort");
     if (!r) r = consumeToken(b, DOT);
@@ -812,7 +819,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ConstantModifier* const ConstDefinition ';'
+  // ConstantModifier* const ConstDefinition semi
   public static boolean ConstDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ConstDeclaration")) return false;
     boolean r, p;
@@ -821,7 +828,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     r = r && consumeToken(b, CONST);
     p = r; // pin = 2
     r = r && report_error_(b, ConstDefinition(b, l + 1));
-    r = p && consumeToken(b, SEMICOLON) && r;
+    r = p && semi(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -1366,7 +1373,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Attributes? FunctionAttribute* fun identifier Signature (Block | ';')
+  // Attributes? FunctionAttribute* fun identifier Signature (Block | semi)
   public static boolean FunctionDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunctionDeclaration")) return false;
     boolean r, p;
@@ -1399,12 +1406,12 @@ public class TactParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // Block | ';'
+  // Block | semi
   private static boolean FunctionDeclaration_5(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunctionDeclaration_5")) return false;
     boolean r;
     r = Block(b, l + 1);
-    if (!r) r = consumeToken(b, SEMICOLON);
+    if (!r) r = semi(b, l + 1);
     return r;
   }
 

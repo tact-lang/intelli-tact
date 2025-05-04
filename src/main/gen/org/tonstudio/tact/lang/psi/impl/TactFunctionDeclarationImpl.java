@@ -61,8 +61,8 @@ public class TactFunctionDeclarationImpl extends TactFunctionOrMethodDeclaration
 
   @Override
   @Nullable
-  public PsiElement getSemicolon() {
-    return findChildByType(SEMICOLON);
+  public TactSemi getSemi() {
+    return TactPsiTreeUtil.getChildOfType(this, TactSemi.class);
   }
 
   @Override

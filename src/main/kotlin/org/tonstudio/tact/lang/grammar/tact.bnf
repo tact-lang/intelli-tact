@@ -332,7 +332,7 @@ private MembersRecover ::= !(
 )
 
 ConstantModifier ::= virtual | override | abstract
-ConstDeclaration ::= ConstantModifier* const ConstDefinition ';' {pin=2}
+ConstDeclaration ::= ConstantModifier* const ConstDefinition semi {pin=2}
 
 ConstDefinition ::= identifier TypeHint ('=' Expression)? {
   pin=1
@@ -411,7 +411,7 @@ FieldDefinition ::= identifier {
   stubClass="org.tonstudio.tact.lang.stubs.TactFieldDefinitionStub"
 }
 
-FunctionDeclaration ::= Attributes? FunctionAttribute* fun identifier Signature (Block | ';') {
+FunctionDeclaration ::= Attributes? FunctionAttribute* fun identifier Signature (Block | semi) {
   pin=5
   stubClass="org.tonstudio.tact.lang.stubs.TactFunctionDeclarationStub"
   methods=[getName getTypeInner isGet isAbstract isVirtual computeMethodId]
@@ -496,7 +496,7 @@ AsmPrimitive ::=
 
 AsmSequence ::= '<''{' AsmExpression* ('}''>' ('c' | 's' | 'CONT')? | )
 
-AsmString ::= ('abort' | '.' | '+') StringLiteral
+AsmString ::= ('abort' | '.' | '+')? StringLiteral
 
 AsmHexBitstring ::= HEX_LITERAL
 AsmBinBitstring ::= BIN_LITERAL
