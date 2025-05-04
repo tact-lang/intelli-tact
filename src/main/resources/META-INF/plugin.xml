@@ -134,6 +134,8 @@ Provides official support for <a href="https://tact-lang.org/">Tact</a> programm
         <codeInsight.typeInfo language="tact" implementationClass="org.tonstudio.tact.ide.codeInsight.TactTypeInfoProvider"/>
         <codeInsight.parameterInfo language="tact"
                                    implementationClass="org.tonstudio.tact.ide.codeInsight.TactParameterInfoHandler"/>
+        <codeInsight.lineMarkerProvider language="tact"
+                                        implementationClass="org.tonstudio.tact.ide.highlight.TactRecursiveCallMarkerProvider"/>
         <!-- endregion Code Insight -->
 
         <!-- region Documentation -->
