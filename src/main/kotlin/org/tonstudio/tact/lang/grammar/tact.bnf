@@ -77,7 +77,7 @@
   extends("(Or|And|Add|Conversion|Mul|Selector|Conditional)Expr")=BinaryExpr
   extends(".*(Expr|Literal|Lit)|DotExpression|LiteralValueExpression")=Expression
 
-  implements("(Var|Param|Field|Var|Const|ModuleVar)Definition|(Struct|TypeAlias|Function|NativeFunction|AsmFunction)Declaration|ContractDeclaration|MessageDeclaration|TraitDeclaration|MessageFunctionDeclaration|ContractInitDeclaration|PrimitiveDeclaration")="org.tonstudio.tact.lang.psi.TactNamedElement"
+  implements("(Var|Param|Field|Var|Const)Definition|(Struct|Function|NativeFunction|AsmFunction)Declaration|ContractDeclaration|MessageDeclaration|TraitDeclaration|MessageFunctionDeclaration|ContractInitDeclaration|PrimitiveDeclaration")="org.tonstudio.tact.lang.psi.TactNamedElement"
   implements("(Function|NativeFunction|AsmFunction)Declaration")="org.tonstudio.tact.lang.psi.TactSignatureOwner"
   implements(".*ReferenceExpression|FieldName")="org.tonstudio.tact.lang.psi.TactReferenceExpressionBase"
 
