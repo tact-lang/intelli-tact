@@ -15,6 +15,8 @@ import org.tonstudio.tact.lang.psi.TactVisitor
 class TactUnusedImportInspection : TactBaseInspection() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
         val file = holder.file as? TactFile ?: return PsiElementVisitor.EMPTY_VISITOR
+        if (file.name == "stdlib.tact") return PsiElementVisitor.EMPTY_VISITOR
+
         val imports = file.getImports()
         val unusedImports = TactImportOptimizer().collectUnusedImports(file, imports)
 

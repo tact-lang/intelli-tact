@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface TactDotExpression extends TactExpression {
 
   @Nullable
-  TactAssertNotNullExpression getAssertNotNullExpression();
+  TactDummyRightHandRule getDummyRightHandRule();
 
   @NotNull
   TactExpression getExpression();

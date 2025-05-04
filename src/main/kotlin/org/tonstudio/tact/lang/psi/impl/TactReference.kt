@@ -228,6 +228,10 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
             return processExistingType(typ.inner, processor, newState)
         }
 
+        if (typ is TactOptionTypeEx) {
+            return processExistingType(typ.inner, processor, newState)
+        }
+
         if (!processMethods(typ, processor, newState, localResolve)) return false
 
         return true

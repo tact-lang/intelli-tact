@@ -33,7 +33,7 @@ public interface TactTypes {
   IElementType ASM_STORE_SLICE = new TactCompositeElementType("ASM_STORE_SLICE");
   IElementType ASM_STRING = new TactCompositeElementType("ASM_STRING");
   IElementType ASM_TO_CELL_BUILDER = new TactCompositeElementType("ASM_TO_CELL_BUILDER");
-  IElementType ASSERT_NOT_NULL_EXPRESSION = new TactCompositeElementType("ASSERT_NOT_NULL_EXPRESSION");
+  IElementType ASSERT_NOT_NULL_EXPR = new TactCompositeElementType("ASSERT_NOT_NULL_EXPR");
   IElementType ASSIGNMENT_STATEMENT = new TactCompositeElementType("ASSIGNMENT_STATEMENT");
   IElementType ASSIGN_OP = new TactCompositeElementType("ASSIGN_OP");
   IElementType ATTRIBUTE = TactElementTypeFactory.stubFactory("ATTRIBUTE");
@@ -58,6 +58,7 @@ public interface TactTypes {
   IElementType DESTRUCT_ITEM = new TactCompositeElementType("DESTRUCT_ITEM");
   IElementType DESTRUCT_STATEMENT = new TactCompositeElementType("DESTRUCT_STATEMENT");
   IElementType DOT_EXPRESSION = new TactCompositeElementType("DOT_EXPRESSION");
+  IElementType DUMMY_RIGHT_HAND_RULE = new TactCompositeElementType("DUMMY_RIGHT_HAND_RULE");
   IElementType ELSE_BRANCH = new TactCompositeElementType("ELSE_BRANCH");
   IElementType ELSE_IF_BRANCH = new TactCompositeElementType("ELSE_IF_BRANCH");
   IElementType EXPRESSION = new TactCompositeElementType("EXPRESSION");
@@ -295,8 +296,8 @@ public interface TactTypes {
       else if (type == ASM_TO_CELL_BUILDER) {
         return new TactAsmToCellBuilderImpl(node);
       }
-      else if (type == ASSERT_NOT_NULL_EXPRESSION) {
-        return new TactAssertNotNullExpressionImpl(node);
+      else if (type == ASSERT_NOT_NULL_EXPR) {
+        return new TactAssertNotNullExprImpl(node);
       }
       else if (type == ASSIGNMENT_STATEMENT) {
         return new TactAssignmentStatementImpl(node);
@@ -369,6 +370,9 @@ public interface TactTypes {
       }
       else if (type == DOT_EXPRESSION) {
         return new TactDotExpressionImpl(node);
+      }
+      else if (type == DUMMY_RIGHT_HAND_RULE) {
+        return new TactDummyRightHandRuleImpl(node);
       }
       else if (type == ELSE_BRANCH) {
         return new TactElseBranchImpl(node);

@@ -96,8 +96,8 @@ public class TactVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
-  public void visitAssertNotNullExpression(@NotNull TactAssertNotNullExpression o) {
-    visitCompositeElement(o);
+  public void visitAssertNotNullExpr(@NotNull TactAssertNotNullExpr o) {
+    visitExpression(o);
   }
 
   public void visitAssignOp(@NotNull TactAssignOp o) {
@@ -199,6 +199,10 @@ public class TactVisitor extends PsiElementVisitor {
 
   public void visitDotExpression(@NotNull TactDotExpression o) {
     visitExpression(o);
+  }
+
+  public void visitDummyRightHandRule(@NotNull TactDummyRightHandRule o) {
+    visitCompositeElement(o);
   }
 
   public void visitElseBranch(@NotNull TactElseBranch o) {

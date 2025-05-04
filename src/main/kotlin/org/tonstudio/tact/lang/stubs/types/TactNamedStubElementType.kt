@@ -5,8 +5,10 @@ import com.intellij.psi.stubs.IndexSink
 import com.intellij.psi.stubs.StubIndexKey
 import org.tonstudio.tact.lang.psi.TactNamedElement
 import org.tonstudio.tact.lang.psi.TactPsiTreeUtil.parentStubOfType
+import org.tonstudio.tact.lang.stubs.TactFieldDefinitionStub
 import org.tonstudio.tact.lang.stubs.TactFileStub
 import org.tonstudio.tact.lang.stubs.TactNamedStub
+import org.tonstudio.tact.lang.stubs.TactParamDefinitionStub
 import org.tonstudio.tact.lang.stubs.index.TactNamesIndex
 
 abstract class TactNamedStubElementType<S : TactNamedStub<T>, T : TactNamedElement>(debugName: String) :
@@ -24,7 +26,9 @@ abstract class TactNamedStubElementType<S : TactNamedStub<T>, T : TactNamedEleme
             val moduleName = file?.getModuleQualifiedName() ?: ""
             val indexingName = if (moduleName.isNotEmpty()) "$moduleName.$name" else name
 
-            sink.occurrence(TactNamesIndex.KEY, indexingName)
+            if (stub !is TactFieldDefinitionStub && stub !is TactParamDefinitionStub) {
+                sink.occurrence(TactNamesIndex.KEY, indexingName)
+            }
 
             for (key in getExtraIndexKeys()) {
                 sink.occurrence(key, indexingName)

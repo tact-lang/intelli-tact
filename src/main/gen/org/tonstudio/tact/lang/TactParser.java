@@ -42,11 +42,11 @@ public class TactParser implements PsiParser, LightPsiParser {
     create_token_set_(ASSIGNMENT_STATEMENT, DESTRUCT_STATEMENT, FOR_EACH_STATEMENT, IF_STATEMENT,
       REPEAT_STATEMENT, RETURN_STATEMENT, SIMPLE_STATEMENT, STATEMENT,
       TRY_STATEMENT, UNTIL_STATEMENT, WHILE_STATEMENT),
-    create_token_set_(ADD_EXPR, AND_EXPR, CALL_EXPR, CODE_OF_EXPR,
-      CONDITIONAL_EXPR, DOT_EXPRESSION, EXPRESSION, INIT_OF_EXPR,
-      LITERAL, LITERAL_VALUE_EXPRESSION, MUL_EXPR, OR_EXPR,
-      PARENTHESES_EXPR, REFERENCE_EXPRESSION, STRING_LITERAL, TERNARY_EXPR,
-      UNARY_EXPR),
+    create_token_set_(ADD_EXPR, AND_EXPR, ASSERT_NOT_NULL_EXPR, CALL_EXPR,
+      CODE_OF_EXPR, CONDITIONAL_EXPR, DOT_EXPRESSION, EXPRESSION,
+      INIT_OF_EXPR, LITERAL, LITERAL_VALUE_EXPRESSION, MUL_EXPR,
+      OR_EXPR, PARENTHESES_EXPR, REFERENCE_EXPRESSION, STRING_LITERAL,
+      TERNARY_EXPR, UNARY_EXPR),
   };
 
   /* ********************************************************** */
@@ -550,13 +550,13 @@ public class TactParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // '!!'
-  public static boolean AssertNotNullExpression(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "AssertNotNullExpression")) return false;
+  public static boolean AssertNotNullExpr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AssertNotNullExpr")) return false;
     if (!nextTokenIs(b, ASSERT_OP)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _LEFT_, ASSERT_NOT_NULL_EXPR, null);
     r = consumeToken(b, ASSERT_OP);
-    exit_section_(b, m, ASSERT_NOT_NULL_EXPRESSION, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -1201,6 +1201,17 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = CodeOfExpr(b, l + 1);
     if (!r) r = ParenthesesExpr(b, l + 1);
     if (!r) r = Literal(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // 'DummyRightHandRule'
+  public static boolean DummyRightHandRule(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "DummyRightHandRule")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _LEFT_, DUMMY_RIGHT_HAND_RULE, "<dummy right hand rule>");
+    r = consumeToken(b, "DummyRightHandRule");
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -2226,13 +2237,15 @@ public class TactParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // CallExpr
   //   | QualifiedReferenceExpression
-  //   | AssertNotNullExpression
+  //   | AssertNotNullExpr
+  //   | DummyRightHandRule
   static boolean RightHandExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "RightHandExpr")) return false;
     boolean r;
     r = CallExpr(b, l + 1);
     if (!r) r = QualifiedReferenceExpression(b, l + 1);
-    if (!r) r = AssertNotNullExpression(b, l + 1);
+    if (!r) r = AssertNotNullExpr(b, l + 1);
+    if (!r) r = DummyRightHandRule(b, l + 1);
     return r;
   }
 

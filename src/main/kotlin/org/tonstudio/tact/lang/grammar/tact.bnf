@@ -584,7 +584,7 @@ VarDefinition ::= identifier {
   stubClass="org.tonstudio.tact.lang.stubs.TactVarDefinitionStub"
 }
 
-DotExpression ::= DotPrimaryExpr RightHandExprs {extends=Expression}
+DotExpression ::= DotPrimaryExpr RightHandExprs
 
 private DotPrimaryExpr ::=
     LiteralValueExpression
@@ -602,7 +602,8 @@ private RightHandExprs ::= RightHandExpr*
 private RightHandExpr ::=
     CallExpr
   | QualifiedReferenceExpression
-  | AssertNotNullExpression
+  | AssertNotNullExpr
+  | DummyRightHandRule
 
 left CallExpr ::= ArgumentList {
   methods=[getArguments getIdentifier getQualifier resolve paramIndexOf resolveSignature]
@@ -610,6 +611,9 @@ left CallExpr ::= ArgumentList {
 
 ArgumentList ::= '(' CommaElementList? ','? ')' {pin=1}
 private CommaElementList ::= Expression (',' Expression?)*
+
+left AssertNotNullExpr ::= '!!'
+left DummyRightHandRule ::= 'DummyRightHandRule'
 
 OrExpr ::= Expression '||' Expression
 AndExpr ::= Expression '&&' Expression
@@ -642,8 +646,6 @@ ForEachStatement ::= foreach '(' VarDefinition ',' VarDefinition in Expression '
 
 TryStatement ::= try Block CatchClause? {pin=1}
 CatchClause ::= catch '(' VarDefinition ')' Block {pin=1}
-
-AssertNotNullExpression ::= '!!' {pin=1}
 
 InitOfExpr ::= 'initOf' TypeReferenceExpression ArgumentList {pin=1}
 CodeOfExpr ::= 'codeOf' TypeReferenceExpression {pin=1}

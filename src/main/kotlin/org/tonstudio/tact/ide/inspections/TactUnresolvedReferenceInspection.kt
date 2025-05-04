@@ -22,6 +22,8 @@ class TactUnresolvedReferenceInspection : TactBaseInspection() {
                 super.visitTypeReferenceExpression(o)
 
                 if (o.parent is TactTlb) return
+                val text = o.text
+                if (text == "T" || text == "S" || text == "M" || text == "K" || text == "V") return // special placeholders until generics
 
                 val reference = o.reference
                 val qualifier = o.getQualifier()

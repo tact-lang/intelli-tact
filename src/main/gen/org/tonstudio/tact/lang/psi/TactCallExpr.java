@@ -12,7 +12,7 @@ public interface TactCallExpr extends TactExpression {
   TactArgumentList getArgumentList();
 
   @Nullable
-  TactAssertNotNullExpression getAssertNotNullExpression();
+  TactDummyRightHandRule getDummyRightHandRule();
 
   @Nullable
   TactExpression getExpression();

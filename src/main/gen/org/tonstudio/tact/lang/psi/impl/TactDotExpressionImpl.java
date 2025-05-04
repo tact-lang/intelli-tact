@@ -29,8 +29,8 @@ public class TactDotExpressionImpl extends TactExpressionImpl implements TactDot
 
   @Override
   @Nullable
-  public TactAssertNotNullExpression getAssertNotNullExpression() {
-    return TactPsiTreeUtil.getChildOfType(this, TactAssertNotNullExpression.class);
+  public TactDummyRightHandRule getDummyRightHandRule() {
+    return TactPsiTreeUtil.getChildOfType(this, TactDummyRightHandRule.class);
   }
 
   @Override

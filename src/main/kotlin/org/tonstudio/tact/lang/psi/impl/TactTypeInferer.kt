@@ -7,6 +7,7 @@ import org.tonstudio.tact.lang.TactTypes
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.types.*
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
+import org.tonstudio.tact.utils.childOfType
 
 fun TactExpression.inferType(context: ResolveState?): TactTypeEx? {
     return TactTypeInferer.getType(this, context)
@@ -90,11 +91,10 @@ object TactTypeInferer {
             return processSignatureReturnType(exprType.signature)
         }
 
-        if (expr is TactDotExpression) {
-            if (expr.assertNotNullExpression != null) {
-                val type = expr.expression.getType(context)
-                return unwrapOptionType(type)
-            }
+        if (expr is TactAssertNotNullExpr) {
+            val referenceExpression = expr.childOfType<TactReferenceExpression>() ?: return null
+            val type = referenceExpression.getType(context)
+            return unwrapOptionType(type)
         }
 
         if (expr is TactTernaryExpr) {
