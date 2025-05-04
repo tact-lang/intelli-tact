@@ -537,9 +537,9 @@ Expression ::=
 // Foo { ... }
 LiteralValueExpression ::= Type '{' InstanceArguments? '}'
 
-InstanceArguments ::= InstanceArgument (',' InstanceArgument?)*
+InstanceArguments ::= InstanceArgument (','? InstanceArgument)* ','?
 InstanceArgument ::= InstanceArgumentFull | InstanceArgumentShort
-InstanceArgumentShort ::= ReferenceExpression
+InstanceArgumentShort ::= ReferenceExpression {pin=1}
 InstanceArgumentFull ::= FieldName ':' Expression? {pin=2}
 
 private CommaElementList ::= ElementInner (',' ElementInner?)*

@@ -1720,7 +1720,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // InstanceArgument (',' InstanceArgument?)*
+  // InstanceArgument (','? InstanceArgument)* ','?
   public static boolean InstanceArguments(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "InstanceArguments")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
@@ -1728,11 +1728,12 @@ public class TactParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = InstanceArgument(b, l + 1);
     r = r && InstanceArguments_1(b, l + 1);
+    r = r && InstanceArguments_2(b, l + 1);
     exit_section_(b, m, INSTANCE_ARGUMENTS, r);
     return r;
   }
 
-  // (',' InstanceArgument?)*
+  // (','? InstanceArgument)*
   private static boolean InstanceArguments_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "InstanceArguments_1")) return false;
     while (true) {
@@ -1743,21 +1744,28 @@ public class TactParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // ',' InstanceArgument?
+  // ','? InstanceArgument
   private static boolean InstanceArguments_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "InstanceArguments_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && InstanceArguments_1_0_1(b, l + 1);
+    r = InstanceArguments_1_0_0(b, l + 1);
+    r = r && InstanceArgument(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // InstanceArgument?
-  private static boolean InstanceArguments_1_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "InstanceArguments_1_0_1")) return false;
-    InstanceArgument(b, l + 1);
+  // ','?
+  private static boolean InstanceArguments_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "InstanceArguments_1_0_0")) return false;
+    consumeToken(b, COMMA);
+    return true;
+  }
+
+  // ','?
+  private static boolean InstanceArguments_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "InstanceArguments_2")) return false;
+    consumeToken(b, COMMA);
     return true;
   }
 
