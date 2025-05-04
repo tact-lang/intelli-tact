@@ -10,6 +10,7 @@ import org.tonstudio.tact.lang.stubs.index.TactStructIndex
 import org.tonstudio.tact.lang.stubs.types.TactNamedStubElementType
 import com.intellij.util.ArrayFactory
 import org.tonstudio.tact.lang.psi.impl.TactMessageDeclarationImpl
+import org.tonstudio.tact.lang.stubs.index.TactClassLikeIndex
 
 class TactMessageDeclarationStub : TactNamedStub<TactMessageDeclaration> {
     constructor(
@@ -42,7 +43,7 @@ class TactMessageDeclarationStub : TactNamedStub<TactMessageDeclaration> {
         override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>?) =
             TactMessageDeclarationStub(parentStub, this, dataStream.readName(), dataStream.readBoolean())
 
-        override fun getExtraIndexKeys() = listOf(TactStructIndex.KEY)
+        override fun getExtraIndexKeys() = listOf(TactStructIndex.KEY, TactClassLikeIndex.KEY)
 
         companion object {
             private val EMPTY_ARRAY: Array<TactMessageDeclaration?> = arrayOfNulls(0)

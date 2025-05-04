@@ -47,6 +47,7 @@
         <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactNamesIndex"/>
         <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactContractsTraitsIndex"/>
         <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactStructIndex"/>
+        <stubIndex implementation="org.tonstudio.tact.lang.stubs.index.TactClassLikeIndex"/>
         <stubElementTypeHolder class="org.tonstudio.tact.lang.TactTypes" externalIdPrefix="tact."/>
         <!-- endregion Indexes -->
 
@@ -136,6 +137,11 @@
         <!-- TODO: langCodeStyleSettingsProvider -->
         <formattingService implementation="org.tonstudio.tact.lang.formatter.TactFormattingService"/>
         <!-- endregion Formatter -->
+
+        <!-- region Navigation -->
+        <gotoClassContributor implementation="org.tonstudio.tact.ide.navigation.TactGotoClassLikeContributor"/>
+        <gotoSymbolContributor implementation="org.tonstudio.tact.ide.navigation.TactGotoSymbolContributor"/>
+        <!-- endregion Navigation -->
 
         <!-- region Color Settings & Schemes -->
         <colorSettingsPage implementation="org.tonstudio.tact.ide.colors.TactColorsSettingsPage"/>

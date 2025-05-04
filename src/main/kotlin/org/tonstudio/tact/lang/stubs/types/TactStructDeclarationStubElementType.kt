@@ -7,6 +7,7 @@ import com.intellij.util.ArrayFactory
 import org.tonstudio.tact.lang.psi.TactStructDeclaration
 import org.tonstudio.tact.lang.psi.impl.TactStructDeclarationImpl
 import org.tonstudio.tact.lang.stubs.TactStructDeclarationStub
+import org.tonstudio.tact.lang.stubs.index.TactClassLikeIndex
 import org.tonstudio.tact.lang.stubs.index.TactStructIndex
 
 class TactStructDeclarationStubElementType(name: String) :
@@ -34,11 +35,9 @@ class TactStructDeclarationStubElementType(name: String) :
         )
     }
 
-    override fun getExtraIndexKeys() = EXTRA_KEYS
+    override fun getExtraIndexKeys() = listOf(TactStructIndex.KEY, TactClassLikeIndex.KEY)
 
     companion object {
-        private val EXTRA_KEYS = listOf(TactStructIndex.KEY)
-
         private val EMPTY_ARRAY: Array<TactStructDeclaration?> = arrayOfNulls(0)
         val ARRAY_FACTORY = ArrayFactory<TactStructDeclaration> { count: Int ->
             if (count == 0) EMPTY_ARRAY else arrayOfNulls<TactStructDeclaration>(count)
