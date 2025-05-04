@@ -283,6 +283,12 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
 
                 if (!processNamedElements(processor, state.put(SEARCH_NAME, searchName), fields, false)) return false
             }
+
+            is TactAsmShuffle -> {
+                val functionDecl = myElement.parentOfType<TactAsmFunctionDeclaration>() ?: return true
+                val parameters = functionDecl.getSignature()?.parameters?.paramDefinitionList ?: emptyList()
+                return processNamedElements(processor, state, parameters, false)
+            }
         }
 
         if (!processBlock(processor, state, true)) return false
@@ -353,29 +359,6 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
 
         val stubsFile = stdlib.findChild("stubs.tact") ?: return null
         return psiManager.findFile(stubsFile) as? TactFile
-    }
-
-    private fun processDirectory(
-        dir: PsiDirectory?,
-        processor: TactScopeProcessor,
-        state: ResolveState,
-        localProcessing: Boolean,
-    ): Boolean {
-        if (dir == null) {
-            return true
-        }
-
-        for (f in dir.files) {
-            if (f !is TactFile) {
-                continue
-            }
-
-            if (!processFileEntities(f, processor, state, localProcessing)) {
-                return false
-            }
-        }
-
-        return true
     }
 
     private fun processImportedFiles(
