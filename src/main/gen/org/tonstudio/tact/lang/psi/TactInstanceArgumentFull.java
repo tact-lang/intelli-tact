@@ -5,18 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface TactLiteralValueExpression extends TactExpression {
+public interface TactInstanceArgumentFull extends TactCompositeElement {
 
   @Nullable
-  TactInstanceArguments getInstanceArguments();
+  TactExpression getExpression();
 
   @NotNull
-  TactType getType();
+  TactFieldName getFieldName();
 
   @NotNull
-  PsiElement getLbrace();
-
-  @NotNull
-  PsiElement getRbrace();
+  PsiElement getColon();
 
 }

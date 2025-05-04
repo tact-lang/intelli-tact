@@ -535,7 +535,13 @@ Expression ::=
   {methods=[getType] implements="org.tonstudio.tact.lang.psi.TactTypeOwner"}
 
 // Foo { ... }
-LiteralValueExpression ::= Type '{' ElementList? '}'
+LiteralValueExpression ::= Type '{' InstanceArguments? '}'
+
+InstanceArguments ::= InstanceArgument (',' InstanceArgument?)*
+InstanceArgument ::= InstanceArgumentFull | InstanceArgumentShort
+InstanceArgumentShort ::= ReferenceExpression
+InstanceArgumentFull ::= FieldName ':' Expression? {pin=2}
+
 private CommaElementList ::= ElementInner (',' ElementInner?)*
 private ElementList ::= ElementInner (',' ElementInner?)*
 private ElementInner ::= Element | (!() Element)

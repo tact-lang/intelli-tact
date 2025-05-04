@@ -113,7 +113,7 @@ object TactLangUtil {
                 TactPrimitiveTypes.INT            -> "0"
                 TactPrimitiveTypes.BUILDER        -> "beginCell()"
                 TactPrimitiveTypes.CELL           -> "emptyCell()"
-                TactPrimitiveTypes.ADDRESS        -> "address()"
+                TactPrimitiveTypes.ADDRESS        -> "sender()"
                 TactPrimitiveTypes.SLICE          -> "emptySlice()"
                 TactPrimitiveTypes.STRING         -> "\"\""
                 TactPrimitiveTypes.STRING_BUILDER -> "beginString()"

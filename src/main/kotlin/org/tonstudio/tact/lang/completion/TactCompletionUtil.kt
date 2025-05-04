@@ -364,16 +364,10 @@ object TactCompletionUtil {
             val offset = context.startOffset
             val at = file.findElementAt(offset)
 
-            val ref = PsiTreeUtil.getParentOfType(at, TactValue::class.java, TactReferenceExpression::class.java)
-            if (ref is TactReferenceExpression && (ref.getQualifier() != null)) {
-                return
+            val instanceArgument = at?.parentOfType<TactInstanceArgument>()
+            if (instanceArgument?.instanceArgumentShort != null) {
+                super.handleInsert(context, item)
             }
-
-            val value = PsiTreeUtil.getParentOfType(at, TactValue::class.java)
-            if (value == null || PsiTreeUtil.getPrevSiblingOfType(value, TactKey::class.java) != null) {
-                return
-            }
-            super.handleInsert(context, item)
         }
     }
 

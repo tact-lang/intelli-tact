@@ -492,7 +492,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         )
     }
 
-    private fun processBlock(processor: TactScopeProcessor, state: ResolveState, localResolve: Boolean): Boolean {
+    fun processBlock(processor: TactScopeProcessor, state: ResolveState, localResolve: Boolean): Boolean {
         val context = myElement
         val delegate = createDelegate(processor)
         ResolveUtil.treeWalkUp(context, delegate)

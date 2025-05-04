@@ -1673,6 +1673,95 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // InstanceArgumentFull | InstanceArgumentShort
+  public static boolean InstanceArgument(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "InstanceArgument")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = InstanceArgumentFull(b, l + 1);
+    if (!r) r = InstanceArgumentShort(b, l + 1);
+    exit_section_(b, m, INSTANCE_ARGUMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // FieldName ':' Expression?
+  public static boolean InstanceArgumentFull(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "InstanceArgumentFull")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, INSTANCE_ARGUMENT_FULL, null);
+    r = FieldName(b, l + 1);
+    r = r && consumeToken(b, COLON);
+    p = r; // pin = 2
+    r = r && InstanceArgumentFull_2(b, l + 1);
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // Expression?
+  private static boolean InstanceArgumentFull_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "InstanceArgumentFull_2")) return false;
+    Expression(b, l + 1, -1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // ReferenceExpression
+  public static boolean InstanceArgumentShort(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "InstanceArgumentShort")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = ReferenceExpression(b, l + 1);
+    exit_section_(b, m, INSTANCE_ARGUMENT_SHORT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // InstanceArgument (',' InstanceArgument?)*
+  public static boolean InstanceArguments(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "InstanceArguments")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = InstanceArgument(b, l + 1);
+    r = r && InstanceArguments_1(b, l + 1);
+    exit_section_(b, m, INSTANCE_ARGUMENTS, r);
+    return r;
+  }
+
+  // (',' InstanceArgument?)*
+  private static boolean InstanceArguments_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "InstanceArguments_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!InstanceArguments_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "InstanceArguments_1", c)) break;
+    }
+    return true;
+  }
+
+  // ',' InstanceArgument?
+  private static boolean InstanceArguments_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "InstanceArguments_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && InstanceArguments_1_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // InstanceArgument?
+  private static boolean InstanceArguments_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "InstanceArguments_1_0_1")) return false;
+    InstanceArgument(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
   // FieldName &':'
   public static boolean Key(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Key")) return false;
@@ -1696,7 +1785,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // Type '{' ElementList? '}'
+  // Type '{' InstanceArguments? '}'
   public static boolean LiteralValueExpression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "LiteralValueExpression")) return false;
     boolean r;
@@ -1709,10 +1798,10 @@ public class TactParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // ElementList?
+  // InstanceArguments?
   private static boolean LiteralValueExpression_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "LiteralValueExpression_2")) return false;
-    ElementList(b, l + 1);
+    InstanceArguments(b, l + 1);
     return true;
   }
 

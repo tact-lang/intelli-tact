@@ -27,7 +27,6 @@ object TactCompletionPatterns {
             .notAfterDot()
             .notAfterLiteral()
             .notInsideStructInitWithKeys()
-            .notInsideTrailingStruct()
             .noTopLevelNext()
 
     /**
@@ -151,37 +150,36 @@ object TactCompletionPatterns {
     private fun PsiElementPattern.Capture<PsiElement>.notInsideStructInitWithKeys(): PsiElementPattern.Capture<PsiElement> {
         return andNot(psiElement().with(object : PatternCondition<PsiElement>("notInsideStructInitWithKeys") {
             override fun accepts(t: PsiElement, context: ProcessingContext?): Boolean {
-                val element = t.parentNth<TactElement>(3) ?: return false
-                // if 'key: <caret>'
-                if (element.key != null) return false
-
-                // foo(fn<caret>)
-                if (element.parent is TactArgumentList) {
-                    return false
+                val instanceArgument = t.parent.parent
+                if (instanceArgument is TactInstanceArgumentShort) {
+                    // Foo {
+                    //     <caret>
+                    // }
+                    // disallow any completion
+                    return true
                 }
 
-                val prevElement = PsiTreeUtil.findSiblingBackward(element, ELEMENT, null) as? TactElement
-                // if 'value, <caret>'
-                return !(prevElement != null && prevElement.key == null)
-            }
-        }))
-    }
+                if (instanceArgument is TactInstanceArgumentFull) {
+                    // Foo {
+                    //     foo<caret>: value
+                    // }
+                    // disallow any completion
+                    if (PsiTreeUtil.isAncestor(instanceArgument.fieldName, t, false)) {
+                        return true
+                    }
 
-    private fun PsiElementPattern.Capture<PsiElement>.notInsideTrailingStruct(): PsiElementPattern.Capture<PsiElement> {
-        return andNot(psiElement().with(object : PatternCondition<PsiElement>("notInsideTrailingStruct") {
-            override fun accepts(t: PsiElement, context: ProcessingContext?): Boolean {
-                val element = t.parentNth<TactElement>(3) ?: return false
-                // if 'key: <caret>'
-                if (element.key != null) return false
+                    // Foo {
+                    //     foo: <caret>
+                    // }
+                    // allow any completion
+                    if (PsiTreeUtil.isAncestor(instanceArgument.expression, t, false)) {
+                        return false
+                    }
 
-                // foo(fn<caret>)
-                if (element.parent !is TactArgumentList) {
-                    return false
+                    return true
                 }
 
-                val prevElement = PsiTreeUtil.findSiblingBackward(element, ELEMENT, null) as? TactElement ?: return false
-                // if 'value, <caret>'
-                return prevElement.key != null
+                return false
             }
         }))
     }

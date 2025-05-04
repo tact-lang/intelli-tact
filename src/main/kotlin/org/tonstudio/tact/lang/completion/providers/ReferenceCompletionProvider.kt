@@ -13,11 +13,14 @@ import com.intellij.psi.util.parentOfType
 import com.intellij.util.ProcessingContext
 import org.tonstudio.tact.lang.TactTypes
 import org.tonstudio.tact.lang.completion.TactCompletionUtil
+import org.tonstudio.tact.lang.completion.TactCompletionUtil.KEYWORD_PRIORITY
 import org.tonstudio.tact.lang.completion.TactCompletionUtil.toTactLookupElement
+import org.tonstudio.tact.lang.completion.TactCompletionUtil.withPriority
 import org.tonstudio.tact.lang.completion.TactLookupElementProperties
 import org.tonstudio.tact.lang.completion.TactStructLiteralCompletion
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.impl.*
+import org.tonstudio.tact.lang.psi.types.TactOptionTypeEx
 import org.tonstudio.tact.lang.psi.types.TactTypeEx
 
 object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() {
@@ -35,11 +38,11 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
         val ref = expression.reference
         if (ref is TactReference) {
             val refExpression = ref.element as? TactReferenceExpression
-            val variants = TactStructLiteralCompletion.allowedVariants(refExpression, element)
+            val expectKey = TactStructLiteralCompletion.expectKeyInInstanceExpression(refExpression, element)
 
-            fillStructFieldNameVariants(parameters, set, variants, refExpression)
+            fillStructFieldNameVariants(parameters, set, expectKey, refExpression)
 
-            if (variants != TactStructLiteralCompletion.Variants.FIELD_NAME_ONLY) {
+            if (!expectKey) {
                 ref.processResolveVariants(MyScopeProcessor(parameters, set, ref.forTypes))
             }
         } else if (ref is TactCachedReference<*>) {
@@ -50,83 +53,106 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
     private fun fillStructFieldNameVariants(
         parameters: CompletionParameters,
         result: CompletionResultSet,
-        variants: TactStructLiteralCompletion.Variants,
+        expectKey: Boolean,
         refExpression: TactReferenceExpression?,
     ) {
-        if (refExpression == null ||
-            variants !== TactStructLiteralCompletion.Variants.FIELD_NAME_ONLY &&
-            variants !== TactStructLiteralCompletion.Variants.BOTH
-        ) {
+        if (refExpression == null || !expectKey) {
             return
         }
 
         val possiblyLiteralValueExpression = refExpression.parentOfType<TactLiteralValueExpression>() ?: return
 
-        val fields = mutableSetOf<Pair<String, TactTypeEx?>>()
-        val elementList = possiblyLiteralValueExpression.elementList
+        val allFields = mutableSetOf<Pair<String, TactTypeEx?>>()
+        val requiredFields = mutableSetOf<Pair<String, TactTypeEx?>>()
 
-        val alreadyAssignedFields = TactStructLiteralCompletion.alreadyAssignedFields(elementList)
+        val arguments = possiblyLiteralValueExpression.instanceArguments
+        val alreadyAssignedFields = TactStructLiteralCompletion.alreadyAssignedFields(arguments)
 
         TactFieldNameReference(refExpression).processResolveVariants(object : MyScopeProcessor(parameters, result, false) {
             override fun execute(element: PsiElement, state: ResolveState): Boolean {
-                val structFieldName =
-                    when (element) {
-                        is TactFieldDefinition -> element.name
-                        else                   -> null
-                    }
+                val field = element as? TactFieldDefinition ?: return false
+                val decl = field.parent as? TactFieldDeclaration ?: return false
 
-                val structFieldType =
-                    when (element) {
-                        is TactFieldDefinition -> element.getType(null)
-                        else                   -> null
-                    }
+                val type = field.getType(null)
+                val name = field.name ?: return false
+                val canBeOmitted = decl.defaultFieldValue != null || type is TactOptionTypeEx
 
-                if (structFieldName != null) {
-                    fields.add(structFieldName to structFieldType)
+                if (alreadyAssignedFields.contains(name)) {
+                    return true
                 }
 
-                if (structFieldName != null && alreadyAssignedFields.contains(structFieldName)) {
-                    return true
+                allFields.add(name to type)
+
+                if (!canBeOmitted) {
+                    requiredFields.add(name to type)
                 }
 
                 return super.execute(element, state)
             }
         })
 
-        val remainingFields = fields.filter { !alreadyAssignedFields.contains(it.first) }
-        if (remainingFields.size > 1) {
-            val element = LookupElementBuilder.create("")
-                .withPresentableText("Fill all fields…")
-                .withIcon(AllIcons.Actions.RealIntentionBulb)
-                .withInsertHandler(StructFieldsInsertHandler(remainingFields))
+        TactReference(refExpression).processBlock(object : MyScopeProcessor(parameters, result, false) {
+            override fun accept(e: PsiElement, forTypes: Boolean): Boolean {
+                val named = e as? TactNamedElement ?: return true
+                return allFields.any { (name) -> named.name == name }
+            }
+        }, ResolveState.initial(), false)
+
+        if (allFields.size > 1) {
+            val fields = allFields.toList()
+            val element =
+                LookupElementBuilder.create("")
+                    .withPresentableText("Fill all fields…")
+                    .withIcon(AllIcons.Actions.RealIntentionBulb)
+                    .withInsertHandler(StructFieldsInsertHandler(fields, false))
+
+            result.addElement(element)
+        }
+
+        if (requiredFields.size > 0) {
+            val fields = requiredFields.toList()
+            val element =
+                LookupElementBuilder.create("_")
+                    .withPresentableText("Fill required fields…")
+                    .withIcon(AllIcons.Actions.RealIntentionBulb)
+                    .withInsertHandler(StructFieldsInsertHandler(fields, true))
+                    .withPriority(KEYWORD_PRIORITY)
 
             result.addElement(element)
         }
     }
 
-    class StructFieldsInsertHandler(private val fields: List<Pair<String, TactTypeEx?>>) : InsertHandler<LookupElement> {
+    class StructFieldsInsertHandler(
+        private val fields: List<Pair<String, TactTypeEx?>>,
+        private val second: Boolean,
+    ) : InsertHandler<LookupElement> {
         override fun handleInsert(context: InsertionContext, item: LookupElement) {
             val project = context.project
             val offset = context.editor.caretModel.offset
             val element = context.file.findElementAt(offset) ?: return
-            val prevElement = element.prevSibling
+            var prevElement = element.prevSibling
+
+            // remove "1" for the second option
+            val doc = context.document
+            val start = context.startOffset
+            if (second) {
+                doc.deleteString(start, start + 1)
+                prevElement = prevElement?.prevSibling
+            }
 
             val before = if (prevElement.elementType == TactTypes.LBRACE) "\n" else ""
             val after = if (element.elementType == TactTypes.RBRACE) "\n" else ""
 
-            val templateText = fields.joinToString("\n", before, after) {
-                it.first + ": \$field_${it.first}$,"
+            val templateText = fields.joinToString("\n", before, after) { (name) ->
+                "$name: \$field_${name}$,"
             }
 
-            val template = TemplateManager.getInstance(project)
-                .createTemplate("closures", "tact", templateText)
+            val template = TemplateManager.getInstance(project).createTemplate("closures", "tact", templateText)
             template.isToReformat = true
 
-            fields.forEach {
+            for ((name, type) in fields) {
                 template.addVariable(
-                    "field_${it.first}",
-                    ConstantNode(TactLangUtil.getDefaultValue(element, it.second)),
-                    true
+                    "field_${name}", ConstantNode(TactLangUtil.getDefaultValue(element, type)), true
                 )
             }
 
@@ -156,7 +182,7 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
             return true
         }
 
-        private fun accept(e: PsiElement, forTypes: Boolean): Boolean {
+        protected open fun accept(e: PsiElement, forTypes: Boolean): Boolean {
             if (forTypes) {
                 if (e !is TactNamedElement) return false
                 if (e.isBlank()) {

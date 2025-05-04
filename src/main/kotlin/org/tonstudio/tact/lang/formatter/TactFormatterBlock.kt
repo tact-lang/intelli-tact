@@ -20,6 +20,7 @@ class TactFormatterBlock(
         TactTypes.MESSAGE_TYPE,
         TactTypes.BLOCK,
         TactTypes.ASM_FUNCTION_BODY,
+        TactTypes.LITERAL_VALUE_EXPRESSION,
              -> Indent.getNormalIndent()
 
         else -> Indent.getNoneIndent()
@@ -68,8 +69,8 @@ class TactFormatterBlock(
             TactTypes.LITERAL_VALUE_EXPRESSION,
                  -> {
                 when (childType) {
-                    TactTypes.ELEMENT -> Indent.getNormalIndent()
-                    else              -> Indent.getNoneIndent()
+                    TactTypes.INSTANCE_ARGUMENTS -> Indent.getNormalIndent()
+                    else                         -> Indent.getNoneIndent()
                 }
             }
 

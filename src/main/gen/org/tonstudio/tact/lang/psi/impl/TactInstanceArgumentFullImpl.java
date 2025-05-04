@@ -10,15 +10,14 @@ import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
-public class TactLiteralValueExpressionImpl extends TactExpressionImpl implements TactLiteralValueExpression {
+public class TactInstanceArgumentFullImpl extends TactCompositeElementImpl implements TactInstanceArgumentFull {
 
-  public TactLiteralValueExpressionImpl(@NotNull ASTNode node) {
+  public TactInstanceArgumentFullImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull TactVisitor visitor) {
-    visitor.visitLiteralValueExpression(this);
+    visitor.visitInstanceArgumentFull(this);
   }
 
   @Override
@@ -29,26 +28,20 @@ public class TactLiteralValueExpressionImpl extends TactExpressionImpl implement
 
   @Override
   @Nullable
-  public TactInstanceArguments getInstanceArguments() {
-    return TactPsiTreeUtil.getChildOfType(this, TactInstanceArguments.class);
+  public TactExpression getExpression() {
+    return TactPsiTreeUtil.getChildOfType(this, TactExpression.class);
   }
 
   @Override
   @NotNull
-  public TactType getType() {
-    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactType.class));
+  public TactFieldName getFieldName() {
+    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactFieldName.class));
   }
 
   @Override
   @NotNull
-  public PsiElement getLbrace() {
-    return notNullChild(findChildByType(LBRACE));
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getRbrace() {
-    return notNullChild(findChildByType(RBRACE));
+  public PsiElement getColon() {
+    return notNullChild(findChildByType(COLON));
   }
 
 }

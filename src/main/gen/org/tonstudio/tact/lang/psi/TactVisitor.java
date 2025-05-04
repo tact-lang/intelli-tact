@@ -267,6 +267,22 @@ public class TactVisitor extends PsiElementVisitor {
     visitExpression(o);
   }
 
+  public void visitInstanceArgument(@NotNull TactInstanceArgument o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitInstanceArgumentFull(@NotNull TactInstanceArgumentFull o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitInstanceArgumentShort(@NotNull TactInstanceArgumentShort o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitInstanceArguments(@NotNull TactInstanceArguments o) {
+    visitCompositeElement(o);
+  }
+
   public void visitKey(@NotNull TactKey o) {
     visitCompositeElement(o);
   }

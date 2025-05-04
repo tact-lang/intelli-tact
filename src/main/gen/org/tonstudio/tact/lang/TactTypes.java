@@ -74,6 +74,10 @@ public interface TactTypes {
   IElementType IMPORT_DECLARATION = TactElementTypeFactory.stubFactory("IMPORT_DECLARATION");
   IElementType IMPORT_LIST = new TactCompositeElementType("IMPORT_LIST");
   IElementType INIT_OF_EXPR = new TactCompositeElementType("INIT_OF_EXPR");
+  IElementType INSTANCE_ARGUMENT = new TactCompositeElementType("INSTANCE_ARGUMENT");
+  IElementType INSTANCE_ARGUMENTS = new TactCompositeElementType("INSTANCE_ARGUMENTS");
+  IElementType INSTANCE_ARGUMENT_FULL = new TactCompositeElementType("INSTANCE_ARGUMENT_FULL");
+  IElementType INSTANCE_ARGUMENT_SHORT = new TactCompositeElementType("INSTANCE_ARGUMENT_SHORT");
   IElementType KEY = new TactCompositeElementType("KEY");
   IElementType LITERAL = new TactCompositeElementType("LITERAL");
   IElementType LITERAL_VALUE_EXPRESSION = new TactCompositeElementType("LITERAL_VALUE_EXPRESSION");
@@ -414,6 +418,18 @@ public interface TactTypes {
       }
       else if (type == INIT_OF_EXPR) {
         return new TactInitOfExprImpl(node);
+      }
+      else if (type == INSTANCE_ARGUMENT) {
+        return new TactInstanceArgumentImpl(node);
+      }
+      else if (type == INSTANCE_ARGUMENTS) {
+        return new TactInstanceArgumentsImpl(node);
+      }
+      else if (type == INSTANCE_ARGUMENT_FULL) {
+        return new TactInstanceArgumentFullImpl(node);
+      }
+      else if (type == INSTANCE_ARGUMENT_SHORT) {
+        return new TactInstanceArgumentShortImpl(node);
       }
       else if (type == KEY) {
         return new TactKeyImpl(node);

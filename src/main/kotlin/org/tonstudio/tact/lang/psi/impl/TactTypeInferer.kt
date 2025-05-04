@@ -1,22 +1,15 @@
 package org.tonstudio.tact.lang.psi.impl
 
-import com.intellij.psi.PsiElement
 import com.intellij.psi.ResolveState
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.elementType
-import com.intellij.psi.util.parentOfType
 import org.tonstudio.tact.lang.TactTypes
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.types.*
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
-import org.tonstudio.tact.utils.parentNth
 
 fun TactExpression.inferType(context: ResolveState?): TactTypeEx? {
     return TactTypeInferer.getType(this, context)
-}
-
-fun PsiElement.contextType(): TactTypeEx? {
-    return TactTypeInferer.getContextType(this)
 }
 
 object TactTypeInferer {
@@ -233,77 +226,6 @@ object TactTypeInferer {
             return type.inner
         }
         return type
-    }
-
-    fun getContextType(element: PsiElement): TactTypeEx? {
-        val parentStructInit = element.parentNth<TactLiteralValueExpression>(3)
-        if (parentStructInit != null) {
-            val withoutKeys = parentStructInit.elementList.any { it.key == null }
-            if (withoutKeys) {
-                val elem = parentStructInit.elementList.firstOrNull { PsiTreeUtil.isAncestor(it.value, element, false) }
-                val key = elem?.key
-                val fieldName = key?.fieldName?.text ?: return null
-                val struct = parentStructInit.getType(null) as? TactStructTypeEx ?: return null
-                val structDecl = struct.resolve(element.project) ?: return null
-                val structType = structDecl.structType
-                return structType.fieldList.firstOrNull { it.name == fieldName }?.getType(null)
-            }
-        }
-
-        if (element.parent is TactValue) {
-            val parentElement = element.parentNth<TactElement>(2)
-            val key = parentElement?.key
-            if (key?.fieldName != null) {
-                val resolved = key.fieldName?.resolve() as? TactFieldDefinition
-                val declaration = resolved?.parent as? TactFieldDeclaration
-                val resolvedType = declaration?.type?.toEx()
-                if (resolvedType != null) {
-                    return resolvedType
-                }
-            }
-        }
-
-        if (element.parent is TactDefaultFieldValue) {
-            val fieldDeclaration = element.parentOfType<TactFieldDeclaration>() ?: return null
-            return fieldDeclaration.type.toEx()
-        }
-
-        if (element.parent is TactAddExpr) {
-            val addExpr = element.parent as TactAddExpr
-            if (addExpr.bitOr != null) {
-                return getContextType(addExpr)
-            }
-        }
-
-        if (element.parent is TactBinaryExpr) {
-            val binaryExpr = element.parent as TactBinaryExpr
-            val right = binaryExpr.right ?: return null
-            if (binaryExpr.right != null && right.isEquivalentTo(element)) {
-                val left = binaryExpr.left
-                return left.getType(null)
-            }
-        }
-
-        if (element.parent is TactAssignmentStatement) {
-            val assign = element.parent as TactAssignmentStatement
-            return assign.right?.getType(null)
-        }
-
-        val callExpr = TactLangUtil.findCallExpr(element)
-        if (callExpr != null) {
-            val index = callExpr.paramIndexOf(element)
-            if (index == -1) return null
-
-            val function = callExpr.resolve() as? TactSignatureOwner ?: return null
-            val params = function.getSignature()?.parameters?.paramDefinitionList ?: return null
-
-            val param = params.getOrNull(index) ?: return null
-            val paramType = param.type.toEx()
-
-            return paramType
-        }
-
-        return null
     }
 
     private fun isBoolExpr(expr: TactExpression) = expr is TactConditionalExpr ||
