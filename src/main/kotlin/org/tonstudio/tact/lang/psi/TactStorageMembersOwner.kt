@@ -1,8 +1,6 @@
 package org.tonstudio.tact.lang.psi
 
 interface TactStorageMembersOwner : TactCompositeElement {
-    val name: String?
-
     fun getWithClause(): TactWithClause?
     fun getFieldList(): List<TactFieldDefinition>
     fun getMethodsList(): List<TactFunctionDeclaration>
