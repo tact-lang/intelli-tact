@@ -323,7 +323,7 @@ private MembersRecover ::= !(
     | inline
     | abstract
     | virtual
-    | init
+    | 'init'
     | mutates
     | extends
     | override

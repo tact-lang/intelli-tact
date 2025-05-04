@@ -172,7 +172,6 @@ public interface TactTypes {
   IElementType IF = new TactTokenType("if");
   IElementType IMPORT = new TactTokenType("import");
   IElementType IN = new TactTokenType("in");
-  IElementType INIT = new TactTokenType("init");
   IElementType INIT_OF = new TactTokenType("initOf");
   IElementType INLINE = new TactTokenType("inline");
   IElementType INT = new TactTokenType("int");

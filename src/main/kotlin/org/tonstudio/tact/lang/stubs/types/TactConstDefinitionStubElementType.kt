@@ -14,8 +14,7 @@ class TactConstDefinitionStubElementType(name: String) : TactNamedStubElementTyp
     }
 
     override fun createStub(psi: TactConstDefinition, parentStub: StubElement<*>?): TactConstDefinitionStub {
-//        val type = psi.expression?.getType(null)?.qualifiedName() ?: ""
-        val value = "" // psi.expression?.text ?: ""
+        val value = psi.expression?.text ?: ""
         return TactConstDefinitionStub(parentStub, this, psi.name, true, value, "")
     }
 

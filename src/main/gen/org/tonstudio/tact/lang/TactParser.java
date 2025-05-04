@@ -1718,7 +1718,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     | inline
   //     | abstract
   //     | virtual
-  //     | init
+  //     | 'init'
   //     | mutates
   //     | extends
   //     | override
@@ -1747,7 +1747,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     | inline
   //     | abstract
   //     | virtual
-  //     | init
+  //     | 'init'
   //     | mutates
   //     | extends
   //     | override
@@ -1766,7 +1766,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, INLINE);
     if (!r) r = consumeToken(b, ABSTRACT);
     if (!r) r = consumeToken(b, VIRTUAL);
-    if (!r) r = consumeToken(b, INIT);
+    if (!r) r = consumeToken(b, "init");
     if (!r) r = consumeToken(b, MUTATES);
     if (!r) r = consumeToken(b, EXTENDS);
     if (!r) r = consumeToken(b, OVERRIDE);

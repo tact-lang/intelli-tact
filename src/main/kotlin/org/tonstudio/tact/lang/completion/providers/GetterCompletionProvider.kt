@@ -13,7 +13,7 @@ object GetterCompletionProvider : CompletionProvider<CompletionParameters>() {
     override fun addCompletions(parameters: CompletionParameters, ctx: ProcessingContext, result: CompletionResultSet) {
         val owner = parameters.position.parentOfType<TactStorageMembersOwner>() ?: return
 
-        val fields = owner.fields()
+        val fields = owner.getFieldList()
         fields.forEach { field ->
             val name = field.name ?: return@forEach
             val type = field.getType(null) ?: return@forEach

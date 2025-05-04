@@ -21,6 +21,7 @@ class TactFormatterBlock(
         TactTypes.BLOCK,
         TactTypes.ASM_FUNCTION_BODY,
         TactTypes.LITERAL_VALUE_EXPRESSION,
+        TactTypes.CONTRACT_PARAMETERS,
              -> Indent.getNormalIndent()
 
         else -> Indent.getNoneIndent()
@@ -71,6 +72,14 @@ class TactFormatterBlock(
                 when (childType) {
                     TactTypes.INSTANCE_ARGUMENTS -> Indent.getNormalIndent()
                     else                         -> Indent.getNoneIndent()
+                }
+            }
+
+            TactTypes.CONTRACT_PARAMETERS,
+                 -> {
+                when (childType) {
+                    TactTypes.FIELD_DECLARATION -> Indent.getNormalIndent()
+                    else                        -> Indent.getNoneIndent()
                 }
             }
 
