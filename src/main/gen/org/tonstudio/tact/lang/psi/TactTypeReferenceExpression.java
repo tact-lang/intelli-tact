@@ -14,16 +14,12 @@ public interface TactTypeReferenceExpression extends TactReferenceExpressionBase
   @NotNull
   PsiElement getIdentifier();
 
-  @NotNull
-  TactReference getReference();
+  @NotNull TactReference getReference();
 
-  @Nullable
-  TactCompositeElement getQualifier();
+  @Nullable TactCompositeElement getQualifier();
 
-  @Nullable
-  PsiElement resolve();
+  @Nullable PsiElement resolve();
 
-  @NotNull
-  Pair<Integer, Integer> getIdentifierBounds();
+  @NotNull Pair<@NotNull Integer, @NotNull Integer> getIdentifierBounds();
 
 }

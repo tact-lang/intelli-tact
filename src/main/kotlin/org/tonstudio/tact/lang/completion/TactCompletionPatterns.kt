@@ -189,7 +189,7 @@ object TactCompletionPatterns {
             override fun accepts(t: PsiElement, context: ProcessingContext?): Boolean {
                 val statement = t.parentOfType<TactStatement>() ?: return false
                 val next = PsiTreeUtil.skipWhitespacesAndCommentsForward(statement) ?: return false
-                return next is TactFunctionOrMethodDeclaration ||
+                return next is TactFunctionDeclaration ||
                         next is TactStructDeclaration ||
                         next is TactTraitDeclaration ||
                         next is TactMessageDeclaration ||

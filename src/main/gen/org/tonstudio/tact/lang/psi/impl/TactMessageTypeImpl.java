@@ -64,14 +64,12 @@ public class TactMessageTypeImpl extends TactTypeImpl implements TactMessageType
   }
 
   @Override
-  @Nullable
-  public PsiElement getIdentifier() {
+  public @Nullable PsiElement getIdentifier() {
     return TactPsiImplUtil.getIdentifier(this);
   }
 
   @Override
-  @NotNull
-  public List<TactFieldDefinition> getFieldList() {
+  public @NotNull List<@NotNull TactFieldDefinition> getFieldList() {
     return TactPsiImplUtil.getFieldList(this);
   }
 

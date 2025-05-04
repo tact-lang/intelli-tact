@@ -15,14 +15,11 @@ public interface TactVarDefinition extends TactNamedElement, StubBasedPsiElement
   @NotNull
   PsiElement getIdentifier();
 
-  @Nullable
-  TactTypeEx getTypeInner(@Nullable ResolveState context);
+  @Nullable TactTypeEx getTypeInner(@Nullable ResolveState context);
 
-  @NotNull
-  String getName();
+  @NotNull String getName();
 
-  @NotNull
-  PsiReference getReference();
+  @NotNull PsiReference getReference();
 
   boolean isReadonly();
 

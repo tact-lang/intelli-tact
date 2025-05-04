@@ -41,26 +41,22 @@ public class TactFieldDefinitionImpl extends TactNamedElementImpl<TactFieldDefin
   }
 
   @Override
-  @Nullable
-  public TactCompositeElement getQualifier() {
+  public @Nullable TactCompositeElement getQualifier() {
     return TactPsiImplUtil.getQualifier(this);
   }
 
   @Override
-  @Nullable
-  public String getQualifiedName() {
+  public @Nullable String getQualifiedName() {
     return TactPsiImplUtil.getQualifiedName(this);
   }
 
   @Override
-  @NotNull
-  public TactTypeEx getTypeInner(@Nullable ResolveState context) {
+  public @NotNull TactTypeEx getTypeInner(@Nullable ResolveState context) {
     return TactPsiImplUtil.getTypeInner(this, context);
   }
 
   @Override
-  @NotNull
-  public TactNamedElement getOwner() {
+  public @NotNull TactNamedElement getOwner() {
     return TactPsiImplUtil.getOwner(this);
   }
 

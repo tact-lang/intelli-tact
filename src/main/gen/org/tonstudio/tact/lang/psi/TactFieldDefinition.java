@@ -14,16 +14,12 @@ public interface TactFieldDefinition extends TactNamedElement, StubBasedPsiEleme
   @NotNull
   PsiElement getIdentifier();
 
-  @Nullable
-  TactCompositeElement getQualifier();
+  @Nullable TactCompositeElement getQualifier();
 
-  @Nullable
-  String getQualifiedName();
+  @Nullable String getQualifiedName();
 
-  @NotNull
-  TactTypeEx getTypeInner(@Nullable ResolveState context);
+  @NotNull TactTypeEx getTypeInner(@Nullable ResolveState context);
 
-  @NotNull
-  TactNamedElement getOwner();
+  @NotNull TactNamedElement getOwner();
 
 }

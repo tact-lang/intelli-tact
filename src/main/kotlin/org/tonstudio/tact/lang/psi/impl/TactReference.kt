@@ -261,10 +261,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
 
         when (myElement.parent) {
             is TactFieldName    -> {
-                if (!processNamedParams(processor, state)) return false
-                if (!processLiteralValueField(processor, state)) return false
-
-                return true
+                return processLiteralValueField(processor, state)
             }
 
             is TactDestructItem -> {
@@ -484,13 +481,6 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         val delegate = createDelegate(processor)
         ResolveUtil.treeWalkUp(context, delegate)
         return processNamedElements(processor, state, delegate.getVariants(), localResolve)
-    }
-
-    private fun processNamedParams(processor: TactScopeProcessor, state: ResolveState): Boolean {
-        val callExpr = TactLangUtil.findCallExpr(myElement) ?: return true
-        val resolved = callExpr.resolve() as? TactSignatureOwner ?: return true
-        val params = resolved.getSignature()?.parameters?.paramDefinitionList ?: return true
-        return processNamedElements(processor, state, params, true)
     }
 
     private fun processLiteralValueField(processor: TactScopeProcessor, state: ResolveState): Boolean {

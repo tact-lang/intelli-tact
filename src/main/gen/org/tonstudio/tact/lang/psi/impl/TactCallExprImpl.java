@@ -47,26 +47,22 @@ public class TactCallExprImpl extends TactExpressionImpl implements TactCallExpr
   }
 
   @Override
-  @NotNull
-  public List<TactExpression> getArguments() {
+  public @NotNull List<@NotNull TactExpression> getArguments() {
     return TactPsiImplUtil.getArguments(this);
   }
 
   @Override
-  @Nullable
-  public PsiElement getIdentifier() {
+  public @Nullable PsiElement getIdentifier() {
     return TactPsiImplUtil.getIdentifier(this);
   }
 
   @Override
-  @Nullable
-  public TactReferenceExpression getQualifier() {
+  public @Nullable TactReferenceExpression getQualifier() {
     return TactPsiImplUtil.getQualifier(this);
   }
 
   @Override
-  @Nullable
-  public PsiElement resolve() {
+  public @Nullable PsiElement resolve() {
     return TactPsiImplUtil.resolve(this);
   }
 
@@ -76,8 +72,7 @@ public class TactCallExprImpl extends TactExpressionImpl implements TactCallExpr
   }
 
   @Override
-  @Nullable
-  public Pair<TactSignature, TactSignatureOwner> resolveSignature() {
+  public @Nullable Pair<@NotNull TactSignature, @NotNull TactSignatureOwner> resolveSignature() {
     return TactPsiImplUtil.resolveSignature(this);
   }
 

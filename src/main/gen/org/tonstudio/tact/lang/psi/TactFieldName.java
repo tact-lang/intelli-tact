@@ -11,16 +11,12 @@ public interface TactFieldName extends TactReferenceExpressionBase {
   @NotNull
   TactReferenceExpression getReferenceExpression();
 
-  @NotNull
-  PsiElement getIdentifier();
+  @NotNull PsiElement getIdentifier();
 
-  @Nullable
-  TactCompositeElement getQualifier();
+  @Nullable TactCompositeElement getQualifier();
 
-  @Nullable
-  PsiElement resolve();
+  @Nullable PsiElement resolve();
 
-  @NotNull
-  Pair<Integer, Integer> getIdentifierBounds();
+  @NotNull Pair<@NotNull Integer, @NotNull Integer> getIdentifierBounds();
 
 }

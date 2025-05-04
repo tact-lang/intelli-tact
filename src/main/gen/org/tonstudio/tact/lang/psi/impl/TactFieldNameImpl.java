@@ -34,26 +34,22 @@ public class TactFieldNameImpl extends TactCompositeElementImpl implements TactF
   }
 
   @Override
-  @NotNull
-  public PsiElement getIdentifier() {
+  public @NotNull PsiElement getIdentifier() {
     return TactPsiImplUtil.getIdentifier(this);
   }
 
   @Override
-  @Nullable
-  public TactCompositeElement getQualifier() {
+  public @Nullable TactCompositeElement getQualifier() {
     return TactPsiImplUtil.getQualifier(this);
   }
 
   @Override
-  @Nullable
-  public PsiElement resolve() {
+  public @Nullable PsiElement resolve() {
     return TactPsiImplUtil.resolve(this);
   }
 
   @Override
-  @NotNull
-  public Pair<Integer, Integer> getIdentifierBounds() {
+  public @NotNull Pair<@NotNull Integer, @NotNull Integer> getIdentifierBounds() {
     return TactPsiImplUtil.getIdentifierBounds(this);
   }
 

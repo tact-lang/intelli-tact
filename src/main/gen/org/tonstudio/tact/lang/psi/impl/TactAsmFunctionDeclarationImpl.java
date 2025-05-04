@@ -71,8 +71,7 @@ public class TactAsmFunctionDeclarationImpl extends TactNamedElementImpl<TactAsm
   }
 
   @Override
-  @Nullable
-  public TactTypeEx getTypeInner(@Nullable ResolveState context) {
+  public @Nullable TactTypeEx getTypeInner(@Nullable ResolveState context) {
     return TactPsiImplUtil.getTypeInner(this, context);
   }
 

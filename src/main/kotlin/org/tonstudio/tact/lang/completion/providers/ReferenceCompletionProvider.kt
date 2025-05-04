@@ -243,8 +243,8 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
     ): LookupElement? {
         val context = parameters.position
 
-        val contextFunction = context.parentOfType<TactFunctionOrMethodDeclaration>()
-        val elementFunction = element.parentOfType<TactFunctionOrMethodDeclaration>()
+        val contextFunction = context.parentOfType<TactFunctionDeclaration>()
+        val elementFunction = element.parentOfType<TactFunctionDeclaration>()
         val isLocal = contextFunction == elementFunction
 
         val kind = when (element) {

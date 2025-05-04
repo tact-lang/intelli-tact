@@ -18,7 +18,6 @@ public interface TactImportDeclaration extends TactCompositeElement, StubBasedPs
   @NotNull
   PsiElement getImport();
 
-  @NotNull
-  String getPath();
+  @NotNull String getPath();
 
 }

@@ -52,14 +52,12 @@ public class TactTypeImpl extends TactStubbedElementImpl<TactTypeStub> implement
   }
 
   @Override
-  @Nullable
-  public PsiElement getIdentifier() {
+  public @Nullable PsiElement getIdentifier() {
     return TactPsiImplUtil.getIdentifier(this);
   }
 
   @Override
-  @NotNull
-  public Pair<TactType, List<TactTypeExtra>> resolveType() {
+  public @NotNull Pair<@NotNull TactType, @NotNull List<@NotNull TactTypeExtra>> resolveType() {
     return TactPsiImplUtil.resolveType(this);
   }
 

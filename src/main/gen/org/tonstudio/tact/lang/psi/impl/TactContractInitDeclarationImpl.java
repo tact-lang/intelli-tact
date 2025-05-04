@@ -45,14 +45,12 @@ public class TactContractInitDeclarationImpl extends TactNamedElementImpl<TactCo
   }
 
   @Override
-  @Nullable
-  public PsiElement getIdentifier() {
+  public @Nullable PsiElement getIdentifier() {
     return TactPsiImplUtil.getIdentifier(this);
   }
 
   @Override
-  @NotNull
-  public String getName() {
+  public @NotNull String getName() {
     return TactPsiImplUtil.getName(this);
   }
 

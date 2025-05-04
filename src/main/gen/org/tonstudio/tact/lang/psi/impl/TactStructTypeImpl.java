@@ -64,8 +64,7 @@ public class TactStructTypeImpl extends TactTypeImpl implements TactStructType {
   }
 
   @Override
-  @NotNull
-  public List<TactFieldDefinition> getFieldList() {
+  public @NotNull List<@NotNull TactFieldDefinition> getFieldList() {
     return TactPsiImplUtil.getFieldList(this);
   }
 

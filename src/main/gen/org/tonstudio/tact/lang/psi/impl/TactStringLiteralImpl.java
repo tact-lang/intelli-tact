@@ -46,26 +46,22 @@ public class TactStringLiteralImpl extends TactExpressionImpl implements TactStr
   }
 
   @Override
-  @NotNull
-  public TactStringLiteral updateText(@NotNull String text) {
+  public @NotNull TactStringLiteral updateText(@NotNull String text) {
     return TactPsiImplUtil.updateText(this, text);
   }
 
   @Override
-  @NotNull
-  public StringLiteralEscaper<TactStringLiteral> createLiteralTextEscaper() {
+  public @NotNull StringLiteralEscaper<@NotNull TactStringLiteral> createLiteralTextEscaper() {
     return TactPsiImplUtil.createLiteralTextEscaper(this);
   }
 
   @Override
-  @NotNull
-  public PsiReference[] getReferences() {
+  public @NotNull PsiReference @NotNull [] getReferences() {
     return TactPsiImplUtil.getReferences(this);
   }
 
   @Override
-  @NotNull
-  public String getContents() {
+  public @NotNull String getContents() {
     return TactPsiImplUtil.getContents(this);
   }
 

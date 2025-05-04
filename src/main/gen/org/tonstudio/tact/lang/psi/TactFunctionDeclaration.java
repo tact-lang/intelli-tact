@@ -10,7 +10,7 @@ import com.intellij.psi.ResolveState;
 import kotlin.Pair;
 import org.tonstudio.tact.lang.psi.types.TactTypeEx;
 
-public interface TactFunctionDeclaration extends TactSignatureOwner, TactFunctionOrMethodDeclaration, TactAttributeOwner, StubBasedPsiElement<TactFunctionDeclarationStub> {
+public interface TactFunctionDeclaration extends TactNamedElement, TactSignatureOwner, TactAttributeOwner, StubBasedPsiElement<TactFunctionDeclarationStub> {
 
   @Nullable
   TactAttributes getAttributes();
@@ -33,11 +33,9 @@ public interface TactFunctionDeclaration extends TactSignatureOwner, TactFunctio
   @NotNull
   PsiElement getIdentifier();
 
-  @NotNull
-  String getName();
+  @NotNull String getName();
 
-  @Nullable
-  TactTypeEx getTypeInner(@Nullable ResolveState context);
+  @Nullable TactTypeEx getTypeInner(@Nullable ResolveState context);
 
   boolean isGet();
 
@@ -45,7 +43,6 @@ public interface TactFunctionDeclaration extends TactSignatureOwner, TactFunctio
 
   boolean isVirtual();
 
-  @NotNull
-  Pair<String, Boolean> computeMethodId();
+  @NotNull Pair<@NotNull String, @NotNull Boolean> computeMethodId();
 
 }

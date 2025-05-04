@@ -15,7 +15,7 @@ import kotlin.Pair;
 import org.tonstudio.tact.lang.psi.types.TactTypeEx;
 import com.intellij.psi.stubs.IStubElementType;
 
-public class TactFunctionDeclarationImpl extends TactFunctionOrMethodDeclarationImpl<TactFunctionDeclarationStub> implements TactFunctionDeclaration {
+public class TactFunctionDeclarationImpl extends TactNamedElementImpl<TactFunctionDeclarationStub> implements TactFunctionDeclaration {
 
   public TactFunctionDeclarationImpl(@NotNull TactFunctionDeclarationStub stub, @NotNull IStubElementType<?, ?> type) {
     super(stub, type);
@@ -78,14 +78,12 @@ public class TactFunctionDeclarationImpl extends TactFunctionOrMethodDeclaration
   }
 
   @Override
-  @NotNull
-  public String getName() {
+  public @NotNull String getName() {
     return TactPsiImplUtil.getName(this);
   }
 
   @Override
-  @Nullable
-  public TactTypeEx getTypeInner(@Nullable ResolveState context) {
+  public @Nullable TactTypeEx getTypeInner(@Nullable ResolveState context) {
     return TactPsiImplUtil.getTypeInner(this, context);
   }
 
@@ -105,8 +103,7 @@ public class TactFunctionDeclarationImpl extends TactFunctionOrMethodDeclaration
   }
 
   @Override
-  @NotNull
-  public Pair<String, Boolean> computeMethodId() {
+  public @NotNull Pair<@NotNull String, @NotNull Boolean> computeMethodId() {
     return TactPsiImplUtil.computeMethodId(this);
   }
 

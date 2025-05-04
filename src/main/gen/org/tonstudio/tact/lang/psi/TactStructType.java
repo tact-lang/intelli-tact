@@ -22,7 +22,6 @@ public interface TactStructType extends TactType, TactFieldListOwner {
   @NotNull
   PsiElement getStruct();
 
-  @NotNull
-  List<TactFieldDefinition> getFieldList();
+  @NotNull List<@NotNull TactFieldDefinition> getFieldList();
 
 }

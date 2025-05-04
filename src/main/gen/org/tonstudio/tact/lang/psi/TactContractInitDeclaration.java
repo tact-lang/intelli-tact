@@ -15,10 +15,8 @@ public interface TactContractInitDeclaration extends TactNamedElement, StubBased
   @Nullable
   TactParameters getParameters();
 
-  @Nullable
-  PsiElement getIdentifier();
+  @Nullable PsiElement getIdentifier();
 
-  @NotNull
-  String getName();
+  @NotNull String getName();
 
 }

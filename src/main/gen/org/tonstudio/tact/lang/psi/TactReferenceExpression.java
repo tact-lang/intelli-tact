@@ -13,19 +13,14 @@ public interface TactReferenceExpression extends TactExpression, TactReferenceEx
   @NotNull
   PsiElement getIdentifier();
 
-  @NotNull
-  TactReference getReference();
+  @NotNull TactReference getReference();
 
-  @Nullable
-  TactCompositeElement getQualifier();
+  @Nullable TactCompositeElement getQualifier();
 
-  @NotNull
-  Access getReadWriteAccess();
+  @NotNull Access getReadWriteAccess();
 
-  @NotNull
-  Pair<Integer, Integer> getIdentifierBounds();
+  @NotNull Pair<@NotNull Integer, @NotNull Integer> getIdentifierBounds();
 
-  @Nullable
-  PsiElement resolve();
+  @Nullable PsiElement resolve();
 
 }

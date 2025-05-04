@@ -6,7 +6,7 @@ interface TactSignatureOwner : TactCompositeElement {
 
 fun TactSignatureOwner.getBlockIfAny(): TactBlock? {
     return when (this) {
-        is TactFunctionOrMethodDeclaration -> this.getBlock()
-        else                               -> null
+        is TactFunctionDeclaration -> this.getBlock()
+        else                       -> null
     }
 }

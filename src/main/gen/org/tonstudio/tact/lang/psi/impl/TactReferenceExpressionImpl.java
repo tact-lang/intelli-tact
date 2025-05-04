@@ -36,32 +36,27 @@ public class TactReferenceExpressionImpl extends TactExpressionImpl implements T
   }
 
   @Override
-  @NotNull
-  public TactReference getReference() {
+  public @NotNull TactReference getReference() {
     return TactPsiImplUtil.getReference(this);
   }
 
   @Override
-  @Nullable
-  public TactCompositeElement getQualifier() {
+  public @Nullable TactCompositeElement getQualifier() {
     return TactPsiImplUtil.getQualifier(this);
   }
 
   @Override
-  @NotNull
-  public Access getReadWriteAccess() {
+  public @NotNull Access getReadWriteAccess() {
     return TactPsiImplUtil.getReadWriteAccess(this);
   }
 
   @Override
-  @NotNull
-  public Pair<Integer, Integer> getIdentifierBounds() {
+  public @NotNull Pair<@NotNull Integer, @NotNull Integer> getIdentifierBounds() {
     return TactPsiImplUtil.getIdentifierBounds(this);
   }
 
   @Override
-  @Nullable
-  public PsiElement resolve() {
+  public @Nullable PsiElement resolve() {
     return TactPsiImplUtil.resolve(this);
   }
 

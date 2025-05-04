@@ -59,26 +59,22 @@ public class TactConstDefinitionImpl extends TactNamedElementImpl<TactConstDefin
   }
 
   @Override
-  @Nullable
-  public TactTypeEx getTypeInner(@Nullable ResolveState context) {
+  public @Nullable TactTypeEx getTypeInner(@Nullable ResolveState context) {
     return TactPsiImplUtil.getTypeInner(this, context);
   }
 
   @Override
-  @NotNull
-  public String getName() {
+  public @NotNull String getName() {
     return TactPsiImplUtil.getName(this);
   }
 
   @Override
-  @NotNull
-  public String getExpressionText() {
+  public @NotNull String getExpressionText() {
     return TactPsiImplUtil.getExpressionText(this);
   }
 
   @Override
-  @NotNull
-  public String getExpressionType() {
+  public @NotNull String getExpressionType() {
     return TactPsiImplUtil.getExpressionType(this);
   }
 

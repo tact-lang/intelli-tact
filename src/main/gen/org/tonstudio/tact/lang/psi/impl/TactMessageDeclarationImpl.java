@@ -41,20 +41,17 @@ public class TactMessageDeclarationImpl extends TactNamedElementImpl<TactMessage
   }
 
   @Override
-  @Nullable
-  public PsiElement getIdentifier() {
+  public @Nullable PsiElement getIdentifier() {
     return TactPsiImplUtil.getIdentifier(this);
   }
 
   @Override
-  @NotNull
-  public String getName() {
+  public @NotNull String getName() {
     return TactPsiImplUtil.getName(this);
   }
 
   @Override
-  @NotNull
-  public TactTypeEx getTypeInner(@Nullable ResolveState context) {
+  public @NotNull TactTypeEx getTypeInner(@Nullable ResolveState context) {
     return TactPsiImplUtil.getTypeInner(this, context);
   }
 

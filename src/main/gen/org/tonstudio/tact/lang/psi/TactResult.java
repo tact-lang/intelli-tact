@@ -17,7 +17,6 @@ public interface TactResult extends TactTypeOwner, StubBasedPsiElement<TactResul
   @Nullable
   PsiElement getColon();
 
-  @NotNull
-  TactTypeEx getType(@Nullable ResolveState context);
+  @NotNull TactTypeEx getType(@Nullable ResolveState context);
 
 }

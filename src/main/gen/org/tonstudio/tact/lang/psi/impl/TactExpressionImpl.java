@@ -29,8 +29,7 @@ public abstract class TactExpressionImpl extends TactCompositeElementImpl implem
   }
 
   @Override
-  @Nullable
-  public TactTypeEx getType(@Nullable ResolveState context) {
+  public @Nullable TactTypeEx getType(@Nullable ResolveState context) {
     return TactPsiImplUtil.getType(this, context);
   }
 

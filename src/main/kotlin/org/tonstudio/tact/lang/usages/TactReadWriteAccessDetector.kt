@@ -24,7 +24,7 @@ class TactReadWriteAccessDetector : ReadWriteAccessDetector() {
 
     override fun getExpressionAccess(expression: PsiElement): Access {
         if (expression is TactFieldName) {
-            return if (expression.getParent() is TactKey) Access.Write else Access.Read
+            return if (expression.parent is TactInstanceArgumentFull) Access.Write else Access.Read
         }
         val referenceExpression = expression as? TactReferenceExpression ?: expression.parentOfType()
         return referenceExpression?.readWriteAccess ?: Access.Read

@@ -8,7 +8,7 @@ import com.intellij.psi.SyntaxTraverser
 import com.intellij.psi.util.PsiTreeUtil
 import io.ktor.util.*
 import org.tonstudio.tact.lang.psi.TactFile
-import org.tonstudio.tact.lang.psi.TactFunctionOrMethodDeclaration
+import org.tonstudio.tact.lang.psi.TactFunctionDeclaration
 import org.tonstudio.tact.lang.psi.TactTypeOwner
 
 class TactTypeInfoProvider : ExpressionTypeProvider<TactTypeOwner>() {
@@ -30,7 +30,7 @@ class TactTypeInfoProvider : ExpressionTypeProvider<TactTypeOwner>() {
                 Conditions.notInstanceOf(TactFile::class.java),
             )
             .filter(TactTypeOwner::class.java)
-            .filter(Conditions.notInstanceOf(TactFunctionOrMethodDeclaration::class.java))
+            .filter(Conditions.notInstanceOf(TactFunctionDeclaration::class.java))
             .toList()
     }
 }

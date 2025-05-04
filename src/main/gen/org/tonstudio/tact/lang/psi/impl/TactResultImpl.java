@@ -47,8 +47,7 @@ public class TactResultImpl extends TactStubbedElementImpl<TactResultStub> imple
   }
 
   @Override
-  @NotNull
-  public TactTypeEx getType(@Nullable ResolveState context) {
+  public @NotNull TactTypeEx getType(@Nullable ResolveState context) {
     return TactPsiImplUtil.getType(this, context);
   }
 

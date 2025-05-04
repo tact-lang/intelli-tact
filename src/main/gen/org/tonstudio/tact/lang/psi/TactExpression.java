@@ -9,7 +9,6 @@ import org.tonstudio.tact.lang.psi.types.TactTypeEx;
 
 public interface TactExpression extends TactTypeOwner {
 
-  @Nullable
-  TactTypeEx getType(@Nullable ResolveState context);
+  @Nullable TactTypeEx getType(@Nullable ResolveState context);
 
 }

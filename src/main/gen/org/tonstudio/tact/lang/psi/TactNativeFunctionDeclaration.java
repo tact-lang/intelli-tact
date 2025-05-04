@@ -29,7 +29,6 @@ public interface TactNativeFunctionDeclaration extends TactNamedElement, TactSig
   @NotNull
   PsiElement getNative();
 
-  @Nullable
-  TactTypeEx getTypeInner(@Nullable ResolveState context);
+  @Nullable TactTypeEx getTypeInner(@Nullable ResolveState context);
 
 }

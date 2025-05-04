@@ -17,20 +17,16 @@ public interface TactStringLiteral extends TactExpression, PsiLanguageInjectionH
 
   boolean isValidHost();
 
-  @NotNull
-  TactStringLiteral updateText(@NotNull String text);
+  @NotNull TactStringLiteral updateText(@NotNull String text);
 
-  @NotNull
-  StringLiteralEscaper<TactStringLiteral> createLiteralTextEscaper();
+  @NotNull StringLiteralEscaper<@NotNull TactStringLiteral> createLiteralTextEscaper();
 
   //WARNING: getDecodedText(...) is skipped
   //matching getDecodedText(TactStringLiteral, ...)
   //methods are not found in TactPsiImplUtil
 
-  @NotNull
-  PsiReference[] getReferences();
+  @NotNull PsiReference @NotNull [] getReferences();
 
-  @NotNull
-  String getContents();
+  @NotNull String getContents();
 
 }

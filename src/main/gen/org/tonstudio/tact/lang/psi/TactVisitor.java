@@ -238,8 +238,8 @@ public class TactVisitor extends PsiElementVisitor {
   }
 
   public void visitFunctionDeclaration(@NotNull TactFunctionDeclaration o) {
-    visitSignatureOwner(o);
-    // visitFunctionOrMethodDeclaration(o);
+    visitNamedElement(o);
+    // visitSignatureOwner(o);
     // visitAttributeOwner(o);
   }
 
@@ -499,10 +499,6 @@ public class TactVisitor extends PsiElementVisitor {
   }
 
   public void visitReferenceExpressionBase(@NotNull TactReferenceExpressionBase o) {
-    visitCompositeElement(o);
-  }
-
-  public void visitSignatureOwner(@NotNull TactSignatureOwner o) {
     visitCompositeElement(o);
   }
 

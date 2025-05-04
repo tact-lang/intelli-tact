@@ -22,11 +22,9 @@ class TactFunctionExitPointHandler(
     }
 
     override fun computeUsages(targets: List<PsiElement>) {
-        if (function is TactFunctionOrMethodDeclaration) {
+        if (function is TactFunctionDeclaration) {
             val identifier = function.getIdentifier()
-            if (identifier != null) {
-                addOccurrence(identifier)
-            }
+            addOccurrence(identifier)
         }
 
         if (function is TactMessageFunctionDeclaration) {
@@ -59,7 +57,7 @@ class TactFunctionExitPointHandler(
     companion object {
         fun createForElement(editor: Editor, file: PsiFile, element: PsiElement): TactFunctionExitPointHandler? {
             val function = element.parentOfTypes(
-                TactFunctionOrMethodDeclaration::class,
+                TactFunctionDeclaration::class,
                 TactMessageFunctionDeclaration::class,
                 TactContractInitDeclaration::class
             )

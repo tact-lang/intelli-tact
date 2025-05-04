@@ -21,13 +21,10 @@ public interface TactMessageFunctionDeclaration extends TactNamedElement, StubBa
   @Nullable
   TactReceiveStringId getReceiveStringId();
 
-  @Nullable
-  PsiElement getIdentifier();
+  @Nullable PsiElement getIdentifier();
 
-  @NotNull
-  String getName();
+  @NotNull String getName();
 
-  @NotNull
-  String nameLike();
+  @NotNull String nameLike();
 
 }

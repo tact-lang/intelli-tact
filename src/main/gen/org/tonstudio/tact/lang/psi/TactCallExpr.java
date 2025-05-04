@@ -17,21 +17,16 @@ public interface TactCallExpr extends TactExpression {
   @Nullable
   TactExpression getExpression();
 
-  @NotNull
-  List<TactExpression> getArguments();
+  @NotNull List<@NotNull TactExpression> getArguments();
 
-  @Nullable
-  PsiElement getIdentifier();
+  @Nullable PsiElement getIdentifier();
 
-  @Nullable
-  TactReferenceExpression getQualifier();
+  @Nullable TactReferenceExpression getQualifier();
 
-  @Nullable
-  PsiElement resolve();
+  @Nullable PsiElement resolve();
 
   int paramIndexOf(@NotNull PsiElement pos);
 
-  @Nullable
-  Pair<TactSignature, TactSignatureOwner> resolveSignature();
+  @Nullable Pair<@NotNull TactSignature, @NotNull TactSignatureOwner> resolveSignature();
 
 }

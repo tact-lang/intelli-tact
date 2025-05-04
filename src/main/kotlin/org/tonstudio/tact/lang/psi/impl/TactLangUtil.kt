@@ -11,8 +11,6 @@ import com.intellij.psi.util.PsiModificationTracker
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.types.*
 import org.tonstudio.tact.lang.stubs.index.TactMethodIndex
-import org.tonstudio.tact.utils.parentNth
-import org.tonstudio.tact.utils.parentOfTypeWithStop
 
 object TactLangUtil {
     fun takeZeroArguments(owner: TactSignatureOwner): Boolean {
@@ -21,18 +19,6 @@ object TactLangUtil {
 
     fun takeSingleArgument(owner: TactSignatureOwner): Boolean {
         return owner.getSignature()?.parameters?.paramDefinitionList?.size == 1
-    }
-
-    fun findCallExpr(element: PsiElement): TactCallExpr? {
-        if (element.parent is TactFieldName) {
-            return element.parent.parentNth(4)
-        }
-
-        val parentValue = element.parentOfTypeWithStop<TactValue>(TactSignatureOwner::class)
-        if (parentValue != null) {
-            return parentValue.parentNth(3) ?: element.parentOfTypeWithStop(TactSignatureOwner::class)
-        }
-        return element.parentOfTypeWithStop(TactSignatureOwner::class)
     }
 
     fun sameModule(firstFile: PsiFile, secondFile: PsiFile): Boolean {

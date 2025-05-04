@@ -22,10 +22,8 @@ public interface TactMessageType extends TactType, TactFieldListOwner {
   @Nullable
   PsiElement getRbrace();
 
-  @Nullable
-  PsiElement getIdentifier();
+  @Nullable PsiElement getIdentifier();
 
-  @NotNull
-  List<TactFieldDefinition> getFieldList();
+  @NotNull List<@NotNull TactFieldDefinition> getFieldList();
 
 }

@@ -2,7 +2,7 @@ package org.tonstudio.tact.lang.psi.impl
 
 import com.intellij.psi.PsiElement
 import com.intellij.psi.ResolveState
-import org.tonstudio.tact.lang.psi.TactFunctionOrMethodDeclaration
+import org.tonstudio.tact.lang.psi.TactFunctionDeclaration
 import org.tonstudio.tact.lang.psi.TactNamedElement
 
 abstract class TactScopeProcessorBase(
@@ -16,7 +16,7 @@ abstract class TactScopeProcessorBase(
     constructor(origin: PsiElement) : this(origin, origin, false)
 
     override fun execute(e: PsiElement, state: ResolveState): Boolean {
-        if (e is TactFunctionOrMethodDeclaration) {
+        if (e is TactFunctionDeclaration) {
             return false
         }
 

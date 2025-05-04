@@ -9,7 +9,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.util.parentOfType
 import com.intellij.util.FunctionUtil
 import org.tonstudio.tact.lang.psi.TactCallExpr
-import org.tonstudio.tact.lang.psi.TactFunctionOrMethodDeclaration
+import org.tonstudio.tact.lang.psi.TactFunctionDeclaration
 import org.tonstudio.tact.lang.psi.TactReferenceExpression
 
 class TactRecursiveCallMarkerProvider : LineMarkerProvider {
@@ -20,7 +20,7 @@ class TactRecursiveCallMarkerProvider : LineMarkerProvider {
         for (element in elements) {
             if (element !is TactCallExpr) continue
 
-            val resolve = (element.expression as? TactReferenceExpression)?.resolve() as? TactFunctionOrMethodDeclaration ?: continue
+            val resolve = (element.expression as? TactReferenceExpression)?.resolve() as? TactFunctionDeclaration ?: continue
 
             if (isRecursiveCall(element, resolve)) {
                 val document = PsiDocumentManager.getInstance(element.project).getDocument(element.containingFile) ?: continue
@@ -44,7 +44,7 @@ class TactRecursiveCallMarkerProvider : LineMarkerProvider {
         { "Recursive call" }
     )
 
-    private fun isRecursiveCall(element: PsiElement, function: TactFunctionOrMethodDeclaration): Boolean {
-        return element.parentOfType<TactFunctionOrMethodDeclaration>() == function
+    private fun isRecursiveCall(element: PsiElement, function: TactFunctionDeclaration): Boolean {
+        return element.parentOfType<TactFunctionDeclaration>() == function
     }
 }

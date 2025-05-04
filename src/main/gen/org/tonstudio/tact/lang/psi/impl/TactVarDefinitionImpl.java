@@ -42,20 +42,17 @@ public class TactVarDefinitionImpl extends TactNamedElementImpl<TactVarDefinitio
   }
 
   @Override
-  @Nullable
-  public TactTypeEx getTypeInner(@Nullable ResolveState context) {
+  public @Nullable TactTypeEx getTypeInner(@Nullable ResolveState context) {
     return TactPsiImplUtil.getTypeInner(this, context);
   }
 
   @Override
-  @NotNull
-  public String getName() {
+  public @NotNull String getName() {
     return TactPsiImplUtil.getName(this);
   }
 
   @Override
-  @NotNull
-  public PsiReference getReference() {
+  public @NotNull PsiReference getReference() {
     return TactPsiImplUtil.getReference(this);
   }
 

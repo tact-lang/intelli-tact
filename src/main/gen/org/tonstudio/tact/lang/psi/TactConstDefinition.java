@@ -23,16 +23,12 @@ public interface TactConstDefinition extends TactNamedElement, StubBasedPsiEleme
   @NotNull
   PsiElement getIdentifier();
 
-  @Nullable
-  TactTypeEx getTypeInner(@Nullable ResolveState context);
+  @Nullable TactTypeEx getTypeInner(@Nullable ResolveState context);
 
-  @NotNull
-  String getName();
+  @NotNull String getName();
 
-  @NotNull
-  String getExpressionText();
+  @NotNull String getExpressionText();
 
-  @NotNull
-  String getExpressionType();
+  @NotNull String getExpressionType();
 
 }

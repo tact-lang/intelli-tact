@@ -77,16 +77,14 @@
   extends("(Or|And|Add|Conversion|Mul|Selector|Conditional)Expr")=BinaryExpr
   extends(".*(Expr|Literal|Lit)|DotExpression|LiteralValueExpression")=Expression
 
-  implements("(Var|Param|Field|Var|Const|ModuleVar)Definition|(Struct|TypeAlias|NativeFunction|AsmFunction)Declaration|ContractDeclaration|MessageDeclaration|TraitDeclaration|MessageFunctionDeclaration|ContractInitDeclaration|PrimitiveDeclaration")="org.tonstudio.tact.lang.psi.TactNamedElement"
+  implements("(Var|Param|Field|Var|Const|ModuleVar)Definition|(Struct|TypeAlias|Function|NativeFunction|AsmFunction)Declaration|ContractDeclaration|MessageDeclaration|TraitDeclaration|MessageFunctionDeclaration|ContractInitDeclaration|PrimitiveDeclaration")="org.tonstudio.tact.lang.psi.TactNamedElement"
   implements("(Function|NativeFunction|AsmFunction)Declaration")="org.tonstudio.tact.lang.psi.TactSignatureOwner"
-  implements("(Function)Declaration")="org.tonstudio.tact.lang.psi.TactFunctionOrMethodDeclaration"
   implements(".*ReferenceExpression|FieldName")="org.tonstudio.tact.lang.psi.TactReferenceExpressionBase"
 
   implements("(Struct|Function)Declaration")="org.tonstudio.tact.lang.psi.TactAttributeOwner"
 
-  extends("(Function)Declaration")="org.tonstudio.tact.lang.psi.impl.TactFunctionOrMethodDeclarationImpl<?>"
   extends("Type|Signature|Result|Parameters|ContractParameters|TypeReferenceExpression|Attributes|Attribute|PlainAttribute|AttributeExpression|AttributeValue|AttributeKey|FieldDeclaration|ImportDeclaration|WithClause")="org.tonstudio.tact.lang.psi.impl.TactStubbedElementImpl<?>"
-  extends("(Struct|Message|Trait|Contract|MessageFunction|ContractInit|Primitive|NativeFunction|AsmFunction)Declaration|(Var|Param|Field|Const)Definition")="org.tonstudio.tact.lang.psi.impl.TactNamedElementImpl<?>"
+  extends("(Struct|Message|Trait|Contract|MessageFunction|ContractInit|Primitive|Function|NativeFunction|AsmFunction)Declaration|(Var|Param|Field|Const)Definition")="org.tonstudio.tact.lang.psi.impl.TactNamedElementImpl<?>"
 
   elementTypeFactory("(Function|Struct|Field|Message|Trait|Contract|MessageFunction|ContractInit|Primitive|NativeFunction|AsmFunction)Declaration|.*Type|(Var|Field|Param|Const)Definition|Parameters|ContractParameters|Result|Signature|TypeReferenceExpression|Attributes|Attribute|PlainAttribute|AttributeExpression|AttributeValue|AttributeKey|ImportDeclaration|WithClause")='org.tonstudio.tact.lang.stubs.TactElementTypeFactory.stubFactory'
 

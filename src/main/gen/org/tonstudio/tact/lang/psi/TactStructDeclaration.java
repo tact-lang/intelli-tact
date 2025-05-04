@@ -17,13 +17,10 @@ public interface TactStructDeclaration extends TactNamedElement, TactAttributeOw
   @NotNull
   TactStructType getStructType();
 
-  @Nullable
-  PsiElement getIdentifier();
+  @Nullable PsiElement getIdentifier();
 
-  @NotNull
-  String getName();
+  @NotNull String getName();
 
-  @NotNull
-  TactTypeEx getTypeInner(@Nullable ResolveState context);
+  @NotNull TactTypeEx getTypeInner(@Nullable ResolveState context);
 
 }

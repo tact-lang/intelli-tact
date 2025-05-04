@@ -40,16 +40,12 @@ public interface TactContractType extends TactType, TactStorageMembersOwner {
   @Nullable
   PsiElement getIdentifier();
 
-  @NotNull
-  List<TactFieldDefinition> getFieldList();
+  @NotNull List<@NotNull TactFieldDefinition> getFieldList();
 
-  @NotNull
-  List<TactFunctionDeclaration> getMethodsList();
+  @NotNull List<@NotNull TactFunctionDeclaration> getMethodsList();
 
-  @NotNull
-  List<TactConstDefinition> getConstantsList();
+  @NotNull List<@NotNull TactConstDefinition> getConstantsList();
 
-  @NotNull
-  List<TactTraitDeclaration> getInheritedTraits();
+  @NotNull List<@NotNull TactTraitDeclaration> getInheritedTraits();
 
 }

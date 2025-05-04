@@ -17,13 +17,10 @@ public interface TactPrimitiveDeclaration extends TactNamedElement, StubBasedPsi
   @NotNull
   PsiElement getSemicolon();
 
-  @Nullable
-  PsiElement getIdentifier();
+  @Nullable PsiElement getIdentifier();
 
-  @NotNull
-  String getName();
+  @NotNull String getName();
 
-  @NotNull
-  TactTypeEx getTypeInner(@Nullable ResolveState context);
+  @NotNull TactTypeEx getTypeInner(@Nullable ResolveState context);
 
 }

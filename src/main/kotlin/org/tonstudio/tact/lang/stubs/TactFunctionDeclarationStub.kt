@@ -5,7 +5,7 @@ import com.intellij.psi.stubs.StubElement
 import com.intellij.util.io.StringRef
 import org.tonstudio.tact.lang.psi.TactFunctionDeclaration
 
-class TactFunctionDeclarationStub : TactFunctionOrMethodDeclarationStub<TactFunctionDeclaration> {
+class TactFunctionDeclarationStub : TactNamedStub<TactFunctionDeclaration> {
     var type: String? = null
 
     constructor(

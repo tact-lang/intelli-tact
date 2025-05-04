@@ -14,13 +14,10 @@ public interface TactMessageDeclaration extends TactNamedElement, StubBasedPsiEl
   @NotNull
   TactMessageType getMessageType();
 
-  @Nullable
-  PsiElement getIdentifier();
+  @Nullable PsiElement getIdentifier();
 
-  @NotNull
-  String getName();
+  @NotNull String getName();
 
-  @NotNull
-  TactTypeEx getTypeInner(@Nullable ResolveState context);
+  @NotNull TactTypeEx getTypeInner(@Nullable ResolveState context);
 
 }

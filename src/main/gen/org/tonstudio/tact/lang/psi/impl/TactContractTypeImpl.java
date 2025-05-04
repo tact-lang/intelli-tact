@@ -100,26 +100,22 @@ public class TactContractTypeImpl extends TactTypeImpl implements TactContractTy
   }
 
   @Override
-  @NotNull
-  public List<TactFieldDefinition> getFieldList() {
+  public @NotNull List<@NotNull TactFieldDefinition> getFieldList() {
     return TactPsiImplUtil.getFieldList(this);
   }
 
   @Override
-  @NotNull
-  public List<TactFunctionDeclaration> getMethodsList() {
+  public @NotNull List<@NotNull TactFunctionDeclaration> getMethodsList() {
     return TactPsiImplUtil.getMethodsList(this);
   }
 
   @Override
-  @NotNull
-  public List<TactConstDefinition> getConstantsList() {
+  public @NotNull List<@NotNull TactConstDefinition> getConstantsList() {
     return TactPsiImplUtil.getConstantsList(this);
   }
 
   @Override
-  @NotNull
-  public List<TactTraitDeclaration> getInheritedTraits() {
+  public @NotNull List<@NotNull TactTraitDeclaration> getInheritedTraits() {
     return TactPsiImplUtil.getInheritedTraits(this);
   }
 

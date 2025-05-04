@@ -40,26 +40,22 @@ public class TactTypeReferenceExpressionImpl extends TactStubbedElementImpl<Tact
   }
 
   @Override
-  @NotNull
-  public TactReference getReference() {
+  public @NotNull TactReference getReference() {
     return TactPsiImplUtil.getReference(this);
   }
 
   @Override
-  @Nullable
-  public TactCompositeElement getQualifier() {
+  public @Nullable TactCompositeElement getQualifier() {
     return TactPsiImplUtil.getQualifier(this);
   }
 
   @Override
-  @Nullable
-  public PsiElement resolve() {
+  public @Nullable PsiElement resolve() {
     return TactPsiImplUtil.resolve(this);
   }
 
   @Override
-  @NotNull
-  public Pair<Integer, Integer> getIdentifierBounds() {
+  public @NotNull Pair<@NotNull Integer, @NotNull Integer> getIdentifierBounds() {
     return TactPsiImplUtil.getIdentifierBounds(this);
   }
 

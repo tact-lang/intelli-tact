@@ -16,7 +16,6 @@ public interface TactBinaryExpr extends TactExpression {
   @Nullable
   TactExpression getRight();
 
-  @Nullable
-  PsiElement getOperator();
+  @Nullable PsiElement getOperator();
 
 }

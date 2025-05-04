@@ -29,7 +29,6 @@ class TactBreadcrumbsInfoProvider : BreadcrumbsProvider {
         TactWhileHandler,
         TactUntilHandler,
         TactLiteralValueHandler,
-        TactFieldNameHandler,
     )
 
     private object TactFunctionHandler : ElementHandler<TactFunctionDeclaration> {
@@ -133,16 +132,6 @@ class TactBreadcrumbsInfoProvider : BreadcrumbsProvider {
             val type = e.type
             append(type.text.truncate())
             append("{...}")
-        }
-    }
-
-    private object TactFieldNameHandler : ElementHandler<TactElement> {
-        override fun accepts(e: PsiElement): Boolean = e is TactElement && e.key != null && e.key?.fieldName != null
-
-        override fun elementInfo(e: TactElement): String = buildString {
-            val fieldName = e.key!!.fieldName!!
-            append(fieldName.text)
-            append(":")
         }
     }
 

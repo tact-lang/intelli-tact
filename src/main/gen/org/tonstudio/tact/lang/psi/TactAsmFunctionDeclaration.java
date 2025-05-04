@@ -29,7 +29,6 @@ public interface TactAsmFunctionDeclaration extends TactNamedElement, TactSignat
   @Nullable
   PsiElement getIdentifier();
 
-  @Nullable
-  TactTypeEx getTypeInner(@Nullable ResolveState context);
+  @Nullable TactTypeEx getTypeInner(@Nullable ResolveState context);
 
 }

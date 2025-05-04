@@ -51,8 +51,7 @@ public class TactImportDeclarationImpl extends TactStubbedElementImpl<TactImport
   }
 
   @Override
-  @NotNull
-  public String getPath() {
+  public @NotNull String getPath() {
     return TactPsiImplUtil.getPath(this);
   }
 

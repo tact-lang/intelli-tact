@@ -48,8 +48,7 @@ public class TactBinaryExprImpl extends TactExpressionImpl implements TactBinary
   }
 
   @Override
-  @Nullable
-  public PsiElement getOperator() {
+  public @Nullable PsiElement getOperator() {
     return TactPsiImplUtil.getOperator(this);
   }
 
