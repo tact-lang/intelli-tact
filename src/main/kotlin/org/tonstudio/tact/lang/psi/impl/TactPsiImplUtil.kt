@@ -700,6 +700,11 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
+    fun isVirtual(o: TactFunctionDeclaration): Boolean {
+        return o.functionAttributeList.any { it.virtual != null }
+    }
+
+    @JvmStatic
     fun computeMethodId(o: TactFunctionDeclaration): Pair<String, Boolean> {
         val getAttribute = o.functionAttributeList.map { it.getAttribute }.firstOrNull()
         if (getAttribute != null) {

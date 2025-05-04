@@ -22,6 +22,7 @@ class TactCompletionContributor : CompletionContributor() {
         extend(CompletionType.BASIC, onContractTraitTopLevel(), ContractInitCompletionProvider)
         extend(CompletionType.BASIC, onContractTraitTopLevel(), ContractTraitMembersCompletionProvider)
         extend(CompletionType.BASIC, onContractTraitTopLevel(), GetterCompletionProvider)
+        extend(CompletionType.BASIC, onContractTraitTopLevel(), OverrideCompletionProvider)
 
         extend(CompletionType.BASIC, onStatement(), ReturnCompletionProvider)
 

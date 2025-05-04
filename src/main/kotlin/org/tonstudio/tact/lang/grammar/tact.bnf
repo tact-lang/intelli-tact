@@ -414,7 +414,7 @@ FieldDefinition ::= identifier {
 FunctionDeclaration ::= Attributes? FunctionAttribute* fun identifier Signature (Block | ';') {
   pin=5
   stubClass="org.tonstudio.tact.lang.stubs.TactFunctionDeclarationStub"
-  methods=[getName getTypeInner isGet isAbstract computeMethodId]
+  methods=[getName getTypeInner isGet isAbstract isVirtual computeMethodId]
 }
 
 FunctionAttribute ::=

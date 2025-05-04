@@ -100,6 +100,11 @@ public class TactFunctionDeclarationImpl extends TactFunctionOrMethodDeclaration
   }
 
   @Override
+  public boolean isVirtual() {
+    return TactPsiImplUtil.isVirtual(this);
+  }
+
+  @Override
   @NotNull
   public Pair<String, Boolean> computeMethodId() {
     return TactPsiImplUtil.computeMethodId(this);
