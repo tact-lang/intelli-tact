@@ -23,6 +23,10 @@ class TactUnusedImportInspection : TactBaseInspection() {
                 super.visitImportList(o)
 
                 for (importDeclaration in o.importDeclarationList) {
+                    importDeclaration.stringLiteral?.references?.lastOrNull()?.resolve()
+                        ?: // don't warn if import is unresolved
+                        continue
+
                     if (!unusedImports.unusedImports.contains(importDeclaration)) {
                         continue
                     }
