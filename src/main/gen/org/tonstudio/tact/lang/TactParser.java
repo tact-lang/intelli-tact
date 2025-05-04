@@ -769,19 +769,19 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ElementInner (',' ElementInner?)*
+  // Expression (',' Expression?)*
   static boolean CommaElementList(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "CommaElementList")) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_);
-    r = ElementInner(b, l + 1);
+    r = Expression(b, l + 1, -1);
     p = r; // pin = 1
     r = r && CommaElementList_1(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
-  // (',' ElementInner?)*
+  // (',' Expression?)*
   private static boolean CommaElementList_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "CommaElementList_1")) return false;
     while (true) {
@@ -792,7 +792,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // ',' ElementInner?
+  // ',' Expression?
   private static boolean CommaElementList_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "CommaElementList_1_0")) return false;
     boolean r, p;
@@ -804,10 +804,10 @@ public class TactParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // ElementInner?
+  // Expression?
   private static boolean CommaElementList_1_0_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "CommaElementList_1_0_1")) return false;
-    ElementInner(b, l + 1);
+    Expression(b, l + 1, -1);
     return true;
   }
 
@@ -1198,119 +1198,6 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // First [':' Value]
-  public static boolean Element(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Element")) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, ELEMENT, "<element>");
-    r = First(b, l + 1);
-    p = r; // pin = 1
-    r = r && Element_1(b, l + 1);
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // [':' Value]
-  private static boolean Element_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Element_1")) return false;
-    Element_1_0(b, l + 1);
-    return true;
-  }
-
-  // ':' Value
-  private static boolean Element_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Element_1_0")) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_);
-    r = consumeToken(b, COLON);
-    p = r; // pin = 1
-    r = r && Value(b, l + 1);
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  /* ********************************************************** */
-  // Element | (!() Element)
-  static boolean ElementInner(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ElementInner")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = Element(b, l + 1);
-    if (!r) r = ElementInner_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // !() Element
-  private static boolean ElementInner_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ElementInner_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = ElementInner_1_0(b, l + 1);
-    r = r && Element(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // !()
-  private static boolean ElementInner_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ElementInner_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NOT_);
-    r = !ElementInner_1_0_0(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // ()
-  private static boolean ElementInner_1_0_0(PsiBuilder b, int l) {
-    return true;
-  }
-
-  /* ********************************************************** */
-  // ElementInner (',' ElementInner?)*
-  static boolean ElementList(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ElementList")) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_);
-    r = ElementInner(b, l + 1);
-    p = r; // pin = 1
-    r = r && ElementList_1(b, l + 1);
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // (',' ElementInner?)*
-  private static boolean ElementList_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ElementList_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!ElementList_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "ElementList_1", c)) break;
-    }
-    return true;
-  }
-
-  // ',' ElementInner?
-  private static boolean ElementList_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ElementList_1_0")) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_);
-    r = consumeToken(b, COMMA);
-    p = r; // pin = 1
-    r = r && ElementList_1_0_1(b, l + 1);
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // ElementInner?
-  private static boolean ElementList_1_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ElementList_1_0_1")) return false;
-    ElementInner(b, l + 1);
-    return true;
-  }
-
-  /* ********************************************************** */
   // else Block
   public static boolean ElseBranch(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ElseBranch")) return false;
@@ -1433,16 +1320,6 @@ public class TactParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(b, "File_1", c)) break;
     }
     return true;
-  }
-
-  /* ********************************************************** */
-  // Key | Expression
-  static boolean First(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "First")) return false;
-    boolean r;
-    r = Key(b, l + 1);
-    if (!r) r = Expression(b, l + 1, -1);
-    return r;
   }
 
   /* ********************************************************** */
@@ -1767,29 +1644,6 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "InstanceArguments_2")) return false;
     consumeToken(b, COMMA);
     return true;
-  }
-
-  /* ********************************************************** */
-  // FieldName &':'
-  public static boolean Key(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Key")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = FieldName(b, l + 1);
-    r = r && Key_1(b, l + 1);
-    exit_section_(b, m, KEY, r);
-    return r;
-  }
-
-  // &':'
-  private static boolean Key_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Key_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _AND_);
-    r = consumeToken(b, COLON);
-    exit_section_(b, l, m, r, false, null);
-    return r;
   }
 
   /* ********************************************************** */
@@ -3182,17 +3036,6 @@ public class TactParser implements PsiParser, LightPsiParser {
     r = p && semi(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
-  }
-
-  /* ********************************************************** */
-  // Expression
-  public static boolean Value(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Value")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, VALUE, "<value>");
-    r = Expression(b, l + 1, -1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
   }
 
   /* ********************************************************** */

@@ -28,8 +28,8 @@ public class TactArgumentListImpl extends TactCompositeElementImpl implements Ta
 
   @Override
   @NotNull
-  public List<TactElement> getElementList() {
-    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactElement.class);
+  public List<TactExpression> getExpressionList() {
+    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactExpression.class);
   }
 
   @Override

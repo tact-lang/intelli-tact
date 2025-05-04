@@ -58,7 +58,6 @@ public interface TactTypes {
   IElementType DESTRUCT_ITEM = new TactCompositeElementType("DESTRUCT_ITEM");
   IElementType DESTRUCT_STATEMENT = new TactCompositeElementType("DESTRUCT_STATEMENT");
   IElementType DOT_EXPRESSION = new TactCompositeElementType("DOT_EXPRESSION");
-  IElementType ELEMENT = new TactCompositeElementType("ELEMENT");
   IElementType ELSE_BRANCH = new TactCompositeElementType("ELSE_BRANCH");
   IElementType ELSE_IF_BRANCH = new TactCompositeElementType("ELSE_IF_BRANCH");
   IElementType EXPRESSION = new TactCompositeElementType("EXPRESSION");
@@ -78,7 +77,6 @@ public interface TactTypes {
   IElementType INSTANCE_ARGUMENTS = new TactCompositeElementType("INSTANCE_ARGUMENTS");
   IElementType INSTANCE_ARGUMENT_FULL = new TactCompositeElementType("INSTANCE_ARGUMENT_FULL");
   IElementType INSTANCE_ARGUMENT_SHORT = new TactCompositeElementType("INSTANCE_ARGUMENT_SHORT");
-  IElementType KEY = new TactCompositeElementType("KEY");
   IElementType LITERAL = new TactCompositeElementType("LITERAL");
   IElementType LITERAL_VALUE_EXPRESSION = new TactCompositeElementType("LITERAL_VALUE_EXPRESSION");
   IElementType MAP_TYPE = TactElementTypeFactory.stubFactory("MAP_TYPE");
@@ -121,7 +119,6 @@ public interface TactTypes {
   IElementType TYPE_REFERENCE_EXPRESSION = TactElementTypeFactory.stubFactory("TYPE_REFERENCE_EXPRESSION");
   IElementType UNARY_EXPR = new TactCompositeElementType("UNARY_EXPR");
   IElementType UNTIL_STATEMENT = new TactCompositeElementType("UNTIL_STATEMENT");
-  IElementType VALUE = new TactCompositeElementType("VALUE");
   IElementType VAR_DECLARATION = new TactCompositeElementType("VAR_DECLARATION");
   IElementType VAR_DEFINITION = TactElementTypeFactory.stubFactory("VAR_DEFINITION");
   IElementType WHILE_STATEMENT = new TactCompositeElementType("WHILE_STATEMENT");
@@ -374,9 +371,6 @@ public interface TactTypes {
       else if (type == DOT_EXPRESSION) {
         return new TactDotExpressionImpl(node);
       }
-      else if (type == ELEMENT) {
-        return new TactElementImpl(node);
-      }
       else if (type == ELSE_BRANCH) {
         return new TactElseBranchImpl(node);
       }
@@ -430,9 +424,6 @@ public interface TactTypes {
       }
       else if (type == INSTANCE_ARGUMENT_SHORT) {
         return new TactInstanceArgumentShortImpl(node);
-      }
-      else if (type == KEY) {
-        return new TactKeyImpl(node);
       }
       else if (type == LITERAL) {
         return new TactLiteralImpl(node);
@@ -559,9 +550,6 @@ public interface TactTypes {
       }
       else if (type == UNTIL_STATEMENT) {
         return new TactUntilStatementImpl(node);
-      }
-      else if (type == VALUE) {
-        return new TactValueImpl(node);
       }
       else if (type == VAR_DECLARATION) {
         return new TactVarDeclarationImpl(node);

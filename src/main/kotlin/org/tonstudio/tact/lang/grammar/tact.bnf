@@ -541,15 +541,7 @@ InstanceArguments ::= InstanceArgument (','? InstanceArgument)* ','?
 InstanceArgument ::= InstanceArgumentFull | InstanceArgumentShort
 InstanceArgumentShort ::= ReferenceExpression {pin=1}
 InstanceArgumentFull ::= FieldName ':' Expression? {pin=2}
-
-private CommaElementList ::= ElementInner (',' ElementInner?)*
-private ElementList ::= ElementInner (',' ElementInner?)*
-private ElementInner ::= Element | (!() Element)
-Element ::= First [':' Value]  {pin(".*")=1}
-private First ::= Key | Expression
-Key ::= FieldName &':'
 FieldName ::= ReferenceExpression { methods=[getIdentifier getQualifier resolve getIdentifierBounds] }
-Value ::= Expression
 
 private MaxGroup ::=
     DotExpression
@@ -622,6 +614,7 @@ left CallExpr ::= ArgumentList {
 }
 
 ArgumentList ::= '(' CommaElementList? ','? ')' {pin=1}
+private CommaElementList ::= Expression (',' Expression?)*
 
 OrExpr ::= Expression '||' Expression
 AndExpr ::= Expression '&&' Expression

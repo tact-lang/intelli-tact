@@ -487,7 +487,7 @@ object TactPsiImplUtil {
 
     @JvmStatic
     fun getArguments(o: TactCallExpr): List<TactExpression> {
-        return o.argumentList.elementList.mapNotNull { it?.value?.expression }
+        return o.argumentList.expressionList
     }
 
     /**
@@ -521,8 +521,8 @@ object TactPsiImplUtil {
 
     @JvmStatic
     fun paramIndexOf(o: TactCallExpr, pos: PsiElement): Int {
-        val element = pos.parentOfType<TactElement>()
-        val args = o.argumentList.elementList
+        val element = pos.parentOfType<TactExpression>()
+        val args = o.argumentList.expressionList
         return args.indexOf(element)
     }
 

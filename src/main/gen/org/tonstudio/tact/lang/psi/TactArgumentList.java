@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface TactArgumentList extends TactCompositeElement {
 
   @NotNull
-  List<TactElement> getElementList();
+  List<TactExpression> getExpressionList();
 
   @NotNull
   PsiElement getLparen();

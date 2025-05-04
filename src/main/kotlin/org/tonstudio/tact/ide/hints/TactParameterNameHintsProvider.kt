@@ -40,17 +40,14 @@ class TactParameterNameHintsProvider : InlayParameterHintsProvider {
         val parameters = resolved.getSignature()?.parameters ?: return hints
         val params = parameters.paramDefinitionList
 
-        val argsList = element.argumentList.elementList
-        val args = argsList
-            .filter { it.key == null && it.value != null } // don't show any hint for 'key: value' arguments
-            .mapNotNull { it.value?.expression }
+        val args = element.argumentList.expressionList
 
         if (skipSelf && params.isNotEmpty()) {
             params.removeFirst()
         }
 
         val fromStubs = (resolved.containingFile as? TactFile)?.fromStubs() ?: false
-        if (args.size == 1 && fromStubs) {
+        if (params.size == 1 && fromStubs) {
             // don't show any hints for unary functions from stubs like `ton()`
             return hints
         }

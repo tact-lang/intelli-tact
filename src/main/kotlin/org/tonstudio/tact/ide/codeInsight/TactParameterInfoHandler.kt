@@ -9,8 +9,8 @@ import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.types.TactFunctionTypeEx
 import org.tonstudio.tact.lang.psi.types.TactTypeEx
 
-class TactParameterInfoHandler : ParameterInfoHandlerWithTabActionSupport<TactArgumentList, TactTypeEx?, TactElement> {
-    override fun getActualParameters(o: TactArgumentList) = o.elementList.toTypedArray()
+class TactParameterInfoHandler : ParameterInfoHandlerWithTabActionSupport<TactArgumentList, TactTypeEx?, TactExpression> {
+    override fun getActualParameters(list: TactArgumentList) = list.expressionList.toTypedArray()
     override fun getActualParameterDelimiterType(): IElementType = TactTypes.COMMA
     override fun getActualParametersRBraceType(): IElementType = TactTypes.RPAREN
     override fun getArgumentListAllowedParentClasses() = setOf<Class<*>>()
