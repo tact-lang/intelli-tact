@@ -92,6 +92,7 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
 
     override fun getIcon(flags: Int): Icon? {
         val icon = when (this) {
+            is TactPrimitiveDeclaration      -> Icons.Primitive
             is TactStructDeclaration         -> Icons.Struct
             is TactMessageDeclaration        -> Icons.Message
             is TactContractDeclaration       -> Icons.Contract

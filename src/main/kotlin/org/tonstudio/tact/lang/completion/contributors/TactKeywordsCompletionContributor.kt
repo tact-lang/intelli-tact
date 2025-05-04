@@ -99,8 +99,8 @@ class TactKeywordsCompletionContributor : CompletionContributor() {
                 .withTailText(" name: Type = value")
                 .withInsertHandler(
                     TemplateStringInsertHandler(
-                        " \$name$: \$type$ = \$value$", true,
-                        "name" to ConstantNode("name"),
+                        " \$name$: \$type$ = \$value$;", true,
+                        "name" to ConstantNode("FOO"),
                         "type" to ConstantNode("Int"),
                         "value" to ConstantNode("0"),
                     )

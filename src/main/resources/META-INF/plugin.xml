@@ -29,6 +29,7 @@
         <spellchecker.support language="tact" implementationClass="org.tonstudio.tact.lang.TactSpellcheckingStrategy"/>
         <lang.elementManipulator forClass="org.tonstudio.tact.lang.psi.TactStringLiteral"
                                  implementationClass="org.tonstudio.tact.lang.psi.impl.manipulator.TactStringLiteralManipulator"/>
+        <lang.psiStructureViewFactory language="tact" implementationClass="org.tonstudio.tact.lang.structure.TactStructureViewFactory"/>
         <!-- endregion Language general -->
 
         <!-- region Completion -->
