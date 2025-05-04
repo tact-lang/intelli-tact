@@ -1,0 +1,54 @@
+// This is a generated file. Not intended for manual editing.
+package org.tonstudio.tact.lang.psi.impl;
+
+import java.util.List;
+import org.jetbrains.annotations.*;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
+import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import static org.tonstudio.tact.lang.TactTypes.*;
+import org.tonstudio.tact.lang.psi.*;
+
+public class TactSetLiteralImpl extends TactExpressionImpl implements TactSetLiteral {
+
+  public TactSetLiteralImpl(@NotNull ASTNode node) {
+    super(node);
+  }
+
+  @Override
+  public void accept(@NotNull TactVisitor visitor) {
+    visitor.visitSetLiteral(this);
+  }
+
+  @Override
+  public void accept(@NotNull PsiElementVisitor visitor) {
+    if (visitor instanceof TactVisitor) accept((TactVisitor)visitor);
+    else super.accept(visitor);
+  }
+
+  @Override
+  @NotNull
+  public List<TactSetEntry> getSetEntryList() {
+    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactSetEntry.class);
+  }
+
+  @Override
+  @NotNull
+  public TactSetType getSetType() {
+    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactSetType.class));
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getLbrace() {
+    return notNullChild(findChildByType(LBRACE));
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getRbrace() {
+    return notNullChild(findChildByType(RBRACE));
+  }
+
+}
