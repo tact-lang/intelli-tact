@@ -218,6 +218,8 @@ class TactImportFileQuickFix : LocalQuickFixAndIntentionActionOnPsiElement, Hint
             val normalizedPath = path.replace(File.separatorChar, '/')
             return !normalizedPath.contains("stdlib/std") &&
                     !normalizedPath.contains("test/") &&
+                    !normalizedPath.contains("test-failed/") &&
+                    !normalizedPath.contains("node_modules/") &&
                     !normalizedPath.contains("types/")
         }
 
