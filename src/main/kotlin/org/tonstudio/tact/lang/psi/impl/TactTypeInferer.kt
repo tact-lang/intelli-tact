@@ -125,6 +125,10 @@ object TactTypeInferer {
             return TactPrimitiveTypeEx.CELL
         }
 
+        if (expr is TactMapLiteral) {
+            return expr.mapType.toEx()
+        }
+
         return null
     }
 

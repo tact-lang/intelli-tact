@@ -37,16 +37,16 @@ public class TactParser implements PsiParser, LightPsiParser {
 
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
     create_token_set_(BOUNCED_TYPE, CONTRACT_TYPE, MAP_TYPE, MESSAGE_TYPE,
-      PRIMITIVE_TYPE, STRUCT_TYPE, TRAIT_TYPE, TUPLE_TYPE,
-      TYPE),
+      PRIMITIVE_TYPE, SET_TYPE, STRUCT_TYPE, TRAIT_TYPE,
+      TUPLE_TYPE, TYPE),
     create_token_set_(ASSIGNMENT_STATEMENT, DESTRUCT_STATEMENT, FOR_EACH_STATEMENT, IF_STATEMENT,
       REPEAT_STATEMENT, RETURN_STATEMENT, SIMPLE_STATEMENT, STATEMENT,
       TRY_STATEMENT, UNTIL_STATEMENT, WHILE_STATEMENT),
     create_token_set_(ADD_EXPR, AND_EXPR, ASSERT_NOT_NULL_EXPR, CALL_EXPR,
       CODE_OF_EXPR, CONDITIONAL_EXPR, DOT_EXPRESSION, EXPRESSION,
-      INIT_OF_EXPR, LITERAL, LITERAL_VALUE_EXPRESSION, MUL_EXPR,
-      OR_EXPR, PARENTHESES_EXPR, REFERENCE_EXPRESSION, STRING_LITERAL,
-      TERNARY_EXPR, UNARY_EXPR),
+      INIT_OF_EXPR, LITERAL, LITERAL_VALUE_EXPRESSION, MAP_LITERAL,
+      MUL_EXPR, OR_EXPR, PARENTHESES_EXPR, REFERENCE_EXPRESSION,
+      SET_LITERAL, STRING_LITERAL, TERNARY_EXPR, UNARY_EXPR),
   };
 
   /* ********************************************************** */
@@ -1187,6 +1187,8 @@ public class TactParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // LiteralValueExpression
+  //   | MapLiteral
+  //   | SetLiteral
   //   | ReferenceExpression
   //   | InitOfExpr
   //   | CodeOfExpr
@@ -1196,6 +1198,8 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "DotPrimaryExpr")) return false;
     boolean r;
     r = LiteralValueExpression(b, l + 1);
+    if (!r) r = MapLiteral(b, l + 1);
+    if (!r) r = SetLiteral(b, l + 1);
     if (!r) r = ReferenceExpression(b, l + 1);
     if (!r) r = InitOfExpr(b, l + 1);
     if (!r) r = CodeOfExpr(b, l + 1);
@@ -1682,6 +1686,82 @@ public class TactParser implements PsiParser, LightPsiParser {
   private static boolean LiteralValueExpression_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "LiteralValueExpression_2")) return false;
     InstanceArguments(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // MapEntry (',' MapEntry)* ','?
+  static boolean MapEntries(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MapEntries")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = MapEntry(b, l + 1);
+    r = r && MapEntries_1(b, l + 1);
+    r = r && MapEntries_2(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (',' MapEntry)*
+  private static boolean MapEntries_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MapEntries_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!MapEntries_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "MapEntries_1", c)) break;
+    }
+    return true;
+  }
+
+  // ',' MapEntry
+  private static boolean MapEntries_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MapEntries_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && MapEntry(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // ','?
+  private static boolean MapEntries_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MapEntries_2")) return false;
+    consumeToken(b, COMMA);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // Expression ':' Expression
+  public static boolean MapEntry(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MapEntry")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, MAP_ENTRY, "<map entry>");
+    r = Expression(b, l + 1, -1);
+    r = r && consumeToken(b, COLON);
+    r = r && Expression(b, l + 1, -1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // MapType '{' MapEntries? '}'
+  public static boolean MapLiteral(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MapLiteral")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, MAP_LITERAL, "<map literal>");
+    r = MapType(b, l + 1);
+    r = r && consumeToken(b, LBRACE);
+    r = r && MapLiteral_2(b, l + 1);
+    r = r && consumeToken(b, RBRACE);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // MapEntries?
+  private static boolean MapLiteral_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MapLiteral_2")) return false;
+    MapEntries(b, l + 1);
     return true;
   }
 
@@ -2259,6 +2339,95 @@ public class TactParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(b, "RightHandExprs", c)) break;
     }
     return true;
+  }
+
+  /* ********************************************************** */
+  // SetEntry (',' SetEntry)* ','?
+  static boolean SetEntries(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "SetEntries")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = SetEntry(b, l + 1);
+    r = r && SetEntries_1(b, l + 1);
+    r = r && SetEntries_2(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (',' SetEntry)*
+  private static boolean SetEntries_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "SetEntries_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!SetEntries_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "SetEntries_1", c)) break;
+    }
+    return true;
+  }
+
+  // ',' SetEntry
+  private static boolean SetEntries_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "SetEntries_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && SetEntry(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // ','?
+  private static boolean SetEntries_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "SetEntries_2")) return false;
+    consumeToken(b, COMMA);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // Expression
+  public static boolean SetEntry(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "SetEntry")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, SET_ENTRY, "<set entry>");
+    r = Expression(b, l + 1, -1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // SetType '{' SetEntries? '}'
+  public static boolean SetLiteral(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "SetLiteral")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, SET_LITERAL, "<set literal>");
+    r = SetType(b, l + 1);
+    r = r && consumeToken(b, LBRACE);
+    r = r && SetLiteral_2(b, l + 1);
+    r = r && consumeToken(b, RBRACE);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // SetEntries?
+  private static boolean SetLiteral_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "SetLiteral_2")) return false;
+    SetEntries(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // 'set' '<' Type '>'
+  public static boolean SetType(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "SetType")) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, SET_TYPE, "<set type>");
+    r = consumeToken(b, "set");
+    p = r; // pin = 1
+    r = r && report_error_(b, consumeToken(b, LESS));
+    r = p && report_error_(b, Type(b, l + 1)) && r;
+    r = p && consumeToken(b, GREATER) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   /* ********************************************************** */

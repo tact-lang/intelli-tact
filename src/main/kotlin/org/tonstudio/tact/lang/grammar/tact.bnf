@@ -578,6 +578,8 @@ MapType ::= 'map' '<' Type ',' Type '>' {
   ]
 }
 
+SetType ::= 'set' '<' Type '>' {pin=1}
+
 VarDefinition ::= identifier {
   pin=2
   methods=[getTypeInner getName getReference isReadonly]
@@ -588,6 +590,8 @@ DotExpression ::= DotPrimaryExpr RightHandExprs
 
 private DotPrimaryExpr ::=
     LiteralValueExpression
+  | MapLiteral
+  | SetLiteral
   | ReferenceExpression
   | InitOfExpr
   | CodeOfExpr
@@ -632,6 +636,14 @@ fake BinaryExpr ::= Expression+ {
 }
 
 ParenthesesExpr ::= '(' Expression ')' {pin=3}
+
+MapLiteral ::= MapType '{' MapEntries? '}'
+private MapEntries ::= MapEntry (',' MapEntry)* ','?
+MapEntry ::= Expression ':' Expression
+
+SetLiteral ::= SetType '{' SetEntries? '}'
+private SetEntries ::= SetEntry (',' SetEntry)* ','?
+SetEntry ::= Expression
 
 WhileStatement ::= while Expression Block {pin=1}
 RepeatStatement ::= repeat Expression Block {pin=1}

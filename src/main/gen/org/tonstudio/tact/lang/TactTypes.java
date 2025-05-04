@@ -80,6 +80,8 @@ public interface TactTypes {
   IElementType INSTANCE_ARGUMENT_SHORT = new TactCompositeElementType("INSTANCE_ARGUMENT_SHORT");
   IElementType LITERAL = new TactCompositeElementType("LITERAL");
   IElementType LITERAL_VALUE_EXPRESSION = new TactCompositeElementType("LITERAL_VALUE_EXPRESSION");
+  IElementType MAP_ENTRY = new TactCompositeElementType("MAP_ENTRY");
+  IElementType MAP_LITERAL = new TactCompositeElementType("MAP_LITERAL");
   IElementType MAP_TYPE = TactElementTypeFactory.stubFactory("MAP_TYPE");
   IElementType MESSAGE_DECLARATION = TactElementTypeFactory.stubFactory("MESSAGE_DECLARATION");
   IElementType MESSAGE_FUNCTION_DECLARATION = TactElementTypeFactory.stubFactory("MESSAGE_FUNCTION_DECLARATION");
@@ -101,6 +103,9 @@ public interface TactTypes {
   IElementType RESULT = TactElementTypeFactory.stubFactory("RESULT");
   IElementType RETURN_STATEMENT = new TactCompositeElementType("RETURN_STATEMENT");
   IElementType SEMI = new TactCompositeElementType("SEMI");
+  IElementType SET_ENTRY = new TactCompositeElementType("SET_ENTRY");
+  IElementType SET_LITERAL = new TactCompositeElementType("SET_LITERAL");
+  IElementType SET_TYPE = TactElementTypeFactory.stubFactory("SET_TYPE");
   IElementType SIGNATURE = TactElementTypeFactory.stubFactory("SIGNATURE");
   IElementType SIMPLE_STATEMENT = new TactCompositeElementType("SIMPLE_STATEMENT");
   IElementType STATEMENT = new TactCompositeElementType("STATEMENT");
@@ -434,6 +439,12 @@ public interface TactTypes {
       else if (type == LITERAL_VALUE_EXPRESSION) {
         return new TactLiteralValueExpressionImpl(node);
       }
+      else if (type == MAP_ENTRY) {
+        return new TactMapEntryImpl(node);
+      }
+      else if (type == MAP_LITERAL) {
+        return new TactMapLiteralImpl(node);
+      }
       else if (type == MAP_TYPE) {
         return new TactMapTypeImpl(node);
       }
@@ -496,6 +507,15 @@ public interface TactTypes {
       }
       else if (type == SEMI) {
         return new TactSemiImpl(node);
+      }
+      else if (type == SET_ENTRY) {
+        return new TactSetEntryImpl(node);
+      }
+      else if (type == SET_LITERAL) {
+        return new TactSetLiteralImpl(node);
+      }
+      else if (type == SET_TYPE) {
+        return new TactSetTypeImpl(node);
       }
       else if (type == SIGNATURE) {
         return new TactSignatureImpl(node);
