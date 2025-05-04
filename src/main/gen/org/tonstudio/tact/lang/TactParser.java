@@ -1872,7 +1872,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // '*' | '/' | '%' | '<<' | '>>' | '&' | '&^'
+  // '*' | '/' | '%' | '<<' | '>>' | '&'
   static boolean MulOp(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MulOp")) return false;
     boolean r;
@@ -1882,7 +1882,6 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, SHIFT_LEFT);
     if (!r) r = consumeToken(b, SHIFT_RIGHT);
     if (!r) r = consumeToken(b, BIT_AND);
-    if (!r) r = consumeToken(b, "&^");
     return r;
   }
 
@@ -3007,7 +3006,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // '+' | '-' | '!' | '^' | '~' | '*' | '<-'
+  // '+' | '-' | '!' | '^' | '~' | '*'
   static boolean UnaryOp(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "UnaryOp")) return false;
     boolean r;
@@ -3017,7 +3016,6 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, BIT_XOR);
     if (!r) r = consumeToken(b, BIT_NOT);
     if (!r) r = consumeToken(b, MUL);
-    if (!r) r = consumeToken(b, "<-");
     return r;
   }
 

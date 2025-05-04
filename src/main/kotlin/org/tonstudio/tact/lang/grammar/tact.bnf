@@ -527,11 +527,6 @@ Expression ::=
   | UnaryExpr
   | MaxGroup
   | ParenthesesExpr
-//  | BitwiseOrExpr
-//  | BitwiseXorExpr
-//  | BitwiseAndExpr
-//  | BitwiseShiftExpr
-//  | BitwiseNotExpr
   {methods=[getType] implements="org.tonstudio.tact.lang.psi.TactTypeOwner"}
 
 // Foo { ... }
@@ -623,16 +618,10 @@ ConditionalExpr ::= Expression RelOp Expression {methods=[isNone]}
 AddExpr ::= Expression AddOp Expression
 MulExpr ::= Expression MulOp Expression
 
-//BitwiseOrExpr ::= Expression '|' Expression
-//BitwiseXorExpr ::= Expression '^' Expression
-//BitwiseAndExpr ::= Expression '&' Expression
-//BitwiseShiftExpr ::= Expression ('<<' | '>>') Expression
-//BitwiseNotExpr ::= '~' Expression
-
 private RelOp ::= '==' | '!=' | '<' | '<=' | '>' !'>' | '>='
 private AddOp ::= '+' | '-' | '|' | '^'
-private MulOp ::= '*' | '/' | '%' | '<<' | '>>' | '&' | '&^'
-private UnaryOp ::= '+' | '-' | '!' | '^' | '~' | '*' | '<-'
+private MulOp ::= '*' | '/' | '%' | '<<' | '>>' | '&'
+private UnaryOp ::= '+' | '-' | '!' | '^' | '~' | '*'
 
 fake BinaryExpr ::= Expression+ {
   methods=[left="Expression[0]" right="Expression[1]" getOperator]
