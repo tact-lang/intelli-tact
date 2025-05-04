@@ -587,7 +587,7 @@ MapType ::= 'map' '<' Type ',' Type '>' {
 
 VarDefinition ::= identifier {
   pin=2
-  methods=[getTypeInner getName getReference]
+  methods=[getTypeInner getName getReference isReadonly]
   stubClass="org.tonstudio.tact.lang.stubs.TactVarDefinitionStub"
 }
 

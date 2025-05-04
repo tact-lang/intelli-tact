@@ -24,4 +24,6 @@ public interface TactVarDefinition extends TactNamedElement, StubBasedPsiElement
   @NotNull
   PsiReference getReference();
 
+  boolean isReadonly();
+
 }

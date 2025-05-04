@@ -32,6 +32,10 @@ class TactAnnotator : Annotator {
             return highlightReference(parent, parent.reference as TactReference)
         }
 
+        if (parent is TactVarDefinition && !parent.isReadonly) {
+            return TactColor.MUTABLE_VARIABLE
+        }
+
         return null
     }
 
@@ -44,6 +48,12 @@ class TactAnnotator : Annotator {
         }
 
         val resolved = reference.resolve() ?: return null
+        if (resolved is TactVarDefinition) {
+            if (resolved.isReadonly) {
+                return TactColor.VARIABLE
+            }
+            return TactColor.MUTABLE_VARIABLE
+        }
 
         return when (resolved) {
             is TactPrimitiveDeclaration      -> TactColor.PRIMITIVE
@@ -56,7 +66,6 @@ class TactAnnotator : Annotator {
             is TactMessageDeclaration        -> TactColor.MESSAGE
             is TactFieldDefinition           -> TactColor.FIELD
             is TactParamDefinition           -> TactColor.PARAMETER
-            is TactVarDefinition             -> TactColor.VARIABLE
             is TactConstDefinition           -> TactColor.CONSTANT
             else                             -> null
         }

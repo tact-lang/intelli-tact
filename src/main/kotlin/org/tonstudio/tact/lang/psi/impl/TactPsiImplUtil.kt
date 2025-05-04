@@ -7,6 +7,7 @@ import com.intellij.openapi.util.*
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.LeafElement
 import com.intellij.psi.scope.PsiScopeProcessor
+import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.psi.util.*
 import org.tonstudio.tact.compiler.crc16
 import org.tonstudio.tact.lang.TactTypes.DOT
@@ -17,10 +18,13 @@ import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
 import org.tonstudio.tact.lang.psi.types.TactFunctionTypeEx
 import org.tonstudio.tact.lang.psi.types.TactTypeEx
 import org.tonstudio.tact.lang.stubs.index.TactContractsTraitsIndex
+import org.tonstudio.tact.lang.usages.TactReadWriteAccessDetector
 import org.tonstudio.tact.utils.stubOrPsiParentOfType
 import kotlin.Pair
 
 object TactPsiImplUtil {
+    private val detector = TactReadWriteAccessDetector()
+
     @JvmStatic
     fun getName(o: TactFunctionDeclaration): String {
         val stub = o.stub
@@ -373,7 +377,7 @@ object TactPsiImplUtil {
     fun getReadWriteAccess(o: TactReferenceExpression): Access {
         val expression = getConsiderableExpression(o)
         val parent = expression.parent
-        if (parent is TactAssignmentStatement) {
+        if (parent is TactAssignmentStatement && PsiTreeUtil.isAncestor(parent.left, expression, false)) {
             // += or =
             return if (parent.assignOp.assign == null) Access.ReadWrite else Access.Write
         }
@@ -662,6 +666,22 @@ object TactPsiImplUtil {
     @JvmStatic
     fun getReference(o: TactVarDefinition): PsiReference {
         return TactVarReference(o)
+    }
+
+    @JvmStatic
+    fun isReadonly(def: TactVarDefinition): Boolean {
+        return CachedValuesManager.getCachedValue(def) {
+            val result = isReadonlyImpl(def)
+            CachedValueProvider.Result(result, PsiModificationTracker.MODIFICATION_COUNT)
+        }
+    }
+
+    @JvmStatic
+    fun isReadonlyImpl(def: TactVarDefinition): Boolean {
+        val usages = ReferencesSearch.search(def, def.useScope)
+        return usages.all {
+            detector.getReferenceAccess(def, it) == Access.Read
+        }
     }
 
     @JvmStatic

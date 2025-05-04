@@ -59,4 +59,9 @@ public class TactVarDefinitionImpl extends TactNamedElementImpl<TactVarDefinitio
     return TactPsiImplUtil.getReference(this);
   }
 
+  @Override
+  public boolean isReadonly() {
+    return TactPsiImplUtil.isReadonly(this);
+  }
+
 }
