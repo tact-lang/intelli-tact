@@ -34,6 +34,12 @@ blockchain.
 
 ## Installation & Usage
 
+> [!WARNING]
+> The current plugin conflicts with the TON plugin as both add Tact support.
+> Until TON plugin version 2.5.5 is released, you need to disable the TON plugin to use this Tact plugin correctly.
+> Alternatively, you can install a custom-built TON plugin without Tact support from
+> the [releases](https://github.com/tact-lang/intelli-tact/releases/latest)
+
 - Using an IDE built-in plugin system:
 
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Tact"</kbd> >
