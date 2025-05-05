@@ -3,6 +3,7 @@ package org.tonstudio.tact.ide.documentation
 import com.intellij.lang.documentation.DocumentationMarkup
 import com.intellij.openapi.editor.markup.TextAttributes
 import com.intellij.psi.PsiElement
+import com.intellij.psi.util.PsiTreeUtil
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asKeyword
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.line
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.part
@@ -325,9 +326,9 @@ fun TactConstDefinition.generateDoc(): String {
     return buildString {
         append(DocumentationMarkup.DEFINITION_START)
 
-        val decl = this@generateDoc.parent as? TactConstDeclaration ?: return "unknown constant"
+        val modifiers = (parent as? TactConstDeclaration)?.constantModifierList ?: emptyList()
 
-        part(generateDocForConstantModifiers(decl.constantModifierList))
+        part(generateDocForConstantModifiers(modifiers))
         part("const", asKeyword)
         colorize(name, asConst)
 
