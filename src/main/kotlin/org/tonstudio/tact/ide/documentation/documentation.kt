@@ -567,7 +567,16 @@ fun TactTupleTypeEx.generateDoc(anchor: PsiElement): String {
 }
 
 fun TactPrimitiveTypeEx.generateDoc(anchor: PsiElement): String {
-    return colorize(readableName(anchor), asBuiltin)
+    val name = readableName(anchor)
+    val tlb = tlbType
+    if (tlb != null) {
+        return buildString {
+            colorize(name, asPrimitive)
+            colorize(" as ", asKeyword)
+            colorize(tlb, asPrimitive)
+        }
+    }
+    return colorize(name, asPrimitive)
 }
 
 private fun generateFqnTypeDoc(fqn: String, color: TextAttributes): String {
