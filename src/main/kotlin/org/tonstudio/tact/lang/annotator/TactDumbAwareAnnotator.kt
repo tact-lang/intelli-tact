@@ -48,6 +48,7 @@ class TactDumbAwareAnnotator : Annotator, DumbAware {
             is TactTraitDeclaration          -> TactColor.TRAIT
             is TactFieldDefinition           -> TactColor.FIELD
             is TactConstDefinition           -> TactColor.CONSTANT
+            is TactParamDefinition           -> TactColor.PARAMETER
             is TactAttributeIdentifier       -> TactColor.ATTRIBUTE
             is TactFunctionAttribute         -> TactColor.KEYWORD
             is TactAsmInstruction            -> TactColor.ASM_INSTRUCTION
