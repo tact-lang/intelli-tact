@@ -25,12 +25,18 @@ class TactDocumentationProvider : AbstractDocumentationProvider() {
         is TactParamDefinition           -> element.generateDoc()
         is TactFieldDefinition           -> element.generateDoc()
         is TactAsmInstruction            -> element.generateDoc()
+        is TactTlb                       -> element.generateDoc()
         else                             -> null
     }
 
     override fun getCustomDocumentationElement(editor: Editor, file: PsiFile, contextElement: PsiElement?, targetOffset: Int): PsiElement? {
-        if (contextElement?.parent is TactAsmInstruction) {
-            return contextElement.parent
+        val parent = contextElement?.parent
+        val grand = parent?.parent
+        if (parent is TactAsmInstruction) {
+            return parent
+        }
+        if (grand is TactTlb) {
+            return grand
         }
         return super.getCustomDocumentationElement(editor, file, contextElement, targetOffset)
     }

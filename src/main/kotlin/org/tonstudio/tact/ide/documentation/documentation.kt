@@ -497,6 +497,12 @@ fun TactAsmInstruction.generateDoc(): String {
     return actualInstructionDescription.joinToString("\n")
 }
 
+fun TactTlb.generateDoc(): String? {
+    val word = typeReferenceExpression?.text ?: return null
+    val markdownDoc = generateTlBTypeDoc(word) ?: return null
+    return documentationAsHtml(markdownDoc, null, TactDocRenderMode.QUICK_DOC_POPUP, this)
+}
+
 fun wrapDefinition(content: String): String = DocumentationMarkup.DEFINITION_START + content + DocumentationMarkup.DEFINITION_END
 
 fun TactExpression.generateDoc(): String {
