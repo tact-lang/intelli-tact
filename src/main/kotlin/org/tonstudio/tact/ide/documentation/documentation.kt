@@ -3,7 +3,6 @@ package org.tonstudio.tact.ide.documentation
 import com.intellij.lang.documentation.DocumentationMarkup
 import com.intellij.openapi.editor.markup.TextAttributes
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.PsiTreeUtil
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asKeyword
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.line
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.part
@@ -213,7 +212,23 @@ private fun generateDocForConstantModifiers(attrs: List<TactConstantModifier>): 
 }
 
 private fun TactAttribute.generateDoc(): String {
-    return colorize("@", asAttribute) + (attributeExpression?.text ?: "")
+    val plainAttribute = attributeExpression?.plainAttribute ?: return ""
+    val name = plainAttribute.attributeKey.text ?: ""
+    val arguments = plainAttribute.argumentList?.expressionList ?: emptyList()
+    return buildString {
+        colorize("@", asAttribute)
+        colorize(name, asAttribute)
+        if (arguments.isNotEmpty()) {
+            colorize("(", asParen)
+            arguments.forEachIndexed { index, argument ->
+                append(argument.generateDoc())
+                if (index != arguments.size - 1) {
+                    append(", ")
+                }
+            }
+            colorize(")", asParen)
+        }
+    }
 }
 
 fun TactStructDeclaration.generateDoc(): String {
