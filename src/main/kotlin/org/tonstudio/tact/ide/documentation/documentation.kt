@@ -38,7 +38,6 @@ import org.tonstudio.tact.ide.documentation.DocumentationUtils.asStruct
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asTrait
 import org.tonstudio.tact.lang.TactSyntaxHighlighter
 import org.tonstudio.tact.lang.doc.psi.TactDocComment
-import org.tonstudio.tact.lang.psi.impl.TactPsiImplUtil.getInheritedTraitsBase
 
 private fun StringBuilder.generateOwnerDpc(element: TactNamedElement) {
     val owner = element.getOwner() ?: return
@@ -46,9 +45,17 @@ private fun StringBuilder.generateOwnerDpc(element: TactNamedElement) {
     val kind = owner.kindPresentation()
     val name = owner.name ?: ""
 
+    val nameColor = when (element) {
+        is TactContractDeclaration -> asContract
+        is TactTraitDeclaration -> asTrait
+        is TactMessageDeclaration -> asMessage
+        is TactStructDeclaration -> asStruct
+        else -> asStruct
+    }
+
     colorize(kind, asKeyword)
     append(" ")
-    colorize(name, asStruct)
+    colorize(name, nameColor)
     append("\n")
 }
 
