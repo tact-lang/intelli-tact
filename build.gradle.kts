@@ -31,10 +31,6 @@ dependencies {
     testImplementation(libs.junit)
 
     intellijPlatform {
-        description = """
-        Provides official support for <a href="https://tact-lang.org/">Tact</a> programming language
-        """.trimIndent()
-
         create(providers.gradleProperty("platformType"), providers.gradleProperty("platformVersion"))
 
         bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
@@ -50,7 +46,9 @@ intellijPlatform {
     pluginConfiguration {
         version = providers.gradleProperty("pluginVersion")
 
-        description = "" // TODO: proper description
+        description = """
+        Provides official support for <a href="https://tact-lang.org/">Tact</a> programming language
+        """.trimIndent()
 
         val changelog = project.changelog
         changeNotes = providers.gradleProperty("pluginVersion").map { pluginVersion ->
