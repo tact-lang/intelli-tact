@@ -34,6 +34,7 @@ object DocumentationUtils {
     val asStruct = loadKey(TactColor.STRUCT.textAttributesKey)
     val asMessage = loadKey(TactColor.MESSAGE.textAttributesKey)
     val asTrait = loadKey(TactColor.TRAIT.textAttributesKey)
+    val asContract = loadKey(TactColor.CONTRACT.textAttributesKey)
     val asPrimitive = loadKey(TactColor.PRIMITIVE.textAttributesKey)
     val asConst = loadKey(TactColor.CONSTANT.textAttributesKey)
     val asAsmInstruction = loadKey(TactColor.ASM_INSTRUCTION.textAttributesKey)

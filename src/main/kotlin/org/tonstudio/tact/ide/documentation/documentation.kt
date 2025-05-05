@@ -24,6 +24,7 @@ import org.tonstudio.tact.ide.documentation.DocumentationUtils.asBraces
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asBuiltin
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asComment
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asConst
+import org.tonstudio.tact.ide.documentation.DocumentationUtils.asContract
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asField
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asFunction
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asIdentifier
@@ -37,6 +38,7 @@ import org.tonstudio.tact.ide.documentation.DocumentationUtils.asStruct
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asTrait
 import org.tonstudio.tact.lang.TactSyntaxHighlighter
 import org.tonstudio.tact.lang.doc.psi.TactDocComment
+import org.tonstudio.tact.lang.psi.impl.TactPsiImplUtil.getInheritedTraitsBase
 
 private fun StringBuilder.generateOwnerDpc(element: TactNamedElement) {
     val owner = element.getOwner() ?: return
@@ -322,6 +324,49 @@ fun TactFieldDefinition.generateDoc(): String {
 
         append(DocumentationMarkup.DEFINITION_END)
         generateCommentsPart(this@generateDoc)
+    }
+}
+
+fun TactContractDeclaration.generateDoc(): String {
+    return buildString {
+        append(DocumentationMarkup.DEFINITION_START)
+
+        part("contract", asKeyword)
+        part(name, asContract)
+
+        val inheritedTraits = contractType.getWithClause()?.typeList ?: emptyList()
+        formatInheritTraits(inheritedTraits)
+
+        append(DocumentationMarkup.DEFINITION_END)
+        generateCommentsPart(this@generateDoc)
+    }
+}
+
+fun TactTraitDeclaration.generateDoc(): String {
+    return buildString {
+        append(DocumentationMarkup.DEFINITION_START)
+
+        part("trait", asKeyword)
+        part(name, asTrait)
+
+        val inheritedTraits = traitType.getWithClause()?.typeList ?: emptyList()
+        formatInheritTraits(inheritedTraits)
+
+        append(DocumentationMarkup.DEFINITION_END)
+        generateCommentsPart(this@generateDoc)
+    }
+}
+
+private fun StringBuilder.formatInheritTraits(inheritedTraits: List<TactType>) {
+    val filtered = inheritedTraits.filter { it.text != "BaseTrait" }
+    if (filtered.isEmpty()) return
+
+    colorize("with ", asKeyword)
+    filtered.forEachIndexed { index, trait ->
+        colorize(trait.text, asTrait)
+        if (index != filtered.size - 1) {
+            append(", ")
+        }
     }
 }
 
