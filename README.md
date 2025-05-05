@@ -23,7 +23,7 @@ blockchain.
 ## Features
 
 - Semantic syntax highlighting
-- Code completion imports completion
+- Code completion, imports completion
 - Go to definition, implementation, type definition
 - Find all references, workspace symbol search, symbol renaming
 - Types and documentation on hover
