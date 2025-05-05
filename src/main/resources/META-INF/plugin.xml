@@ -6,6 +6,7 @@
     <category>Languages</category>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.json</depends>
 
     <resource-bundle>messages.TactBundle</resource-bundle>
 
@@ -197,6 +198,21 @@
         <editorNotificationProvider implementation="org.tonstudio.tact.project.TactMissingToolchainNotificationProvider"/>
         <applicationService serviceImplementation="org.tonstudio.tact.toolchain.TactKnownToolchainsState"/>
         <!-- endregion Toolchains -->
+
+        <!-- region Run Configuration -->
+        <runLineMarkerContributor id="TactBuildLineMarkerProvider" language="tact"
+                                  implementationClass="org.tonstudio.tact.ide.build.TactBuildLineMarkerProvider"/>
+        <runLineMarkerContributor id="TactBuildProjectLineMarkerProvider" language="JSON"
+                                  implementationClass="org.tonstudio.tact.ide.build.TactBuildProjectLineMarkerProvider"/>
+        <!-- region single -->
+        <configurationType implementation="org.tonstudio.tact.ide.build.single.TactBuildConfigurationType"/>
+        <runConfigurationProducer implementation="org.tonstudio.tact.ide.build.single.TactBuildConfigurationProducer"/>
+        <!-- endregion single -->
+        <!-- region project -->
+        <configurationType implementation="org.tonstudio.tact.ide.build.project.TactBuildConfigurationType"/>
+        <runConfigurationProducer implementation="org.tonstudio.tact.ide.build.project.TactBuildConfigurationProducer"/>
+        <!-- endregion project -->
+        <!-- endregion Run Configuration -->
 
         <!-- region Project -->
         <additionalLibraryRootsProvider implementation="org.tonstudio.tact.project.TactAdditionalLibraryRootsProvider"/>
