@@ -30,7 +30,7 @@ class TactAnnotator : Annotator {
             parent is TactReferenceExpressionBase &&
             parent.reference != null
         ) {
-            return highlightReference(parent, parent.reference as TactReference)
+            return highlightReference(parent.reference as TactReference)
         }
 
         if (parent is TactVarDefinition && !parent.isReadonly) {
@@ -40,14 +40,7 @@ class TactAnnotator : Annotator {
         return null
     }
 
-    private fun highlightReference(
-        element: TactReferenceExpressionBase,
-        reference: TactReference,
-    ): TactColor? {
-        if (TactPrimitiveTypes.isPrimitiveType(element.text)) {
-            return null
-        }
-
+    private fun highlightReference(reference: TactReference): TactColor? {
         val resolved = reference.resolve() ?: return null
         if (resolved is TactVarDefinition) {
             if (resolved.isReadonly) {
