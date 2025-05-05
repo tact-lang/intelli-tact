@@ -8,7 +8,7 @@ import org.tonstudio.tact.compiler.ExitCodeFormat
 import org.tonstudio.tact.compiler.requireFunctionExitCode
 import org.tonstudio.tact.lang.psi.*
 
-class TacRequireExitCodeHintsProvider : InlayHintsProvider {
+class TactRequireExitCodeHintsProvider : InlayHintsProvider {
     override fun createCollector(file: PsiFile, editor: Editor) = Collector()
 
     class Collector : SharedBypassCollector {

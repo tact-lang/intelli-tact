@@ -99,9 +99,18 @@ Provides official support for <a href="https://tact-lang.org/">Tact</a> programm
                                               bundle="messages.TactBundle"
                                               nameKey="tact.inlay.hints.require.exit.code.info"
                                               group="VALUES_GROUP"
-                                              implementationClass="org.tonstudio.tact.ide.hints.TacRequireExitCodeHintsProvider"
+                                              implementationClass="org.tonstudio.tact.ide.hints.TactRequireExitCodeHintsProvider"
                                               isEnabledByDefault="true"
                                               providerId="tact.inlay.hints.require.exit.code.info"/>
+
+       <!--suppress PluginXmlCapitalization -->
+        <codeInsight.declarativeInlayProvider language="tact"
+                                              bundle="messages.TactBundle"
+                                              nameKey="tact.inlay.hints.implicit.as.int257"
+                                              group="VALUES_GROUP"
+                                              implementationClass="org.tonstudio.tact.ide.hints.TactImplicitAsInt257HintsProvider"
+                                              isEnabledByDefault="true"
+                                              providerId="tact.inlay.hints.implicit.as.int257"/>
 
         <codeInsight.parameterNameHints language="tact" id="TactParameterNameHintsProvider"
                                         implementationClass="org.tonstudio.tact.ide.hints.TactParameterNameHintsProvider"/>
