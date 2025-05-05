@@ -435,7 +435,7 @@ fun TactParamDefinition.generateDoc(): String {
         val type = getType(null)
 
         part("parameter", asKeyword)
-        colorize(name ?: "", asIdentifier)
+        colorize(name ?: "", asParameter)
         append(": ")
         append(type?.generateDoc(this@generateDoc) ?: "unknown")
         append(DocumentationMarkup.DEFINITION_END)
