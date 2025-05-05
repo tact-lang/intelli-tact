@@ -1,0 +1,60 @@
+<templateSet group="Tact">
+  <template name="let" value="let $name$ = $value$;$END$" description="Variable binding" toReformat="true" toShortenFQNames="true">
+    <variable name="name" expression="&quot;name&quot;" defaultValue="name" alwaysStopAt="true" />
+    <variable name="value" expression="&quot;10&quot;" defaultValue="10" alwaysStopAt="true" />
+    <context>
+      <option name="TACT_STATEMENT" value="true" />
+    </context>
+  </template>
+  <template name="lett" value="let $name$: $type$ = $value$;$END$" description="Variable binding with explicit type" toReformat="true" toShortenFQNames="true">
+    <variable name="name" expression="&quot;name&quot;" defaultValue="name" alwaysStopAt="true" />
+    <variable name="type" expression="&quot;Int&quot;" defaultValue="Int" alwaysStopAt="true" />
+    <variable name="value" expression="&quot;10&quot;" defaultValue="10" alwaysStopAt="true" />
+    <context>
+      <option name="TACT_STATEMENT" value="true" />
+    </context>
+  </template>
+  <template name="while" value="while ($cond$) {$END$}" description="While loop" toReformat="true" toShortenFQNames="true">
+    <variable name="cond" expression="&quot;true&quot;" defaultValue="true" alwaysStopAt="true" />
+    <context>
+      <option name="TACT_STATEMENT" value="true" />
+    </context>
+  </template>
+  <template name="until" value="do {$END$} until ($cond$);" description="Do-until loop" toReformat="true" toShortenFQNames="true">
+    <variable name="cond" expression="&quot;true&quot;" defaultValue="true" alwaysStopAt="true" />
+    <context>
+      <option name="TACT_STATEMENT" value="true" />
+    </context>
+  </template>
+  <template name="do" value="do {$END$} until ($cond$);" description="Do-until loop" toReformat="true" toShortenFQNames="true">
+    <variable name="cond" expression="&quot;true&quot;" defaultValue="true" alwaysStopAt="true" />
+    <context>
+      <option name="TACT_STATEMENT" value="true" />
+    </context>
+  </template>
+  <template name="repeat" value="repeat($value$) {$END$}" description="Repeat loop" toReformat="true" toShortenFQNames="true">
+    <variable name="value" expression="&quot;10&quot;" defaultValue="10" alwaysStopAt="true" />
+    <context>
+      <option name="TACT_STATEMENT" value="true" />
+    </context>
+  </template>
+  <template name="foreach" value="foreach ($key$, $value$ in $mapping$) {$END$}" description="Foreach loop" toReformat="true" toShortenFQNames="true">
+    <variable name="key" expression="&quot;key&quot;" defaultValue="key" alwaysStopAt="true" />
+    <variable name="value" expression="&quot;value&quot;" defaultValue="value" alwaysStopAt="true" />
+    <variable name="mapping" expression="&quot;mapping&quot;" defaultValue="mapping" alwaysStopAt="true" />
+    <context>
+      <option name="TACT_STATEMENT" value="true" />
+    </context>
+  </template>
+  <template name="try" value="try {$END$}" description="Try statement" toReformat="true" toShortenFQNames="true">
+    <context>
+      <option name="TACT_STATEMENT" value="true" />
+    </context>
+  </template>
+  <template name="trycatch" value="try {$END$} catch ($error$) {}" description="Try-catch statement" toReformat="true" toShortenFQNames="true">
+    <variable name="error" expression="&quot;error&quot;" defaultValue="error" alwaysStopAt="true" />
+    <context>
+      <option name="TACT_STATEMENT" value="true" />
+    </context>
+  </template>
+</templateSet>

@@ -104,7 +104,7 @@ Provides official support for <a href="https://tact-lang.org/">Tact</a> programm
                                               providerId="tact.inlay.hints.require.exit.code.info"/>
 
        <!--suppress PluginXmlCapitalization -->
-        <codeInsight.declarativeInlayProvider language="tact"
+       <codeInsight.declarativeInlayProvider language="tact"
                                               bundle="messages.TactBundle"
                                               nameKey="tact.inlay.hints.implicit.as.int257"
                                               group="VALUES_GROUP"
@@ -178,6 +178,17 @@ Provides official support for <a href="https://tact-lang.org/">Tact</a> programm
         <additionalTextAttributes scheme="Darcula" file="colorSchemes/TactAddonsDarcula.xml"/>
         <additionalTextAttributes scheme="New Dark" file="colorSchemes/TactAddonsNewDark.xml"/>
         <!-- endregion Color Schemes -->
+
+        <!-- region Live Templates -->
+        <defaultLiveTemplates file="/liveTemplates/Tact.xml"/>
+        <liveTemplateContext implementation="org.tonstudio.tact.ide.templates.TactTemplateContextType$Comment" contextId="TACT_COMMENT"/>
+        <liveTemplateContext implementation="org.tonstudio.tact.ide.templates.TactTemplateContextType$Generic" contextId="TACT_GENERIC"/>
+        <liveTemplateContext implementation="org.tonstudio.tact.ide.templates.TactTemplateContextType$TopLevel" contextId="TACT_TOPLEVEL"/>
+        <liveTemplateContext implementation="org.tonstudio.tact.ide.templates.TactTemplateContextType$Statement" contextId="TACT_STATEMENT"/>
+
+        <defaultTemplatePropertiesProvider
+                implementation="org.tonstudio.tact.ide.templates.TactDefaultTemplatePropertiesProvider"/>
+        <!-- endregion Live Templates -->
 
         <!-- region Editor -->
         <postStartupActivity implementation="org.tonstudio.tact.ide.TactPostStartupActivity"/>

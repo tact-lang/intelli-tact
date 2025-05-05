@@ -15,6 +15,7 @@ import com.intellij.codeInsight.template.TemplateManager
 import com.intellij.codeInsight.template.impl.ConstantNode
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.parentOfType
 import org.tonstudio.tact.ide.ui.Icons
 import org.tonstudio.tact.lang.psi.*
@@ -459,5 +460,23 @@ object TactCompletionUtil {
         override fun renderElement(element: LookupElement, p: LookupElementPresentation) {
             render(element, p)
         }
+    }
+
+    fun shouldSuppressCompletion(element: PsiElement): Boolean {
+        val parent = element.parent
+        val grand = parent.parent
+        if (grand is TactVarDeclaration && PsiTreeUtil.isAncestor(grand, element, false)) {
+            return true
+        }
+
+        if (parent is TactFunctionDeclaration) {
+            return true
+        }
+
+        return parent is TactStructType ||
+                parent is TactMessageType ||
+                parent is TactTraitType ||
+                parent is TactContractType ||
+                parent is TactPrimitiveDeclaration
     }
 }
