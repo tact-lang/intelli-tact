@@ -120,8 +120,10 @@ Provides official support for <a href="https://tact-lang.org/">Tact</a> programm
 
         <!-- region Searches -->
         <definitionsScopedSearch implementation="org.tonstudio.tact.lang.search.TactSuperMethodSearch"/>
+        <definitionsScopedSearch implementation="org.tonstudio.tact.lang.search.TactSuperConstantSearch"/>
         <definitionsScopedSearch implementation="org.tonstudio.tact.lang.search.TactImplementationsSearch"/>
         <definitionsScopedSearch implementation="org.tonstudio.tact.lang.search.TactFunctionImplementationsSearch"/>
+        <definitionsScopedSearch implementation="org.tonstudio.tact.lang.search.TactConstantImplementationsSearch"/>
         <codeInsight.lineMarkerProvider language="tact"
                                         implementationClass="org.tonstudio.tact.lang.search.TactSuperMarkerProvider"/>
         <codeInsight.lineMarkerProvider language="tact"

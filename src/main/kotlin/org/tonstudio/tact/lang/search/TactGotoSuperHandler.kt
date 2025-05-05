@@ -5,6 +5,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import org.tonstudio.tact.lang.psi.TactConstDefinition
 import org.tonstudio.tact.lang.psi.TactFile
 import org.tonstudio.tact.lang.psi.TactFunctionDeclaration
 
@@ -22,6 +23,9 @@ class TactGotoSuperHandler : LanguageCodeInsightActionHandler {
         val parent = element.parent ?: return
         if (parent is TactFunctionDeclaration) {
             showSuperMethodPopup(null, parent)
+        }
+        if (parent is TactConstDefinition) {
+            showSuperConstantPopup(null, parent)
         }
     }
 }

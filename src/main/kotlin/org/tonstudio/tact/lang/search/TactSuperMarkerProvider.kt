@@ -9,6 +9,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.search.searches.DefinitionsScopedSearch
 import org.tonstudio.tact.lang.TactTypes
+import org.tonstudio.tact.lang.psi.TactConstDefinition
 import org.tonstudio.tact.lang.psi.TactFunctionDeclaration
 import java.awt.event.MouseEvent
 
@@ -34,14 +35,27 @@ class TactSuperMarkerProvider : LineMarkerProviderDescriptor() {
     ) {
         if (element !is LeafPsiElement || element.elementType != TactTypes.IDENTIFIER) return
 
-        val func = element.parent as? TactFunctionDeclaration ?: return
+        val func = element.parent as? TactFunctionDeclaration
 
-        if (hasSuperMethod(func)) {
+        if (func != null && hasSuperMethod(func)) {
             result.add(
                 createInfo(
                     element,
                     { e, identifier -> showSuperMethodPopup(e, identifier) },
                     "Go to Parent Method",
+                    AllIcons.Gutter.OverridingMethod,
+                    IdeActions.ACTION_GOTO_SUPER,
+                )
+            )
+        }
+
+        val constant = element.parent as? TactConstDefinition
+        if (constant != null && hasSuperConstant(constant)) {
+            result.add(
+                createInfo(
+                    element,
+                    { e, identifier -> showSuperConstantPopup(e, identifier) },
+                    "Go to Parent Constant",
                     AllIcons.Gutter.OverridingMethod,
                     IdeActions.ACTION_GOTO_SUPER,
                 )
@@ -67,4 +81,23 @@ fun showSuperMethodPopup(event: MouseEvent?, method: TactFunctionDeclaration) {
 private fun showSuperMethodPopup(e: MouseEvent?, identifier: PsiElement) {
     val method = identifier.parent as? TactFunctionDeclaration ?: return
     showSuperMethodPopup(e, method)
+}
+
+fun showSuperConstantPopup(event: MouseEvent?, constant: TactConstDefinition) {
+    val name = constant.name
+    showPopup(
+        "Implement constant $name",
+        {
+            "Constant '$name' Overrides Constant of Trait"
+        },
+        event,
+        DefinitionsScopedSearch.SearchParameters(constant),
+        methodRenderer(constant),
+        TactSuperConstantSearch(),
+    )
+}
+
+private fun showSuperConstantPopup(e: MouseEvent?, identifier: PsiElement) {
+    val method = identifier.parent as? TactConstDefinition ?: return
+    showSuperConstantPopup(e, method)
 }

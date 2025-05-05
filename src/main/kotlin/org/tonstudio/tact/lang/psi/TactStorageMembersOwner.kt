@@ -20,6 +20,12 @@ fun TactStorageMembersOwner.fields(): List<TactFieldDefinition> {
     return own + inherited
 }
 
+fun TactStorageMembersOwner.constants(): List<TactConstDefinition> {
+    val own = getConstantsList()
+    val inherited = getInheritedTraits().flatMap { it.traitType.getConstantsList() }
+    return own + inherited
+}
+
 fun TactStorageMembersOwner.name(): String {
     val parent = this.parent
     if (parent is TactNamedElement) {
