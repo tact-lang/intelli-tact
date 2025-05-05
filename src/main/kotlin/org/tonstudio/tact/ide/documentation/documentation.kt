@@ -47,10 +47,10 @@ private fun StringBuilder.generateOwnerDpc(element: TactNamedElement) {
 
     val nameColor = when (element) {
         is TactContractDeclaration -> asContract
-        is TactTraitDeclaration -> asTrait
-        is TactMessageDeclaration -> asMessage
-        is TactStructDeclaration -> asStruct
-        else -> asStruct
+        is TactTraitDeclaration    -> asTrait
+        is TactMessageDeclaration  -> asMessage
+        is TactStructDeclaration   -> asStruct
+        else                       -> asStruct
     }
 
     colorize(kind, asKeyword)
@@ -513,6 +513,16 @@ fun TactExpression.generateDoc(): String {
         val string = TactTokenTypes.STRING_LITERALS.contains(type)
         val operators = TactTokenTypes.OPERATORS.contains(type)
         val booleanLiteral = tokenText == "true" || tokenText == "false"
+        val builtinFunctions = tokenText == "ton" ||
+                tokenText == "require" ||
+                tokenText == "dump" ||
+                tokenText == "sha256" ||
+                tokenText == "cell" ||
+                tokenText == "slice" ||
+                tokenText == "rawSlice" ||
+                tokenText == "ascii" ||
+                tokenText == "crc32" ||
+                tokenText == "address"
         val primitiveType = TactPrimitiveTypes.isPrimitiveType(tokenText)
 
         if (tokenText.contains("\n")) {
@@ -522,13 +532,14 @@ fun TactExpression.generateDoc(): String {
 
         builder.append(
             when {
-                keyword        -> colorize(tokenText, asKeyword)
-                number         -> colorize(tokenText, asNumber)
-                string         -> colorize(tokenText, asString)
-                operators      -> colorize(tokenText, asOperator)
-                booleanLiteral -> colorize(tokenText, asKeyword)
-                primitiveType  -> colorize(tokenText, asBuiltin)
-                else           -> tokenText
+                keyword          -> colorize(tokenText, asKeyword)
+                number           -> colorize(tokenText, asNumber)
+                string           -> colorize(tokenText, asString)
+                operators        -> colorize(tokenText, asOperator)
+                booleanLiteral   -> colorize(tokenText, asKeyword)
+                primitiveType    -> colorize(tokenText, asBuiltin)
+                builtinFunctions -> colorize(tokenText, asFunction)
+                else             -> tokenText
             }
         )
         lexer.advance()
