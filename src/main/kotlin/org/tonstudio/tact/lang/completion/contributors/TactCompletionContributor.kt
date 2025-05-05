@@ -8,6 +8,7 @@ import org.tonstudio.tact.lang.completion.TactCompletionPatterns.cachedReference
 import org.tonstudio.tact.lang.completion.TactCompletionPatterns.onAsmInstruction
 import org.tonstudio.tact.lang.completion.TactCompletionPatterns.onContractTraitTopLevel
 import org.tonstudio.tact.lang.completion.TactCompletionPatterns.onStatement
+import org.tonstudio.tact.lang.completion.TactCompletionPatterns.onTopLevel
 import org.tonstudio.tact.lang.completion.TactCompletionPatterns.referenceExpression
 import org.tonstudio.tact.lang.completion.providers.*
 import org.tonstudio.tact.lang.completion.sort.withTactSorter
@@ -17,6 +18,8 @@ class TactCompletionContributor : CompletionContributor() {
         extend(CompletionType.BASIC, referenceExpression(), ReferenceCompletionProvider)
         extend(CompletionType.BASIC, cachedReferenceExpression(), ReferenceCompletionProvider)
         extend(CompletionType.BASIC, referenceExpression(), TlbTypesCompletionProvider)
+
+        extend(CompletionType.BASIC, onTopLevel(), FunctionDefinitionCompletionProvider)
 
         extend(CompletionType.BASIC, onContractTraitTopLevel(), ReceiversCompletionProvider)
         extend(CompletionType.BASIC, onContractTraitTopLevel(), ContractInitCompletionProvider)

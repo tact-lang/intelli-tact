@@ -31,14 +31,6 @@ class TactKeywordsCompletionContributor : CompletionContributor() {
         extend(
             CompletionType.BASIC,
             onTopLevel(),
-            ContextKeywordsCompletionProvider(
-                "fun",
-                needSpace = true,
-            )
-        )
-        extend(
-            CompletionType.BASIC,
-            onTopLevel(),
             ClassLikeSymbolCompletionProvider(
                 "struct",
                 "trait",
@@ -173,17 +165,6 @@ class TactKeywordsCompletionContributor : CompletionContributor() {
             result.addElement(elseIfElement)
         }
     }
-
-    open class ContextKeywordsCompletionProvider(
-        vararg keywords: String,
-        needSpace: Boolean = false,
-    ) : KeywordsCompletionProvider(
-        *keywords,
-        needSpace = needSpace,
-        properties = TactLookupElementProperties(
-            isContextElement = true,
-        ),
-    )
 
     open class KeywordsCompletionProvider(
         private vararg val keywords: String,
