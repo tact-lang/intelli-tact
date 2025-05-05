@@ -26,6 +26,7 @@ class TactAnnotator : Annotator {
 
         if (
             element.elementType == TactTypes.IDENTIFIER &&
+            !element.textMatches("self") &&
             parent is TactReferenceExpressionBase &&
             parent.reference != null
         ) {
