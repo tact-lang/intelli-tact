@@ -611,58 +611,24 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // '@' AttributeExpression
+  // '@' identifier ArgumentList?
   public static boolean Attribute(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Attribute")) return false;
     if (!nextTokenIs(b, AT)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, ATTRIBUTE, null);
-    r = consumeToken(b, AT);
+    r = consumeTokens(b, 1, AT, IDENTIFIER);
     p = r; // pin = 1
-    r = r && AttributeExpression(b, l + 1);
+    r = r && Attribute_2(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
-  /* ********************************************************** */
-  // ArgumentList
-  static boolean AttributeArgs(PsiBuilder b, int l) {
-    return ArgumentList(b, l + 1);
-  }
-
-  /* ********************************************************** */
-  // PlainAttribute
-  public static boolean AttributeExpression(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "AttributeExpression")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ATTRIBUTE_EXPRESSION, "<attribute expression>");
-    r = PlainAttribute(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // identifier
-  public static boolean AttributeIdentifier(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "AttributeIdentifier")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, IDENTIFIER);
-    exit_section_(b, m, ATTRIBUTE_IDENTIFIER, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // AttributeIdentifier | Literal
-  public static boolean AttributeKey(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "AttributeKey")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ATTRIBUTE_KEY, "<attribute key>");
-    r = AttributeIdentifier(b, l + 1);
-    if (!r) r = Literal(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+  // ArgumentList?
+  private static boolean Attribute_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Attribute_2")) return false;
+    ArgumentList(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -2100,25 +2066,6 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // AttributeKey AttributeArgs?
-  public static boolean PlainAttribute(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "PlainAttribute")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, PLAIN_ATTRIBUTE, "<plain attribute>");
-    r = AttributeKey(b, l + 1);
-    r = r && PlainAttribute_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // AttributeArgs?
-  private static boolean PlainAttribute_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "PlainAttribute_1")) return false;
-    AttributeArgs(b, l + 1);
-    return true;
-  }
-
-  /* ********************************************************** */
   // PrimitiveType ';'
   public static boolean PrimitiveDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "PrimitiveDeclaration")) return false;
@@ -2825,6 +2772,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     asm |
   //     true |
   //     false |
+  //     native |
   //     null
   // )
   static boolean TopLevelDeclarationRecover(PsiBuilder b, int l) {
@@ -2874,6 +2822,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   //     asm |
   //     true |
   //     false |
+  //     native |
   //     null
   private static boolean TopLevelDeclarationRecover_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TopLevelDeclarationRecover_0")) return false;
@@ -2916,6 +2865,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, ASM);
     if (!r) r = consumeToken(b, TRUE);
     if (!r) r = consumeToken(b, FALSE);
+    if (!r) r = consumeToken(b, NATIVE);
     if (!r) r = consumeToken(b, NULL);
     return r;
   }

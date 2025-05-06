@@ -158,6 +158,7 @@ private TopLevelDeclarationRecover ::= !(
     asm |
     true |
     false |
+    native |
     null
 )
 
@@ -234,24 +235,10 @@ Attributes ::= Attribute Attribute* {
   pin=1
   stubClass="org.tonstudio.tact.lang.stubs.TactAttributesStub"
 }
-Attribute ::= '@' AttributeExpression {
+Attribute ::= '@' identifier ArgumentList? {
   pin=1
   stubClass="org.tonstudio.tact.lang.stubs.TactAttributeStub"
 }
-AttributeExpression ::= PlainAttribute {
-  stubClass="org.tonstudio.tact.lang.stubs.TactAttributeExpressionStub"
-}
-PlainAttribute ::= AttributeKey AttributeArgs? {
-  stubClass="org.tonstudio.tact.lang.stubs.TactPlainAttributeStub"
-}
-AttributeKey ::= AttributeIdentifier | Literal {
-  stubClass="org.tonstudio.tact.lang.stubs.TactAttributeKeyStub"
-}
-
-private AttributeArgs ::= ArgumentList
-
-AttributeIdentifier ::= identifier
-
 
 SimpleStatement ::=
     VarDeclaration

@@ -112,18 +112,6 @@ public class TactVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
-  public void visitAttributeExpression(@NotNull TactAttributeExpression o) {
-    visitCompositeElement(o);
-  }
-
-  public void visitAttributeIdentifier(@NotNull TactAttributeIdentifier o) {
-    visitCompositeElement(o);
-  }
-
-  public void visitAttributeKey(@NotNull TactAttributeKey o) {
-    visitCompositeElement(o);
-  }
-
   public void visitAttributes(@NotNull TactAttributes o) {
     visitCompositeElement(o);
   }
@@ -339,10 +327,6 @@ public class TactVisitor extends PsiElementVisitor {
 
   public void visitParenthesesExpr(@NotNull TactParenthesesExpr o) {
     visitExpression(o);
-  }
-
-  public void visitPlainAttribute(@NotNull TactPlainAttribute o) {
-    visitCompositeElement(o);
   }
 
   public void visitPrimitiveDeclaration(@NotNull TactPrimitiveDeclaration o) {

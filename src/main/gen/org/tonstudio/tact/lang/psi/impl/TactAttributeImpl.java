@@ -34,14 +34,20 @@ public class TactAttributeImpl extends TactStubbedElementImpl<TactAttributeStub>
 
   @Override
   @Nullable
-  public TactAttributeExpression getAttributeExpression() {
-    return TactPsiTreeUtil.getStubChildOfType(this, TactAttributeExpression.class);
+  public TactArgumentList getArgumentList() {
+    return TactPsiTreeUtil.getChildOfType(this, TactArgumentList.class);
   }
 
   @Override
   @NotNull
   public PsiElement getAt() {
     return notNullChild(findChildByType(AT));
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getIdentifier() {
+    return findChildByType(IDENTIFIER);
   }
 
 }

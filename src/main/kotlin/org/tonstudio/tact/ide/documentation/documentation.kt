@@ -221,9 +221,8 @@ private fun generateDocForConstantModifiers(attrs: List<TactConstantModifier>): 
 }
 
 private fun TactAttribute.generateDoc(): String {
-    val plainAttribute = attributeExpression?.plainAttribute ?: return ""
-    val name = plainAttribute.attributeKey.text ?: ""
-    val arguments = plainAttribute.argumentList?.expressionList ?: emptyList()
+    val name = identifier?.text ?: ""
+    val arguments = argumentList?.expressionList ?: emptyList()
     return buildString {
         colorize("@", asAttribute)
         colorize(name, asAttribute)

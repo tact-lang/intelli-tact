@@ -37,7 +37,7 @@ object TactElementTypeFactory {
         "NATIVE_FUNCTION_DECLARATION"  -> TactNativeFunctionDeclarationStub.Type(name)
         "IMPORT_DECLARATION"           -> TactImportDeclarationStub.Type(name)
         "PARAM_DEFINITION"             -> TactParamDefinitionStub.Type(name)
-        "CONST_DECLARATION"             -> TactConstDeclarationStub.Type(name)
+        "CONST_DECLARATION"            -> TactConstDeclarationStub.Type(name)
         "VAR_DEFINITION"               -> TactVarDefinitionStub.Type(name)
         "SIGNATURE"                    -> TactSignatureStub.Type(name)
         "PARAMETERS"                   -> TactParametersStub.Type(name)
@@ -46,9 +46,6 @@ object TactElementTypeFactory {
         "TYPE_REFERENCE_EXPRESSION"    -> TactTypeReferenceExpressionStub.Type(name)
         "ATTRIBUTES"                   -> TactAttributesStub.Type(name)
         "ATTRIBUTE"                    -> TactAttributeStub.Type(name)
-        "ATTRIBUTE_EXPRESSION"         -> TactAttributeExpressionStub.Type(name)
-        "PLAIN_ATTRIBUTE"              -> TactPlainAttributeStub.Type(name)
-        "ATTRIBUTE_KEY"                -> TactAttributeKeyStub.Type(name)
         "WITH_CLAUSE"                  -> TactWithClauseStub.Type(name)
 
         else                           -> {

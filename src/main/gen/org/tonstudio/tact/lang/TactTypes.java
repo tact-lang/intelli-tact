@@ -38,9 +38,6 @@ public interface TactTypes {
   IElementType ASSIGN_OP = new TactCompositeElementType("ASSIGN_OP");
   IElementType ATTRIBUTE = TactElementTypeFactory.stubFactory("ATTRIBUTE");
   IElementType ATTRIBUTES = TactElementTypeFactory.stubFactory("ATTRIBUTES");
-  IElementType ATTRIBUTE_EXPRESSION = TactElementTypeFactory.stubFactory("ATTRIBUTE_EXPRESSION");
-  IElementType ATTRIBUTE_IDENTIFIER = new TactCompositeElementType("ATTRIBUTE_IDENTIFIER");
-  IElementType ATTRIBUTE_KEY = TactElementTypeFactory.stubFactory("ATTRIBUTE_KEY");
   IElementType BLOCK = new TactCompositeElementType("BLOCK");
   IElementType BOUNCED_TYPE = TactElementTypeFactory.stubFactory("BOUNCED_TYPE");
   IElementType CALL_EXPR = new TactCompositeElementType("CALL_EXPR");
@@ -92,7 +89,6 @@ public interface TactTypes {
   IElementType PARAMETERS = TactElementTypeFactory.stubFactory("PARAMETERS");
   IElementType PARAM_DEFINITION = TactElementTypeFactory.stubFactory("PARAM_DEFINITION");
   IElementType PARENTHESES_EXPR = new TactCompositeElementType("PARENTHESES_EXPR");
-  IElementType PLAIN_ATTRIBUTE = TactElementTypeFactory.stubFactory("PLAIN_ATTRIBUTE");
   IElementType PRIMITIVE_DECLARATION = TactElementTypeFactory.stubFactory("PRIMITIVE_DECLARATION");
   IElementType PRIMITIVE_TYPE = TactElementTypeFactory.stubFactory("PRIMITIVE_TYPE");
   IElementType RECEIVE_STRING_ID = new TactCompositeElementType("RECEIVE_STRING_ID");
@@ -314,15 +310,6 @@ public interface TactTypes {
       else if (type == ATTRIBUTES) {
         return new TactAttributesImpl(node);
       }
-      else if (type == ATTRIBUTE_EXPRESSION) {
-        return new TactAttributeExpressionImpl(node);
-      }
-      else if (type == ATTRIBUTE_IDENTIFIER) {
-        return new TactAttributeIdentifierImpl(node);
-      }
-      else if (type == ATTRIBUTE_KEY) {
-        return new TactAttributeKeyImpl(node);
-      }
       else if (type == BLOCK) {
         return new TactBlockImpl(node);
       }
@@ -472,9 +459,6 @@ public interface TactTypes {
       }
       else if (type == PARENTHESES_EXPR) {
         return new TactParenthesesExprImpl(node);
-      }
-      else if (type == PLAIN_ATTRIBUTE) {
-        return new TactPlainAttributeImpl(node);
       }
       else if (type == PRIMITIVE_DECLARATION) {
         return new TactPrimitiveDeclarationImpl(node);

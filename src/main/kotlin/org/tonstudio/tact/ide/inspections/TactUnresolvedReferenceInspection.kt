@@ -5,9 +5,9 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiReference
 import org.tonstudio.tact.lang.imports.TactImportFileQuickFix
+import org.tonstudio.tact.lang.psi.TactAttribute
 import org.tonstudio.tact.lang.psi.TactCompositeElement
 import org.tonstudio.tact.lang.psi.TactFieldName
-import org.tonstudio.tact.lang.psi.TactPlainAttribute
 import org.tonstudio.tact.lang.psi.TactReferenceExpression
 import org.tonstudio.tact.lang.psi.TactTlb
 import org.tonstudio.tact.lang.psi.TactTypeReferenceExpression
@@ -35,7 +35,7 @@ class TactUnresolvedReferenceInspection : TactBaseInspection() {
                 super.visitReferenceExpression(o)
 
                 if (o.parent is TactFieldName) return
-                if (o.inside<TactPlainAttribute>()) return
+                if (o.inside<TactAttribute>()) return
 
                 val reference = o.reference
                 val qualifier = o.getQualifier()

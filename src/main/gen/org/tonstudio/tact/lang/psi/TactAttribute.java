@@ -10,9 +10,12 @@ import org.tonstudio.tact.lang.stubs.TactAttributeStub;
 public interface TactAttribute extends TactCompositeElement, StubBasedPsiElement<TactAttributeStub> {
 
   @Nullable
-  TactAttributeExpression getAttributeExpression();
+  TactArgumentList getArgumentList();
 
   @NotNull
   PsiElement getAt();
+
+  @Nullable
+  PsiElement getIdentifier();
 
 }
