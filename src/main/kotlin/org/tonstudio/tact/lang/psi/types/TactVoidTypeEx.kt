@@ -1,14 +1,11 @@
 package org.tonstudio.tact.lang.psi.types
 
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiElement
 
 class TactVoidTypeEx private constructor() : TactBaseTypeEx() {
-    override fun toString(): String = "void"
+    override fun toString(): String = name()
 
-    override fun qualifiedName(): String  = "void"
-
-    override fun readableName(context: PsiElement, detailed: Boolean): String = "void"
+    override fun name(): String = "void"
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         return rhs.isAny

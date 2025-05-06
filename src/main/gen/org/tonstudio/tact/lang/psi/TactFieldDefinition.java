@@ -11,6 +11,18 @@ import org.tonstudio.tact.lang.psi.types.TactTypeEx;
 
 public interface TactFieldDefinition extends TactNamedElement, StubBasedPsiElement<TactFieldDefinitionStub> {
 
+  @Nullable
+  TactDefaultFieldValue getDefaultFieldValue();
+
+  @Nullable
+  TactType getType();
+
+  @Nullable
+  TactSemi getSemi();
+
+  @Nullable
+  PsiElement getColon();
+
   @NotNull
   PsiElement getIdentifier();
 

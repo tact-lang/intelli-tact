@@ -8,24 +8,24 @@ import com.intellij.util.io.StringRef
 import org.tonstudio.tact.lang.psi.TactNamedElement
 
 abstract class TactNamedStub<T : TactNamedElement> : NamedStubBase<T> {
-    val isPublic: Boolean
+    val isExported: Boolean
 
     constructor(
         parent: StubElement<*>?,
         elementType: IStubElementType<*, *>,
         name: StringRef?,
-        isPublic: Boolean,
+        isExported: Boolean,
     ) : super(parent, elementType, name) {
-        this.isPublic = isPublic
+        this.isExported = isExported
     }
 
     constructor(
         parent: StubElement<*>?,
         elementType: IStubElementType<*, *>,
         name: String?,
-        isPublic: Boolean,
+        isExported: Boolean,
     ) : super(parent, elementType, name) {
-        this.isPublic = isPublic
+        this.isExported = isExported
     }
 
     override fun toString(): String {

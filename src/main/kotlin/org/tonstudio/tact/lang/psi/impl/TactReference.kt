@@ -22,32 +22,10 @@ import org.tonstudio.tact.lang.stubs.StubWithText
 import org.tonstudio.tact.lang.stubs.index.TactNamesIndex
 import org.tonstudio.tact.toolchain.TactToolchainService.Companion.toolchainSettings
 
-class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = false) :
-    TactReferenceBase<TactReferenceExpressionBase>(
-        el,
-        TextRange.from(
-            el.getIdentifierBounds()?.first ?: 0,
-            el.getIdentifierBounds()?.second ?: el.textLength,
-        )
-    ) {
-
+class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = false) : TactReferenceBase<TactReferenceExpressionBase>(el) {
     companion object {
         private val MY_RESOLVER: ResolveCache.PolyVariantResolver<TactReference> =
             ResolveCache.PolyVariantResolver { ref, _ -> ref.resolveInner() }
-
-        private fun getContextElement(state: ResolveState?): PsiElement? {
-            val context = state?.get(TactPsiImplUtil.CONTEXT)
-            return context?.element
-        }
-
-        fun getContextFile(state: ResolveState): PsiFile? {
-            return getContextElement(state)?.containingFile
-        }
-
-        fun isLocalResolve(origin: TactFile, external: TactFile?): Boolean {
-            if (external == null) return true
-            return origin.virtualFile?.path == external.virtualFile?.path
-        }
     }
 
     private val identifier: PsiElement?
@@ -79,7 +57,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         val element = myElement
         val file = element.containingFile as? TactFile ?: return false
 
-        val state = createContextOnElement(element)
+        val state = ResolveState.initial()
 
         val qualifier = element.getQualifier()
         return if (qualifier != null) {
@@ -140,7 +118,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
             return true
         }
 
-        val searchedName = element.getIdentifier()?.text ?: ""
+        val searchedName = element.getIdentifier().text ?: ""
 
         val prefix = if (resolvedQualifier is TactStructDeclaration) "AnyStruct_" else "AnyMessage_"
 
@@ -172,33 +150,18 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         if (anchor != null && !anchor.isValid) {
             return true
         }
-
-        val result = RecursionManager.doPreventingRecursion(type, true) {
-            if (!processExistingType(type, processor, state)) return@doPreventingRecursion false
-
-            true
-        }
-        return result == true
+        return RecursionManager.doPreventingRecursion(type, true) {
+            processExistingType(type, processor, state)
+        } ?: true
     }
 
     private fun processExistingType(typ: TactTypeEx, processor: TactScopeProcessor, state: ResolveState): Boolean {
-        val project = project
-        val anchor = typ.anchor(project)
-        val file = anchor?.containingFile as? TactFile
-        val contextFile = getContextFile(state) ?: myElement.containingFile
-        if (contextFile !is TactFile) {
-            return true
-        }
-
-        val localResolve = isLocalResolve(contextFile, file)
-        val newState = state.put(LOCAL_RESOLVE, localResolve)
-
         if (typ is TactStructTypeEx) {
             val declaration = typ.resolve(project) ?: return true
             val structType = declaration.structType
 
-            if (!processNamedElements(processor, newState, structType.fieldList, localResolve)) return false
-            if (!processMethods(typ, processor, newState, localResolve)) return false
+            if (!processNamedElements(processor, state, structType.fieldList)) return false
+            if (!processMethods(typ, processor, state)) return false
 
             return processAnyStruct(processor, state)
         }
@@ -207,45 +170,43 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
             val declaration = typ.resolve(project) ?: return true
             val messageType = declaration.messageType
 
-            if (!processNamedElements(processor, newState, messageType.fieldList, localResolve)) return false
-            if (!processMethods(typ, processor, newState, localResolve)) return false
+            if (!processNamedElements(processor, state, messageType.fieldList)) return false
+            if (!processMethods(typ, processor, state)) return false
 
             return processAnyMessage(processor, state)
         }
 
         if (typ is StorageMembersOwnerTy<*>) {
-            if (!processNamedElements(processor, newState, typ.ownFields(), localResolve)) return false
-            if (!processNamedElements(processor, newState, typ.methods(), localResolve)) return false
-            if (!processNamedElements(processor, newState, typ.ownConstants(), localResolve)) return false
+            if (!processNamedElements(processor, state, typ.ownFields())) return false
+            if (!processNamedElements(processor, state, typ.methods())) return false
+            if (!processNamedElements(processor, state, typ.ownConstants())) return false
 
-            if (typ.qualifiedName() != "BaseTrait") {
+            if (typ.name() != "BaseTrait") {
                 val baseTrait = TactNamesIndex.find("BaseTrait", project, null).firstOrNull() as? TactTraitDeclaration ?: return true
                 if (!processExistingType(baseTrait.traitType.toEx(), processor, state)) return false
             }
         }
 
         if (typ is TactBouncedTypeEx) {
-            return processExistingType(typ.inner, processor, newState)
+            return processExistingType(typ.inner, processor, state)
         }
 
         if (typ is TactOptionTypeEx) {
-            return processExistingType(typ.inner, processor, newState)
+            return processExistingType(typ.inner, processor, state)
         }
 
-        if (!processMethods(typ, processor, newState, localResolve)) return false
+        if (!processMethods(typ, processor, state)) return false
 
         return true
     }
 
-    private fun processMethods(type: TactTypeEx, processor: TactScopeProcessor, state: ResolveState, localResolve: Boolean): Boolean {
-        if (state.get(NOT_PROCESS_METHODS) == true) return true
-        return processNamedElements(processor, state, type.methodsList(project), localResolve)
+    private fun processMethods(type: TactTypeEx, processor: TactScopeProcessor, state: ResolveState): Boolean {
+        return processNamedElements(processor, state, type.methodsList(project))
     }
 
-    private fun processNativeMethods(type: TactType, processor: TactScopeProcessor, state: ResolveState, localResolve: Boolean): Boolean {
-        if (state.get(NOT_PROCESS_METHODS) == true) return true
+    private fun processNativeMethods(type: TactType, processor: TactScopeProcessor, state: ResolveState): Boolean {
         val methods = TactLangUtil.getMethodListNative(project, type)
-        return processNamedElements(processor, state, methods, localResolve)
+        return processNamedElements(processor, state, methods)
     }
 
     private fun processUnqualifiedResolve(
@@ -282,20 +243,19 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
                     else
                         item.varDefinition.name
 
-                if (!processNamedElements(processor, state.put(SEARCH_NAME, searchName), fields, false)) return false
+                if (!processNamedElements(processor, state.put(SEARCH_NAME, searchName), fields)) return false
             }
 
-            is TactAsmShuffle -> {
+            is TactAsmShuffle   -> {
                 val functionDecl = myElement.parentOfType<TactAsmFunctionDeclaration>() ?: return true
                 val parameters = functionDecl.getSignature()?.parameters?.paramDefinitionList ?: emptyList()
-                return processNamedElements(processor, state, parameters, false)
+                return processNamedElements(processor, state, parameters)
             }
         }
 
-        if (!processBlock(processor, state, true)) return false
+        if (!processBlock(processor, state)) return false
         if (!processImportedFiles(file, processor, state)) return false
-        if (!processFileEntities(file, processor, state, true)) return false
-        // if (!processDirectory(file.originalFile.parent, processor, state, true)) return false
+        if (!processFileEntities(file, processor, state)) return false
         if (!processBuiltin(processor, state)) return false
         if (!processStubs(processor, state)) return false
 
@@ -316,7 +276,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
             .map { psiManager.findFile(it) }
             .filterIsInstance<TactFile>()
             .forEach {
-                if (!processFileEntities(it, processor, state, false))
+                if (!processFileEntities(it, processor, state))
                     return false
             }
 
@@ -326,13 +286,13 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
     private fun processAnyStruct(processor: TactScopeProcessor, state: ResolveState): Boolean {
         val stubsPsiFile = findStubsFile() ?: return true
         val anyStruct = stubsPsiFile.getPrimitives().find { it.name == "AnyStruct" } ?: return true
-        return processNativeMethods(anyStruct.primitiveType, processor, state, false)
+        return processNativeMethods(anyStruct.primitiveType, processor, state)
     }
 
     private fun processAnyMessage(processor: TactScopeProcessor, state: ResolveState): Boolean {
         val stubsPsiFile = findStubsFile() ?: return true
         val anyStruct = stubsPsiFile.getPrimitives().find { it.name == "AnyMessage" } ?: return true
-        return processNativeMethods(anyStruct.primitiveType, processor, state, false)
+        return processNativeMethods(anyStruct.primitiveType, processor, state)
     }
 
     private fun processStubs(processor: TactScopeProcessor, state: ResolveState): Boolean {
@@ -343,7 +303,6 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
             state,
             stubsPsiFile.getFunctions(),
             Conditions.alwaysTrue(),
-            localResolve = false,
             checkContainingFile = false
         )
     }
@@ -373,7 +332,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
             val lastReference = refs.lastOrNull() ?: continue
             val importedFile = lastReference.resolve() as? TactFile ?: continue
 
-            if (!processFileEntities(importedFile, processor, state, false)) {
+            if (!processFileEntities(importedFile, processor, state)) {
                 return false
             }
         }
@@ -384,14 +343,12 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         file: TactFile,
         processor: TactScopeProcessor,
         state: ResolveState,
-        localProcessing: Boolean,
     ): Boolean {
         if (!processNamedElements(
                 processor,
                 state,
                 file.getStructs(),
                 Conditions.alwaysTrue(),
-                localProcessing,
                 false
             )
         ) return false
@@ -401,7 +358,6 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
                 state,
                 file.getMessages(),
                 Conditions.alwaysTrue(),
-                localProcessing,
                 false
             )
         ) return false
@@ -411,7 +367,6 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
                 state,
                 file.getTraits(),
                 Conditions.alwaysTrue(),
-                localProcessing,
                 false
             )
         ) return false
@@ -421,7 +376,6 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
                 state,
                 file.getFunctions(),
                 Conditions.alwaysTrue(),
-                localProcessing,
                 false
             )
         ) return false
@@ -431,7 +385,6 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
                 state,
                 file.getAsmFunctions(),
                 Conditions.alwaysTrue(),
-                localProcessing,
                 false
             )
         ) return false
@@ -441,7 +394,6 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
                 state,
                 file.getNativeFunctions(),
                 Conditions.alwaysTrue(),
-                localProcessing,
                 false
             )
         ) return false
@@ -451,7 +403,6 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
                 state,
                 file.getContracts(),
                 Conditions.alwaysTrue(),
-                localProcessing,
                 false
             )
         ) return false
@@ -461,7 +412,6 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
                 state,
                 file.getPrimitives(),
                 Conditions.alwaysTrue(),
-                localProcessing,
                 false
             )
         ) return false
@@ -471,16 +421,15 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
             state,
             file.getConstants(),
             Conditions.alwaysTrue(),
-            localProcessing,
             false
         )
     }
 
-    fun processBlock(processor: TactScopeProcessor, state: ResolveState, localResolve: Boolean): Boolean {
+    fun processBlock(processor: TactScopeProcessor, state: ResolveState): Boolean {
         val context = myElement
         val delegate = createDelegate(processor)
         ResolveUtil.treeWalkUp(context, delegate)
-        return processNamedElements(processor, state, delegate.getVariants(), localResolve)
+        return processNamedElements(processor, state, delegate.getVariants())
     }
 
     private fun processLiteralValueField(processor: TactScopeProcessor, state: ResolveState): Boolean {
@@ -492,19 +441,12 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
     private fun createDelegate(processor: TactScopeProcessor): TactVarProcessor {
         return object : TactVarProcessor(identifier!!, myElement, processor.isCompletion()) {
             override fun crossOff(e: PsiElement): Boolean {
-                return if (e is TactFieldDeclaration)
+                return if (e is TactFieldDefinition)
                     true
                 else
                     super.crossOff(e)
             }
         }
-    }
-
-    private fun createContextOnElement(element: PsiElement): ResolveState {
-        return ResolveState.initial().put(
-            TactPsiImplUtil.CONTEXT,
-            SmartPointerManager.getInstance(element.project).createSmartPsiElementPointer(element)
-        )
     }
 
     private fun createResolveProcessor(
@@ -517,12 +459,8 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
                     return !result.add(PsiElementResolveResult(element))
                 }
 
-                val name = state.get(ACTUAL_NAME) ?: when (element) {
-                    is PsiNamedElement -> element.name
-                    else               -> null
-                }
-
-                val ident = state.get(SEARCH_NAME) ?: reference.getIdentifier()?.text ?: return true
+                val name = state.get(ACTUAL_NAME) ?: (element as? PsiNamedElement)?.name
+                val ident = state.get(SEARCH_NAME) ?: reference.getIdentifier().text ?: return true
 
                 if (name != null && ident == name) {
                     result.add(PsiElementResolveResult(element))
@@ -533,21 +471,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         }
     }
 
-    override fun isReferenceTo(element: PsiElement) = couldBeReferenceTo(element, myElement) && super.isReferenceTo(element)
-
-    private fun couldBeReferenceTo(definition: PsiElement, reference: PsiElement): Boolean {
-        if (definition is PsiDirectory && reference is TactReferenceExpressionBase) return true
-
-        val definitionFile = definition.containingFile ?: return true
-        val referenceFile = reference.containingFile
-
-        val inSameFile = definitionFile.isEquivalentTo(referenceFile)
-        if (inSameFile) return true
-        return if (TactLangUtil.sameModule(referenceFile, definitionFile))
-            true
-        else
-            reference !is TactNamedElement
-    }
+    override fun isReferenceTo(element: PsiElement) = super.isReferenceTo(element)
 
     override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult?> {
         if (!myElement.isValid) return ResolveResult.EMPTY_ARRAY

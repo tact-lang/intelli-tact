@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.stubs.TactParametersStub;
 import org.tonstudio.tact.lang.psi.*;
@@ -35,7 +35,7 @@ public class TactParametersImpl extends TactStubbedElementImpl<TactParametersStu
   @Override
   @NotNull
   public List<TactParamDefinition> getParamDefinitionList() {
-    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactParamDefinition.class);
+    return PsiTreeUtil.getStubChildrenOfTypeAsList(this, TactParamDefinition.class);
   }
 
   @Override

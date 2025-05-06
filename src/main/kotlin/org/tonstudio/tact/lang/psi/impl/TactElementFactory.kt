@@ -24,7 +24,7 @@ object TactElementFactory {
 
     fun createStringLiteral(project: Project, text: String): TactStringLiteral {
         return PsiTreeUtil.findChildOfType(
-            createFileFromText(project, "fn main() { $text }"),
+            createFileFromText(project, "fun main() { $text }"),
             TactStringLiteral::class.java
         )!!
     }

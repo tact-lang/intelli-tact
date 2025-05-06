@@ -7,7 +7,7 @@ import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.types.TactMessageTypeEx
 import org.tonstudio.tact.lang.psi.types.TactStructTypeEx
 
-class TactFieldNameReference(element: TactReferenceExpressionBase) : TactCachedReference<TactReferenceExpressionBase>(element) {
+class TactFieldNameReference(element: TactReferenceExpressionBase) : TactSimpleReference<TactReferenceExpressionBase>(element) {
     override fun processResolveVariants(processor: TactScopeProcessor): Boolean {
         val fieldProcessor = createProcessor(processor)
 
@@ -51,12 +51,12 @@ class TactFieldNameReference(element: TactReferenceExpressionBase) : TactCachedR
     }
 
     private fun createProcessor(processor: TactScopeProcessor) =
-        if (processor is TactFieldProcessor) processor
-        else object : TactFieldProcessor(myElement) {
-            override fun execute(e: PsiElement, state: ResolveState): Boolean {
-                return super.execute(e, state) && processor.execute(e, state)
+        processor as? TactFieldProcessor
+            ?: object : TactFieldProcessor(myElement) {
+                override fun execute(e: PsiElement, state: ResolveState): Boolean {
+                    return super.execute(e, state) && processor.execute(e, state)
+                }
             }
-        }
 
     private open class TactFieldProcessor(element: PsiElement) : TactScopeProcessorBase(element) {
         override fun crossOff(e: PsiElement): Boolean {

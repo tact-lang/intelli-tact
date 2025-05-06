@@ -112,18 +112,6 @@ public class TactVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
-  public void visitAttributeExpression(@NotNull TactAttributeExpression o) {
-    visitCompositeElement(o);
-  }
-
-  public void visitAttributeIdentifier(@NotNull TactAttributeIdentifier o) {
-    visitCompositeElement(o);
-  }
-
-  public void visitAttributeKey(@NotNull TactAttributeKey o) {
-    visitCompositeElement(o);
-  }
-
   public void visitAttributes(@NotNull TactAttributes o) {
     visitCompositeElement(o);
   }
@@ -157,10 +145,6 @@ public class TactVisitor extends PsiElementVisitor {
   }
 
   public void visitConstDeclaration(@NotNull TactConstDeclaration o) {
-    visitCompositeElement(o);
-  }
-
-  public void visitConstDefinition(@NotNull TactConstDefinition o) {
     visitNamedElement(o);
   }
 
@@ -217,10 +201,6 @@ public class TactVisitor extends PsiElementVisitor {
     visitTypeOwner(o);
   }
 
-  public void visitFieldDeclaration(@NotNull TactFieldDeclaration o) {
-    visitCompositeElement(o);
-  }
-
   public void visitFieldDefinition(@NotNull TactFieldDefinition o) {
     visitNamedElement(o);
   }
@@ -240,7 +220,6 @@ public class TactVisitor extends PsiElementVisitor {
   public void visitFunctionDeclaration(@NotNull TactFunctionDeclaration o) {
     visitNamedElement(o);
     // visitSignatureOwner(o);
-    // visitAttributeOwner(o);
   }
 
   public void visitGetAttribute(@NotNull TactGetAttribute o) {
@@ -349,10 +328,6 @@ public class TactVisitor extends PsiElementVisitor {
     visitExpression(o);
   }
 
-  public void visitPlainAttribute(@NotNull TactPlainAttribute o) {
-    visitCompositeElement(o);
-  }
-
   public void visitPrimitiveDeclaration(@NotNull TactPrimitiveDeclaration o) {
     visitNamedElement(o);
   }
@@ -413,7 +388,6 @@ public class TactVisitor extends PsiElementVisitor {
 
   public void visitStructDeclaration(@NotNull TactStructDeclaration o) {
     visitNamedElement(o);
-    // visitAttributeOwner(o);
   }
 
   public void visitStructType(@NotNull TactStructType o) {

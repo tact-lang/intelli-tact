@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
@@ -30,25 +30,25 @@ public class TactSimpleStatementImpl extends TactStatementImpl implements TactSi
   @Override
   @Nullable
   public TactAssignmentStatement getAssignmentStatement() {
-    return TactPsiTreeUtil.getChildOfType(this, TactAssignmentStatement.class);
+    return PsiTreeUtil.getChildOfType(this, TactAssignmentStatement.class);
   }
 
   @Override
   @Nullable
   public TactExpression getExpression() {
-    return TactPsiTreeUtil.getChildOfType(this, TactExpression.class);
+    return PsiTreeUtil.getChildOfType(this, TactExpression.class);
   }
 
   @Override
   @Nullable
   public TactVarDeclaration getVarDeclaration() {
-    return TactPsiTreeUtil.getChildOfType(this, TactVarDeclaration.class);
+    return PsiTreeUtil.getChildOfType(this, TactVarDeclaration.class);
   }
 
   @Override
   @Nullable
   public TactSemi getSemi() {
-    return TactPsiTreeUtil.getChildOfType(this, TactSemi.class);
+    return PsiTreeUtil.getChildOfType(this, TactSemi.class);
   }
 
 }

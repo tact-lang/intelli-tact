@@ -6,7 +6,7 @@ import com.intellij.psi.PsiReferenceBase
 import com.intellij.psi.impl.source.resolve.ResolveCache
 import com.intellij.util.ArrayUtil
 
-abstract class TactCachedReference<T : PsiElement>(element: T, range: TextRange = TextRange.from(0, element.textLength)) :
+abstract class TactSimpleReference<T : PsiElement>(element: T, range: TextRange = TextRange.from(0, element.textLength)) :
     PsiReferenceBase<T>(element, range) {
 
     protected val project = element.project
@@ -30,12 +30,12 @@ abstract class TactCachedReference<T : PsiElement>(element: T, range: TextRange 
 
     override fun getVariants(): Array<Any> = ArrayUtil.EMPTY_OBJECT_ARRAY
 
-    override fun equals(other: Any?) = this === other || other is TactCachedReference<*> && element === other.element
+    override fun equals(other: Any?) = this === other || other is TactSimpleReference<*> && element === other.element
 
     override fun hashCode() = element.hashCode()
 
     companion object {
         private val MY_RESOLVER =
-            ResolveCache.AbstractResolver { r: TactCachedReference<*>, _ -> r.resolveInner() }
+            ResolveCache.AbstractResolver { r: TactSimpleReference<*>, _ -> r.resolveInner() }
     }
 }

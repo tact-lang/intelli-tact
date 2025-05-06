@@ -4,9 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.stubs.IndexSink
 import com.intellij.psi.stubs.StubIndexKey
 import org.tonstudio.tact.lang.psi.TactNamedElement
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil.parentStubOfType
 import org.tonstudio.tact.lang.stubs.TactFieldDefinitionStub
-import org.tonstudio.tact.lang.stubs.TactFileStub
 import org.tonstudio.tact.lang.stubs.TactNamedStub
 import org.tonstudio.tact.lang.stubs.TactParamDefinitionStub
 import org.tonstudio.tact.lang.stubs.index.TactNamesIndex
@@ -22,16 +20,12 @@ abstract class TactNamedStubElementType<S : TactNamedStub<T>, T : TactNamedEleme
     override fun indexStub(stub: S, sink: IndexSink) {
         val name = stub.name ?: return
         if (shouldIndex() && name.isNotEmpty()) {
-            val file = stub.parentStubOfType<TactFileStub>()
-            val moduleName = file?.getModuleQualifiedName() ?: ""
-            val indexingName = if (moduleName.isNotEmpty()) "$moduleName.$name" else name
-
             if (stub !is TactFieldDefinitionStub && stub !is TactParamDefinitionStub) {
-                sink.occurrence(TactNamesIndex.KEY, indexingName)
+                sink.occurrence(TactNamesIndex.KEY, name)
             }
 
             for (key in getExtraIndexKeys()) {
-                sink.occurrence(key, indexingName)
+                sink.occurrence(key, name)
             }
         }
     }

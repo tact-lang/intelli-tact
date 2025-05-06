@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
@@ -29,7 +29,7 @@ public class TactInstanceArgumentsImpl extends TactCompositeElementImpl implemen
   @Override
   @NotNull
   public List<TactInstanceArgument> getInstanceArgumentList() {
-    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactInstanceArgument.class);
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, TactInstanceArgument.class);
   }
 
 }

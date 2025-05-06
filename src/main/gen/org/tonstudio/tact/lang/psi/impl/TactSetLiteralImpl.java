@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
@@ -30,13 +30,13 @@ public class TactSetLiteralImpl extends TactExpressionImpl implements TactSetLit
   @Override
   @NotNull
   public List<TactSetEntry> getSetEntryList() {
-    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactSetEntry.class);
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, TactSetEntry.class);
   }
 
   @Override
   @NotNull
   public TactSetType getSetType() {
-    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactSetType.class));
+    return notNullChild(PsiTreeUtil.getChildOfType(this, TactSetType.class));
   }
 
   @Override

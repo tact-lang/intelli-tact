@@ -1,14 +1,11 @@
 package org.tonstudio.tact.lang.psi.types
 
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiElement
 
 class TactUnknownTypeEx private constructor() : TactBaseTypeEx(null) {
-    override fun toString(): String = "any"
+    override fun toString(): String = name()
 
-    override fun qualifiedName(): String = "any"
-
-    override fun readableName(context: PsiElement, detailed: Boolean): String = "any"
+    override fun name(): String = "any"
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean = true
 

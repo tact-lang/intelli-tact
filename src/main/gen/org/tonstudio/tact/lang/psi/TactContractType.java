@@ -17,7 +17,7 @@ public interface TactContractType extends TactType, TactStorageMembersOwner {
   TactContractParameters getContractParameters();
 
   @NotNull
-  List<TactFieldDeclaration> getFieldDeclarationList();
+  List<TactFieldDefinition> getFieldDefinitionList();
 
   @NotNull
   List<TactFunctionDeclaration> getFunctionDeclarationList();
@@ -44,7 +44,7 @@ public interface TactContractType extends TactType, TactStorageMembersOwner {
 
   @NotNull List<@NotNull TactFunctionDeclaration> getMethodsList();
 
-  @NotNull List<@NotNull TactConstDefinition> getConstantsList();
+  @NotNull List<@NotNull TactConstDeclaration> getConstantsList();
 
   @NotNull List<@NotNull TactTraitDeclaration> getInheritedTraits();
 

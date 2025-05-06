@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
@@ -30,13 +30,13 @@ public class TactLiteralValueExpressionImpl extends TactExpressionImpl implement
   @Override
   @Nullable
   public TactInstanceArguments getInstanceArguments() {
-    return TactPsiTreeUtil.getChildOfType(this, TactInstanceArguments.class);
+    return PsiTreeUtil.getChildOfType(this, TactInstanceArguments.class);
   }
 
   @Override
   @NotNull
   public TactType getType() {
-    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactType.class));
+    return notNullChild(PsiTreeUtil.getChildOfType(this, TactType.class));
   }
 
   @Override

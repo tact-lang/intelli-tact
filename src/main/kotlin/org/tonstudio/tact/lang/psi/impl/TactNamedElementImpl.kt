@@ -13,7 +13,6 @@ import com.intellij.psi.util.*
 import com.intellij.ui.IconManager
 import com.intellij.util.PlatformIcons
 import org.tonstudio.tact.ide.ui.Icons
-import org.tonstudio.tact.lang.doc.psi.TactDocComment
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
 import org.tonstudio.tact.lang.psi.types.TactTypeEx
@@ -37,10 +36,6 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
         }
         val identifier = getIdentifier()
         return identifier?.text
-    }
-
-    override fun getQualifiedName(): String? {
-        return name
     }
 
     override fun getOwner(): TactNamedElement? {
@@ -78,7 +73,7 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
     open fun findSiblingTypeNoEx(): TactType? {
         val stub = stub
         return if (stub != null) {
-            TactPsiTreeUtil.getStubChildOfType(parentByStub, TactType::class.java)
+            PsiTreeUtil.getStubChildOfType(parentByStub, TactType::class.java)
         } else {
             PsiTreeUtil.getChildOfType(this, TactType::class.java)
         }
@@ -101,7 +96,7 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
             is TactNativeFunctionDeclaration -> Icons.Function
             is TactAsmFunctionDeclaration    -> Icons.Function
             is TactVarDefinition             -> Icons.Variable
-            is TactConstDefinition           -> Icons.Constant
+            is TactConstDeclaration           -> Icons.Constant
             is TactFieldDefinition           -> Icons.Field
             is TactParamDefinition           -> Icons.Parameter
             else                             -> null
@@ -128,18 +123,13 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
         return getIdentifier()
     }
 
-    override fun getDocumentation(): TactDocComment? {
-        // TODO: use CommentsConverter?
-        return PsiTreeUtil.getPrevSiblingOfType(this, TactDocComment::class.java)
-    }
-
     override fun getUseScope(): SearchScope {
         if (!isValid) return GlobalSearchScope.EMPTY_SCOPE
         val file = containingFile
         if (this is TactImportDeclaration) {
             return GlobalSearchScope.fileScope(file)
         }
-        if (this is TactVarDefinition || this is TactConstDefinition) {
+        if (this is TactVarDefinition || this is TactConstDeclaration) {
             val block = parentOfType<TactBlock>()
             if (block != null) return LocalSearchScope(block)
         }
@@ -152,19 +142,19 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
 
     override fun kindPresentation(): String {
         return when (this) {
-            is TactStructDeclaration                        -> "struct"
-            is TactMessageDeclaration                       -> "message"
-            is TactTraitDeclaration                         -> "trait"
-            is TactContractDeclaration                      -> "contract"
-            is TactFieldDefinition                          -> "field"
-            is TactFunctionDeclaration                      -> "function"
-            is TactAsmFunctionDeclaration                   -> "asm function"
-            is TactNativeFunctionDeclaration                -> "native function"
-            is TactConstDefinition, is TactConstDeclaration -> "constant"
-            is TactVarDefinition, is TactVarDeclaration     -> "variable"
-            is TactParamDefinition                          -> "parameter"
-            is TactImportDeclaration                        -> "import"
-            else                                            -> "declaration"
+            is TactStructDeclaration                    -> "struct"
+            is TactMessageDeclaration                   -> "message"
+            is TactTraitDeclaration                     -> "trait"
+            is TactContractDeclaration                  -> "contract"
+            is TactFieldDefinition                      -> "field"
+            is TactFunctionDeclaration                  -> "function"
+            is TactAsmFunctionDeclaration               -> "asm function"
+            is TactNativeFunctionDeclaration            -> "native function"
+            is TactConstDeclaration                      -> "constant"
+            is TactVarDefinition, is TactVarDeclaration -> "variable"
+            is TactParamDefinition                      -> "parameter"
+            is TactImportDeclaration                    -> "import"
+            else                                        -> "declaration"
         }
     }
 }

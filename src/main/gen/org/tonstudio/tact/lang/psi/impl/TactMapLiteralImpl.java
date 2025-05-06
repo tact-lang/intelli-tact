@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
@@ -30,13 +30,13 @@ public class TactMapLiteralImpl extends TactExpressionImpl implements TactMapLit
   @Override
   @NotNull
   public List<TactMapEntry> getMapEntryList() {
-    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactMapEntry.class);
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, TactMapEntry.class);
   }
 
   @Override
   @NotNull
   public TactMapType getMapType() {
-    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactMapType.class));
+    return notNullChild(PsiTreeUtil.getChildOfType(this, TactMapType.class));
   }
 
   @Override

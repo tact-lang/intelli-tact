@@ -9,7 +9,6 @@ import org.tonstudio.tact.ide.colors.TactColor
 import org.tonstudio.tact.lang.TactTypes
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.impl.TactReference
-import org.tonstudio.tact.lang.psi.types.TactPrimitiveTypes
 
 class TactAnnotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
@@ -60,7 +59,7 @@ class TactAnnotator : Annotator {
             is TactMessageDeclaration        -> TactColor.MESSAGE
             is TactFieldDefinition           -> TactColor.FIELD
             is TactParamDefinition           -> TactColor.PARAMETER
-            is TactConstDefinition           -> TactColor.CONSTANT
+            is TactConstDeclaration          -> TactColor.CONSTANT
             else                             -> null
         }
     }

@@ -2,7 +2,7 @@ package org.tonstudio.tact.asm
 
 import org.tonstudio.tact.lang.psi.TactAsmExpression
 import org.tonstudio.tact.lang.psi.TactAsmSequence
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil
+import org.tonstudio.tact.utils.childOfType
 
 data class GasSettings(val loopGasCoefficient: Int)
 
@@ -27,7 +27,7 @@ fun computeGasConsumption(
         }
 
         val continuations = expr.asmArguments.asmPrimitiveList.mapNotNull { primitive ->
-            TactPsiTreeUtil.getChildOfType(primitive, TactAsmSequence::class.java)
+            primitive.childOfType<TactAsmSequence>()
         }
 
         val continuationsGas = continuations.map { computeSeqGasConsumption(it, gasSettings) }

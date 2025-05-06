@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 import com.intellij.psi.stubs.IStubElementType;
@@ -36,7 +36,7 @@ public class TactMapTypeImpl extends TactTypeImpl implements TactMapType {
   @Override
   @NotNull
   public List<TactType> getTypeList() {
-    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactType.class);
+    return PsiTreeUtil.getStubChildrenOfTypeAsList(this, TactType.class);
   }
 
   @Override

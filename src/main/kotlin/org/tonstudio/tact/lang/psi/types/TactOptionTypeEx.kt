@@ -4,13 +4,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 
 class TactOptionTypeEx(val inner: TactTypeEx, anchor: PsiElement) : TactBaseTypeEx(anchor) {
-    override fun toString() = "$inner?"
+    override fun toString() = name()
 
-    override fun qualifiedName(): String = "${inner.qualifiedName()}?"
-
-    override fun readableName(context: PsiElement, detailed: Boolean) = "${inner.readableName(context, detailed)}?"
-
-    override fun module() = inner.module()
+    override fun name(): String = "${inner.name()}?"
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         if (rhs.isAny) return true

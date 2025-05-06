@@ -5,7 +5,7 @@ import com.intellij.psi.tree.TokenSet
 import org.tonstudio.tact.lang.TactTypes.*
 
 object TactTokenTypes {
-    @JvmField // TODO: do we need this attributes?
+    @JvmField
     val LINE_COMMENT = TactTokenType("TACT_LINE_COMMENT")
     @JvmField
     val MULTI_LINE_COMMENT = TactTokenType("TACT_MULTI_LINE_COMMENT")

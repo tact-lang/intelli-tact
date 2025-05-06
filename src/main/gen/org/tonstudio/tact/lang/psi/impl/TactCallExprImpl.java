@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 import kotlin.Pair;
@@ -31,19 +31,19 @@ public class TactCallExprImpl extends TactExpressionImpl implements TactCallExpr
   @Override
   @NotNull
   public TactArgumentList getArgumentList() {
-    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactArgumentList.class));
+    return notNullChild(PsiTreeUtil.getChildOfType(this, TactArgumentList.class));
   }
 
   @Override
   @Nullable
   public TactDummyRightHandRule getDummyRightHandRule() {
-    return TactPsiTreeUtil.getChildOfType(this, TactDummyRightHandRule.class);
+    return PsiTreeUtil.getChildOfType(this, TactDummyRightHandRule.class);
   }
 
   @Override
   @Nullable
   public TactExpression getExpression() {
-    return TactPsiTreeUtil.getChildOfType(this, TactExpression.class);
+    return PsiTreeUtil.getChildOfType(this, TactExpression.class);
   }
 
   @Override

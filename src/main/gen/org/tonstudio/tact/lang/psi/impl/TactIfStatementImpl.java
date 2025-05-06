@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
@@ -30,19 +30,19 @@ public class TactIfStatementImpl extends TactStatementImpl implements TactIfStat
   @Override
   @Nullable
   public TactElseBranch getElseBranch() {
-    return TactPsiTreeUtil.getChildOfType(this, TactElseBranch.class);
+    return PsiTreeUtil.getChildOfType(this, TactElseBranch.class);
   }
 
   @Override
   @NotNull
   public List<TactElseIfBranch> getElseIfBranchList() {
-    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactElseIfBranch.class);
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, TactElseIfBranch.class);
   }
 
   @Override
   @Nullable
   public TactExpression getExpression() {
-    return TactPsiTreeUtil.getChildOfType(this, TactExpression.class);
+    return PsiTreeUtil.getChildOfType(this, TactExpression.class);
   }
 
   @Override

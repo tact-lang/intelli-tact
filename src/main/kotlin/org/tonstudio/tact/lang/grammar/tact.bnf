@@ -7,7 +7,7 @@
   elementTypeHolderClass='org.tonstudio.tact.lang.TactTypes'
   elementTypeClass='org.tonstudio.tact.lang.psi.TactCompositeElementType'
   tokenTypeClass='org.tonstudio.tact.lang.psi.TactTokenType'
-  psiTreeUtilClass='org.tonstudio.tact.lang.psi.TactPsiTreeUtil'
+  psiTreeUtilClass='com.intellij.psi.util.PsiTreeUtil'
 
   psiClassPrefix='Tact'
   psiImplClassSuffix='Impl'
@@ -77,16 +77,14 @@
   extends("(Or|And|Add|Conversion|Mul|Selector|Conditional)Expr")=BinaryExpr
   extends(".*(Expr|Literal|Lit)|DotExpression|LiteralValueExpression")=Expression
 
-  implements("(Var|Param|Field|Var|Const)Definition|(Struct|Function|NativeFunction|AsmFunction)Declaration|ContractDeclaration|MessageDeclaration|TraitDeclaration|MessageFunctionDeclaration|ContractInitDeclaration|PrimitiveDeclaration")="org.tonstudio.tact.lang.psi.TactNamedElement"
+  implements("(Var|Param|Field|Var)Definition|(Struct|Function|NativeFunction|AsmFunction|Const)Declaration|ContractDeclaration|MessageDeclaration|TraitDeclaration|MessageFunctionDeclaration|ContractInitDeclaration|PrimitiveDeclaration")="org.tonstudio.tact.lang.psi.TactNamedElement"
   implements("(Function|NativeFunction|AsmFunction)Declaration")="org.tonstudio.tact.lang.psi.TactSignatureOwner"
   implements(".*ReferenceExpression|FieldName")="org.tonstudio.tact.lang.psi.TactReferenceExpressionBase"
 
-  implements("(Struct|Function)Declaration")="org.tonstudio.tact.lang.psi.TactAttributeOwner"
-
   extends("Type|Signature|Result|Parameters|ContractParameters|TypeReferenceExpression|Attributes|Attribute|PlainAttribute|AttributeExpression|AttributeValue|AttributeKey|FieldDeclaration|ImportDeclaration|WithClause")="org.tonstudio.tact.lang.psi.impl.TactStubbedElementImpl<?>"
-  extends("(Struct|Message|Trait|Contract|MessageFunction|ContractInit|Primitive|Function|NativeFunction|AsmFunction)Declaration|(Var|Param|Field|Const)Definition")="org.tonstudio.tact.lang.psi.impl.TactNamedElementImpl<?>"
+  extends("(Struct|Message|Trait|Contract|MessageFunction|ContractInit|Primitive|Function|NativeFunction|AsmFunction|Const)Declaration|(Var|Param|Field)Definition")="org.tonstudio.tact.lang.psi.impl.TactNamedElementImpl<?>"
 
-  elementTypeFactory("(Function|Struct|Field|Message|Trait|Contract|MessageFunction|ContractInit|Primitive|NativeFunction|AsmFunction)Declaration|.*Type|(Var|Field|Param|Const)Definition|Parameters|ContractParameters|Result|Signature|TypeReferenceExpression|Attributes|Attribute|PlainAttribute|AttributeExpression|AttributeValue|AttributeKey|ImportDeclaration|WithClause")='org.tonstudio.tact.lang.stubs.TactElementTypeFactory.stubFactory'
+  elementTypeFactory("(Function|Struct|Field|Message|Trait|Contract|MessageFunction|ContractInit|Primitive|NativeFunction|AsmFunction|Const)Declaration|.*Type|(Var|Field|Param)Definition|Parameters|ContractParameters|Result|Signature|TypeReferenceExpression|Attributes|Attribute|PlainAttribute|AttributeExpression|AttributeValue|AttributeKey|ImportDeclaration|WithClause")='org.tonstudio.tact.lang.stubs.TactElementTypeFactory.stubFactory'
 
   extends(".*Statement")=Statement
   extends(".*Type|TypeList")=Type
@@ -158,6 +156,7 @@ private TopLevelDeclarationRecover ::= !(
     asm |
     true |
     false |
+    native |
     null
 )
 
@@ -234,24 +233,10 @@ Attributes ::= Attribute Attribute* {
   pin=1
   stubClass="org.tonstudio.tact.lang.stubs.TactAttributesStub"
 }
-Attribute ::= '@' AttributeExpression {
+Attribute ::= '@' identifier ArgumentList? {
   pin=1
   stubClass="org.tonstudio.tact.lang.stubs.TactAttributeStub"
 }
-AttributeExpression ::= PlainAttribute {
-  stubClass="org.tonstudio.tact.lang.stubs.TactAttributeExpressionStub"
-}
-PlainAttribute ::= AttributeKey AttributeArgs? {
-  stubClass="org.tonstudio.tact.lang.stubs.TactPlainAttributeStub"
-}
-AttributeKey ::= AttributeIdentifier | Literal {
-  stubClass="org.tonstudio.tact.lang.stubs.TactAttributeKeyStub"
-}
-
-private AttributeArgs ::= ArgumentList
-
-AttributeIdentifier ::= identifier
-
 
 SimpleStatement ::=
     VarDeclaration
@@ -265,6 +250,14 @@ private AssignStatement     ::= Expression AssignmentStatement semi {pin=2}
 VarDeclaration ::= let VarDefinition TypeHint? '=' Expression semi {pin=4}
 
 TypeHint ::= ':' Type
+
+DestructStatement ::= let TypeReferenceExpression "{" DestructList "}" "=" Expression semi {pin=3}
+
+private DestructList ::= DestructItem ("," DestructItem)* ("," "..")? ","? {pin=1}
+
+DestructItem ::=
+    ReferenceExpression ':' VarDefinition
+  | VarDefinition
 
 left AssignmentStatement ::= AssignOp Expression {
   pin=1
@@ -297,7 +290,7 @@ ContractParameters ::= '(' ContractParameterList? ','? ')' {
   stubClass="org.tonstudio.tact.lang.stubs.TactContractParametersStub"
 }
 
-private ContractParameterList ::= FieldDeclaration (',' (FieldDeclaration | &')'))* ','? {pin(".*")=1}
+private ContractParameterList ::= FieldDefinition (',' (FieldDefinition | &')'))* ','? {pin(".*")=1}
 
 
 private MemberItem ::=
@@ -305,7 +298,7 @@ private MemberItem ::=
   | ContractInitDeclaration
   | MessageFunctionDeclaration
   | FunctionDeclaration
-  | FieldDeclaration {recoverWhile=MembersRecover}
+  | FieldDefinition {recoverWhile=MembersRecover}
 
 private MembersRecover ::= !(
       '@' // attribute start
@@ -330,11 +323,10 @@ private MembersRecover ::= !(
 )
 
 ConstantModifier ::= virtual | override | abstract
-ConstDeclaration ::= ConstantModifier* const ConstDefinition semi {pin=2}
 
-ConstDefinition ::= identifier TypeHint ('=' Expression)? {
-  pin=1
-  stubClass="org.tonstudio.tact.lang.stubs.TactConstDefinitionStub"
+ConstDeclaration ::= ConstantModifier* const identifier TypeHint ('=' Expression)? semi {
+  pin=2
+  stubClass="org.tonstudio.tact.lang.stubs.TactConstDeclarationStub"
   methods=[getTypeInner getName getExpressionText getExpressionType]
 }
 
@@ -377,7 +369,7 @@ MessageDeclaration ::= MessageType {
   methods=[getIdentifier getName getTypeInner]
 }
 
-MessageType ::= 'message' MessageId? Ident '{' FieldDeclaration* '}' {
+MessageType ::= 'message' MessageId? Ident '{' FieldDefinition* '}' {
   pin=1
   implements="org.tonstudio.tact.lang.psi.TactFieldListOwner"
   methods=[getIdentifier getFieldList]
@@ -392,22 +384,18 @@ StructDeclaration ::= Attributes? StructType {
   methods=[getIdentifier getName getTypeInner]
 }
 
-StructType ::= struct identifier '{' FieldDeclaration* '}' {
+StructType ::= struct identifier '{' FieldDefinition* '}' {
   pin=1
   implements="org.tonstudio.tact.lang.psi.TactFieldListOwner"
   methods=[getFieldList]
 }
 
-FieldDeclaration ::= FieldDefinition ':' Type DefaultFieldValue? semi? {
-  pin=1
-  stubClass="org.tonstudio.tact.lang.stubs.TactFieldDeclarationStub"
-}
-DefaultFieldValue ::= '=' Expression {pin=1}
-FieldDefinition ::= identifier {
+FieldDefinition ::= identifier ':' Type DefaultFieldValue? semi? {
   pin=1
   methods=[getQualifier getQualifiedName getTypeInner getOwner]
   stubClass="org.tonstudio.tact.lang.stubs.TactFieldDefinitionStub"
 }
+DefaultFieldValue ::= '=' Expression {pin=1}
 
 FunctionDeclaration ::= Attributes? FunctionAttribute* fun identifier Signature (Block | semi) {
   pin=5
@@ -448,14 +436,6 @@ ParamDefinition ::= identifier ':' Type {
   pin=4
   stubClass="org.tonstudio.tact.lang.stubs.TactParamDefinitionStub"
 }
-
-DestructStatement ::= let TypeReferenceExpression "{" DestructList "}" "=" Expression semi {pin=3}
-
-private DestructList ::= DestructItem ("," DestructItem)* ("," "..")? ","? {pin=1}
-
-DestructItem ::=
-    ReferenceExpression ':' VarDefinition
-  | VarDefinition
 
 NativeFunctionDeclaration ::= Attributes? FunctionAttribute* native identifier Signature ';' {
   pin=3

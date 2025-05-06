@@ -2,8 +2,6 @@ package org.tonstudio.tact.lang.psi.impl
 
 import com.intellij.codeInsight.completion.CompletionUtil
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
@@ -19,13 +17,6 @@ object TactLangUtil {
 
     fun takeSingleArgument(owner: TactSignatureOwner): Boolean {
         return owner.getSignature()?.parameters?.paramDefinitionList?.size == 1
-    }
-
-    fun sameModule(firstFile: PsiFile, secondFile: PsiFile): Boolean {
-        if (firstFile == secondFile) return true
-
-        val containingDirectory = firstFile.containingDirectory
-        return !(containingDirectory == null || containingDirectory != secondFile.containingDirectory)
     }
 
     /**
@@ -92,7 +83,7 @@ object TactLangUtil {
         return o.toString()
     }
 
-    fun getDefaultValue(element: PsiElement, type: TactTypeEx?): String = when (type) {
+    fun getDefaultValue(type: TactTypeEx?): String = when (type) {
         is TactPrimitiveTypeEx -> {
             when (type.name) {
                 TactPrimitiveTypes.BOOL           -> "false"
@@ -108,8 +99,8 @@ object TactLangUtil {
 
         is TactMapTypeEx       -> "emptyMap()"
         is TactFunctionTypeEx  -> "null"
-        is TactStructTypeEx    -> type.readableName(element) + " {}"
-        is TactTraitTypeEx     -> type.readableName(element) + " {}"
+        is TactStructTypeEx    -> type.name() + " {}"
+        is TactTraitTypeEx     -> type.name() + " {}"
         is TactNullTypeEx      -> "null"
         is TactOptionTypeEx    -> "null"
         is TactAnyTypeEx       -> "0"

@@ -12,8 +12,7 @@ import com.intellij.psi.util.*
 import org.tonstudio.tact.compiler.crc16
 import org.tonstudio.tact.lang.TactTypes.DOT
 import org.tonstudio.tact.lang.psi.*
-import org.tonstudio.tact.lang.psi.impl.TactReferenceBase.Companion.LOCAL_RESOLVE
-import org.tonstudio.tact.lang.psi.impl.TactTypeInferer.getVarType
+import org.tonstudio.tact.lang.psi.impl.TactTypeInferer.inferVariableType
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
 import org.tonstudio.tact.lang.psi.types.TactFunctionTypeEx
 import org.tonstudio.tact.lang.psi.types.TactTypeEx
@@ -122,17 +121,17 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun getName(o: TactConstDefinition): String {
+    fun getName(o: TactConstDeclaration): String {
         val stub = o.stub
         if (stub != null) {
             return stub.name ?: ""
         }
 
-        return o.getIdentifier().text ?: ""
+        return o.getIdentifier()?.text ?: ""
     }
 
     @JvmStatic
-    fun getExpressionText(o: TactConstDefinition): String {
+    fun getExpressionText(o: TactConstDeclaration): String {
         val stub = o.stub
         if (stub != null) {
             return stub.value
@@ -142,13 +141,13 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun getExpressionType(o: TactConstDefinition): String {
+    fun getExpressionType(o: TactConstDeclaration): String {
         val stub = o.stub
         if (stub != null) {
             return stub.type
         }
 
-        return o.expression?.getType(null)?.qualifiedName() ?: ""
+        return o.expression?.getType(null)?.name() ?: ""
     }
 
     @JvmStatic
@@ -223,18 +222,18 @@ object TactPsiImplUtil {
 
     @JvmStatic
     fun getFieldList(o: TactStructType): List<TactFieldDefinition> {
-        return o.fieldDeclarationList.mapNotNull { it.fieldDefinition }
+        return o.fieldDefinitionList
     }
 
     @JvmStatic
     fun getFieldList(o: TactContractType): List<TactFieldDefinition> {
-        val parameters = o.contractParameters?.fieldDeclarationList?.mapNotNull { it.fieldDefinition } ?: emptyList()
-        return o.fieldDeclarationList.mapNotNull { it.fieldDefinition } + parameters
+        val parameters = o.contractParameters?.fieldDefinitionList ?: emptyList()
+        return o.fieldDefinitionList + parameters
     }
 
     @JvmStatic
     fun getFieldList(o: TactTraitType): List<TactFieldDefinition> {
-        return o.fieldDeclarationList.mapNotNull { it.fieldDefinition }
+        return o.fieldDefinitionList
     }
 
     @JvmStatic
@@ -248,13 +247,13 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun getConstantsList(o: TactTraitType): List<TactConstDefinition> {
-        return o.constDeclarationList.mapNotNull { it.constDefinition }
+    fun getConstantsList(o: TactTraitType): List<TactConstDeclaration> {
+        return o.constDeclarationList
     }
 
     @JvmStatic
-    fun getConstantsList(o: TactContractType): List<TactConstDefinition> {
-        return o.constDeclarationList.mapNotNull { it.constDefinition }
+    fun getConstantsList(o: TactContractType): List<TactConstDeclaration> {
+        return o.constDeclarationList
     }
 
     @JvmStatic
@@ -305,11 +304,11 @@ object TactPsiImplUtil {
 
     @JvmStatic
     fun getFieldList(o: TactMessageType): List<TactFieldDefinition> {
-        return o.fieldDeclarationList.mapNotNull { it.fieldDefinition }
+        return o.fieldDefinitionList
     }
 
     @JvmStatic
-    fun isPublic(o: TactFieldDefinition): Boolean = true
+    fun isExported(o: TactFieldDefinition): Boolean = true
 
     @JvmStatic
     fun getOwner(o: TactFieldDefinition): TactNamedElement {
@@ -367,7 +366,7 @@ object TactPsiImplUtil {
         val owner = o.parentOfTypes(TactStructDeclaration::class)
 
         if (owner is TactNamedElement) {
-            return owner.getQualifiedName() + "." + o.name
+            return owner.getName() + "." + o.name
         }
 
         return null
@@ -440,7 +439,7 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun isPublic(o: TactParamDefinition): Boolean = true
+    fun isExported(o: TactParamDefinition): Boolean = true
 
     @JvmStatic
     fun getReferences(literal: TactStringLiteral): Array<out PsiReference> {
@@ -567,12 +566,11 @@ object TactPsiImplUtil {
 
     @JvmStatic
     fun getTypeInner(o: TactFieldDefinition, context: ResolveState?): TactTypeEx {
-        val fieldDeclaration = o.parent as? TactFieldDeclaration
-        return fieldDeclaration?.type.toEx()
+        return o.type.toEx()
     }
 
     @JvmStatic
-    fun getTypeInner(o: TactConstDefinition, context: ResolveState?): TactTypeEx? {
+    fun getTypeInner(o: TactConstDeclaration, context: ResolveState?): TactTypeEx? {
         val expr = o.expression ?: return null
         if (expr.text == o.name) return null
         return expr.inferType(context)
@@ -611,20 +609,11 @@ object TactPsiImplUtil {
             CachedValuesManager.getCachedValue(expr) {
                 CachedValueProvider.Result
                     .create(
-                        expr.inferType(createContextOnElement(expr)),
+                        expr.inferType(ResolveState.initial()),
                         PsiModificationTracker.MODIFICATION_COUNT,
                     )
             }
         }
-    }
-
-    val CONTEXT = Key.create<SmartPsiElementPointer<PsiElement>>("CONTEXT")
-
-    private fun createContextOnElement(element: PsiElement): ResolveState {
-        return ResolveState.initial().put(
-            CONTEXT,
-            SmartPointerManager.getInstance(element.project).createSmartPsiElementPointer(element)
-        )
     }
 
     @JvmStatic
@@ -661,7 +650,7 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun isPublic(o: TactVarDefinition): Boolean = true
+    fun isExported(o: TactVarDefinition): Boolean = true
 
     @JvmStatic
     fun getReference(o: TactVarDefinition): PsiReference {
@@ -720,7 +709,7 @@ object TactPsiImplUtil {
 
     @JvmStatic
     fun getTypeInner(def: TactVarDefinition, context: ResolveState?): TactTypeEx? {
-        return def.getVarType(context)
+        return inferVariableType(def, context)
     }
 
     fun processSignatureOwner(o: TactSignatureOwner, processor: TactScopeProcessorBase): Boolean {
@@ -729,16 +718,15 @@ object TactPsiImplUtil {
     }
 
     private fun processParameters(processor: TactScopeProcessorBase, parameters: TactParameters): Boolean {
-        return processNamedElements(processor, ResolveState.initial(), parameters.paramDefinitionList, true)
+        return processNamedElements(processor, ResolveState.initial(), parameters.paramDefinitionList)
     }
 
     fun processNamedElements(
         processor: PsiScopeProcessor,
         state: ResolveState,
         elements: Collection<TactNamedElement>,
-        localResolve: Boolean,
     ): Boolean {
-        return processNamedElements(processor, state, elements, Conditions.alwaysTrue(), localResolve, false)
+        return processNamedElements(processor, state, elements, Conditions.alwaysTrue(), false)
     }
 
     fun processNamedElements(
@@ -746,7 +734,6 @@ object TactPsiImplUtil {
         state: ResolveState,
         elements: Collection<TactNamedElement>,
         condition: Condition<Any>,
-        localResolve: Boolean,
         checkContainingFile: Boolean,
     ): Boolean {
         for (definition in elements) {
@@ -754,7 +741,7 @@ object TactPsiImplUtil {
                 continue
             if (!definition.isValid || checkContainingFile)
                 continue
-            if (!processor.execute(definition, state.put(LOCAL_RESOLVE, localResolve)))
+            if (!processor.execute(definition, state))
                 return false
         }
         return true

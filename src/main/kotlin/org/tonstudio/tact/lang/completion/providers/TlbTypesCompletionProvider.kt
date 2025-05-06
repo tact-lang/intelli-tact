@@ -8,7 +8,7 @@ import com.intellij.codeInsight.template.impl.ConstantNode
 import com.intellij.psi.util.parentOfType
 import com.intellij.util.ProcessingContext
 import org.tonstudio.tact.lang.completion.TactCompletionUtil.TemplateStringInsertHandler
-import org.tonstudio.tact.lang.psi.TactFieldDeclaration
+import org.tonstudio.tact.lang.psi.TactFieldDefinition
 import org.tonstudio.tact.lang.psi.TactTlb
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
 import org.tonstudio.tact.lang.psi.types.TactPrimitiveTypeEx
@@ -42,7 +42,7 @@ object TlbTypesCompletionProvider : CompletionProvider<CompletionParameters>() {
         val element = parameters.position
         if (!element.inside<TactTlb>()) return
 
-        val parentField = element.parentOfType<TactFieldDeclaration>()
+        val parentField = element.parentOfType<TactFieldDefinition>()
         val fieldType = parentField?.type?.toEx() ?: return
 
         if (fieldType is TactPrimitiveTypeEx && fieldType.name == TactPrimitiveTypes.INT) {

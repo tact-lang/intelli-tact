@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.stubs.TactFieldDefinitionStub;
 import org.tonstudio.tact.lang.psi.*;
@@ -32,6 +32,30 @@ public class TactFieldDefinitionImpl extends TactNamedElementImpl<TactFieldDefin
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof TactVisitor) accept((TactVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @Nullable
+  public TactDefaultFieldValue getDefaultFieldValue() {
+    return PsiTreeUtil.getChildOfType(this, TactDefaultFieldValue.class);
+  }
+
+  @Override
+  @Nullable
+  public TactType getType() {
+    return PsiTreeUtil.getStubChildOfType(this, TactType.class);
+  }
+
+  @Override
+  @Nullable
+  public TactSemi getSemi() {
+    return PsiTreeUtil.getChildOfType(this, TactSemi.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getColon() {
+    return findChildByType(COLON);
   }
 
   @Override

@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.stubs.TactPrimitiveDeclarationStub;
 import org.tonstudio.tact.lang.psi.*;
@@ -37,7 +37,7 @@ public class TactPrimitiveDeclarationImpl extends TactNamedElementImpl<TactPrimi
   @Override
   @NotNull
   public TactPrimitiveType getPrimitiveType() {
-    return notNullChild(TactPsiTreeUtil.getStubChildOfType(this, TactPrimitiveType.class));
+    return notNullChild(PsiTreeUtil.getStubChildOfType(this, TactPrimitiveType.class));
   }
 
   @Override

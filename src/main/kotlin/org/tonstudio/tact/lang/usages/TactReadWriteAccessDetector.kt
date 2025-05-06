@@ -9,13 +9,13 @@ import org.tonstudio.tact.lang.psi.*
 class TactReadWriteAccessDetector : ReadWriteAccessDetector() {
     override fun isReadWriteAccessible(element: PsiElement): Boolean {
         return element is TactVarDefinition ||
-                element is TactConstDefinition ||
+                element is TactConstDeclaration ||
                 element is TactParamDefinition ||
                 element is TactFieldDefinition
     }
 
     override fun isDeclarationWriteAccess(element: PsiElement): Boolean {
-        return element is TactVarDefinition || element is TactConstDefinition
+        return element is TactVarDefinition || element is TactConstDeclaration
     }
 
     override fun getReferenceAccess(referencedElement: PsiElement, reference: PsiReference): Access {

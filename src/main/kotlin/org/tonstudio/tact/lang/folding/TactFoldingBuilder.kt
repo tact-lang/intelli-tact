@@ -157,7 +157,7 @@ class TactFoldingBuilder : FoldingBuilderEx(), DumbAware {
                     else               -> el.textRange.endOffset
                 }
 
-                val range = TextRange(lbrack!!.startOffset, endOffset)
+                val range = TextRange(lbrack.startOffset, endOffset)
                 val group = FoldingGroup.newGroup("TactFoldingGroup")
                 descriptors.add(FoldingDescriptor(el.node, range, group))
             }

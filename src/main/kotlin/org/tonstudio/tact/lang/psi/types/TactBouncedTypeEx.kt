@@ -4,25 +4,13 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 
 class TactBouncedTypeEx(val inner: TactTypeEx, anchor: PsiElement) : TactBaseTypeEx(anchor) {
-    override fun toString() = buildString {
+    override fun toString() = name()
+
+     override fun name(): String = buildString {
         append("bounced<")
-        append(inner)
+        append(inner.name())
         append(">")
     }
-
-    override fun qualifiedName(): String = buildString {
-        append("bounced<")
-        append(inner.qualifiedName())
-        append(">")
-    }
-
-    override fun readableName(context: PsiElement, detailed: Boolean) = buildString {
-        append("bounced<")
-        append(inner.readableName(context))
-        append(">")
-    }
-
-    override fun module() = inner.module()
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         if (rhs.isAny) return true

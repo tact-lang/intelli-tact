@@ -1,7 +1,6 @@
 package org.tonstudio.tact.lang.imports
 
 import com.intellij.codeInsight.FileModificationService
-import com.intellij.codeInsight.daemon.impl.DaemonListeners
 import com.intellij.codeInsight.daemon.impl.ShowAutoImportPass
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.codeInsight.intention.HighPriorityAction
@@ -20,7 +19,6 @@ import com.intellij.ui.SimpleColoredComponent
 import com.intellij.ui.SimpleTextAttributes
 import com.intellij.ui.components.JBList
 import com.intellij.util.IncorrectOperationException
-import com.intellij.util.ThreeState
 import com.intellij.util.ui.JBUI
 import org.tonstudio.tact.ide.ui.Icons
 import org.tonstudio.tact.lang.psi.TactFile

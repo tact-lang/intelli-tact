@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
@@ -30,25 +30,25 @@ public class TactDestructStatementImpl extends TactStatementImpl implements Tact
   @Override
   @NotNull
   public List<TactDestructItem> getDestructItemList() {
-    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactDestructItem.class);
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, TactDestructItem.class);
   }
 
   @Override
   @Nullable
   public TactExpression getExpression() {
-    return TactPsiTreeUtil.getChildOfType(this, TactExpression.class);
+    return PsiTreeUtil.getChildOfType(this, TactExpression.class);
   }
 
   @Override
   @NotNull
   public TactTypeReferenceExpression getTypeReferenceExpression() {
-    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactTypeReferenceExpression.class));
+    return notNullChild(PsiTreeUtil.getChildOfType(this, TactTypeReferenceExpression.class));
   }
 
   @Override
   @Nullable
   public TactSemi getSemi() {
-    return TactPsiTreeUtil.getChildOfType(this, TactSemi.class);
+    return PsiTreeUtil.getChildOfType(this, TactSemi.class);
   }
 
   @Override

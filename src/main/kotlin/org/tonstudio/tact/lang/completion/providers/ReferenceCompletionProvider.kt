@@ -45,7 +45,7 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
             if (!expectKey) {
                 ref.processResolveVariants(MyScopeProcessor(parameters, set, ref.forTypes))
             }
-        } else if (ref is TactCachedReference<*>) {
+        } else if (ref is TactSimpleReference<*>) {
             ref.processResolveVariants(MyScopeProcessor(parameters, set, false))
         }
     }
@@ -71,11 +71,10 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
         TactFieldNameReference(refExpression).processResolveVariants(object : MyScopeProcessor(parameters, result, false) {
             override fun execute(element: PsiElement, state: ResolveState): Boolean {
                 val field = element as? TactFieldDefinition ?: return false
-                val decl = field.parent as? TactFieldDeclaration ?: return false
 
                 val type = field.getType(null)
                 val name = field.name ?: return false
-                val canBeOmitted = decl.defaultFieldValue != null || type is TactOptionTypeEx
+                val canBeOmitted = element.defaultFieldValue != null || type is TactOptionTypeEx
 
                 if (alreadyAssignedFields.contains(name)) {
                     return true
@@ -96,7 +95,7 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
                 val named = e as? TactNamedElement ?: return true
                 return allFields.any { (name) -> named.name == name }
             }
-        }, ResolveState.initial(), false)
+        }, ResolveState.initial())
 
         if (allFields.size > 1) {
             val fields = allFields.toList()
@@ -152,7 +151,7 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
 
             for ((name, type) in fields) {
                 template.addVariable(
-                    "field_${name}", ConstantNode(TactLangUtil.getDefaultValue(element, type)), true
+                    "field_${name}", ConstantNode(TactLangUtil.getDefaultValue(type)), true
                 )
             }
 
@@ -254,7 +253,7 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
             is TactContractDeclaration  -> TactLookupElementProperties.ElementKind.CONTRACT
             is TactTraitDeclaration     -> TactLookupElementProperties.ElementKind.TRAIT
             is TactMessageDeclaration   -> TactLookupElementProperties.ElementKind.MESSAGE
-            is TactConstDefinition      -> TactLookupElementProperties.ElementKind.CONSTANT
+            is TactConstDeclaration     -> TactLookupElementProperties.ElementKind.CONSTANT
             is TactFieldDefinition      -> TactLookupElementProperties.ElementKind.FIELD
             is TactNamedElement         -> TactLookupElementProperties.ElementKind.OTHER
             else                        -> return null
@@ -270,7 +269,7 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
             is TactContractDeclaration       -> TactCompletionUtil.createContractLookupElement(element)
             is TactTraitDeclaration          -> TactCompletionUtil.createTraitLookupElement(element)
             is TactFieldDefinition           -> TactCompletionUtil.createFieldLookupElement(element)
-            is TactConstDefinition           -> TactCompletionUtil.createConstantLookupElement(element)
+            is TactConstDeclaration          -> TactCompletionUtil.createConstantLookupElement(element)
             is TactParamDefinition           -> TactCompletionUtil.createParamLookupElement(element)
             is TactNamedElement              -> TactCompletionUtil.createVariableLikeLookupElement(element)
             else                             -> null

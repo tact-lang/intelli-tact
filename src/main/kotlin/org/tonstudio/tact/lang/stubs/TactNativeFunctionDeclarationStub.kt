@@ -1,35 +1,34 @@
 package org.tonstudio.tact.lang.stubs
 
 import com.intellij.psi.stubs.*
-import com.intellij.util.ArrayFactory
 import com.intellij.util.io.StringRef
 import org.tonstudio.tact.lang.psi.TactNativeFunctionDeclaration
 import org.tonstudio.tact.lang.stubs.types.TactNamedStubElementType
 import org.tonstudio.tact.lang.psi.impl.TactNativeFunctionDeclarationImpl
+import org.tonstudio.tact.lang.stubs.TactFunctionDeclarationStub.Type.Companion.calcTypeText
 import org.tonstudio.tact.lang.stubs.index.TactMethodIndex
-import org.tonstudio.tact.lang.stubs.types.TactFunctionDeclarationStubElementType.Companion.calcTypeText
 
 class TactNativeFunctionDeclarationStub : TactNamedStub<TactNativeFunctionDeclaration> {
-    var type: String? = null
+    var receiverType: String? = null
 
     constructor(
         parent: StubElement<*>?,
         elementType: IStubElementType<*, *>,
         name: StringRef?,
-        isPublic: Boolean,
-        type: String?,
-    ) : super(parent, elementType, name, isPublic) {
-        this.type = type
+        isExported: Boolean,
+        receiverType: String?,
+    ) : super(parent, elementType, name, isExported) {
+        this.receiverType = receiverType
     }
 
     constructor(
         parent: StubElement<*>?,
         elementType: IStubElementType<*, *>,
         name: String,
-        isPublic: Boolean,
+        isExported: Boolean,
         type: String?,
-    ) : super(parent, elementType, name, isPublic) {
-        this.type = type
+    ) : super(parent, elementType, name, isExported) {
+        this.receiverType = type
     }
 
     class Type(name: String) : TactNamedStubElementType<TactNativeFunctionDeclarationStub, TactNativeFunctionDeclaration>(name) {
@@ -42,8 +41,8 @@ class TactNativeFunctionDeclarationStub : TactNamedStub<TactNativeFunctionDeclar
 
         override fun serialize(stub: TactNativeFunctionDeclarationStub, dataStream: StubOutputStream) {
             dataStream.writeName(stub.name)
-            dataStream.writeBoolean(stub.isPublic)
-            dataStream.writeName(stub.type)
+            dataStream.writeBoolean(stub.isExported)
+            dataStream.writeName(stub.receiverType)
         }
 
         override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>?) =
@@ -51,16 +50,10 @@ class TactNativeFunctionDeclarationStub : TactNamedStub<TactNativeFunctionDeclar
 
         override fun indexStub(stub: TactNativeFunctionDeclarationStub, sink: IndexSink) {
             super.indexStub(stub, sink)
-            if (stub.type.isNullOrEmpty()) return
 
-            sink.occurrence(TactMethodIndex.KEY, stub.type!!)
-        }
-
-        companion object {
-            private val EMPTY_ARRAY: Array<TactNativeFunctionDeclaration?> = arrayOfNulls(0)
-            val ARRAY_FACTORY = ArrayFactory<TactNativeFunctionDeclaration> { count: Int ->
-                if (count == 0) EMPTY_ARRAY else arrayOfNulls<TactNativeFunctionDeclaration>(count)
-            }
+            val receiverType = stub.receiverType
+            if (receiverType.isNullOrEmpty()) return
+            sink.occurrence(TactMethodIndex.KEY, receiverType)
         }
     }
 }

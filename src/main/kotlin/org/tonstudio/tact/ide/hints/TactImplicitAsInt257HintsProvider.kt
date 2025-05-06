@@ -15,10 +15,10 @@ class TactImplicitAsInt257HintsProvider : InlayHintsProvider {
 
     class Collector : SharedBypassCollector {
         override fun collectFromElement(element: PsiElement, sink: InlayTreeSink) {
-            if (element !is TactFieldDeclaration) return
+            if (element !is TactFieldDefinition) return
 
             val typeNode = element.type ?: return
-            val type = element.fieldDefinition.getType(null) ?: return
+            val type = element.getType(null) ?: return
 
             // foo: Int
             if (needImplicitHint(type)) {

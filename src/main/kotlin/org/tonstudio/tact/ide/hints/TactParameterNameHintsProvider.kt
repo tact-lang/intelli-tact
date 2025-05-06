@@ -22,8 +22,8 @@ class TactParameterNameHintsProvider : InlayParameterHintsProvider {
     }
 
     private fun createMethodInfo(function: TactNamedElement, parameters: List<String>): HintInfo.MethodInfo? {
-        val qualifiedName = function.getQualifiedName() ?: return null
-        return HintInfo.MethodInfo(qualifiedName, parameters, TactLanguage)
+        val name = function.name ?: return null
+        return HintInfo.MethodInfo(name, parameters, TactLanguage)
     }
 
     override fun getParameterHints(element: PsiElement, file: PsiFile): MutableList<InlayInfo> {

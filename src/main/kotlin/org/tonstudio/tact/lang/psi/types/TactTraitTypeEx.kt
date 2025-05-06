@@ -3,24 +3,21 @@ package org.tonstudio.tact.lang.psi.types
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import org.tonstudio.tact.lang.psi.TactTraitDeclaration
-import org.tonstudio.tact.lang.stubs.index.TactNamesIndex
+import org.tonstudio.tact.lang.stubs.index.TactClassLikeIndex
 
 open class TactTraitTypeEx(private val name: String, anchor: PsiElement?) :
-    StorageMembersOwnerTy<TactTraitDeclaration>(name, anchor), TactImportableTypeEx {
-
-    override fun readableName(context: PsiElement, detailed: Boolean) =
-        qualifiedName()
+    StorageMembersOwnerTy<TactTraitDeclaration>(name, anchor), TactImportableType {
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         if (rhs.isAny) return true
         if (rhs is TactTraitTypeEx) {
-            return this.qualifiedName() == rhs.qualifiedName()
+            return this.name() == rhs.name()
         }
         return false
     }
 
     override fun isEqual(rhs: TactTypeEx): Boolean {
-        return rhs is TactTraitTypeEx && qualifiedName() == rhs.qualifiedName()
+        return rhs is TactTraitTypeEx && name() == rhs.name()
     }
 
     override fun accept(visitor: TactTypeVisitor) {
@@ -38,7 +35,7 @@ open class TactTraitTypeEx(private val name: String, anchor: PsiElement?) :
             }
         }
 
-        val variants = TactNamesIndex.find(qualifiedName(), project, null)
+        val variants = TactClassLikeIndex.find(name(), project, null)
         if (variants.size == 1) {
             return variants.first() as? TactTraitDeclaration
         }

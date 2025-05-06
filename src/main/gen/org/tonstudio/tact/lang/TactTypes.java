@@ -38,9 +38,6 @@ public interface TactTypes {
   IElementType ASSIGN_OP = new TactCompositeElementType("ASSIGN_OP");
   IElementType ATTRIBUTE = TactElementTypeFactory.stubFactory("ATTRIBUTE");
   IElementType ATTRIBUTES = TactElementTypeFactory.stubFactory("ATTRIBUTES");
-  IElementType ATTRIBUTE_EXPRESSION = TactElementTypeFactory.stubFactory("ATTRIBUTE_EXPRESSION");
-  IElementType ATTRIBUTE_IDENTIFIER = new TactCompositeElementType("ATTRIBUTE_IDENTIFIER");
-  IElementType ATTRIBUTE_KEY = TactElementTypeFactory.stubFactory("ATTRIBUTE_KEY");
   IElementType BLOCK = new TactCompositeElementType("BLOCK");
   IElementType BOUNCED_TYPE = TactElementTypeFactory.stubFactory("BOUNCED_TYPE");
   IElementType CALL_EXPR = new TactCompositeElementType("CALL_EXPR");
@@ -48,8 +45,7 @@ public interface TactTypes {
   IElementType CODE_OF_EXPR = new TactCompositeElementType("CODE_OF_EXPR");
   IElementType CONDITIONAL_EXPR = new TactCompositeElementType("CONDITIONAL_EXPR");
   IElementType CONSTANT_MODIFIER = new TactCompositeElementType("CONSTANT_MODIFIER");
-  IElementType CONST_DECLARATION = new TactCompositeElementType("CONST_DECLARATION");
-  IElementType CONST_DEFINITION = TactElementTypeFactory.stubFactory("CONST_DEFINITION");
+  IElementType CONST_DECLARATION = TactElementTypeFactory.stubFactory("CONST_DECLARATION");
   IElementType CONTRACT_DECLARATION = TactElementTypeFactory.stubFactory("CONTRACT_DECLARATION");
   IElementType CONTRACT_INIT_DECLARATION = TactElementTypeFactory.stubFactory("CONTRACT_INIT_DECLARATION");
   IElementType CONTRACT_PARAMETERS = TactElementTypeFactory.stubFactory("CONTRACT_PARAMETERS");
@@ -62,7 +58,6 @@ public interface TactTypes {
   IElementType ELSE_BRANCH = new TactCompositeElementType("ELSE_BRANCH");
   IElementType ELSE_IF_BRANCH = new TactCompositeElementType("ELSE_IF_BRANCH");
   IElementType EXPRESSION = new TactCompositeElementType("EXPRESSION");
-  IElementType FIELD_DECLARATION = TactElementTypeFactory.stubFactory("FIELD_DECLARATION");
   IElementType FIELD_DEFINITION = TactElementTypeFactory.stubFactory("FIELD_DEFINITION");
   IElementType FIELD_NAME = new TactCompositeElementType("FIELD_NAME");
   IElementType FOR_EACH_STATEMENT = new TactCompositeElementType("FOR_EACH_STATEMENT");
@@ -94,7 +89,6 @@ public interface TactTypes {
   IElementType PARAMETERS = TactElementTypeFactory.stubFactory("PARAMETERS");
   IElementType PARAM_DEFINITION = TactElementTypeFactory.stubFactory("PARAM_DEFINITION");
   IElementType PARENTHESES_EXPR = new TactCompositeElementType("PARENTHESES_EXPR");
-  IElementType PLAIN_ATTRIBUTE = TactElementTypeFactory.stubFactory("PLAIN_ATTRIBUTE");
   IElementType PRIMITIVE_DECLARATION = TactElementTypeFactory.stubFactory("PRIMITIVE_DECLARATION");
   IElementType PRIMITIVE_TYPE = TactElementTypeFactory.stubFactory("PRIMITIVE_TYPE");
   IElementType RECEIVE_STRING_ID = new TactCompositeElementType("RECEIVE_STRING_ID");
@@ -316,15 +310,6 @@ public interface TactTypes {
       else if (type == ATTRIBUTES) {
         return new TactAttributesImpl(node);
       }
-      else if (type == ATTRIBUTE_EXPRESSION) {
-        return new TactAttributeExpressionImpl(node);
-      }
-      else if (type == ATTRIBUTE_IDENTIFIER) {
-        return new TactAttributeIdentifierImpl(node);
-      }
-      else if (type == ATTRIBUTE_KEY) {
-        return new TactAttributeKeyImpl(node);
-      }
       else if (type == BLOCK) {
         return new TactBlockImpl(node);
       }
@@ -348,9 +333,6 @@ public interface TactTypes {
       }
       else if (type == CONST_DECLARATION) {
         return new TactConstDeclarationImpl(node);
-      }
-      else if (type == CONST_DEFINITION) {
-        return new TactConstDefinitionImpl(node);
       }
       else if (type == CONTRACT_DECLARATION) {
         return new TactContractDeclarationImpl(node);
@@ -384,9 +366,6 @@ public interface TactTypes {
       }
       else if (type == ELSE_IF_BRANCH) {
         return new TactElseIfBranchImpl(node);
-      }
-      else if (type == FIELD_DECLARATION) {
-        return new TactFieldDeclarationImpl(node);
       }
       else if (type == FIELD_DEFINITION) {
         return new TactFieldDefinitionImpl(node);
@@ -480,9 +459,6 @@ public interface TactTypes {
       }
       else if (type == PARENTHESES_EXPR) {
         return new TactParenthesesExprImpl(node);
-      }
-      else if (type == PLAIN_ATTRIBUTE) {
-        return new TactPlainAttributeImpl(node);
       }
       else if (type == PRIMITIVE_DECLARATION) {
         return new TactPrimitiveDeclarationImpl(node);

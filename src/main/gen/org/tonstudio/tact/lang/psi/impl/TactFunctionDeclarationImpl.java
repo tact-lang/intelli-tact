@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.stubs.TactFunctionDeclarationStub;
 import org.tonstudio.tact.lang.psi.*;
@@ -38,31 +38,31 @@ public class TactFunctionDeclarationImpl extends TactNamedElementImpl<TactFuncti
   @Override
   @Nullable
   public TactAttributes getAttributes() {
-    return TactPsiTreeUtil.getStubChildOfType(this, TactAttributes.class);
+    return PsiTreeUtil.getStubChildOfType(this, TactAttributes.class);
   }
 
   @Override
   @Nullable
   public TactBlock getBlock() {
-    return TactPsiTreeUtil.getChildOfType(this, TactBlock.class);
+    return PsiTreeUtil.getChildOfType(this, TactBlock.class);
   }
 
   @Override
   @NotNull
   public List<TactFunctionAttribute> getFunctionAttributeList() {
-    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactFunctionAttribute.class);
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, TactFunctionAttribute.class);
   }
 
   @Override
   @NotNull
   public TactSignature getSignature() {
-    return notNullChild(TactPsiTreeUtil.getStubChildOfType(this, TactSignature.class));
+    return notNullChild(PsiTreeUtil.getStubChildOfType(this, TactSignature.class));
   }
 
   @Override
   @Nullable
   public TactSemi getSemi() {
-    return TactPsiTreeUtil.getChildOfType(this, TactSemi.class);
+    return PsiTreeUtil.getChildOfType(this, TactSemi.class);
   }
 
   @Override

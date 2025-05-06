@@ -4,7 +4,7 @@ interface TactStorageMembersOwner : TactCompositeElement {
     fun getWithClause(): TactWithClause?
     fun getFieldList(): List<TactFieldDefinition>
     fun getMethodsList(): List<TactFunctionDeclaration>
-    fun getConstantsList(): List<TactConstDefinition>
+    fun getConstantsList(): List<TactConstDeclaration>
     fun getInheritedTraits(): List<TactTraitDeclaration>
 }
 
@@ -20,7 +20,7 @@ fun TactStorageMembersOwner.fields(): List<TactFieldDefinition> {
     return own + inherited
 }
 
-fun TactStorageMembersOwner.constants(): List<TactConstDefinition> {
+fun TactStorageMembersOwner.constants(): List<TactConstDeclaration> {
     val own = getConstantsList()
     val inherited = getInheritedTraits().flatMap { it.traitType.getConstantsList() }
     return own + inherited

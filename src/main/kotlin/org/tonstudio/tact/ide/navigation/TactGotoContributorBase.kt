@@ -37,7 +37,7 @@ open class TactGotoContributorBase<T : TactNamedElement>(
     }
 
     override fun getQualifiedName(item: NavigationItem): String? {
-        return if (item is TactNamedElement) item.getQualifiedName() else null
+        return if (item is TactNamedElement) item.name else null
     }
 
     override fun getQualifiedNameSeparator() = "."

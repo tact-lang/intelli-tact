@@ -4,7 +4,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.UserDataHolderBase
 import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.openapi.vfs.findPsiFile
-import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
@@ -12,61 +11,24 @@ import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.impl.TactLangUtil
 import org.tonstudio.tact.toolchain.TactToolchainService.Companion.toolchainSettings
 
-@Suppress("PropertyName")
 abstract class TactBaseTypeEx(protected val anchor: PsiElement? = null) : UserDataHolderBase(), TactTypeEx {
-    protected val UNKNOWN_TYPE = "unknown"
-    protected val ANON = "anon"
     protected val containingFile = anchor?.containingFile as? TactFile
-    protected open val moduleName = containingFile?.getModuleQualifiedName() ?: ""
 
     override fun anchor(project: Project) = anchor
-
-    override fun module() = moduleName
-
-    override fun name(): String {
-        return qualifiedName().removePrefix(moduleName).removePrefix(".")
-    }
-
-    override fun isBuiltin() = moduleName == "stubs"
-
-    override fun containingModule(project: Project): PsiDirectory? {
-        val anchor = anchor ?: return null
-        return anchor.containingFile.containingDirectory
-    }
-
-    protected fun String?.safeAppend(str: String?): String {
-        if (str == null) return this ?: ""
-        return if (this == null) str else this + str
-    }
-
-    protected fun String?.safeAppendIf(cond: Boolean, str: String?): String {
-        if (!cond) return this ?: ""
-        if (str == null) return this ?: ""
-        return if (this == null) str else this + str
-    }
-
-    protected fun String?.safeAppend(type: TactTypeEx?): String {
-        return this.safeAppend(type?.toString())
-    }
-
-    protected fun TactTypeEx?.safeAppend(str: String): String {
-        return this?.toString().safeAppend(str)
-    }
 
     protected fun prioritize(context: PsiElement?, variants: Collection<TactNamedElement>): TactNamedElement? {
         val containingFile = context?.containingFile?.originalFile
         val containingDir = containingFile?.containingDirectory
         val priorityMap = mutableMapOf<Int, TactNamedElement>()
 
-        variants.forEach { variant ->
-            val variantContainingFile = variant.containingFile?.originalFile as? TactFile ?: return@forEach
+        for (variant in variants) {
+            val variantContainingFile = variant.containingFile?.originalFile as? TactFile ?: continue
             val variantContainingDir = variantContainingFile.containingDirectory
 
             val priority = when {
-                variantContainingFile == containingFile                     -> 1000 // local variant has the highest priority
-                variantContainingDir == containingDir                       -> 100 // same directory variant has the second-highest priority
-                variantContainingFile.virtualFile.path.contains("examples") -> 10
-                else                                                        -> 0 // other variants have the lowest priority
+                variantContainingFile == containingFile -> 1000 // local variant has the highest priority
+                variantContainingDir == containingDir   -> 100 // same directory variant has the second-highest priority
+                else                                    -> 0 // other variants have the lowest priority
             }
 
             priorityMap[priority] = variant

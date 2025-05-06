@@ -14,7 +14,7 @@ import org.tonstudio.tact.lang.psi.TactTypeOwner
 class TactTypeInfoProvider : ExpressionTypeProvider<TactTypeOwner>() {
     override fun getInformationHint(element: TactTypeOwner): String {
         val type = element.getType(null) ?: return ""
-        return type.readableName(element).escapeHTML().replace(" ", "&nbsp;")
+        return type.name().escapeHTML().replace(" ", "&nbsp;")
     }
 
     override fun getErrorHint() = "Selection doesn't contain a Tact expression"

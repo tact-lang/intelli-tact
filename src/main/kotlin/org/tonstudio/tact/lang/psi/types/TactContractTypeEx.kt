@@ -5,60 +5,19 @@ import com.intellij.psi.PsiElement
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.stubs.index.TactNamesIndex
 
-abstract class StorageMembersOwnerTy<T : TactNamedElement>(private val name: String, anchor: PsiElement?) :
-    TactResolvableTypeEx<T>(anchor) {
-    override fun toString() = name
-
-    override fun qualifiedName(): String {
-        if (moduleName.isEmpty()) {
-            return name
-        }
-        return "$moduleName.$name"
-    }
-
-    override fun readableName(context: PsiElement, detailed: Boolean) = qualifiedName()
-
-    fun ownMethods(): List<TactFunctionDeclaration> {
-        return owner()?.getMethodsList() ?: emptyList()
-    }
-
-    fun ownFields(): List<TactFieldDefinition> {
-        return owner()?.getFieldList() ?: emptyList()
-    }
-
-    fun ownConstants(): List<TactConstDefinition> {
-        return owner()?.getConstantsList() ?: emptyList()
-    }
-
-    fun methods(): List<TactFunctionDeclaration> {
-        return owner()?.methods() ?: emptyList()
-    }
-
-    fun fields(): List<TactFieldDefinition> {
-        return owner()?.fields() ?: emptyList()
-    }
-
-    private fun owner(): TactStorageMembersOwner? {
-        if (anchor is TactStorageMembersOwner) {
-            return anchor
-        }
-        return null
-    }
-}
-
 open class TactContractTypeEx(private val name: String, anchor: PsiElement?) : StorageMembersOwnerTy<TactContractDeclaration>(name, anchor),
-    TactImportableTypeEx {
+    TactImportableType {
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         if (rhs.isAny) return true
         if (rhs is TactContractTypeEx) {
-            return this.qualifiedName() == rhs.qualifiedName()
+            return this.name() == rhs.name()
         }
         return false
     }
 
     override fun isEqual(rhs: TactTypeEx): Boolean {
-        return rhs is TactContractTypeEx && qualifiedName() == rhs.qualifiedName()
+        return rhs is TactContractTypeEx && name() == rhs.name()
     }
 
     override fun accept(visitor: TactTypeVisitor) {
@@ -76,7 +35,7 @@ open class TactContractTypeEx(private val name: String, anchor: PsiElement?) : S
             }
         }
 
-        val variants = TactNamesIndex.find(qualifiedName(), project, null)
+        val variants = TactNamesIndex.find(name(), project, null)
         if (variants.size == 1) {
             return variants.first() as? TactContractDeclaration
         }
