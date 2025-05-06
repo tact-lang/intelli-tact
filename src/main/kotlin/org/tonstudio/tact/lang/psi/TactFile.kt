@@ -81,31 +81,31 @@ open class TactFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, 
     }
 
     fun getFunctions(): List<TactFunctionDeclaration> =
-        getNamedElements(TactTypes.FUNCTION_DECLARATION, TactFunctionDeclarationStub.Type.ARRAY_FACTORY)
+        getNamedElements(TactTypes.FUNCTION_DECLARATION, getArrayFactory<TactFunctionDeclaration>())
 
     fun getAsmFunctions(): List<TactAsmFunctionDeclaration> =
-        getNamedElements(TactTypes.ASM_FUNCTION_DECLARATION, TactAsmFunctionDeclarationStub.Type.ARRAY_FACTORY)
+        getNamedElements(TactTypes.ASM_FUNCTION_DECLARATION, getArrayFactory<TactAsmFunctionDeclaration>())
 
     fun getNativeFunctions(): List<TactNativeFunctionDeclaration> =
-        getNamedElements(TactTypes.NATIVE_FUNCTION_DECLARATION, TactNativeFunctionDeclarationStub.Type.ARRAY_FACTORY)
+        getNamedElements(TactTypes.NATIVE_FUNCTION_DECLARATION, getArrayFactory<TactNativeFunctionDeclaration>())
 
     fun getStructs(): List<TactStructDeclaration> =
-        getNamedElements(TactTypes.STRUCT_DECLARATION, TactStructDeclarationStub.Type.ARRAY_FACTORY)
+        getNamedElements(TactTypes.STRUCT_DECLARATION, getArrayFactory<TactStructDeclaration>())
 
     fun getMessages(): List<TactMessageDeclaration> =
-        getNamedElements(TactTypes.MESSAGE_DECLARATION, TactMessageDeclarationStub.Type.ARRAY_FACTORY)
+        getNamedElements(TactTypes.MESSAGE_DECLARATION, getArrayFactory<TactMessageDeclaration>())
 
     fun getContracts(): List<TactContractDeclaration> =
-        getNamedElements(TactTypes.CONTRACT_DECLARATION, TactContractDeclarationStub.Type.ARRAY_FACTORY)
+        getNamedElements(TactTypes.CONTRACT_DECLARATION, getArrayFactory<TactContractDeclaration>())
 
     fun getTraits(): List<TactTraitDeclaration> =
-        getNamedElements(TactTypes.TRAIT_DECLARATION, TactTraitDeclarationStub.Type.ARRAY_FACTORY)
+        getNamedElements(TactTypes.TRAIT_DECLARATION, getArrayFactory<TactTraitDeclaration>())
 
     fun getPrimitives(): List<TactPrimitiveDeclaration> =
-        getNamedElements(TactTypes.PRIMITIVE_DECLARATION, TactPrimitiveDeclarationStub.Type.ARRAY_FACTORY)
+        getNamedElements(TactTypes.PRIMITIVE_DECLARATION, getArrayFactory<TactPrimitiveDeclaration>())
 
     fun getConstants(): List<TactConstDefinition> =
-        getNamedElements(TactTypes.CONST_DEFINITION, TactConstDefinitionStub.Type.ARRAY_FACTORY)
+        getNamedElements(TactTypes.CONST_DEFINITION, getArrayFactory<TactConstDefinition>())
 
     private inline fun <reified T : PsiElement> getNamedElements(elementType: IElementType, arrayFactory: ArrayFactory<T>): List<T> {
         return CachedValuesManager.getCachedValue(this) {
@@ -128,6 +128,10 @@ open class TactFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, 
 
             CachedValueProvider.Result.create(elements, this)
         }
+    }
+
+    inline fun <reified T> getArrayFactory() = ArrayFactory<T> { count: Int ->
+        if (count == 0) arrayOfNulls(0) else arrayOfNulls<T>(count)
     }
 
     fun getNames(): Set<String> {

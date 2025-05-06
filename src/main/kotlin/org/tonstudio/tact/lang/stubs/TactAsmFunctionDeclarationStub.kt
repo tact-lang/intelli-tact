@@ -1,7 +1,6 @@
 package org.tonstudio.tact.lang.stubs
 
 import com.intellij.psi.stubs.*
-import com.intellij.util.ArrayFactory
 import com.intellij.util.io.StringRef
 import org.tonstudio.tact.lang.psi.TactAsmFunctionDeclaration
 import org.tonstudio.tact.lang.stubs.types.TactNamedStubElementType
@@ -10,16 +9,16 @@ import org.tonstudio.tact.lang.stubs.TactFunctionDeclarationStub.Type.Companion.
 import org.tonstudio.tact.lang.stubs.index.TactMethodIndex
 
 class TactAsmFunctionDeclarationStub : TactNamedStub<TactAsmFunctionDeclaration> {
-    var type: String? = null
+    var receiverType: String? = null
 
     constructor(
         parent: StubElement<*>?,
         elementType: IStubElementType<*, *>,
         name: StringRef?,
         isExported: Boolean,
-        type: String?,
+        receiverType: String?,
     ) : super(parent, elementType, name, isExported) {
-        this.type = type
+        this.receiverType = receiverType
     }
 
     constructor(
@@ -27,9 +26,9 @@ class TactAsmFunctionDeclarationStub : TactNamedStub<TactAsmFunctionDeclaration>
         elementType: IStubElementType<*, *>,
         name: String,
         isExported: Boolean,
-        type: String?,
+        receiverType: String?,
     ) : super(parent, elementType, name, isExported) {
-        this.type = type
+        this.receiverType = receiverType
     }
 
     class Type(name: String) : TactNamedStubElementType<TactAsmFunctionDeclarationStub, TactAsmFunctionDeclaration>(name) {
@@ -43,7 +42,7 @@ class TactAsmFunctionDeclarationStub : TactNamedStub<TactAsmFunctionDeclaration>
         override fun serialize(stub: TactAsmFunctionDeclarationStub, dataStream: StubOutputStream) {
             dataStream.writeName(stub.name)
             dataStream.writeBoolean(stub.isExported)
-            dataStream.writeName(stub.type)
+            dataStream.writeName(stub.receiverType)
         }
 
         override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>?) =
@@ -51,16 +50,10 @@ class TactAsmFunctionDeclarationStub : TactNamedStub<TactAsmFunctionDeclaration>
 
         override fun indexStub(stub: TactAsmFunctionDeclarationStub, sink: IndexSink) {
             super.indexStub(stub, sink)
-            if (stub.type.isNullOrEmpty()) return
 
-            sink.occurrence(TactMethodIndex.KEY, stub.type!!)
-        }
-
-        companion object {
-            private val EMPTY_ARRAY: Array<TactAsmFunctionDeclaration?> = arrayOfNulls(0)
-            val ARRAY_FACTORY = ArrayFactory<TactAsmFunctionDeclaration> { count: Int ->
-                if (count == 0) EMPTY_ARRAY else arrayOfNulls<TactAsmFunctionDeclaration>(count)
-            }
+            val receiverType = stub.receiverType
+            if (receiverType.isNullOrEmpty()) return
+            sink.occurrence(TactMethodIndex.KEY, receiverType)
         }
     }
 }

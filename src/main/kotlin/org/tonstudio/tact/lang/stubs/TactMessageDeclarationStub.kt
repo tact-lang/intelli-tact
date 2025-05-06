@@ -8,7 +8,6 @@ import com.intellij.util.io.StringRef
 import org.tonstudio.tact.lang.psi.TactMessageDeclaration
 import org.tonstudio.tact.lang.stubs.index.TactStructIndex
 import org.tonstudio.tact.lang.stubs.types.TactNamedStubElementType
-import com.intellij.util.ArrayFactory
 import org.tonstudio.tact.lang.psi.impl.TactMessageDeclarationImpl
 import org.tonstudio.tact.lang.stubs.index.TactClassLikeIndex
 
@@ -44,12 +43,5 @@ class TactMessageDeclarationStub : TactNamedStub<TactMessageDeclaration> {
             TactMessageDeclarationStub(parentStub, this, dataStream.readName(), dataStream.readBoolean())
 
         override fun getExtraIndexKeys() = listOf(TactStructIndex.KEY, TactClassLikeIndex.KEY)
-
-        companion object {
-            private val EMPTY_ARRAY: Array<TactMessageDeclaration?> = arrayOfNulls(0)
-            val ARRAY_FACTORY = ArrayFactory<TactMessageDeclaration> { count: Int ->
-                if (count == 0) EMPTY_ARRAY else arrayOfNulls<TactMessageDeclaration>(count)
-            }
-        }
     }
 }

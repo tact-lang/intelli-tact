@@ -1,7 +1,6 @@
 package org.tonstudio.tact.lang.stubs
 
 import com.intellij.psi.stubs.*
-import com.intellij.util.ArrayFactory
 import com.intellij.util.io.StringRef
 import org.tonstudio.tact.lang.psi.TactNativeFunctionDeclaration
 import org.tonstudio.tact.lang.stubs.types.TactNamedStubElementType
@@ -54,13 +53,6 @@ class TactNativeFunctionDeclarationStub : TactNamedStub<TactNativeFunctionDeclar
             if (stub.type.isNullOrEmpty()) return
 
             sink.occurrence(TactMethodIndex.KEY, stub.type!!)
-        }
-
-        companion object {
-            private val EMPTY_ARRAY: Array<TactNativeFunctionDeclaration?> = arrayOfNulls(0)
-            val ARRAY_FACTORY = ArrayFactory<TactNativeFunctionDeclaration> { count: Int ->
-                if (count == 0) EMPTY_ARRAY else arrayOfNulls<TactNativeFunctionDeclaration>(count)
-            }
         }
     }
 }

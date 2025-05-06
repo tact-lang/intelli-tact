@@ -4,7 +4,6 @@ import com.intellij.psi.stubs.IStubElementType
 import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.stubs.StubInputStream
 import com.intellij.psi.stubs.StubOutputStream
-import com.intellij.util.ArrayFactory
 import com.intellij.util.io.StringRef
 import org.tonstudio.tact.lang.psi.TactStructDeclaration
 import org.tonstudio.tact.lang.psi.impl.TactStructDeclarationImpl
@@ -53,12 +52,5 @@ class TactStructDeclarationStub : TactNamedStub<TactStructDeclaration> {
         }
 
         override fun getExtraIndexKeys() = listOf(TactStructIndex.KEY, TactClassLikeIndex.KEY)
-
-        companion object {
-            private val EMPTY_ARRAY: Array<TactStructDeclaration?> = arrayOfNulls(0)
-            val ARRAY_FACTORY = ArrayFactory<TactStructDeclaration> { count: Int ->
-                if (count == 0) EMPTY_ARRAY else arrayOfNulls<TactStructDeclaration>(count)
-            }
-        }
     }
 }
