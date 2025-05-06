@@ -8,7 +8,7 @@ import org.tonstudio.tact.lang.psi.TactBlock
 import org.tonstudio.tact.lang.psi.TactStatement
 import org.tonstudio.tact.lang.psi.TactVarDefinition
 
-class TactVarReference(element: TactVarDefinition) : TactCachedReference<TactVarDefinition>(element) {
+class TactVarReference(element: TactVarDefinition) : TactSimpleReference<TactVarDefinition>(element) {
     private val contextBlock = element.parentOfType<TactBlock>() ?: element.containingFile
 
     override fun resolveInner(): PsiElement? {
@@ -22,16 +22,15 @@ class TactVarReference(element: TactVarDefinition) : TactCachedReference<TactVar
             return false
         }
 
-        val proc = if (processor is TactVarProcessor)
-            processor
-        else
-            object : TactVarProcessor(myElement, processor.isCompletion()) {
+        val proc = processor as? TactVarProcessor
+            ?: object : TactVarProcessor(myElement, processor.isCompletion()) {
                 override fun execute(e: PsiElement, state: ResolveState): Boolean {
                     return super.execute(e, state) && processor.execute(e, state)
                 }
             }
 
-        if (!contextBlock.processDeclarations(
+        if (
+            !contextBlock.processDeclarations(
                 proc,
                 ResolveState.initial(),
                 PsiTreeUtil.getParentOfType(myElement, TactStatement::class.java),

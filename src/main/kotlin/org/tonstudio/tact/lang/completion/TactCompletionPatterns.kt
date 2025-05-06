@@ -10,8 +10,7 @@ import com.intellij.psi.util.parentOfType
 import com.intellij.util.ProcessingContext
 import org.tonstudio.tact.lang.TactTypes.*
 import org.tonstudio.tact.lang.psi.*
-import org.tonstudio.tact.lang.psi.impl.TactCachedReference
-import org.tonstudio.tact.utils.parentNth
+import org.tonstudio.tact.lang.psi.impl.TactSimpleReference
 
 object TactCompletionPatterns {
     private val whitespace: PsiElementPattern.Capture<PsiElement> = psiElement().whitespace()
@@ -107,9 +106,9 @@ object TactCompletionPatterns {
             .noTopLevelNext()
     }
 
-    fun cachedReferenceExpression(): PsiElementPattern.Capture<PsiElement> {
+    fun simpleReferenceExpression(): PsiElementPattern.Capture<PsiElement> {
         return psiElement()
-            .withParent(psiElement().withReference(TactCachedReference::class.java))
+            .withParent(psiElement().withReference(TactSimpleReference::class.java))
             .notAfterLiteral()
             .noTopLevelNext()
     }

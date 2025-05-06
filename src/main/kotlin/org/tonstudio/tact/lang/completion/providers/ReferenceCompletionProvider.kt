@@ -45,7 +45,7 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
             if (!expectKey) {
                 ref.processResolveVariants(MyScopeProcessor(parameters, set, ref.forTypes))
             }
-        } else if (ref is TactCachedReference<*>) {
+        } else if (ref is TactSimpleReference<*>) {
             ref.processResolveVariants(MyScopeProcessor(parameters, set, false))
         }
     }
