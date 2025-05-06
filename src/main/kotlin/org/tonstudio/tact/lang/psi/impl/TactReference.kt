@@ -467,11 +467,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
                     return !result.add(PsiElementResolveResult(element))
                 }
 
-                val name = state.get(ACTUAL_NAME) ?: when (element) {
-                    is PsiNamedElement -> element.name
-                    else               -> null
-                }
-
+                val name = state.get(ACTUAL_NAME) ?: (element as? PsiNamedElement)?.name
                 val ident = state.get(SEARCH_NAME) ?: reference.getIdentifier()?.text ?: return true
 
                 if (name != null && ident == name) {
@@ -483,21 +479,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         }
     }
 
-    override fun isReferenceTo(element: PsiElement) = couldBeReferenceTo(element, myElement) && super.isReferenceTo(element)
-
-    private fun couldBeReferenceTo(definition: PsiElement, reference: PsiElement): Boolean {
-        if (definition is PsiDirectory && reference is TactReferenceExpressionBase) return true
-
-        val definitionFile = definition.containingFile ?: return true
-        val referenceFile = reference.containingFile
-
-        val inSameFile = definitionFile.isEquivalentTo(referenceFile)
-        if (inSameFile) return true
-        return if (TactLangUtil.sameModule(referenceFile, definitionFile))
-            true
-        else
-            reference !is TactNamedElement
-    }
+    override fun isReferenceTo(element: PsiElement) = super.isReferenceTo(element)
 
     override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult?> {
         if (!myElement.isValid) return ResolveResult.EMPTY_ARRAY
