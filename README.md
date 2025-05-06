@@ -16,9 +16,6 @@ Developed by [TON Studio](https://tonstudio.io), powered by the community.
 
 ---
 
-[![Version](https://img.shields.io/jetbrains/plugin/v/27290-tact.svg)](https://plugins.jetbrains.com/plugin/27290-tact)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/27290-tact.svg)](https://plugins.jetbrains.com/plugin/27290-tact)
-
 This plugin provides support for the [Tact programming language](https://tact-lang.org) to JetBrains IDEs.
 Tact is a next-generation programming language for building secure, scalable, and maintainable smart contracts on TON
 blockchain.
