@@ -532,7 +532,7 @@ fun TactExpression.generateDoc(): String {
                 string           -> colorize(tokenText, asString)
                 operators        -> colorize(tokenText, asOperator)
                 booleanLiteral   -> colorize(tokenText, asKeyword)
-                primitiveType    -> colorize(tokenText, asBuiltin)
+                primitiveType    -> colorize(tokenText, asPrimitive)
                 builtinFunctions -> colorize(tokenText, asFunction)
                 else             -> tokenText
             }

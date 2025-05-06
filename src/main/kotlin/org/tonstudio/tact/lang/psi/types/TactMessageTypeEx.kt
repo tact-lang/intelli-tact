@@ -3,10 +3,10 @@ package org.tonstudio.tact.lang.psi.types
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import org.tonstudio.tact.lang.psi.TactMessageDeclaration
-import org.tonstudio.tact.lang.stubs.index.TactNamesIndex
+import org.tonstudio.tact.lang.stubs.index.TactClassLikeIndex
 
 open class TactMessageTypeEx(private val name: String, anchor: PsiElement?) : TactResolvableTypeEx<TactMessageDeclaration>(anchor),
-    TactImportableTypeEx {
+    TactImportableType {
 
     override fun toString() = name
 
@@ -39,7 +39,7 @@ open class TactMessageTypeEx(private val name: String, anchor: PsiElement?) : Ta
             }
         }
 
-        val variants = TactNamesIndex.find(name(), project, null)
+        val variants = TactClassLikeIndex.find(name(), project, null)
         if (variants.size == 1) {
             return variants.first() as? TactMessageDeclaration
         }

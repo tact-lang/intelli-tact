@@ -5,43 +5,8 @@ import com.intellij.psi.PsiElement
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.stubs.index.TactNamesIndex
 
-abstract class StorageMembersOwnerTy<T : TactNamedElement>(private val name: String, anchor: PsiElement?) :
-    TactResolvableTypeEx<T>(anchor) {
-
-    override fun toString() = name()
-
-    override fun name() = name
-
-    fun ownMethods(): List<TactFunctionDeclaration> {
-        return owner()?.getMethodsList() ?: emptyList()
-    }
-
-    fun ownFields(): List<TactFieldDefinition> {
-        return owner()?.getFieldList() ?: emptyList()
-    }
-
-    fun ownConstants(): List<TactConstDeclaration> {
-        return owner()?.getConstantsList() ?: emptyList()
-    }
-
-    fun methods(): List<TactFunctionDeclaration> {
-        return owner()?.methods() ?: emptyList()
-    }
-
-    fun fields(): List<TactFieldDefinition> {
-        return owner()?.fields() ?: emptyList()
-    }
-
-    private fun owner(): TactStorageMembersOwner? {
-        if (anchor is TactStorageMembersOwner) {
-            return anchor
-        }
-        return null
-    }
-}
-
 open class TactContractTypeEx(private val name: String, anchor: PsiElement?) : StorageMembersOwnerTy<TactContractDeclaration>(name, anchor),
-    TactImportableTypeEx {
+    TactImportableType {
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         if (rhs.isAny) return true

@@ -6,7 +6,7 @@ import org.tonstudio.tact.lang.psi.TactStructDeclaration
 import org.tonstudio.tact.lang.stubs.index.TactStructIndex
 
 open class TactStructTypeEx(private val name: String, anchor: PsiElement?) :
-    TactResolvableTypeEx<TactStructDeclaration>(anchor), TactImportableTypeEx {
+    TactResolvableTypeEx<TactStructDeclaration>(anchor), TactImportableType {
 
     override fun toString() = name()
 

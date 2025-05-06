@@ -10,18 +10,22 @@ import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
 import org.tonstudio.tact.utils.childOfType
 
 fun TactExpression.inferType(context: ResolveState?): TactTypeEx? {
-    return TactTypeInferer.getType(this, context)
+    return TactTypeInferer.inferType(this, context)
 }
 
 object TactTypeInferer {
-    fun getType(expr: TactExpression, context: ResolveState?): TactTypeEx? {
-        if (isBoolExpr(expr)) {
+    fun inferType(expr: TactExpression, context: ResolveState?): TactTypeEx? {
+        if (
+            expr is TactConditionalExpr ||
+            expr is TactAndExpr ||
+            expr is TactOrExpr
+        ) {
             return TactPrimitiveTypeEx.BOOL
         }
 
         if (expr is TactUnaryExpr) {
-            if (expr.expression == null) return null
-            val exprType = expr.expression!!.getType(context) ?: return null
+            val expression = expr.expression ?: return null
+            val exprType = expression.getType(context) ?: return null
             when {
                 expr.not != null -> return TactPrimitiveTypeEx.BOOL
                 expr.mul != null -> return exprType
@@ -34,21 +38,20 @@ object TactTypeInferer {
             return expr.expression?.getType(context)
         }
 
-        // "" -> string
+        // "" -> String
         if (expr is TactStringLiteral) {
             return TactPrimitiveTypeEx.STRING
         }
 
         if (expr is TactLiteral) {
-            // 1 -> int
+            // 1 -> Int
             if (expr.int != null || expr.hex != null || expr.oct != null || expr.bin != null) return TactPrimitiveTypeEx.INT
-            // true -> bool
+            // true -> Bool
             if (expr.`true` != null || expr.`false` != null) return TactPrimitiveTypeEx.BOOL
-            // nil -> null
+            // nil -> Null
             if (expr.`null` != null) return TactNullTypeEx.INSTANCE
         }
 
-        // type1 + type2 -> type1
         if (expr is TactAddExpr) {
             return expr.left.getType(context)
         }
@@ -63,11 +66,11 @@ object TactTypeInferer {
         if (expr is TactReferenceExpression) {
             val resolved = expr.reference.resolve()
             if (resolved is TactTypeOwner) {
-                return typeOrParameterType(resolved, context)
+                return resolved.getType(context)
             }
         }
 
-        // type{...} -> type
+        // Foo{...} -> Foo
         if (expr is TactLiteralValueExpression) {
             return expr.type.toEx()
         }
@@ -78,7 +81,7 @@ object TactTypeInferer {
             val qualifier = (calledExpr as? TactReferenceExpression)?.getQualifier()
             if (qualifier is TactExpression) {
                 val type = qualifier.getType(null)
-                val resultType = processPseudoStaticCall(qualifier, calledExpr as TactReferenceExpression, type)
+                val resultType = processPseudoStaticCall(qualifier, calledExpr, type)
                 if (resultType != null) {
                     return resultType
                 }
@@ -116,7 +119,7 @@ object TactTypeInferer {
         if (expr is TactInitOfExpr) {
             return try {
                 TactBaseTypeEx.stateInitType(expr.project)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 TactUnknownTypeEx.INSTANCE
             }
         }
@@ -169,12 +172,8 @@ object TactTypeInferer {
         return null
     }
 
-    private fun typeOrParameterType(typeOwner: TactTypeOwner, context: ResolveState?): TactTypeEx? {
-        return typeOwner.getType(context)
-    }
-
-    fun TactVarDefinition.getVarType(context: ResolveState?): TactTypeEx? {
-        val parent = PsiTreeUtil.getStubOrPsiParent(this)
+    fun inferVariableType(def: TactVarDefinition, context: ResolveState?): TactTypeEx? {
+        val parent = PsiTreeUtil.getStubOrPsiParent(def)
 
         if (parent is TactVarDeclaration) {
             val hint = parent.typeHint
@@ -190,10 +189,10 @@ object TactTypeInferer {
             val exprType = expr.getType(context) as? TactMapTypeEx ?: return null
             val key = parent.key ?: return null
             val value = parent.value ?: return null
-            if (key.isEquivalentTo(this)) {
+            if (key.isEquivalentTo(def)) {
                 return exprType.key
             }
-            if (value.isEquivalentTo(this)) {
+            if (value.isEquivalentTo(def)) {
                 return exprType.value
             }
         }
@@ -217,7 +216,7 @@ object TactTypeInferer {
             return field?.getType(null)
         }
 
-        val literal = PsiTreeUtil.getNextSiblingOfType(this, TactLiteral::class.java)
+        val literal = PsiTreeUtil.getNextSiblingOfType(def, TactLiteral::class.java)
         if (literal != null) {
             return literal.getType(context)
         }
@@ -231,9 +230,4 @@ object TactTypeInferer {
         }
         return type
     }
-
-    private fun isBoolExpr(expr: TactExpression) = expr is TactConditionalExpr ||
-            expr is TactAndExpr ||
-            expr is TactOrExpr
-
 }

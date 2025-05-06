@@ -8,7 +8,7 @@ class TactFunctionTypeEx(val params: List<TactTypeEx>, val result: TactTypeEx?, 
     override fun toString() = name()
 
     override fun name(): String = buildString {
-        append("fn ")
+        append("fun ")
         append("(")
         append(params.joinToString(", ") { it.name() })
         append(")")
@@ -20,32 +20,13 @@ class TactFunctionTypeEx(val params: List<TactTypeEx>, val result: TactTypeEx?, 
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         if (rhs.isAny) return true
-        return true // isEqual(rhs) TODO
+        if (rhs !is TactFunctionTypeEx) return false
+        return name() == rhs.name()
     }
 
     override fun isEqual(rhs: TactTypeEx): Boolean {
         if (rhs !is TactFunctionTypeEx) return false
-
-        if (params.size != rhs.params.size) {
-            return false
-        }
-
-        if (result != null && rhs.result == null) {
-            return false
-        }
-
-        if (result == null && rhs.result != null) {
-            return false
-        }
-
-        if (result != null && rhs.result != null && !result.isEqual(rhs.result)) {
-            return false
-        }
-
-        return params.zip(rhs.params)
-            .all { (left, right) ->
-                left.isEqual(right)
-            }
+        return name() == rhs.name()
     }
 
     override fun accept(visitor: TactTypeVisitor) {

@@ -21,15 +21,14 @@ abstract class TactBaseTypeEx(protected val anchor: PsiElement? = null) : UserDa
         val containingDir = containingFile?.containingDirectory
         val priorityMap = mutableMapOf<Int, TactNamedElement>()
 
-        variants.forEach { variant ->
-            val variantContainingFile = variant.containingFile?.originalFile as? TactFile ?: return@forEach
+        for (variant in variants) {
+            val variantContainingFile = variant.containingFile?.originalFile as? TactFile ?: continue
             val variantContainingDir = variantContainingFile.containingDirectory
 
             val priority = when {
-                variantContainingFile == containingFile                     -> 1000 // local variant has the highest priority
-                variantContainingDir == containingDir                       -> 100 // same directory variant has the second-highest priority
-                variantContainingFile.virtualFile.path.contains("examples") -> 10
-                else                                                        -> 0 // other variants have the lowest priority
+                variantContainingFile == containingFile -> 1000 // local variant has the highest priority
+                variantContainingDir == containingDir   -> 100 // same directory variant has the second-highest priority
+                else                                    -> 0 // other variants have the lowest priority
             }
 
             priorityMap[priority] = variant

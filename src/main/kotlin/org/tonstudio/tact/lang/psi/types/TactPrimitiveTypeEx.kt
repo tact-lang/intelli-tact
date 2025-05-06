@@ -14,24 +14,13 @@ class TactPrimitiveTypeEx(val name: TactPrimitiveTypes, anchor: PsiElement? = nu
     override fun name(): String = name.value
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
-        return when (rhs) {
-            is TactAnyTypeEx       -> true
-            is TactUnknownTypeEx   -> true
-            is TactPrimitiveTypeEx -> {
-                if (name == rhs.name) {
-                    return true
-                }
-                true
-            }
-
-            else                   -> false
-        }
+        if (rhs.isAny) return true
+        if (rhs !is TactPrimitiveTypeEx) return false
+        return name.value == rhs.name.value
     }
 
     override fun isEqual(rhs: TactTypeEx): Boolean {
-        if (rhs !is TactPrimitiveTypeEx) {
-            return false
-        }
+        if (rhs !is TactPrimitiveTypeEx) return false
         return name.value == rhs.name.value
     }
 
@@ -64,30 +53,6 @@ class TactPrimitiveTypeEx(val name: TactPrimitiveTypes, anchor: PsiElement? = nu
         val BOOL = TactPrimitiveTypeEx(TactPrimitiveTypes.BOOL)
         val INT = TactPrimitiveTypeEx(TactPrimitiveTypes.INT)
         val STRING = TactPrimitiveTypeEx(TactPrimitiveTypes.STRING)
-        val STRING_BUILDER = TactPrimitiveTypeEx(TactPrimitiveTypes.STRING_BUILDER)
         val CELL = TactPrimitiveTypeEx(TactPrimitiveTypes.CELL)
-
-        fun get(name: String): TactPrimitiveTypeEx? {
-            return when (name) {
-                "Bool"          -> BOOL
-                "Int"           -> INT
-                "Cell"          -> CELL
-                "String"        -> STRING
-                "StringBuilder" -> STRING_BUILDER
-                else            -> null
-            }
-        }
-
-        fun getModuleDirectory(project: Project): PsiDirectory? {
-            if (NATIVE_TYPE_MODULE != null) {
-                return NATIVE_TYPE_MODULE!!
-            }
-
-            val builtin = TactConfiguration.getInstance(project).builtinLocation ?: return null
-            NATIVE_TYPE_MODULE = PsiManager.getInstance(project).findDirectory(builtin)
-            return NATIVE_TYPE_MODULE
-        }
-
-        private var NATIVE_TYPE_MODULE: PsiDirectory? = null
     }
 }

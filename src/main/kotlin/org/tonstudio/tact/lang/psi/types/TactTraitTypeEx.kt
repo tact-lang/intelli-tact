@@ -3,10 +3,10 @@ package org.tonstudio.tact.lang.psi.types
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import org.tonstudio.tact.lang.psi.TactTraitDeclaration
-import org.tonstudio.tact.lang.stubs.index.TactNamesIndex
+import org.tonstudio.tact.lang.stubs.index.TactClassLikeIndex
 
 open class TactTraitTypeEx(private val name: String, anchor: PsiElement?) :
-    StorageMembersOwnerTy<TactTraitDeclaration>(name, anchor), TactImportableTypeEx {
+    StorageMembersOwnerTy<TactTraitDeclaration>(name, anchor), TactImportableType {
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         if (rhs.isAny) return true
@@ -35,7 +35,7 @@ open class TactTraitTypeEx(private val name: String, anchor: PsiElement?) :
             }
         }
 
-        val variants = TactNamesIndex.find(name(), project, null)
+        val variants = TactClassLikeIndex.find(name(), project, null)
         if (variants.size == 1) {
             return variants.first() as? TactTraitDeclaration
         }

@@ -13,7 +13,7 @@ import org.tonstudio.tact.compiler.crc16
 import org.tonstudio.tact.lang.TactTypes.DOT
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.impl.TactReferenceBase.Companion.LOCAL_RESOLVE
-import org.tonstudio.tact.lang.psi.impl.TactTypeInferer.getVarType
+import org.tonstudio.tact.lang.psi.impl.TactTypeInferer.inferVariableType
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
 import org.tonstudio.tact.lang.psi.types.TactFunctionTypeEx
 import org.tonstudio.tact.lang.psi.types.TactTypeEx
@@ -719,7 +719,7 @@ object TactPsiImplUtil {
 
     @JvmStatic
     fun getTypeInner(def: TactVarDefinition, context: ResolveState?): TactTypeEx? {
-        return def.getVarType(context)
+        return inferVariableType(def, context)
     }
 
     fun processSignatureOwner(o: TactSignatureOwner, processor: TactScopeProcessorBase): Boolean {
