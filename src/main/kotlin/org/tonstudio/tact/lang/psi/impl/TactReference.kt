@@ -22,15 +22,7 @@ import org.tonstudio.tact.lang.stubs.StubWithText
 import org.tonstudio.tact.lang.stubs.index.TactNamesIndex
 import org.tonstudio.tact.toolchain.TactToolchainService.Companion.toolchainSettings
 
-class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = false) :
-    TactReferenceBase<TactReferenceExpressionBase>(
-        el,
-        TextRange.from(
-            el.getIdentifierBounds()?.first ?: 0,
-            el.getIdentifierBounds()?.second ?: el.textLength,
-        )
-    ) {
-
+class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = false) : TactReferenceBase<TactReferenceExpressionBase>(el) {
     companion object {
         private val MY_RESOLVER: ResolveCache.PolyVariantResolver<TactReference> =
             ResolveCache.PolyVariantResolver { ref, _ -> ref.resolveInner() }
@@ -126,7 +118,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
             return true
         }
 
-        val searchedName = element.getIdentifier()?.text ?: ""
+        val searchedName = element.getIdentifier().text ?: ""
 
         val prefix = if (resolvedQualifier is TactStructDeclaration) "AnyStruct_" else "AnyMessage_"
 
@@ -468,7 +460,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
                 }
 
                 val name = state.get(ACTUAL_NAME) ?: (element as? PsiNamedElement)?.name
-                val ident = state.get(SEARCH_NAME) ?: reference.getIdentifier()?.text ?: return true
+                val ident = state.get(SEARCH_NAME) ?: reference.getIdentifier().text ?: return true
 
                 if (name != null && ident == name) {
                     result.add(PsiElementResolveResult(element))
