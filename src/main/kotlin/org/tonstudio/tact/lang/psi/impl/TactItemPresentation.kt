@@ -15,9 +15,7 @@ abstract class TactItemPresentation<T : PsiElement>(protected val element: T) : 
 
     private fun getLocationStringInner(): String {
         val file = element.containingFile
-        val fileName = file.name
-        val importPath = if (file is TactFile) file.getModuleQualifiedName().replace(".", "/") else null
-        return "in " + if (importPath != null) "$importPath/$fileName" else fileName
+        return "in ${file.name}"
     }
 
     override fun getIcon(b: Boolean): Icon =

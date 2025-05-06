@@ -9,13 +9,9 @@ import org.tonstudio.tact.configurations.TactConfiguration
 class TactPrimitiveTypeEx(val name: TactPrimitiveTypes, anchor: PsiElement? = null) : TactBaseTypeEx(anchor) {
     var tlbType: String? = null
 
-    override fun module(): String = "builtin"
+    override fun toString(): String = name()
 
-    override fun toString(): String = name.value
-
-    override fun qualifiedName(): String = name.value
-
-    override fun readableName(context: PsiElement, detailed: Boolean): String = name.value
+    override fun name(): String = name.value
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         return when (rhs) {
@@ -62,10 +58,6 @@ class TactPrimitiveTypeEx(val name: TactPrimitiveTypes, anchor: PsiElement? = nu
 
     override fun anchor(project: Project): PsiElement? {
         return anchor
-    }
-
-    override fun containingModule(project: Project): PsiDirectory? {
-        return getModuleDirectory(project)
     }
 
     companion object {

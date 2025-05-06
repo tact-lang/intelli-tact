@@ -85,15 +85,15 @@ class TactStructureViewFactory : PsiStructureViewFactory {
             if (element is TactConstDeclaration) {
                 val type = try {
                     element.getType(null)
-                } catch (ignored: IndexNotReadyException) {
+                } catch (_: IndexNotReadyException) {
                     null
                 }
                 if (type == null) return element.name
-                return "${element.name}: ${type.readableName(element)}"
+                return "${element.name}: ${type.name()}"
             }
 
             if (element is TactType) {
-                return element.toEx().readableName(element)
+                return element.toEx().name()
             }
 
             if (element is TactNamedElement) {

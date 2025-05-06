@@ -38,10 +38,6 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
         return identifier?.text
     }
 
-    override fun getQualifiedName(): String? {
-        return name
-    }
-
     override fun getOwner(): TactNamedElement? {
         return parentOfTypes(
             TactStructDeclaration::class,

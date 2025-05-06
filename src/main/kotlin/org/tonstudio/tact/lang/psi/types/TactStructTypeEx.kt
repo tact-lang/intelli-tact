@@ -8,28 +8,20 @@ import org.tonstudio.tact.lang.stubs.index.TactStructIndex
 open class TactStructTypeEx(private val name: String, anchor: PsiElement?) :
     TactResolvableTypeEx<TactStructDeclaration>(anchor), TactImportableTypeEx {
 
-    override fun toString() = name
+    override fun toString() = name()
 
-    override fun qualifiedName(): String {
-        if (moduleName.isEmpty()) {
-            return name
-        }
-        return "$moduleName.$name"
-    }
-
-    override fun readableName(context: PsiElement, detailed: Boolean) =
-        qualifiedName()
+    override fun name() = name
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         if (rhs.isAny) return true
         if (rhs is TactStructTypeEx) {
-            return this.qualifiedName() == rhs.qualifiedName()
+            return this.name() == rhs.name()
         }
         return false
     }
 
     override fun isEqual(rhs: TactTypeEx): Boolean {
-        return rhs is TactStructTypeEx && qualifiedName() == rhs.qualifiedName()
+        return rhs is TactStructTypeEx && name() == rhs.name()
     }
 
     override fun accept(visitor: TactTypeVisitor) {
@@ -47,7 +39,7 @@ open class TactStructTypeEx(private val name: String, anchor: PsiElement?) :
             }
         }
 
-        val variants = TactStructIndex.find(qualifiedName(), project)
+        val variants = TactStructIndex.find(name(), project)
         if (variants.size == 1) {
             return variants.first()
         }

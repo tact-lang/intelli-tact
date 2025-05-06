@@ -148,7 +148,7 @@ object TactPsiImplUtil {
             return stub.type
         }
 
-        return o.expression?.getType(null)?.qualifiedName() ?: ""
+        return o.expression?.getType(null)?.name() ?: ""
     }
 
     @JvmStatic
@@ -367,7 +367,7 @@ object TactPsiImplUtil {
         val owner = o.parentOfTypes(TactStructDeclaration::class)
 
         if (owner is TactNamedElement) {
-            return owner.getQualifiedName() + "." + o.name
+            return owner.getName() + "." + o.name
         }
 
         return null

@@ -108,8 +108,8 @@ object TactLangUtil {
 
         is TactMapTypeEx       -> "emptyMap()"
         is TactFunctionTypeEx  -> "null"
-        is TactStructTypeEx    -> type.readableName(element) + " {}"
-        is TactTraitTypeEx     -> type.readableName(element) + " {}"
+        is TactStructTypeEx    -> type.name() + " {}"
+        is TactTraitTypeEx     -> type.name() + " {}"
         is TactNullTypeEx      -> "null"
         is TactOptionTypeEx    -> "null"
         is TactAnyTypeEx       -> "0"

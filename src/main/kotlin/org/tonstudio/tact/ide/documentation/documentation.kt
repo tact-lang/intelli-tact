@@ -146,7 +146,7 @@ private fun List<TactFunctionAttribute>.generateDoc(): String {
 
 private fun TactResult.generateDoc(): String {
     val type = type.toEx()
-    return type.generateDoc(this)
+    return type.generateDoc()
 }
 
 private fun TactParameters.generateDoc(): String {
@@ -186,7 +186,7 @@ private fun TactParameters.generateDoc(): String {
                     append(": ")
                     val nameLength = name?.length ?: 0
                     append("".padEnd(max(paramNameMaxWidth - nameLength, 0)))
-                    append(param.type.toEx().generateDoc(this@generateDoc))
+                    append(param.type.toEx().generateDoc())
                 }
             } + ","
         )
@@ -206,7 +206,7 @@ private fun TactParamDefinition.generateDocForMethod(): String {
             }
             append(": ")
         }
-        append(type.toEx().generateDoc(this@generateDocForMethod))
+        append(type.toEx().generateDoc())
     }
 }
 
@@ -244,7 +244,7 @@ fun TactStructDeclaration.generateDoc(): String {
         append(DocumentationMarkup.DEFINITION_START)
 
         part("struct", asKeyword)
-        colorize(name, asStruct)
+        colorize(this@generateDoc.name, asStruct)
 
         generateFields(structType.fieldDefinitionList)
 
@@ -290,7 +290,7 @@ private fun StringBuilder.generateFields(fields: List<TactFieldDefinition>) {
                 append("   ")
                 colorize(field.name ?: "", asField)
                 append(": ")
-                append(field.getType(null)?.generateDoc(field) ?: "<unknown>")
+                append(field.getType(null)?.generateDoc() ?: "<unknown>")
 
                 if (field.defaultFieldValue != null) {
                     append(" = ")
@@ -312,7 +312,7 @@ fun TactFieldDefinition.generateDoc(): String {
 
         colorize(name ?: "", asField)
         append(": ")
-        append(type.toEx().generateDoc(this@generateDoc))
+        append(type.toEx().generateDoc())
 
         val valueDoc = defaultFieldValue?.expression?.generateDoc()
         if (valueDoc != null) {
@@ -390,7 +390,7 @@ fun TactConstDeclaration.generateDoc(): String {
 
         val type = getType(null)
         append(": ")
-        append(type?.generateDoc(this@generateDoc))
+        append(type?.generateDoc())
 
         if (expression != null) {
             append(" = ")
@@ -411,7 +411,7 @@ fun TactVarDefinition.generateDoc(): String {
         part("let", asKeyword)
         colorize(name, asIdentifier)
         append(": ")
-        append(type?.generateDoc(this@generateDoc) ?: "unknown")
+        append(type?.generateDoc() ?: "unknown")
         append(DocumentationMarkup.DEFINITION_END)
 
         generateCommentsPart(this@generateDoc)
@@ -426,7 +426,7 @@ fun TactParamDefinition.generateDoc(): String {
         part("parameter", asKeyword)
         colorize(name ?: "", asParameter)
         append(": ")
-        append(type?.generateDoc(this@generateDoc) ?: "unknown")
+        append(type?.generateDoc() ?: "unknown")
         append(DocumentationMarkup.DEFINITION_END)
 
         generateCommentsPart(this@generateDoc)
@@ -543,57 +543,57 @@ fun TactExpression.generateDoc(): String {
     return builder.toString()
 }
 
-fun TactTypeEx.generateDoc(anchor: PsiElement): String {
+fun TactTypeEx.generateDoc(): String {
     when (this) {
-        is TactMapTypeEx       -> return this.generateDoc(anchor)
-        is TactOptionTypeEx    -> return this.generateDoc(anchor)
-        is TactStructTypeEx    -> return this.generateDoc(anchor)
-        is TactMessageTypeEx   -> return this.generateDoc(anchor)
-        is TactTraitTypeEx     -> return this.generateDoc(anchor)
-        is TactFunctionTypeEx  -> return this.generateDoc(anchor)
-        is TactTupleTypeEx     -> return this.generateDoc(anchor)
-        is TactPrimitiveTypeEx -> return this.generateDoc(anchor)
+        is TactMapTypeEx       -> return this.generateDoc()
+        is TactOptionTypeEx    -> return this.generateDoc()
+        is TactStructTypeEx    -> return this.generateDoc()
+        is TactMessageTypeEx   -> return this.generateDoc()
+        is TactTraitTypeEx     -> return this.generateDoc()
+        is TactFunctionTypeEx  -> return this.generateDoc()
+        is TactTupleTypeEx     -> return this.generateDoc()
+        is TactPrimitiveTypeEx -> return this.generateDoc()
     }
-    return colorize(this.readableName(anchor).escapeHTML(), asType)
+    return colorize(this.name().escapeHTML(), asType)
 }
 
-fun TactStructTypeEx.generateDoc(anchor: PsiElement): String {
+fun TactStructTypeEx.generateDoc(): String {
     return buildString {
-        append(generateFqnTypeDoc(readableName(anchor), asStruct))
+        append(generateFqnTypeDoc(name(), asStruct))
     }
 }
 
-fun TactTraitTypeEx.generateDoc(anchor: PsiElement): String {
+fun TactTraitTypeEx.generateDoc(): String {
     return buildString {
-        append(generateFqnTypeDoc(readableName(anchor), asTrait))
+        append(generateFqnTypeDoc(name(), asTrait))
     }
 }
 
-fun TactMessageTypeEx.generateDoc(anchor: PsiElement): String {
+fun TactMessageTypeEx.generateDoc(): String {
     return buildString {
-        append(generateFqnTypeDoc(readableName(anchor), asMessage))
+        append(generateFqnTypeDoc(name(), asMessage))
     }
 }
 
-fun TactMapTypeEx.generateDoc(anchor: PsiElement): String {
+fun TactMapTypeEx.generateDoc(): String {
     return buildString {
         colorize("map", asKeyword)
         append("<")
-        appendNotNull(key.generateDoc(anchor))
+        appendNotNull(key.generateDoc())
         append(", ")
-        appendNotNull(value.generateDoc(anchor))
+        appendNotNull(value.generateDoc())
         append(">")
     }
 }
 
-fun TactOptionTypeEx.generateDoc(anchor: PsiElement): String {
+fun TactOptionTypeEx.generateDoc(): String {
     return buildString {
-        appendNotNull(inner.generateDoc(anchor))
+        appendNotNull(inner.generateDoc())
         append("?")
     }
 }
 
-fun TactFunctionTypeEx.generateDoc(anchor: PsiElement): String {
+fun TactFunctionTypeEx.generateDoc(): String {
     return buildString {
         colorize("fun", asKeyword)
         append(" (")
@@ -601,31 +601,31 @@ fun TactFunctionTypeEx.generateDoc(anchor: PsiElement): String {
             if (index > 0) {
                 append(", ")
             }
-            appendNotNull(param.generateDoc(anchor))
+            appendNotNull(param.generateDoc())
         }
         colorize(")", asParen)
         if (result != null) {
             append(": ")
-            appendNotNull(result.generateDoc(anchor))
+            appendNotNull(result.generateDoc())
         }
     }
 }
 
-fun TactTupleTypeEx.generateDoc(anchor: PsiElement): String {
+fun TactTupleTypeEx.generateDoc(): String {
     return buildString {
         colorize("(", asParen)
         types.forEachIndexed { index, param ->
             if (index > 0) {
                 append(", ")
             }
-            appendNotNull(param.generateDoc(anchor))
+            appendNotNull(param.generateDoc())
         }
         colorize(")", asParen)
     }
 }
 
-fun TactPrimitiveTypeEx.generateDoc(anchor: PsiElement): String {
-    val name = readableName(anchor)
+fun TactPrimitiveTypeEx.generateDoc(): String {
+    val name = name()
     val tlb = tlbType
     if (tlb != null) {
         return buildString {

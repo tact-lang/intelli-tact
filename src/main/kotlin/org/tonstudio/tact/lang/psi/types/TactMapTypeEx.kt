@@ -4,31 +4,15 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 
 class TactMapTypeEx(val key: TactTypeEx, val value: TactTypeEx, anchor: PsiElement) : TactBaseTypeEx(anchor) {
-    override fun toString() = buildString {
+    override fun toString() = name()
+
+   override fun name(): String = buildString {
         append("map<")
-        append(key)
+        append(key.name())
         append(", ")
-        append(value)
+        append(value.name())
         append(">")
     }
-
-    override fun qualifiedName(): String = buildString {
-        append("map<")
-        append(key.qualifiedName())
-        append(", ")
-        append(value.qualifiedName())
-        append(">")
-    }
-
-    override fun readableName(context: PsiElement, detailed: Boolean) = buildString {
-        append("map<")
-        append(key.readableName(context))
-        append(", ")
-        append(value.readableName(context))
-        append(">")
-    }
-
-    override fun module() = value.module()
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         if (rhs.isAny) return true

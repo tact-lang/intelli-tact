@@ -1,41 +1,20 @@
 package org.tonstudio.tact.lang.psi.types
 
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiElement
 import org.tonstudio.tact.lang.psi.TactSignature
 import org.tonstudio.tact.lang.psi.TactSignatureOwner
 
 class TactFunctionTypeEx(val params: List<TactTypeEx>, val result: TactTypeEx?, val signature: TactSignature) : TactBaseTypeEx(signature) {
-    override fun toString() = buildString {
-        append("fn ")
-        append("(")
-        append(params.joinToString(", ") { it.toString() })
-        append(")")
-        if (result != null) {
-            append(": ")
-            append(result)
-        }
-    }
+    override fun toString() = name()
 
-    override fun qualifiedName(): String = buildString {
+    override fun name(): String = buildString {
         append("fn ")
         append("(")
-        append(params.joinToString(", ") { it.qualifiedName() })
+        append(params.joinToString(", ") { it.name() })
         append(")")
         if (result != null) {
             append(": ")
-            append(result.qualifiedName())
-        }
-    }
-
-    override fun readableName(context: PsiElement, detailed: Boolean) = buildString {
-        append("fn ")
-        append("(")
-        append(params.joinToString(", ") { it.readableName(context) })
-        append(")")
-        if (result != null) {
-            append(": ")
-            append(result.readableName(context))
+            append(result.name())
         }
     }
 

@@ -10,25 +10,18 @@ open class TactMessageTypeEx(private val name: String, anchor: PsiElement?) : Ta
 
     override fun toString() = name
 
-    override fun qualifiedName(): String {
-        if (moduleName.isEmpty()) {
-            return name
-        }
-        return "$moduleName.$name"
-    }
-
-    override fun readableName(context: PsiElement, detailed: Boolean) = qualifiedName()
+    override fun name() = name
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         if (rhs.isAny) return true
         if (rhs is TactMessageTypeEx) {
-            return this.qualifiedName() == rhs.qualifiedName()
+            return this.name() == rhs.name()
         }
         return false
     }
 
     override fun isEqual(rhs: TactTypeEx): Boolean {
-        return rhs is TactMessageTypeEx && qualifiedName() == rhs.qualifiedName()
+        return rhs is TactMessageTypeEx && name() == rhs.name()
     }
 
     override fun accept(visitor: TactTypeVisitor) {
@@ -46,7 +39,7 @@ open class TactMessageTypeEx(private val name: String, anchor: PsiElement?) : Ta
             }
         }
 
-        val variants = TactNamesIndex.find(qualifiedName(), project, null)
+        val variants = TactNamesIndex.find(name(), project, null)
         if (variants.size == 1) {
             return variants.first() as? TactMessageDeclaration
         }

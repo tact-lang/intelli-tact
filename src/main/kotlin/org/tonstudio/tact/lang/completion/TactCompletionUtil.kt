@@ -374,7 +374,7 @@ object TactCompletionUtil {
     private val VARIABLE_RENDERER = object : LookupElementRenderer<LookupElement>() {
         override fun renderElement(element: LookupElement, p: LookupElementPresentation) {
             val elem = element.psiElement as? TactNamedElement ?: return
-            val type = elem.getType(null)?.readableName(elem)
+            val type = elem.getType(null)?.name()
             val icon = when (elem) {
                 is TactVarDefinition   -> Icons.Variable
                 is TactParamDefinition -> Icons.Parameter
@@ -394,7 +394,7 @@ object TactCompletionUtil {
 
 
             p.icon = Icons.Parameter
-            p.typeText = elem.getType(null)?.readableName(elem)
+            p.typeText = elem.getType(null)?.name()
             p.isTypeGrayed = true
             p.itemText = element.lookupString
         }
@@ -403,7 +403,7 @@ object TactCompletionUtil {
     private val FIELD_RENDERER = object : LookupElementRenderer<LookupElement>() {
         override fun renderElement(element: LookupElement, p: LookupElementPresentation) {
             val elem = element.psiElement as? TactNamedElement ?: return
-            val type = elem.getType(null)?.readableName(elem)
+            val type = elem.getType(null)?.name()
             val icon = Icons.Field
 
             val parent = elem.parentOfType<TactNamedElement>()

@@ -7,16 +7,10 @@ import org.tonstudio.tact.lang.stubs.index.TactNamesIndex
 
 abstract class StorageMembersOwnerTy<T : TactNamedElement>(private val name: String, anchor: PsiElement?) :
     TactResolvableTypeEx<T>(anchor) {
-    override fun toString() = name
 
-    override fun qualifiedName(): String {
-        if (moduleName.isEmpty()) {
-            return name
-        }
-        return "$moduleName.$name"
-    }
+    override fun toString() = name()
 
-    override fun readableName(context: PsiElement, detailed: Boolean) = qualifiedName()
+    override fun name() = name
 
     fun ownMethods(): List<TactFunctionDeclaration> {
         return owner()?.getMethodsList() ?: emptyList()
@@ -52,13 +46,13 @@ open class TactContractTypeEx(private val name: String, anchor: PsiElement?) : S
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         if (rhs.isAny) return true
         if (rhs is TactContractTypeEx) {
-            return this.qualifiedName() == rhs.qualifiedName()
+            return this.name() == rhs.name()
         }
         return false
     }
 
     override fun isEqual(rhs: TactTypeEx): Boolean {
-        return rhs is TactContractTypeEx && qualifiedName() == rhs.qualifiedName()
+        return rhs is TactContractTypeEx && name() == rhs.name()
     }
 
     override fun accept(visitor: TactTypeVisitor) {
@@ -76,7 +70,7 @@ open class TactContractTypeEx(private val name: String, anchor: PsiElement?) : S
             }
         }
 
-        val variants = TactNamesIndex.find(qualifiedName(), project, null)
+        val variants = TactNamesIndex.find(name(), project, null)
         if (variants.size == 1) {
             return variants.first() as? TactContractDeclaration
         }

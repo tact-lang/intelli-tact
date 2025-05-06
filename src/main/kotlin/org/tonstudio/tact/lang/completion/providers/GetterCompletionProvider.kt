@@ -25,7 +25,7 @@ object GetterCompletionProvider : CompletionProvider<CompletionParameters>() {
                     val start = context.startOffset
                     doc.deleteString(start, start + name.length)
                     TemplateStringInsertHandler(
-                        "get fun ${name}(): ${type.qualifiedName()} {\n\treturn self.${name};\n}", true
+                        "get fun ${name}(): ${type.name()} {\n\treturn self.${name};\n}", true
                     ).handleInsert(context, item)
                 }
             result.addElement(element)

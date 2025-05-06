@@ -46,7 +46,7 @@ class TactVariableTypeHintsProvider : InlayHintsProvider {
                 HintFormat.default.withColorKind(HintColorKind.Parameter).withHorizontalMargin(HintMarginPadding.MarginAndSmallerPadding)
             ) {
                 text(": ")
-                text(type.readableName(element))
+                text(type.name())
             }
         }
 

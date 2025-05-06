@@ -7,7 +7,6 @@ import com.intellij.psi.PsiNameIdentifierOwner
 interface TactNamedElement : TactTypeOwner, TactCompositeElement, PsiNameIdentifierOwner, NavigationItem {
     fun isBlank(): Boolean
     fun getIdentifier(): PsiElement?
-    fun getQualifiedName(): String?
     fun getOwner(): TactNamedElement?
     fun kindPresentation(): String
 }

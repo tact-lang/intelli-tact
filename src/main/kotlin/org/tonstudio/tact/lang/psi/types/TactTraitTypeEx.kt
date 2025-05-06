@@ -8,19 +8,16 @@ import org.tonstudio.tact.lang.stubs.index.TactNamesIndex
 open class TactTraitTypeEx(private val name: String, anchor: PsiElement?) :
     StorageMembersOwnerTy<TactTraitDeclaration>(name, anchor), TactImportableTypeEx {
 
-    override fun readableName(context: PsiElement, detailed: Boolean) =
-        qualifiedName()
-
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         if (rhs.isAny) return true
         if (rhs is TactTraitTypeEx) {
-            return this.qualifiedName() == rhs.qualifiedName()
+            return this.name() == rhs.name()
         }
         return false
     }
 
     override fun isEqual(rhs: TactTypeEx): Boolean {
-        return rhs is TactTraitTypeEx && qualifiedName() == rhs.qualifiedName()
+        return rhs is TactTraitTypeEx && name() == rhs.name()
     }
 
     override fun accept(visitor: TactTypeVisitor) {
@@ -38,7 +35,7 @@ open class TactTraitTypeEx(private val name: String, anchor: PsiElement?) :
             }
         }
 
-        val variants = TactNamesIndex.find(qualifiedName(), project, null)
+        val variants = TactNamesIndex.find(name(), project, null)
         if (variants.size == 1) {
             return variants.first() as? TactTraitDeclaration
         }

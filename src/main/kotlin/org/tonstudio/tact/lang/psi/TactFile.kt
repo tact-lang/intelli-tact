@@ -18,7 +18,6 @@ import org.tonstudio.tact.lang.TactTypes
 import org.tonstudio.tact.lang.psi.impl.ResolveUtil
 import org.tonstudio.tact.lang.psi.impl.TactElementFactory
 import org.tonstudio.tact.lang.stubs.*
-import org.tonstudio.tact.lang.stubs.types.*
 
 open class TactFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, TactLanguage) {
     override fun getFileType() = TactFileType
@@ -39,8 +38,6 @@ open class TactFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, 
     fun fromStubs(): Boolean {
         return virtualFile.path.endsWith("stubs.tact")
     }
-
-    fun getModuleQualifiedName(): String = "" // TODO: remove
 
     fun addImport(path: String): TactImportDeclaration? {
         if (getImportedModulesMap().containsKey(path)) {

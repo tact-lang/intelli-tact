@@ -111,7 +111,7 @@ class TactKeywordsCompletionContributor : CompletionContributor() {
             val icon = if (owner is TactTraitDeclaration) Icons.Trait else Icons.Contract
 
             val constElement = LookupElementBuilder.create("self")
-                .withTypeText(owner.getType(null)?.qualifiedName() ?: "")
+                .withTypeText(owner.getType(null)?.name() ?: "")
                 .withIcon(icon)
                 .bold()
                 .withPriority(KEYWORD_PRIORITY)

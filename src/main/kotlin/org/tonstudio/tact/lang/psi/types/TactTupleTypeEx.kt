@@ -4,25 +4,13 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 
 class TactTupleTypeEx(val types: List<TactTypeEx>, anchor: PsiElement) : TactBaseTypeEx(anchor) {
-    override fun toString() = buildString {
+    override fun toString() = name()
+
+    override fun name(): String = buildString {
         append("(")
-        append(types.joinToString(", ") { it.toString() })
+        append(types.joinToString(", ") { it.name() })
         append(")")
     }
-
-    override fun qualifiedName(): String = buildString {
-        append("(")
-        append(types.joinToString(", ") { it.qualifiedName() })
-        append(")")
-    }
-
-    override fun readableName(context: PsiElement, detailed: Boolean) = buildString {
-        append("(")
-        append(types.joinToString(", ") { it.readableName(context) })
-        append(")")
-    }
-
-    override fun module() = types.firstOrNull()?.module() ?: super.module()
 
     override fun isAssignableFrom(project: Project, rhs: TactTypeEx, kind: AssignableKind): Boolean {
         if (rhs !is TactTupleTypeEx) return false
