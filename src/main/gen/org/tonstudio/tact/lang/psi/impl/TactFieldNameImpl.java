@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 import kotlin.Pair;
@@ -30,7 +30,7 @@ public class TactFieldNameImpl extends TactCompositeElementImpl implements TactF
   @Override
   @NotNull
   public TactReferenceExpression getReferenceExpression() {
-    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactReferenceExpression.class));
+    return notNullChild(PsiTreeUtil.getChildOfType(this, TactReferenceExpression.class));
   }
 
   @Override

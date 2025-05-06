@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.stubs.TactSignatureStub;
 import org.tonstudio.tact.lang.psi.*;
@@ -35,13 +35,13 @@ public class TactSignatureImpl extends TactStubbedElementImpl<TactSignatureStub>
   @Override
   @NotNull
   public TactParameters getParameters() {
-    return notNullChild(TactPsiTreeUtil.getStubChildOfType(this, TactParameters.class));
+    return notNullChild(PsiTreeUtil.getStubChildOfType(this, TactParameters.class));
   }
 
   @Override
   @Nullable
   public TactResult getResult() {
-    return TactPsiTreeUtil.getStubChildOfType(this, TactResult.class);
+    return PsiTreeUtil.getStubChildOfType(this, TactResult.class);
   }
 
   @Override

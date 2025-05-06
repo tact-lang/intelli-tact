@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 import com.intellij.psi.stubs.IStubElementType;
@@ -36,43 +36,43 @@ public class TactContractTypeImpl extends TactTypeImpl implements TactContractTy
   @Override
   @NotNull
   public List<TactConstDeclaration> getConstDeclarationList() {
-    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactConstDeclaration.class);
+    return PsiTreeUtil.getStubChildrenOfTypeAsList(this, TactConstDeclaration.class);
   }
 
   @Override
   @NotNull
   public List<TactContractInitDeclaration> getContractInitDeclarationList() {
-    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactContractInitDeclaration.class);
+    return PsiTreeUtil.getStubChildrenOfTypeAsList(this, TactContractInitDeclaration.class);
   }
 
   @Override
   @Nullable
   public TactContractParameters getContractParameters() {
-    return TactPsiTreeUtil.getStubChildOfType(this, TactContractParameters.class);
+    return PsiTreeUtil.getStubChildOfType(this, TactContractParameters.class);
   }
 
   @Override
   @NotNull
   public List<TactFieldDefinition> getFieldDefinitionList() {
-    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactFieldDefinition.class);
+    return PsiTreeUtil.getStubChildrenOfTypeAsList(this, TactFieldDefinition.class);
   }
 
   @Override
   @NotNull
   public List<TactFunctionDeclaration> getFunctionDeclarationList() {
-    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactFunctionDeclaration.class);
+    return PsiTreeUtil.getStubChildrenOfTypeAsList(this, TactFunctionDeclaration.class);
   }
 
   @Override
   @NotNull
   public List<TactMessageFunctionDeclaration> getMessageFunctionDeclarationList() {
-    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactMessageFunctionDeclaration.class);
+    return PsiTreeUtil.getStubChildrenOfTypeAsList(this, TactMessageFunctionDeclaration.class);
   }
 
   @Override
   @Nullable
   public TactWithClause getWithClause() {
-    return TactPsiTreeUtil.getStubChildOfType(this, TactWithClause.class);
+    return PsiTreeUtil.getStubChildOfType(this, TactWithClause.class);
   }
 
   @Override

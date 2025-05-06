@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
@@ -29,13 +29,13 @@ public class TactDestructItemImpl extends TactCompositeElementImpl implements Ta
   @Override
   @Nullable
   public TactReferenceExpression getReferenceExpression() {
-    return TactPsiTreeUtil.getChildOfType(this, TactReferenceExpression.class);
+    return PsiTreeUtil.getChildOfType(this, TactReferenceExpression.class);
   }
 
   @Override
   @NotNull
   public TactVarDefinition getVarDefinition() {
-    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactVarDefinition.class));
+    return notNullChild(PsiTreeUtil.getChildOfType(this, TactVarDefinition.class));
   }
 
   @Override

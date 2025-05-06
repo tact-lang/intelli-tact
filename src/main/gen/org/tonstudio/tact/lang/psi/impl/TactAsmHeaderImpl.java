@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
@@ -29,7 +29,7 @@ public class TactAsmHeaderImpl extends TactCompositeElementImpl implements TactA
   @Override
   @Nullable
   public TactAsmShuffle getAsmShuffle() {
-    return TactPsiTreeUtil.getChildOfType(this, TactAsmShuffle.class);
+    return PsiTreeUtil.getChildOfType(this, TactAsmShuffle.class);
   }
 
 }

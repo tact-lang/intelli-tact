@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.stubs.TactStructDeclarationStub;
 import org.tonstudio.tact.lang.psi.*;
@@ -37,13 +37,13 @@ public class TactStructDeclarationImpl extends TactNamedElementImpl<TactStructDe
   @Override
   @Nullable
   public TactAttributes getAttributes() {
-    return TactPsiTreeUtil.getStubChildOfType(this, TactAttributes.class);
+    return PsiTreeUtil.getStubChildOfType(this, TactAttributes.class);
   }
 
   @Override
   @NotNull
   public TactStructType getStructType() {
-    return notNullChild(TactPsiTreeUtil.getStubChildOfType(this, TactStructType.class));
+    return notNullChild(PsiTreeUtil.getStubChildOfType(this, TactStructType.class));
   }
 
   @Override

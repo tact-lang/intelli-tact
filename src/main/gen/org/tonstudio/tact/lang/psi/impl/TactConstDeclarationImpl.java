@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.stubs.TactConstDeclarationStub;
 import org.tonstudio.tact.lang.psi.*;
@@ -37,25 +37,25 @@ public class TactConstDeclarationImpl extends TactNamedElementImpl<TactConstDecl
   @Override
   @NotNull
   public List<TactConstantModifier> getConstantModifierList() {
-    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactConstantModifier.class);
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, TactConstantModifier.class);
   }
 
   @Override
   @Nullable
   public TactExpression getExpression() {
-    return TactPsiTreeUtil.getChildOfType(this, TactExpression.class);
+    return PsiTreeUtil.getChildOfType(this, TactExpression.class);
   }
 
   @Override
   @Nullable
   public TactTypeHint getTypeHint() {
-    return TactPsiTreeUtil.getChildOfType(this, TactTypeHint.class);
+    return PsiTreeUtil.getChildOfType(this, TactTypeHint.class);
   }
 
   @Override
   @Nullable
   public TactSemi getSemi() {
-    return TactPsiTreeUtil.getChildOfType(this, TactSemi.class);
+    return PsiTreeUtil.getChildOfType(this, TactSemi.class);
   }
 
   @Override

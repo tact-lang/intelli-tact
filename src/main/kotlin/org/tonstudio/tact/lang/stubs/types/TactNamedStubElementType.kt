@@ -4,9 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.stubs.IndexSink
 import com.intellij.psi.stubs.StubIndexKey
 import org.tonstudio.tact.lang.psi.TactNamedElement
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil.parentStubOfType
 import org.tonstudio.tact.lang.stubs.TactFieldDefinitionStub
-import org.tonstudio.tact.lang.stubs.TactFileStub
 import org.tonstudio.tact.lang.stubs.TactNamedStub
 import org.tonstudio.tact.lang.stubs.TactParamDefinitionStub
 import org.tonstudio.tact.lang.stubs.index.TactNamesIndex

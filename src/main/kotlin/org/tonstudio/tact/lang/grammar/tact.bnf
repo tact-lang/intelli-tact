@@ -7,7 +7,7 @@
   elementTypeHolderClass='org.tonstudio.tact.lang.TactTypes'
   elementTypeClass='org.tonstudio.tact.lang.psi.TactCompositeElementType'
   tokenTypeClass='org.tonstudio.tact.lang.psi.TactTokenType'
-  psiTreeUtilClass='org.tonstudio.tact.lang.psi.TactPsiTreeUtil'
+  psiTreeUtilClass='com.intellij.psi.util.PsiTreeUtil'
 
   psiClassPrefix='Tact'
   psiImplClassSuffix='Impl'

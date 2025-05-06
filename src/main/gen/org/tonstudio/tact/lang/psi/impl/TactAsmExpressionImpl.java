@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
@@ -29,13 +29,13 @@ public class TactAsmExpressionImpl extends TactCompositeElementImpl implements T
   @Override
   @NotNull
   public TactAsmArguments getAsmArguments() {
-    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactAsmArguments.class));
+    return notNullChild(PsiTreeUtil.getChildOfType(this, TactAsmArguments.class));
   }
 
   @Override
   @NotNull
   public TactAsmInstruction getAsmInstruction() {
-    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactAsmInstruction.class));
+    return notNullChild(PsiTreeUtil.getChildOfType(this, TactAsmInstruction.class));
   }
 
 }

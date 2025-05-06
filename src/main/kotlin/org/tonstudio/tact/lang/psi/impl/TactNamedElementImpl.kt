@@ -13,7 +13,6 @@ import com.intellij.psi.util.*
 import com.intellij.ui.IconManager
 import com.intellij.util.PlatformIcons
 import org.tonstudio.tact.ide.ui.Icons
-import org.tonstudio.tact.lang.doc.psi.TactDocComment
 import org.tonstudio.tact.lang.psi.*
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
 import org.tonstudio.tact.lang.psi.types.TactTypeEx
@@ -78,7 +77,7 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
     open fun findSiblingTypeNoEx(): TactType? {
         val stub = stub
         return if (stub != null) {
-            TactPsiTreeUtil.getStubChildOfType(parentByStub, TactType::class.java)
+            PsiTreeUtil.getStubChildOfType(parentByStub, TactType::class.java)
         } else {
             PsiTreeUtil.getChildOfType(this, TactType::class.java)
         }

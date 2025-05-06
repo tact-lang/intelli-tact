@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 import com.intellij.psi.stubs.IStubElementType;
@@ -36,19 +36,19 @@ public class TactMessageTypeImpl extends TactTypeImpl implements TactMessageType
   @Override
   @NotNull
   public List<TactFieldDefinition> getFieldDefinitionList() {
-    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactFieldDefinition.class);
+    return PsiTreeUtil.getStubChildrenOfTypeAsList(this, TactFieldDefinition.class);
   }
 
   @Override
   @Nullable
   public TactIdent getIdent() {
-    return TactPsiTreeUtil.getChildOfType(this, TactIdent.class);
+    return PsiTreeUtil.getChildOfType(this, TactIdent.class);
   }
 
   @Override
   @Nullable
   public TactMessageId getMessageId() {
-    return TactPsiTreeUtil.getChildOfType(this, TactMessageId.class);
+    return PsiTreeUtil.getChildOfType(this, TactMessageId.class);
   }
 
   @Override

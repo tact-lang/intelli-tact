@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.psi.*;
 
@@ -29,67 +29,67 @@ public class TactAsmPrimitiveImpl extends TactCompositeElementImpl implements Ta
   @Override
   @Nullable
   public TactAsmBinBitstring getAsmBinBitstring() {
-    return TactPsiTreeUtil.getChildOfType(this, TactAsmBinBitstring.class);
+    return PsiTreeUtil.getChildOfType(this, TactAsmBinBitstring.class);
   }
 
   @Override
   @Nullable
   public TactAsmBocHex getAsmBocHex() {
-    return TactPsiTreeUtil.getChildOfType(this, TactAsmBocHex.class);
+    return PsiTreeUtil.getChildOfType(this, TactAsmBocHex.class);
   }
 
   @Override
   @Nullable
   public TactAsmControlRegister getAsmControlRegister() {
-    return TactPsiTreeUtil.getChildOfType(this, TactAsmControlRegister.class);
+    return PsiTreeUtil.getChildOfType(this, TactAsmControlRegister.class);
   }
 
   @Override
   @Nullable
   public TactAsmCreateBuilder getAsmCreateBuilder() {
-    return TactPsiTreeUtil.getChildOfType(this, TactAsmCreateBuilder.class);
+    return PsiTreeUtil.getChildOfType(this, TactAsmCreateBuilder.class);
   }
 
   @Override
   @Nullable
   public TactAsmHexBitstring getAsmHexBitstring() {
-    return TactPsiTreeUtil.getChildOfType(this, TactAsmHexBitstring.class);
+    return PsiTreeUtil.getChildOfType(this, TactAsmHexBitstring.class);
   }
 
   @Override
   @Nullable
   public TactAsmInteger getAsmInteger() {
-    return TactPsiTreeUtil.getChildOfType(this, TactAsmInteger.class);
+    return PsiTreeUtil.getChildOfType(this, TactAsmInteger.class);
   }
 
   @Override
   @Nullable
   public TactAsmSequence getAsmSequence() {
-    return TactPsiTreeUtil.getChildOfType(this, TactAsmSequence.class);
+    return PsiTreeUtil.getChildOfType(this, TactAsmSequence.class);
   }
 
   @Override
   @Nullable
   public TactAsmStackElement getAsmStackElement() {
-    return TactPsiTreeUtil.getChildOfType(this, TactAsmStackElement.class);
+    return PsiTreeUtil.getChildOfType(this, TactAsmStackElement.class);
   }
 
   @Override
   @Nullable
   public TactAsmStoreSlice getAsmStoreSlice() {
-    return TactPsiTreeUtil.getChildOfType(this, TactAsmStoreSlice.class);
+    return PsiTreeUtil.getChildOfType(this, TactAsmStoreSlice.class);
   }
 
   @Override
   @Nullable
   public TactAsmString getAsmString() {
-    return TactPsiTreeUtil.getChildOfType(this, TactAsmString.class);
+    return PsiTreeUtil.getChildOfType(this, TactAsmString.class);
   }
 
   @Override
   @Nullable
   public TactAsmToCellBuilder getAsmToCellBuilder() {
-    return TactPsiTreeUtil.getChildOfType(this, TactAsmToCellBuilder.class);
+    return PsiTreeUtil.getChildOfType(this, TactAsmToCellBuilder.class);
   }
 
 }

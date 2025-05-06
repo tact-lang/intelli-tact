@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
+import com.intellij.psi.util.PsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
 import org.tonstudio.tact.lang.stubs.TactMessageFunctionDeclarationStub;
 import org.tonstudio.tact.lang.psi.*;
@@ -35,25 +35,25 @@ public class TactMessageFunctionDeclarationImpl extends TactNamedElementImpl<Tac
   @Override
   @Nullable
   public TactBlock getBlock() {
-    return TactPsiTreeUtil.getChildOfType(this, TactBlock.class);
+    return PsiTreeUtil.getChildOfType(this, TactBlock.class);
   }
 
   @Override
   @NotNull
   public TactMessageKind getMessageKind() {
-    return notNullChild(TactPsiTreeUtil.getChildOfType(this, TactMessageKind.class));
+    return notNullChild(PsiTreeUtil.getChildOfType(this, TactMessageKind.class));
   }
 
   @Override
   @Nullable
   public TactParameters getParameters() {
-    return TactPsiTreeUtil.getStubChildOfType(this, TactParameters.class);
+    return PsiTreeUtil.getStubChildOfType(this, TactParameters.class);
   }
 
   @Override
   @Nullable
   public TactReceiveStringId getReceiveStringId() {
-    return TactPsiTreeUtil.getChildOfType(this, TactReceiveStringId.class);
+    return PsiTreeUtil.getChildOfType(this, TactReceiveStringId.class);
   }
 
   @Override
