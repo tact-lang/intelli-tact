@@ -45,7 +45,7 @@ class TactLiteralFileReferenceSet(
         // foo/bar -> foo/bar.tact
         // foo/bar/ -> foo/bar/
         if (!text.endsWith(".tact") && range.endOffset - 1 == this.pathString.length) {
-            return TactFileReference(this, range, index, "$text.tact");
+            return TactFileReference(this, range, index, "$text.tact")
         }
 
         return TactFileReference(this, range, index, text)

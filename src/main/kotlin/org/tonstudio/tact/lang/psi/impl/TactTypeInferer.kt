@@ -164,7 +164,7 @@ object TactTypeInferer {
             return null
         }
 
-        val searchedName = element.getIdentifier()?.text ?: ""
+        val searchedName = element.getIdentifier().text ?: ""
         if (searchedName == "fromSlice" || searchedName == "fromCell") {
             return type
         }

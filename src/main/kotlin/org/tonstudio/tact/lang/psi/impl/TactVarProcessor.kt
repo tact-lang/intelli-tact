@@ -18,13 +18,7 @@ open class TactVarProcessor(
         }
 
         if (e is TactVarDefinition) {
-            if (e.parent is TactForEachStatement) {
-                return false
-            }
-            if (e.parent is TactCatchClause) {
-                return false
-            }
-            if (e.parent is TactDestructItem) {
+            if (e.parent is TactForEachStatement || e.parent is TactCatchClause || e.parent is TactDestructItem) {
                 return false
             }
 

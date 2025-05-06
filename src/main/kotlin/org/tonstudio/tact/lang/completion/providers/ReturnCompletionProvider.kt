@@ -38,7 +38,7 @@ object ReturnCompletionProvider : CompletionProvider<CompletionParameters>() {
                 TactCompletionUtil.TemplateStringInsertHandler(
                     " \$expr$;\$END$",
                     true,
-                    "expr" to ConstantNode(TactLangUtil.getDefaultValue(parameters.position, returnType)),
+                    "expr" to ConstantNode(TactLangUtil.getDefaultValue(returnType)),
                 )
             )
             .withPriority(KEYWORD_PRIORITY)

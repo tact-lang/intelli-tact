@@ -151,7 +151,7 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
 
             for ((name, type) in fields) {
                 template.addVariable(
-                    "field_${name}", ConstantNode(TactLangUtil.getDefaultValue(element, type)), true
+                    "field_${name}", ConstantNode(TactLangUtil.getDefaultValue(type)), true
                 )
             }
 
