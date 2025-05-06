@@ -13,10 +13,11 @@ Developed by [TON Studio](https://tonstudio.io), powered by the community.
 [![Twitter](https://img.shields.io/badge/X%2FTwitter-white?logo=x&style=flat&logoColor=gray)](https://x.com/tact_language)
 [![Telegram](https://img.shields.io/badge/Community_Chat-white?logo=telegram&style=flat)](https://t.me/tactlang)
 [![Telegram](https://img.shields.io/badge/Tact_Kitchen_🥣-white?logo=telegram&style=flat)](https://t.me/tact_kitchen)
-[![Version](https://img.shields.io/jetbrains/plugin/v/27290-tact.svg)](https://plugins.jetbrains.com/plugin/27290-tact)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/27290-tact.svg)](https://plugins.jetbrains.com/plugin/27290-tact)
 
 ---
+
+[![Version](https://img.shields.io/jetbrains/plugin/v/27290-tact.svg)](https://plugins.jetbrains.com/plugin/27290-tact)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/27290-tact.svg)](https://plugins.jetbrains.com/plugin/27290-tact)
 
 This plugin provides support for the [Tact programming language](https://tact-lang.org) to JetBrains IDEs.
 Tact is a next-generation programming language for building secure, scalable, and maintainable smart contracts on TON
