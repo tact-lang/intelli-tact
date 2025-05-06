@@ -14,7 +14,7 @@ import org.tonstudio.tact.lang.stubs.TactTypeStub;
 
 public class TactMessageTypeImpl extends TactTypeImpl implements TactMessageType {
 
-  public TactMessageTypeImpl(@NotNull TactTypeStub stub, @NotNull IStubElementType<?, ?> type) {
+  public TactMessageTypeImpl(@NotNull TactTypeStub<?> stub, @NotNull IStubElementType<?, ?> type) {
     super(stub, type);
   }
 

@@ -14,7 +14,7 @@ import org.tonstudio.tact.lang.stubs.TactTypeStub;
 
 public class TactBouncedTypeImpl extends TactTypeImpl implements TactBouncedType {
 
-  public TactBouncedTypeImpl(@NotNull TactTypeStub stub, @NotNull IStubElementType<?, ?> type) {
+  public TactBouncedTypeImpl(@NotNull TactTypeStub<?> stub, @NotNull IStubElementType<?, ?> type) {
     super(stub, type);
   }
 
