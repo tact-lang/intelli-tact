@@ -13,6 +13,8 @@ Developed by [TON Studio](https://tonstudio.io), powered by the community.
 [![Twitter](https://img.shields.io/badge/X%2FTwitter-white?logo=x&style=flat&logoColor=gray)](https://x.com/tact_language)
 [![Telegram](https://img.shields.io/badge/Community_Chat-white?logo=telegram&style=flat)](https://t.me/tactlang)
 [![Telegram](https://img.shields.io/badge/Tact_Kitchen_🥣-white?logo=telegram&style=flat)](https://t.me/tact_kitchen)
+[![Version](https://img.shields.io/jetbrains/plugin/v/27290-tact.svg)](https://plugins.jetbrains.com/plugin/27290-tact)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/27290-tact.svg)](https://plugins.jetbrains.com/plugin/27290-tact)
 
 ---
 
@@ -35,10 +37,8 @@ blockchain.
 ## Installation & Usage
 
 > [!WARNING]
-> The current plugin conflicts with the TON plugin as both add Tact support.
-> Until TON plugin version 2.5.5 is released, you need to disable the TON plugin to use this Tact plugin correctly.
-> Alternatively, you can install a custom-built TON plugin without Tact support from
-> the [releases](https://github.com/tact-lang/intelli-tact/releases/latest)
+> The current plugin conflicts with the TON plugin before version 2.5.5, as both add Tact support,
+> please update the TON plugin to version 2.5.5 or newer.
 
 - Using an IDE built-in plugin system:
 
