@@ -35,8 +35,8 @@ public class TactMessageTypeImpl extends TactTypeImpl implements TactMessageType
 
   @Override
   @NotNull
-  public List<TactFieldDeclaration> getFieldDeclarationList() {
-    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactFieldDeclaration.class);
+  public List<TactFieldDefinition> getFieldDefinitionList() {
+    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactFieldDefinition.class);
   }
 
   @Override

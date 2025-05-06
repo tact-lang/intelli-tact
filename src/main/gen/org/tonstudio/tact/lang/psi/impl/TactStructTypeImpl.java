@@ -35,8 +35,8 @@ public class TactStructTypeImpl extends TactTypeImpl implements TactStructType {
 
   @Override
   @NotNull
-  public List<TactFieldDeclaration> getFieldDeclarationList() {
-    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactFieldDeclaration.class);
+  public List<TactFieldDefinition> getFieldDefinitionList() {
+    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactFieldDefinition.class);
   }
 
   @Override

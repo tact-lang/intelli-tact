@@ -10,7 +10,7 @@ import org.tonstudio.tact.lang.stubs.TactContractParametersStub;
 public interface TactContractParameters extends TactCompositeElement, StubBasedPsiElement<TactContractParametersStub> {
 
   @NotNull
-  List<TactFieldDeclaration> getFieldDeclarationList();
+  List<TactFieldDefinition> getFieldDefinitionList();
 
   @NotNull
   PsiElement getLparen();

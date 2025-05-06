@@ -58,8 +58,8 @@ class TactFormatterBlock(
             TactTypes.MESSAGE_TYPE,
                  -> {
                 when (childType) {
-                    TactTypes.FIELD_DECLARATION            -> Indent.getNormalIndent()
-                    TactTypes.CONST_DECLARATION             -> Indent.getNormalIndent()
+                    TactTypes.FIELD_DEFINITION             -> Indent.getNormalIndent()
+                    TactTypes.CONST_DECLARATION            -> Indent.getNormalIndent()
                     TactTypes.FUNCTION_DECLARATION         -> Indent.getNormalIndent()
                     TactTypes.MESSAGE_FUNCTION_DECLARATION -> Indent.getNormalIndent()
                     TactTypes.CONTRACT_INIT_DECLARATION    -> Indent.getNormalIndent()
@@ -78,8 +78,8 @@ class TactFormatterBlock(
             TactTypes.CONTRACT_PARAMETERS,
                  -> {
                 when (childType) {
-                    TactTypes.FIELD_DECLARATION -> Indent.getNormalIndent()
-                    else                        -> Indent.getNoneIndent()
+                    TactTypes.FIELD_DEFINITION -> Indent.getNormalIndent()
+                    else                       -> Indent.getNoneIndent()
                 }
             }
 

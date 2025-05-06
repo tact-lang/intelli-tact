@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface TactMessageType extends TactType, TactFieldListOwner {
 
   @NotNull
-  List<TactFieldDeclaration> getFieldDeclarationList();
+  List<TactFieldDefinition> getFieldDefinitionList();
 
   @Nullable
   TactIdent getIdent();

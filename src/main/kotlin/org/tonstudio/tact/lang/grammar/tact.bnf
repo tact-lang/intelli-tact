@@ -297,7 +297,7 @@ ContractParameters ::= '(' ContractParameterList? ','? ')' {
   stubClass="org.tonstudio.tact.lang.stubs.TactContractParametersStub"
 }
 
-private ContractParameterList ::= FieldDeclaration (',' (FieldDeclaration | &')'))* ','? {pin(".*")=1}
+private ContractParameterList ::= FieldDefinition (',' (FieldDefinition | &')'))* ','? {pin(".*")=1}
 
 
 private MemberItem ::=
@@ -305,7 +305,7 @@ private MemberItem ::=
   | ContractInitDeclaration
   | MessageFunctionDeclaration
   | FunctionDeclaration
-  | FieldDeclaration {recoverWhile=MembersRecover}
+  | FieldDefinition {recoverWhile=MembersRecover}
 
 private MembersRecover ::= !(
       '@' // attribute start
@@ -376,7 +376,7 @@ MessageDeclaration ::= MessageType {
   methods=[getIdentifier getName getTypeInner]
 }
 
-MessageType ::= 'message' MessageId? Ident '{' FieldDeclaration* '}' {
+MessageType ::= 'message' MessageId? Ident '{' FieldDefinition* '}' {
   pin=1
   implements="org.tonstudio.tact.lang.psi.TactFieldListOwner"
   methods=[getIdentifier getFieldList]
@@ -391,22 +391,18 @@ StructDeclaration ::= Attributes? StructType {
   methods=[getIdentifier getName getTypeInner]
 }
 
-StructType ::= struct identifier '{' FieldDeclaration* '}' {
+StructType ::= struct identifier '{' FieldDefinition* '}' {
   pin=1
   implements="org.tonstudio.tact.lang.psi.TactFieldListOwner"
   methods=[getFieldList]
 }
 
-FieldDeclaration ::= FieldDefinition ':' Type DefaultFieldValue? semi? {
-  pin=1
-  stubClass="org.tonstudio.tact.lang.stubs.TactFieldDeclarationStub"
-}
-DefaultFieldValue ::= '=' Expression {pin=1}
-FieldDefinition ::= identifier {
+FieldDefinition ::= identifier ':' Type DefaultFieldValue? semi? {
   pin=1
   methods=[getQualifier getQualifiedName getTypeInner getOwner]
   stubClass="org.tonstudio.tact.lang.stubs.TactFieldDefinitionStub"
 }
+DefaultFieldValue ::= '=' Expression {pin=1}
 
 FunctionDeclaration ::= Attributes? FunctionAttribute* fun identifier Signature (Block | semi) {
   pin=5

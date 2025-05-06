@@ -35,6 +35,30 @@ public class TactFieldDefinitionImpl extends TactNamedElementImpl<TactFieldDefin
   }
 
   @Override
+  @Nullable
+  public TactDefaultFieldValue getDefaultFieldValue() {
+    return TactPsiTreeUtil.getChildOfType(this, TactDefaultFieldValue.class);
+  }
+
+  @Override
+  @Nullable
+  public TactType getType() {
+    return TactPsiTreeUtil.getStubChildOfType(this, TactType.class);
+  }
+
+  @Override
+  @Nullable
+  public TactSemi getSemi() {
+    return TactPsiTreeUtil.getChildOfType(this, TactSemi.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getColon() {
+    return findChildByType(COLON);
+  }
+
+  @Override
   @NotNull
   public PsiElement getIdentifier() {
     return notNullChild(findChildByType(IDENTIFIER));

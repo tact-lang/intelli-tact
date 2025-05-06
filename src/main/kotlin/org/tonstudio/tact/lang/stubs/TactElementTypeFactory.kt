@@ -26,7 +26,6 @@ object TactElementTypeFactory {
     fun stubFactory(name: String) = when (name) {
         "FUNCTION_DECLARATION"         -> TactFunctionDeclarationStub.Type(name)
         "FIELD_DEFINITION"             -> TactFieldDefinitionStub.Type(name)
-        "FIELD_DECLARATION"            -> TactFieldDeclarationStub.Type(name)
         "STRUCT_DECLARATION"           -> TactStructDeclarationStub.Type(name)
         "MESSAGE_DECLARATION"          -> TactMessageDeclarationStub.Type(name)
         "CONTRACT_DECLARATION"         -> TactContractDeclarationStub.Type(name)

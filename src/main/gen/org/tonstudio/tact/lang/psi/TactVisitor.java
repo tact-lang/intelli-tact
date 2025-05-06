@@ -213,10 +213,6 @@ public class TactVisitor extends PsiElementVisitor {
     visitTypeOwner(o);
   }
 
-  public void visitFieldDeclaration(@NotNull TactFieldDeclaration o) {
-    visitCompositeElement(o);
-  }
-
   public void visitFieldDefinition(@NotNull TactFieldDefinition o) {
     visitNamedElement(o);
   }

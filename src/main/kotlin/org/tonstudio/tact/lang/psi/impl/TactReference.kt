@@ -492,7 +492,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
     private fun createDelegate(processor: TactScopeProcessor): TactVarProcessor {
         return object : TactVarProcessor(identifier!!, myElement, processor.isCompletion()) {
             override fun crossOff(e: PsiElement): Boolean {
-                return if (e is TactFieldDeclaration)
+                return if (e is TactFieldDefinition)
                     true
                 else
                     super.crossOff(e)

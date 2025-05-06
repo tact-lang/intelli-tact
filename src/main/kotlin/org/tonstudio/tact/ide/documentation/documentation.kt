@@ -247,9 +247,7 @@ fun TactStructDeclaration.generateDoc(): String {
         part("struct", asKeyword)
         colorize(name, asStruct)
 
-        val fields = structType.fieldDeclarationList
-
-        generateFields(fields)
+        generateFields(structType.fieldDefinitionList)
 
         append(DocumentationMarkup.DEFINITION_END)
         generateCommentsPart(this@generateDoc)
@@ -272,16 +270,14 @@ fun TactMessageDeclaration.generateDoc(): String {
         append(" ")
         colorize(name, asStruct)
 
-        val fields = messageType.fieldDeclarationList
-
-        generateFields(fields)
+        generateFields(messageType.fieldDefinitionList)
 
         append(DocumentationMarkup.DEFINITION_END)
         generateCommentsPart(this@generateDoc)
     }
 }
 
-private fun StringBuilder.generateFields(fields: List<TactFieldDeclaration>) {
+private fun StringBuilder.generateFields(fields: List<TactFieldDefinition>) {
     if (fields.isEmpty()) {
         colorize(" {}", asBraces)
         return
@@ -291,12 +287,11 @@ private fun StringBuilder.generateFields(fields: List<TactFieldDeclaration>) {
     appendLine()
     append(
         fields.joinToString("\n") { field ->
-            val def = field.fieldDefinition
             buildString {
                 append("   ")
-                colorize(def.name ?: "", asField)
+                colorize(field.name ?: "", asField)
                 append(": ")
-                append(def.getType(null)?.generateDoc(field) ?: "<unknown>")
+                append(field.getType(null)?.generateDoc(field) ?: "<unknown>")
 
                 if (field.defaultFieldValue != null) {
                     append(" = ")
@@ -314,16 +309,13 @@ private fun StringBuilder.generateFields(fields: List<TactFieldDeclaration>) {
 fun TactFieldDefinition.generateDoc(): String {
     return buildString {
         append(DocumentationMarkup.DEFINITION_START)
-        val parent = parent as? TactFieldDeclaration ?: return@buildString
-        val type = parent.type
-
         generateOwnerDpc(this@generateDoc)
 
         colorize(name ?: "", asField)
         append(": ")
         append(type.toEx().generateDoc(this@generateDoc))
 
-        val valueDoc = parent.defaultFieldValue?.expression?.generateDoc()
+        val valueDoc = defaultFieldValue?.expression?.generateDoc()
         if (valueDoc != null) {
             part(" =")
             append(valueDoc)

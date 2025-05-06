@@ -223,18 +223,18 @@ object TactPsiImplUtil {
 
     @JvmStatic
     fun getFieldList(o: TactStructType): List<TactFieldDefinition> {
-        return o.fieldDeclarationList.mapNotNull { it.fieldDefinition }
+        return o.fieldDefinitionList
     }
 
     @JvmStatic
     fun getFieldList(o: TactContractType): List<TactFieldDefinition> {
-        val parameters = o.contractParameters?.fieldDeclarationList?.mapNotNull { it.fieldDefinition } ?: emptyList()
-        return o.fieldDeclarationList.mapNotNull { it.fieldDefinition } + parameters
+        val parameters = o.contractParameters?.fieldDefinitionList ?: emptyList()
+        return o.fieldDefinitionList + parameters
     }
 
     @JvmStatic
     fun getFieldList(o: TactTraitType): List<TactFieldDefinition> {
-        return o.fieldDeclarationList.mapNotNull { it.fieldDefinition }
+        return o.fieldDefinitionList
     }
 
     @JvmStatic
@@ -305,7 +305,7 @@ object TactPsiImplUtil {
 
     @JvmStatic
     fun getFieldList(o: TactMessageType): List<TactFieldDefinition> {
-        return o.fieldDeclarationList.mapNotNull { it.fieldDefinition }
+        return o.fieldDefinitionList
     }
 
     @JvmStatic
@@ -567,8 +567,7 @@ object TactPsiImplUtil {
 
     @JvmStatic
     fun getTypeInner(o: TactFieldDefinition, context: ResolveState?): TactTypeEx {
-        val fieldDeclaration = o.parent as? TactFieldDeclaration
-        return fieldDeclaration?.type.toEx()
+        return o.type.toEx()
     }
 
     @JvmStatic

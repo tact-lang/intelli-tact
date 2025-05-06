@@ -61,7 +61,6 @@ public interface TactTypes {
   IElementType ELSE_BRANCH = new TactCompositeElementType("ELSE_BRANCH");
   IElementType ELSE_IF_BRANCH = new TactCompositeElementType("ELSE_IF_BRANCH");
   IElementType EXPRESSION = new TactCompositeElementType("EXPRESSION");
-  IElementType FIELD_DECLARATION = TactElementTypeFactory.stubFactory("FIELD_DECLARATION");
   IElementType FIELD_DEFINITION = TactElementTypeFactory.stubFactory("FIELD_DEFINITION");
   IElementType FIELD_NAME = new TactCompositeElementType("FIELD_NAME");
   IElementType FOR_EACH_STATEMENT = new TactCompositeElementType("FOR_EACH_STATEMENT");
@@ -380,9 +379,6 @@ public interface TactTypes {
       }
       else if (type == ELSE_IF_BRANCH) {
         return new TactElseIfBranchImpl(node);
-      }
-      else if (type == FIELD_DECLARATION) {
-        return new TactFieldDeclarationImpl(node);
       }
       else if (type == FIELD_DEFINITION) {
         return new TactFieldDefinitionImpl(node);

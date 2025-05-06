@@ -34,8 +34,8 @@ public class TactContractParametersImpl extends TactStubbedElementImpl<TactContr
 
   @Override
   @NotNull
-  public List<TactFieldDeclaration> getFieldDeclarationList() {
-    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactFieldDeclaration.class);
+  public List<TactFieldDefinition> getFieldDefinitionList() {
+    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactFieldDefinition.class);
   }
 
   @Override

@@ -911,13 +911,13 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FieldDeclaration (',' (FieldDeclaration | &')'))* ','?
+  // FieldDefinition (',' (FieldDefinition | &')'))* ','?
   static boolean ContractParameterList(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ContractParameterList")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_);
-    r = FieldDeclaration(b, l + 1);
+    r = FieldDefinition(b, l + 1);
     p = r; // pin = 1
     r = r && report_error_(b, ContractParameterList_1(b, l + 1));
     r = p && ContractParameterList_2(b, l + 1) && r;
@@ -925,7 +925,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // (',' (FieldDeclaration | &')'))*
+  // (',' (FieldDefinition | &')'))*
   private static boolean ContractParameterList_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ContractParameterList_1")) return false;
     while (true) {
@@ -936,7 +936,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // ',' (FieldDeclaration | &')')
+  // ',' (FieldDefinition | &')')
   private static boolean ContractParameterList_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ContractParameterList_1_0")) return false;
     boolean r, p;
@@ -948,12 +948,12 @@ public class TactParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // FieldDeclaration | &')'
+  // FieldDefinition | &')'
   private static boolean ContractParameterList_1_0_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ContractParameterList_1_0_1")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = FieldDeclaration(b, l + 1);
+    r = FieldDefinition(b, l + 1);
     if (!r) r = ContractParameterList_1_0_1_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -1246,46 +1246,33 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FieldDefinition ':' Type DefaultFieldValue? semi?
-  public static boolean FieldDeclaration(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FieldDeclaration")) return false;
+  // identifier ':' Type DefaultFieldValue? semi?
+  public static boolean FieldDefinition(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FieldDefinition")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, FIELD_DECLARATION, null);
-    r = FieldDefinition(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, FIELD_DEFINITION, null);
+    r = consumeTokens(b, 1, IDENTIFIER, COLON);
     p = r; // pin = 1
-    r = r && report_error_(b, consumeToken(b, COLON));
-    r = p && report_error_(b, Type(b, l + 1)) && r;
-    r = p && report_error_(b, FieldDeclaration_3(b, l + 1)) && r;
-    r = p && FieldDeclaration_4(b, l + 1) && r;
+    r = r && report_error_(b, Type(b, l + 1));
+    r = p && report_error_(b, FieldDefinition_3(b, l + 1)) && r;
+    r = p && FieldDefinition_4(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
   // DefaultFieldValue?
-  private static boolean FieldDeclaration_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FieldDeclaration_3")) return false;
+  private static boolean FieldDefinition_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FieldDefinition_3")) return false;
     DefaultFieldValue(b, l + 1);
     return true;
   }
 
   // semi?
-  private static boolean FieldDeclaration_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FieldDeclaration_4")) return false;
+  private static boolean FieldDefinition_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FieldDefinition_4")) return false;
     semi(b, l + 1);
     return true;
-  }
-
-  /* ********************************************************** */
-  // identifier
-  public static boolean FieldDefinition(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FieldDefinition")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, IDENTIFIER);
-    exit_section_(b, m, FIELD_DEFINITION, r);
-    return r;
   }
 
   /* ********************************************************** */
@@ -1773,7 +1760,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   //   | ContractInitDeclaration
   //   | MessageFunctionDeclaration
   //   | FunctionDeclaration
-  //   | FieldDeclaration
+  //   | FieldDefinition
   static boolean MemberItem(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MemberItem")) return false;
     boolean r;
@@ -1782,7 +1769,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = ContractInitDeclaration(b, l + 1);
     if (!r) r = MessageFunctionDeclaration(b, l + 1);
     if (!r) r = FunctionDeclaration(b, l + 1);
-    if (!r) r = FieldDeclaration(b, l + 1);
+    if (!r) r = FieldDefinition(b, l + 1);
     exit_section_(b, l, m, r, false, TactParser::MembersRecover);
     return r;
   }
@@ -1921,7 +1908,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // 'message' MessageId? Ident '{' FieldDeclaration* '}'
+  // 'message' MessageId? Ident '{' FieldDefinition* '}'
   public static boolean MessageType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MessageType")) return false;
     boolean r, p;
@@ -1944,12 +1931,12 @@ public class TactParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // FieldDeclaration*
+  // FieldDefinition*
   private static boolean MessageType_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MessageType_4")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!FieldDeclaration(b, l + 1)) break;
+      if (!FieldDefinition(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "MessageType_4", c)) break;
     }
     return true;
@@ -2707,7 +2694,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // struct identifier '{' FieldDeclaration* '}'
+  // struct identifier '{' FieldDefinition* '}'
   public static boolean StructType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StructType")) return false;
     if (!nextTokenIs(b, STRUCT)) return false;
@@ -2721,12 +2708,12 @@ public class TactParser implements PsiParser, LightPsiParser {
     return r || p;
   }
 
-  // FieldDeclaration*
+  // FieldDefinition*
   private static boolean StructType_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StructType_3")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!FieldDeclaration(b, l + 1)) break;
+      if (!FieldDefinition(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "StructType_3", c)) break;
     }
     return true;
