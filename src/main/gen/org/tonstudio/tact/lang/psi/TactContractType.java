@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface TactContractType extends TactType, TactStorageMembersOwner {
 
   @NotNull
-  List<TactConstDeclaration> getConstDeclarationList();
+  List<TactConstDefinition> getConstDefinitionList();
 
   @NotNull
   List<TactContractInitDeclaration> getContractInitDeclarationList();

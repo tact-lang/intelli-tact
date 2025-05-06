@@ -48,7 +48,6 @@ public interface TactTypes {
   IElementType CODE_OF_EXPR = new TactCompositeElementType("CODE_OF_EXPR");
   IElementType CONDITIONAL_EXPR = new TactCompositeElementType("CONDITIONAL_EXPR");
   IElementType CONSTANT_MODIFIER = new TactCompositeElementType("CONSTANT_MODIFIER");
-  IElementType CONST_DECLARATION = new TactCompositeElementType("CONST_DECLARATION");
   IElementType CONST_DEFINITION = TactElementTypeFactory.stubFactory("CONST_DEFINITION");
   IElementType CONTRACT_DECLARATION = TactElementTypeFactory.stubFactory("CONTRACT_DECLARATION");
   IElementType CONTRACT_INIT_DECLARATION = TactElementTypeFactory.stubFactory("CONTRACT_INIT_DECLARATION");
@@ -345,9 +344,6 @@ public interface TactTypes {
       }
       else if (type == CONSTANT_MODIFIER) {
         return new TactConstantModifierImpl(node);
-      }
-      else if (type == CONST_DECLARATION) {
-        return new TactConstDeclarationImpl(node);
       }
       else if (type == CONST_DEFINITION) {
         return new TactConstDefinitionImpl(node);

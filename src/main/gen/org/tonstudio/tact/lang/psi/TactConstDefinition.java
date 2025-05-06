@@ -11,6 +11,9 @@ import org.tonstudio.tact.lang.psi.types.TactTypeEx;
 
 public interface TactConstDefinition extends TactNamedElement, StubBasedPsiElement<TactConstDefinitionStub> {
 
+  @NotNull
+  List<TactConstantModifier> getConstantModifierList();
+
   @Nullable
   TactExpression getExpression();
 
@@ -18,9 +21,15 @@ public interface TactConstDefinition extends TactNamedElement, StubBasedPsiEleme
   TactTypeHint getTypeHint();
 
   @Nullable
+  TactSemi getSemi();
+
+  @Nullable
   PsiElement getAssign();
 
   @NotNull
+  PsiElement getConst();
+
+  @Nullable
   PsiElement getIdentifier();
 
   @Nullable TactTypeEx getTypeInner(@Nullable ResolveState context);

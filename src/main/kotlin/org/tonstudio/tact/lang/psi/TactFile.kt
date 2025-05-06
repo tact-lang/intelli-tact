@@ -96,13 +96,9 @@ open class TactFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, 
 
             if (stub == null) {
                 val elements = mutableListOf<T>()
-                this.children.forEach {
-                    if (it is T) {
-                        elements.add(it)
-                    }
-                    // TODO: do we really need this?
-                    if (elementType == TactTypes.CONST_DEFINITION && it is TactConstDeclaration) {
-                        elements.add(it.constDefinition as T)
+                for (topLevelDeclaration in this.children) {
+                    if (topLevelDeclaration is T) {
+                        elements.add(topLevelDeclaration)
                     }
                 }
                 return@getCachedValue CachedValueProvider.Result.create(elements, this)
@@ -123,15 +119,9 @@ open class TactFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, 
 
             if (stub == null) {
                 val names = mutableSetOf<String>()
-                for (it in this.children) {
-                    if (it is TactNamedElement) {
-                        if (it.name != null) {
-                            names.add(it.name!!)
-                        }
-                    }
-                    if (it is TactConstDeclaration) {
-                        val name = it.constDefinition?.name ?: continue
-                        names.add(name)
+                for (topLevelDeclaration in this.children) {
+                    if (topLevelDeclaration is TactNamedElement && topLevelDeclaration.name != null) {
+                        names.add(topLevelDeclaration.name!!)
                     }
                 }
                 return@getCachedValue CachedValueProvider.Result.create(names, this)

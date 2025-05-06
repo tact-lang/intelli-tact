@@ -11,7 +11,6 @@ import com.intellij.psi.util.childrenOfType
 import org.tonstudio.tact.lang.doc.psi.TactDocCodeFence
 import org.tonstudio.tact.lang.doc.psi.TactDocComment
 import org.tonstudio.tact.lang.doc.psi.TactDocLinkDefinition
-import org.tonstudio.tact.lang.psi.TactConstDeclaration
 import org.tonstudio.tact.lang.psi.TactFieldDeclaration
 import org.tonstudio.tact.lang.psi.TactNamedElement
 
@@ -37,10 +36,6 @@ class TactDocCommentImpl(type: IElementType, text: CharSequence?) : LazyParseabl
 
     override fun getOwner(): TactNamedElement? {
         val element = skipSiblingsForward(this, PsiComment::class.java, PsiWhiteSpace::class.java) ?: return null
-
-        if (element is TactConstDeclaration) {
-            return element.constDefinition
-        }
 
         if (element is TactFieldDeclaration) {
             return element.fieldDefinition

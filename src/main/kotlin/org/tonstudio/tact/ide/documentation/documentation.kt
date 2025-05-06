@@ -393,9 +393,7 @@ fun TactConstDefinition.generateDoc(): String {
     return buildString {
         append(DocumentationMarkup.DEFINITION_START)
 
-        val modifiers = (parent as? TactConstDeclaration)?.constantModifierList ?: emptyList()
-
-        part(generateDocForConstantModifiers(modifiers))
+        part(generateDocForConstantModifiers(constantModifierList))
         part("const", asKeyword)
         colorize(name, asConst)
 

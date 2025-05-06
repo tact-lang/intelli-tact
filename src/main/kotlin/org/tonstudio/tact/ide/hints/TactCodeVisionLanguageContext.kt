@@ -16,7 +16,7 @@ class TactCodeVisionLanguageContext : VcsCodeVisionLanguageContext {
             element is TactMessageDeclaration ||
             element is TactTraitDeclaration ||
             element is TactContractDeclaration ||
-            element is TactConstDeclaration
+            element is TactConstDefinition
 
     override fun handleClick(mouseEvent: MouseEvent, editor: Editor, element: PsiElement) {}
 }

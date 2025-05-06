@@ -128,7 +128,7 @@ object TactPsiImplUtil {
             return stub.name ?: ""
         }
 
-        return o.getIdentifier().text ?: ""
+        return o.getIdentifier()?.text ?: ""
     }
 
     @JvmStatic
@@ -249,12 +249,12 @@ object TactPsiImplUtil {
 
     @JvmStatic
     fun getConstantsList(o: TactTraitType): List<TactConstDefinition> {
-        return o.constDeclarationList.mapNotNull { it.constDefinition }
+        return o.constDefinitionList
     }
 
     @JvmStatic
     fun getConstantsList(o: TactContractType): List<TactConstDefinition> {
-        return o.constDeclarationList.mapNotNull { it.constDefinition }
+        return o.constDefinitionList
     }
 
     @JvmStatic

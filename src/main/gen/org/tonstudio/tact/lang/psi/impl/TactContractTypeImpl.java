@@ -35,8 +35,8 @@ public class TactContractTypeImpl extends TactTypeImpl implements TactContractTy
 
   @Override
   @NotNull
-  public List<TactConstDeclaration> getConstDeclarationList() {
-    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactConstDeclaration.class);
+  public List<TactConstDefinition> getConstDefinitionList() {
+    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactConstDefinition.class);
   }
 
   @Override

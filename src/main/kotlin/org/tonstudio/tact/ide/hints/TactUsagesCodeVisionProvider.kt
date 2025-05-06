@@ -33,7 +33,7 @@ class TactUsagesCodeVisionProvider : ReferencesCodeVisionProvider() {
                 element is TactStructDeclaration ||
                 element is TactTraitDeclaration ||
                 element is TactMessageDeclaration ||
-                element is TactConstDeclaration
+                element is TactConstDefinition
     }
 
     override fun getHint(element: PsiElement, file: PsiFile): String {

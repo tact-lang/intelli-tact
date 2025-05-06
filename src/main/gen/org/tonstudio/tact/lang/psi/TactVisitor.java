@@ -156,10 +156,6 @@ public class TactVisitor extends PsiElementVisitor {
     visitBinaryExpr(o);
   }
 
-  public void visitConstDeclaration(@NotNull TactConstDeclaration o) {
-    visitCompositeElement(o);
-  }
-
   public void visitConstDefinition(@NotNull TactConstDefinition o) {
     visitNamedElement(o);
   }

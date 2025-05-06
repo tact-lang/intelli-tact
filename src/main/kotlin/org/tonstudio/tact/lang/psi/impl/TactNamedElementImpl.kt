@@ -152,19 +152,19 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
 
     override fun kindPresentation(): String {
         return when (this) {
-            is TactStructDeclaration                        -> "struct"
-            is TactMessageDeclaration                       -> "message"
-            is TactTraitDeclaration                         -> "trait"
-            is TactContractDeclaration                      -> "contract"
-            is TactFieldDefinition                          -> "field"
-            is TactFunctionDeclaration                      -> "function"
-            is TactAsmFunctionDeclaration                   -> "asm function"
-            is TactNativeFunctionDeclaration                -> "native function"
-            is TactConstDefinition, is TactConstDeclaration -> "constant"
-            is TactVarDefinition, is TactVarDeclaration     -> "variable"
-            is TactParamDefinition                          -> "parameter"
-            is TactImportDeclaration                        -> "import"
-            else                                            -> "declaration"
+            is TactStructDeclaration                    -> "struct"
+            is TactMessageDeclaration                   -> "message"
+            is TactTraitDeclaration                     -> "trait"
+            is TactContractDeclaration                  -> "contract"
+            is TactFieldDefinition                      -> "field"
+            is TactFunctionDeclaration                  -> "function"
+            is TactAsmFunctionDeclaration               -> "asm function"
+            is TactNativeFunctionDeclaration            -> "native function"
+            is TactConstDefinition                      -> "constant"
+            is TactVarDefinition, is TactVarDeclaration -> "variable"
+            is TactParamDefinition                      -> "parameter"
+            is TactImportDeclaration                    -> "import"
+            else                                        -> "declaration"
         }
     }
 }

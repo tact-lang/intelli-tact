@@ -35,6 +35,12 @@ public class TactConstDefinitionImpl extends TactNamedElementImpl<TactConstDefin
   }
 
   @Override
+  @NotNull
+  public List<TactConstantModifier> getConstantModifierList() {
+    return TactPsiTreeUtil.getChildrenOfTypeAsList(this, TactConstantModifier.class);
+  }
+
+  @Override
   @Nullable
   public TactExpression getExpression() {
     return TactPsiTreeUtil.getChildOfType(this, TactExpression.class);
@@ -48,14 +54,26 @@ public class TactConstDefinitionImpl extends TactNamedElementImpl<TactConstDefin
 
   @Override
   @Nullable
+  public TactSemi getSemi() {
+    return TactPsiTreeUtil.getChildOfType(this, TactSemi.class);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getAssign() {
     return findChildByType(ASSIGN);
   }
 
   @Override
   @NotNull
+  public PsiElement getConst() {
+    return notNullChild(findChildByType(CONST));
+  }
+
+  @Override
+  @Nullable
   public PsiElement getIdentifier() {
-    return notNullChild(findChildByType(IDENTIFIER));
+    return findChildByType(IDENTIFIER);
   }
 
   @Override

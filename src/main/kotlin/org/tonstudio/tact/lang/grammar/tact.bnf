@@ -116,7 +116,7 @@ private TopDeclaration ::=
   | MessageDeclaration
   | TraitDeclaration
   | ContractDeclaration
-  | ConstDeclaration
+  | ConstDefinition
   | Statement // for single files without entry point
 
 private TopLevelDeclarationRecover ::= !(
@@ -301,7 +301,7 @@ private ContractParameterList ::= FieldDeclaration (',' (FieldDeclaration | &')'
 
 
 private MemberItem ::=
-    ConstDeclaration
+    ConstDefinition
   | ContractInitDeclaration
   | MessageFunctionDeclaration
   | FunctionDeclaration
@@ -331,11 +331,8 @@ private MembersRecover ::= !(
 
 ConstantModifier ::= virtual | override | abstract
 
-// TODO: join with definition
-ConstDeclaration ::= ConstantModifier* const ConstDefinition semi {pin=2}
-
-ConstDefinition ::= identifier TypeHint ('=' Expression)? {
-  pin=1
+ConstDefinition ::= ConstantModifier* const identifier TypeHint ('=' Expression)? semi {
+  pin=2
   stubClass="org.tonstudio.tact.lang.stubs.TactConstDefinitionStub"
   methods=[getTypeInner getName getExpressionText getExpressionType]
 }
