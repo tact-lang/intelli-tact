@@ -10,11 +10,8 @@ import org.tonstudio.tact.lang.psi.impl.TactParamDefinitionImpl
 import org.tonstudio.tact.lang.stubs.types.TactNamedStubElementType
 
 class TactParamDefinitionStub : TactNamedStub<TactParamDefinition> {
-    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: StringRef?) :
-            super(parent, elementType, name, true)
-
-    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: String?) :
-            super(parent, elementType, name, true)
+    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: StringRef?) : super(parent, elementType, name, true)
+    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: String?) : super(parent, elementType, name, true)
 
     class Type(name: String) : TactNamedStubElementType<TactParamDefinitionStub, TactParamDefinition>(name) {
         override fun createPsi(stub: TactParamDefinitionStub): TactParamDefinition {

@@ -25,7 +25,6 @@ class TactPrimitiveDeclarationStub : TactNamedStub<TactPrimitiveDeclaration> {
     ) : super(parent, elementType, name, isExported)
 
     class Type(name: String) : TactNamedStubElementType<TactPrimitiveDeclarationStub, TactPrimitiveDeclaration>(name) {
-
         override fun createPsi(stub: TactPrimitiveDeclarationStub) =
             TactPrimitiveDeclarationImpl(stub, this)
 

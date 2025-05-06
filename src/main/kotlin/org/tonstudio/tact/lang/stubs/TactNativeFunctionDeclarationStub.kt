@@ -9,16 +9,16 @@ import org.tonstudio.tact.lang.stubs.TactFunctionDeclarationStub.Type.Companion.
 import org.tonstudio.tact.lang.stubs.index.TactMethodIndex
 
 class TactNativeFunctionDeclarationStub : TactNamedStub<TactNativeFunctionDeclaration> {
-    var type: String? = null
+    var receiverType: String? = null
 
     constructor(
         parent: StubElement<*>?,
         elementType: IStubElementType<*, *>,
         name: StringRef?,
         isExported: Boolean,
-        type: String?,
+        receiverType: String?,
     ) : super(parent, elementType, name, isExported) {
-        this.type = type
+        this.receiverType = receiverType
     }
 
     constructor(
@@ -28,7 +28,7 @@ class TactNativeFunctionDeclarationStub : TactNamedStub<TactNativeFunctionDeclar
         isExported: Boolean,
         type: String?,
     ) : super(parent, elementType, name, isExported) {
-        this.type = type
+        this.receiverType = type
     }
 
     class Type(name: String) : TactNamedStubElementType<TactNativeFunctionDeclarationStub, TactNativeFunctionDeclaration>(name) {
@@ -42,7 +42,7 @@ class TactNativeFunctionDeclarationStub : TactNamedStub<TactNativeFunctionDeclar
         override fun serialize(stub: TactNativeFunctionDeclarationStub, dataStream: StubOutputStream) {
             dataStream.writeName(stub.name)
             dataStream.writeBoolean(stub.isExported)
-            dataStream.writeName(stub.type)
+            dataStream.writeName(stub.receiverType)
         }
 
         override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>?) =
@@ -50,9 +50,10 @@ class TactNativeFunctionDeclarationStub : TactNamedStub<TactNativeFunctionDeclar
 
         override fun indexStub(stub: TactNativeFunctionDeclarationStub, sink: IndexSink) {
             super.indexStub(stub, sink)
-            if (stub.type.isNullOrEmpty()) return
 
-            sink.occurrence(TactMethodIndex.KEY, stub.type!!)
+            val receiverType = stub.receiverType
+            if (receiverType.isNullOrEmpty()) return
+            sink.occurrence(TactMethodIndex.KEY, receiverType)
         }
     }
 }

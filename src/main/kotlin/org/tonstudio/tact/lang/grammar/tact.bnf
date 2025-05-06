@@ -330,6 +330,8 @@ private MembersRecover ::= !(
 )
 
 ConstantModifier ::= virtual | override | abstract
+
+// TODO: join with definition
 ConstDeclaration ::= ConstantModifier* const ConstDefinition semi {pin=2}
 
 ConstDefinition ::= identifier TypeHint ('=' Expression)? {

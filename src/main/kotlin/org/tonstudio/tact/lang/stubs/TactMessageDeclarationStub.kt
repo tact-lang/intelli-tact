@@ -28,8 +28,7 @@ class TactMessageDeclarationStub : TactNamedStub<TactMessageDeclaration> {
 
     class Type(name: String) : TactNamedStubElementType<TactMessageDeclarationStub, TactMessageDeclaration>(name) {
 
-        override fun createPsi(stub: TactMessageDeclarationStub) =
-            TactMessageDeclarationImpl(stub, this)
+        override fun createPsi(stub: TactMessageDeclarationStub) = TactMessageDeclarationImpl(stub, this)
 
         override fun createStub(psi: TactMessageDeclaration, parentStub: StubElement<*>?) =
             TactMessageDeclarationStub(parentStub, this, psi.name, true)

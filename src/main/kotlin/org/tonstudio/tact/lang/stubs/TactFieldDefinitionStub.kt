@@ -10,12 +10,11 @@ import org.tonstudio.tact.lang.psi.impl.TactFieldDefinitionImpl
 import org.tonstudio.tact.lang.stubs.types.TactNamedStubElementType
 
 class TactFieldDefinitionStub : TactNamedStub<TactFieldDefinition> {
-    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: StringRef?, isExported: Boolean) :
-            super(parent, elementType, name, isExported)
+    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: StringRef?) :
+            super(parent, elementType, name, true)
 
-    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: String?, isExported: Boolean) :
-            super(parent, elementType, name, isExported)
-
+    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: String?) :
+            super(parent, elementType, name, true)
 
     class Type(name: String) : TactNamedStubElementType<TactFieldDefinitionStub, TactFieldDefinition>(name) {
         override fun createPsi(stub: TactFieldDefinitionStub): TactFieldDefinition {
@@ -23,7 +22,7 @@ class TactFieldDefinitionStub : TactNamedStub<TactFieldDefinition> {
         }
 
         override fun createStub(psi: TactFieldDefinition, parentStub: StubElement<*>?): TactFieldDefinitionStub {
-            return TactFieldDefinitionStub(parentStub, this, psi.name, true)
+            return TactFieldDefinitionStub(parentStub, this, psi.name)
         }
 
         override fun serialize(stub: TactFieldDefinitionStub, dataStream: StubOutputStream) {
@@ -32,7 +31,7 @@ class TactFieldDefinitionStub : TactNamedStub<TactFieldDefinition> {
         }
 
         override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>?): TactFieldDefinitionStub {
-            return TactFieldDefinitionStub(parentStub, this, dataStream.readName(), dataStream.readBoolean())
+            return TactFieldDefinitionStub(parentStub, this, dataStream.readName())
         }
     }
 }
