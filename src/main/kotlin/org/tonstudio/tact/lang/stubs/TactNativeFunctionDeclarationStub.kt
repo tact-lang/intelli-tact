@@ -6,8 +6,8 @@ import com.intellij.util.io.StringRef
 import org.tonstudio.tact.lang.psi.TactNativeFunctionDeclaration
 import org.tonstudio.tact.lang.stubs.types.TactNamedStubElementType
 import org.tonstudio.tact.lang.psi.impl.TactNativeFunctionDeclarationImpl
+import org.tonstudio.tact.lang.stubs.TactFunctionDeclarationStub.Type.Companion.calcTypeText
 import org.tonstudio.tact.lang.stubs.index.TactMethodIndex
-import org.tonstudio.tact.lang.stubs.types.TactFunctionDeclarationStubElementType.Companion.calcTypeText
 
 class TactNativeFunctionDeclarationStub : TactNamedStub<TactNativeFunctionDeclaration> {
     var type: String? = null

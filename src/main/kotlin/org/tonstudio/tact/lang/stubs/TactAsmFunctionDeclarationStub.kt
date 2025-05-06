@@ -6,8 +6,8 @@ import com.intellij.util.io.StringRef
 import org.tonstudio.tact.lang.psi.TactAsmFunctionDeclaration
 import org.tonstudio.tact.lang.stubs.types.TactNamedStubElementType
 import org.tonstudio.tact.lang.psi.impl.TactAsmFunctionDeclarationImpl
+import org.tonstudio.tact.lang.stubs.TactFunctionDeclarationStub.Type.Companion.calcTypeText
 import org.tonstudio.tact.lang.stubs.index.TactMethodIndex
-import org.tonstudio.tact.lang.stubs.types.TactFunctionDeclarationStubElementType.Companion.calcTypeText
 
 class TactAsmFunctionDeclarationStub : TactNamedStub<TactAsmFunctionDeclaration> {
     var type: String? = null
