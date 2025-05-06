@@ -81,10 +81,10 @@
   implements("(Function|NativeFunction|AsmFunction)Declaration")="org.tonstudio.tact.lang.psi.TactSignatureOwner"
   implements(".*ReferenceExpression|FieldName")="org.tonstudio.tact.lang.psi.TactReferenceExpressionBase"
 
-  extends("Type|Signature|Result|Parameters|ContractParameters|TypeReferenceExpression|Attributes|Attribute|PlainAttribute|AttributeExpression|AttributeValue|AttributeKey|FieldDeclaration|ImportDeclaration|WithClause")="org.tonstudio.tact.lang.psi.impl.TactStubbedElementImpl<?>"
+  extends("Type|Signature|Result|Parameters|ContractParameters|TypeReferenceExpression|Attributes|Attribute|PlainAttribute|FieldDeclaration|ImportDeclaration|WithClause")="org.tonstudio.tact.lang.psi.impl.TactStubbedElementImpl<?>"
   extends("(Struct|Message|Trait|Contract|MessageFunction|ContractInit|Primitive|Function|NativeFunction|AsmFunction|Const)Declaration|(Var|Param|Field)Definition")="org.tonstudio.tact.lang.psi.impl.TactNamedElementImpl<?>"
 
-  elementTypeFactory("(Function|Struct|Field|Message|Trait|Contract|MessageFunction|ContractInit|Primitive|NativeFunction|AsmFunction|Const)Declaration|.*Type|(Var|Field|Param)Definition|Parameters|ContractParameters|Result|Signature|TypeReferenceExpression|Attributes|Attribute|PlainAttribute|AttributeExpression|AttributeValue|AttributeKey|ImportDeclaration|WithClause")='org.tonstudio.tact.lang.stubs.TactElementTypeFactory.stubFactory'
+  elementTypeFactory("(Function|Struct|Field|Message|Trait|Contract|MessageFunction|ContractInit|Primitive|NativeFunction|AsmFunction|Const|Import)Declaration|.*Type|(Var|Field|Param)Definition|Parameters|ContractParameters|Result|Signature|TypeReferenceExpression|Attributes|Attribute||WithClause")='org.tonstudio.tact.lang.stubs.TactStubFactory.stubFactory'
 
   extends(".*Statement")=Statement
   extends(".*Type|TypeList")=Type
@@ -525,7 +525,7 @@ TypeExtra ::= '?' | Tlb
 Tlb ::= as TypeReferenceExpression {pin=1}
 
 Type ::= (TypeLit | TypeName) TypeExtra* {
-  stubClass="org.tonstudio.tact.lang.stubs.TactTypeStub"
+  stubClass="org.tonstudio.tact.lang.stubs.TactTypeStub<?>"
   methods=[getIdentifier resolveType]
 }
 

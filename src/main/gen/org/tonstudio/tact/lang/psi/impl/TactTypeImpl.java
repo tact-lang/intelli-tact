@@ -13,9 +13,9 @@ import org.tonstudio.tact.lang.psi.*;
 import kotlin.Pair;
 import com.intellij.psi.stubs.IStubElementType;
 
-public class TactTypeImpl extends TactStubbedElementImpl<TactTypeStub> implements TactType {
+public class TactTypeImpl extends TactStubbedElementImpl<TactTypeStub<?>> implements TactType {
 
-  public TactTypeImpl(@NotNull TactTypeStub stub, @NotNull IStubElementType<?, ?> type) {
+  public TactTypeImpl(@NotNull TactTypeStub<?> stub, @NotNull IStubElementType<?, ?> type) {
     super(stub, type);
   }
 
