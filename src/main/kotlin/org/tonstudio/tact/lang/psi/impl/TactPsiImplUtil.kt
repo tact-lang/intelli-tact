@@ -122,7 +122,7 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun getName(o: TactConstDefinition): String {
+    fun getName(o: TactConstDeclaration): String {
         val stub = o.stub
         if (stub != null) {
             return stub.name ?: ""
@@ -132,7 +132,7 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun getExpressionText(o: TactConstDefinition): String {
+    fun getExpressionText(o: TactConstDeclaration): String {
         val stub = o.stub
         if (stub != null) {
             return stub.value
@@ -142,7 +142,7 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun getExpressionType(o: TactConstDefinition): String {
+    fun getExpressionType(o: TactConstDeclaration): String {
         val stub = o.stub
         if (stub != null) {
             return stub.type
@@ -248,13 +248,13 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun getConstantsList(o: TactTraitType): List<TactConstDefinition> {
-        return o.constDefinitionList
+    fun getConstantsList(o: TactTraitType): List<TactConstDeclaration> {
+        return o.constDeclarationList
     }
 
     @JvmStatic
-    fun getConstantsList(o: TactContractType): List<TactConstDefinition> {
-        return o.constDefinitionList
+    fun getConstantsList(o: TactContractType): List<TactConstDeclaration> {
+        return o.constDeclarationList
     }
 
     @JvmStatic
@@ -572,7 +572,7 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun getTypeInner(o: TactConstDefinition, context: ResolveState?): TactTypeEx? {
+    fun getTypeInner(o: TactConstDeclaration, context: ResolveState?): TactTypeEx? {
         val expr = o.expression ?: return null
         if (expr.text == o.name) return null
         return expr.inferType(context)

@@ -88,7 +88,7 @@ open class TactFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, 
     fun getContracts() = getNamedElements(TactTypes.CONTRACT_DECLARATION, getArrayFactory<TactContractDeclaration>())
     fun getTraits() = getNamedElements(TactTypes.TRAIT_DECLARATION, getArrayFactory<TactTraitDeclaration>())
     fun getPrimitives() = getNamedElements(TactTypes.PRIMITIVE_DECLARATION, getArrayFactory<TactPrimitiveDeclaration>())
-    fun getConstants() = getNamedElements(TactTypes.CONST_DEFINITION, getArrayFactory<TactConstDefinition>())
+    fun getConstants() = getNamedElements(TactTypes.CONST_DECLARATION, getArrayFactory<TactConstDeclaration>())
 
     private inline fun <reified T : PsiElement> getNamedElements(elementType: IElementType, arrayFactory: ArrayFactory<T>): List<T> {
         return CachedValuesManager.getCachedValue(this) {

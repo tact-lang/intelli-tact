@@ -5,11 +5,11 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.StubBasedPsiElement;
-import org.tonstudio.tact.lang.stubs.TactConstDefinitionStub;
+import org.tonstudio.tact.lang.stubs.TactConstDeclarationStub;
 import com.intellij.psi.ResolveState;
 import org.tonstudio.tact.lang.psi.types.TactTypeEx;
 
-public interface TactConstDefinition extends TactNamedElement, StubBasedPsiElement<TactConstDefinitionStub> {
+public interface TactConstDeclaration extends TactNamedElement, StubBasedPsiElement<TactConstDeclarationStub> {
 
   @NotNull
   List<TactConstantModifier> getConstantModifierList();

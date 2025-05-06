@@ -4,25 +4,25 @@ import com.intellij.openapi.application.QueryExecutorBase
 import com.intellij.psi.search.searches.DefinitionsScopedSearch
 import com.intellij.util.CommonProcessors
 import com.intellij.util.Processor
-import org.tonstudio.tact.lang.psi.TactConstDefinition
+import org.tonstudio.tact.lang.psi.TactConstDeclaration
 import org.tonstudio.tact.lang.psi.TactContractDeclaration
 import org.tonstudio.tact.lang.psi.TactTraitDeclaration
 import org.tonstudio.tact.lang.psi.constants
 
-fun hasSuperConstant(method: TactConstDefinition): Boolean {
-    val processor = CommonProcessors.FindFirstProcessor<TactConstDefinition>()
+fun hasSuperConstant(method: TactConstDeclaration): Boolean {
+    val processor = CommonProcessors.FindFirstProcessor<TactConstDeclaration>()
     TactSuperConstantSearch().processQuery(DefinitionsScopedSearch.SearchParameters(method), processor)
     return processor.isFound
 }
 
-class TactSuperConstantSearch : QueryExecutorBase<TactConstDefinition, DefinitionsScopedSearch.SearchParameters>(true) {
+class TactSuperConstantSearch : QueryExecutorBase<TactConstDeclaration, DefinitionsScopedSearch.SearchParameters>(true) {
     override fun processQuery(
         parameters: DefinitionsScopedSearch.SearchParameters,
-        consumer: Processor<in TactConstDefinition>,
+        consumer: Processor<in TactConstDeclaration>,
     ) {
         if (!parameters.isCheckDeep) return
 
-        val const = parameters.element as? TactConstDefinition ?: return
+        val const = parameters.element as? TactConstDeclaration ?: return
         val constName = const.name
 
         val owner = const.getOwner() ?: return

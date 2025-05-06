@@ -444,7 +444,7 @@ object TactCompletionUtil {
 
     class ConstantRenderer : ElementRenderer() {
         override fun render(element: LookupElement, p: LookupElementPresentation) {
-            val elem = element.psiElement as? TactConstDefinition ?: return
+            val elem = element.psiElement as? TactConstDeclaration ?: return
             p.icon = Icons.Constant
             p.itemText = element.lookupString
 

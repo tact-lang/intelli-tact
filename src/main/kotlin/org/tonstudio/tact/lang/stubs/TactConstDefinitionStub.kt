@@ -5,11 +5,11 @@ import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.stubs.StubInputStream
 import com.intellij.psi.stubs.StubOutputStream
 import com.intellij.util.io.StringRef
-import org.tonstudio.tact.lang.psi.TactConstDefinition
-import org.tonstudio.tact.lang.psi.impl.TactConstDefinitionImpl
+import org.tonstudio.tact.lang.psi.TactConstDeclaration
+import org.tonstudio.tact.lang.psi.impl.TactConstDeclarationImpl
 import org.tonstudio.tact.lang.stubs.types.TactNamedStubElementType
 
-class TactConstDefinitionStub : TactNamedStub<TactConstDefinition> {
+class TactConstDeclarationStub : TactNamedStub<TactConstDeclaration> {
     // used in documentation to get type and expression without AST loading
     var value: String = ""
     var type: String = ""
@@ -38,25 +38,25 @@ class TactConstDefinitionStub : TactNamedStub<TactConstDefinition> {
         this.value = value
     }
 
-    class Type(name: String) : TactNamedStubElementType<TactConstDefinitionStub, TactConstDefinition>(name) {
-        override fun createPsi(stub: TactConstDefinitionStub): TactConstDefinition {
-            return TactConstDefinitionImpl(stub, this)
+    class Type(name: String) : TactNamedStubElementType<TactConstDeclarationStub, TactConstDeclaration>(name) {
+        override fun createPsi(stub: TactConstDeclarationStub): TactConstDeclaration {
+            return TactConstDeclarationImpl(stub, this)
         }
 
-        override fun createStub(psi: TactConstDefinition, parentStub: StubElement<*>?): TactConstDefinitionStub {
+        override fun createStub(psi: TactConstDeclaration, parentStub: StubElement<*>?): TactConstDeclarationStub {
             val value = psi.expression?.text ?: ""
-            return TactConstDefinitionStub(parentStub, this, psi.name, true, "", value)
+            return TactConstDeclarationStub(parentStub, this, psi.name, true, "", value)
         }
 
-        override fun serialize(stub: TactConstDefinitionStub, dataStream: StubOutputStream) {
+        override fun serialize(stub: TactConstDeclarationStub, dataStream: StubOutputStream) {
             dataStream.writeName(stub.name)
             dataStream.writeBoolean(stub.isExported)
             dataStream.writeName(stub.type)
             dataStream.writeName(stub.value)
         }
 
-        override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>?): TactConstDefinitionStub {
-            return TactConstDefinitionStub(
+        override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>?): TactConstDeclarationStub {
+            return TactConstDeclarationStub(
                 parentStub,
                 this,
                 dataStream.readName(),

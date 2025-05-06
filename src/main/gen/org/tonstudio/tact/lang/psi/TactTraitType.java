@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface TactTraitType extends TactType, TactStorageMembersOwner {
 
   @NotNull
-  List<TactConstDefinition> getConstDefinitionList();
+  List<TactConstDeclaration> getConstDeclarationList();
 
   @NotNull
   List<TactContractInitDeclaration> getContractInitDeclarationList();
@@ -41,7 +41,7 @@ public interface TactTraitType extends TactType, TactStorageMembersOwner {
 
   @NotNull List<@NotNull TactFunctionDeclaration> getMethodsList();
 
-  @NotNull List<@NotNull TactConstDefinition> getConstantsList();
+  @NotNull List<@NotNull TactConstDeclaration> getConstantsList();
 
   @NotNull List<@NotNull TactTraitDeclaration> getInheritedTraits();
 

@@ -820,41 +820,41 @@ public class TactParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // ConstantModifier* const identifier TypeHint ('=' Expression)? semi
-  public static boolean ConstDefinition(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ConstDefinition")) return false;
+  public static boolean ConstDeclaration(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ConstDeclaration")) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, CONST_DEFINITION, "<const definition>");
-    r = ConstDefinition_0(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, CONST_DECLARATION, "<const declaration>");
+    r = ConstDeclaration_0(b, l + 1);
     r = r && consumeTokens(b, 1, CONST, IDENTIFIER);
     p = r; // pin = 2
     r = r && report_error_(b, TypeHint(b, l + 1));
-    r = p && report_error_(b, ConstDefinition_4(b, l + 1)) && r;
+    r = p && report_error_(b, ConstDeclaration_4(b, l + 1)) && r;
     r = p && semi(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
   // ConstantModifier*
-  private static boolean ConstDefinition_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ConstDefinition_0")) return false;
+  private static boolean ConstDeclaration_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ConstDeclaration_0")) return false;
     while (true) {
       int c = current_position_(b);
       if (!ConstantModifier(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "ConstDefinition_0", c)) break;
+      if (!empty_element_parsed_guard_(b, "ConstDeclaration_0", c)) break;
     }
     return true;
   }
 
   // ('=' Expression)?
-  private static boolean ConstDefinition_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ConstDefinition_4")) return false;
-    ConstDefinition_4_0(b, l + 1);
+  private static boolean ConstDeclaration_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ConstDeclaration_4")) return false;
+    ConstDeclaration_4_0(b, l + 1);
     return true;
   }
 
   // '=' Expression
-  private static boolean ConstDefinition_4_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ConstDefinition_4_0")) return false;
+  private static boolean ConstDeclaration_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ConstDeclaration_4_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, ASSIGN);
@@ -1769,7 +1769,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ConstDefinition
+  // ConstDeclaration
   //   | ContractInitDeclaration
   //   | MessageFunctionDeclaration
   //   | FunctionDeclaration
@@ -1778,7 +1778,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "MemberItem")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_);
-    r = ConstDefinition(b, l + 1);
+    r = ConstDeclaration(b, l + 1);
     if (!r) r = ContractInitDeclaration(b, l + 1);
     if (!r) r = MessageFunctionDeclaration(b, l + 1);
     if (!r) r = FunctionDeclaration(b, l + 1);
@@ -2755,7 +2755,7 @@ public class TactParser implements PsiParser, LightPsiParser {
   //   | MessageDeclaration
   //   | TraitDeclaration
   //   | ContractDeclaration
-  //   | ConstDefinition
+  //   | ConstDeclaration
   //   | Statement
   static boolean TopDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "TopDeclaration")) return false;
@@ -2769,7 +2769,7 @@ public class TactParser implements PsiParser, LightPsiParser {
     if (!r) r = MessageDeclaration(b, l + 1);
     if (!r) r = TraitDeclaration(b, l + 1);
     if (!r) r = ContractDeclaration(b, l + 1);
-    if (!r) r = ConstDefinition(b, l + 1);
+    if (!r) r = ConstDeclaration(b, l + 1);
     if (!r) r = Statement(b, l + 1);
     exit_section_(b, m, null, r);
     return r;

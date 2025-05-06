@@ -60,7 +60,7 @@ class TactAnnotator : Annotator {
             is TactMessageDeclaration        -> TactColor.MESSAGE
             is TactFieldDefinition           -> TactColor.FIELD
             is TactParamDefinition           -> TactColor.PARAMETER
-            is TactConstDefinition           -> TactColor.CONSTANT
+            is TactConstDeclaration          -> TactColor.CONSTANT
             else                             -> null
         }
     }

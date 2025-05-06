@@ -8,24 +8,24 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import org.tonstudio.tact.lang.psi.TactPsiTreeUtil;
 import static org.tonstudio.tact.lang.TactTypes.*;
-import org.tonstudio.tact.lang.stubs.TactConstDefinitionStub;
+import org.tonstudio.tact.lang.stubs.TactConstDeclarationStub;
 import org.tonstudio.tact.lang.psi.*;
 import com.intellij.psi.ResolveState;
 import org.tonstudio.tact.lang.psi.types.TactTypeEx;
 import com.intellij.psi.stubs.IStubElementType;
 
-public class TactConstDefinitionImpl extends TactNamedElementImpl<TactConstDefinitionStub> implements TactConstDefinition {
+public class TactConstDeclarationImpl extends TactNamedElementImpl<TactConstDeclarationStub> implements TactConstDeclaration {
 
-  public TactConstDefinitionImpl(@NotNull TactConstDefinitionStub stub, @NotNull IStubElementType<?, ?> type) {
+  public TactConstDeclarationImpl(@NotNull TactConstDeclarationStub stub, @NotNull IStubElementType<?, ?> type) {
     super(stub, type);
   }
 
-  public TactConstDefinitionImpl(@NotNull ASTNode node) {
+  public TactConstDeclarationImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull TactVisitor visitor) {
-    visitor.visitConstDefinition(this);
+    visitor.visitConstDeclaration(this);
   }
 
   @Override

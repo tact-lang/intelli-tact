@@ -9,7 +9,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.search.searches.DefinitionsScopedSearch
 import org.tonstudio.tact.lang.TactTypes
-import org.tonstudio.tact.lang.psi.TactConstDefinition
+import org.tonstudio.tact.lang.psi.TactConstDeclaration
 import org.tonstudio.tact.lang.psi.TactFunctionDeclaration
 import java.awt.event.MouseEvent
 
@@ -49,7 +49,7 @@ class TactSuperMarkerProvider : LineMarkerProviderDescriptor() {
             )
         }
 
-        val constant = element.parent as? TactConstDefinition
+        val constant = element.parent as? TactConstDeclaration
         if (constant != null && hasSuperConstant(constant)) {
             result.add(
                 createInfo(
@@ -83,7 +83,7 @@ private fun showSuperMethodPopup(e: MouseEvent?, identifier: PsiElement) {
     showSuperMethodPopup(e, method)
 }
 
-fun showSuperConstantPopup(event: MouseEvent?, constant: TactConstDefinition) {
+fun showSuperConstantPopup(event: MouseEvent?, constant: TactConstDeclaration) {
     val name = constant.name
     showPopup(
         "Implement constant $name",
@@ -98,6 +98,6 @@ fun showSuperConstantPopup(event: MouseEvent?, constant: TactConstDefinition) {
 }
 
 private fun showSuperConstantPopup(e: MouseEvent?, identifier: PsiElement) {
-    val method = identifier.parent as? TactConstDefinition ?: return
+    val method = identifier.parent as? TactConstDeclaration ?: return
     showSuperConstantPopup(e, method)
 }

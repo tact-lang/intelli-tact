@@ -34,7 +34,7 @@ open class TactVarProcessor(
         }
 
         return e !is TactParamDefinition &&
-                e !is TactConstDefinition &&
+                e !is TactConstDeclaration &&
                 e !is TactStructDeclaration
     }
 }

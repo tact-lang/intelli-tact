@@ -26,7 +26,7 @@ abstract class StorageMembersOwnerTy<T : TactNamedElement>(private val name: Str
         return owner()?.getFieldList() ?: emptyList()
     }
 
-    fun ownConstants(): List<TactConstDefinition> {
+    fun ownConstants(): List<TactConstDeclaration> {
         return owner()?.getConstantsList() ?: emptyList()
     }
 

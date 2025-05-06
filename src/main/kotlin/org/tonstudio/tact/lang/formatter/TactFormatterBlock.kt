@@ -59,7 +59,7 @@ class TactFormatterBlock(
                  -> {
                 when (childType) {
                     TactTypes.FIELD_DECLARATION            -> Indent.getNormalIndent()
-                    TactTypes.CONST_DEFINITION             -> Indent.getNormalIndent()
+                    TactTypes.CONST_DECLARATION             -> Indent.getNormalIndent()
                     TactTypes.FUNCTION_DECLARATION         -> Indent.getNormalIndent()
                     TactTypes.MESSAGE_FUNCTION_DECLARATION -> Indent.getNormalIndent()
                     TactTypes.CONTRACT_INIT_DECLARATION    -> Indent.getNormalIndent()

@@ -5,14 +5,14 @@ import com.intellij.psi.search.searches.DefinitionsScopedSearch
 import com.intellij.util.Processor
 import org.tonstudio.tact.lang.psi.*
 
-class TactConstantImplementationsSearch : QueryExecutorBase<TactConstDefinition, DefinitionsScopedSearch.SearchParameters>(true) {
+class TactConstantImplementationsSearch : QueryExecutorBase<TactConstDeclaration, DefinitionsScopedSearch.SearchParameters>(true) {
     override fun processQuery(
         parameters: DefinitionsScopedSearch.SearchParameters,
-        consumer: Processor<in TactConstDefinition>,
+        consumer: Processor<in TactConstDeclaration>,
     ) {
         if (!parameters.isCheckDeep) return
 
-        val constant = parameters.element as? TactConstDefinition ?: return
+        val constant = parameters.element as? TactConstDeclaration ?: return
         val trait = constant.getOwner() as? TactTraitDeclaration ?: return
 
         TactImplementationsSearch().processQuery(DefinitionsScopedSearch.SearchParameters(trait), { t ->

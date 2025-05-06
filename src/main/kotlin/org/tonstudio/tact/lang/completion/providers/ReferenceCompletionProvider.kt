@@ -254,7 +254,7 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
             is TactContractDeclaration  -> TactLookupElementProperties.ElementKind.CONTRACT
             is TactTraitDeclaration     -> TactLookupElementProperties.ElementKind.TRAIT
             is TactMessageDeclaration   -> TactLookupElementProperties.ElementKind.MESSAGE
-            is TactConstDefinition      -> TactLookupElementProperties.ElementKind.CONSTANT
+            is TactConstDeclaration      -> TactLookupElementProperties.ElementKind.CONSTANT
             is TactFieldDefinition      -> TactLookupElementProperties.ElementKind.FIELD
             is TactNamedElement         -> TactLookupElementProperties.ElementKind.OTHER
             else                        -> return null
@@ -270,7 +270,7 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
             is TactContractDeclaration       -> TactCompletionUtil.createContractLookupElement(element)
             is TactTraitDeclaration          -> TactCompletionUtil.createTraitLookupElement(element)
             is TactFieldDefinition           -> TactCompletionUtil.createFieldLookupElement(element)
-            is TactConstDefinition           -> TactCompletionUtil.createConstantLookupElement(element)
+            is TactConstDeclaration           -> TactCompletionUtil.createConstantLookupElement(element)
             is TactParamDefinition           -> TactCompletionUtil.createParamLookupElement(element)
             is TactNamedElement              -> TactCompletionUtil.createVariableLikeLookupElement(element)
             else                             -> null

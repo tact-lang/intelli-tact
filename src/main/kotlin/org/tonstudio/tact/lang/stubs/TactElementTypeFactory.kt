@@ -38,7 +38,7 @@ object TactElementTypeFactory {
         "NATIVE_FUNCTION_DECLARATION"  -> TactNativeFunctionDeclarationStub.Type(name)
         "IMPORT_DECLARATION"           -> TactImportDeclarationStub.Type(name)
         "PARAM_DEFINITION"             -> TactParamDefinitionStub.Type(name)
-        "CONST_DEFINITION"             -> TactConstDefinitionStub.Type(name)
+        "CONST_DECLARATION"             -> TactConstDeclarationStub.Type(name)
         "VAR_DEFINITION"               -> TactVarDefinitionStub.Type(name)
         "SIGNATURE"                    -> TactSignatureStub.Type(name)
         "PARAMETERS"                   -> TactParametersStub.Type(name)

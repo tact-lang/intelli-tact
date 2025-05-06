@@ -35,8 +35,8 @@ public class TactTraitTypeImpl extends TactTypeImpl implements TactTraitType {
 
   @Override
   @NotNull
-  public List<TactConstDefinition> getConstDefinitionList() {
-    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactConstDefinition.class);
+  public List<TactConstDeclaration> getConstDeclarationList() {
+    return TactPsiTreeUtil.getStubChildrenOfTypeAsList(this, TactConstDeclaration.class);
   }
 
   @Override
@@ -104,7 +104,7 @@ public class TactTraitTypeImpl extends TactTypeImpl implements TactTraitType {
   }
 
   @Override
-  public @NotNull List<@NotNull TactConstDefinition> getConstantsList() {
+  public @NotNull List<@NotNull TactConstDeclaration> getConstantsList() {
     return TactPsiImplUtil.getConstantsList(this);
   }
 

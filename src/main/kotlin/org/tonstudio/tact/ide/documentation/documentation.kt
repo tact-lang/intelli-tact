@@ -389,7 +389,7 @@ fun TactPrimitiveDeclaration.generateDoc(): String {
     }
 }
 
-fun TactConstDefinition.generateDoc(): String {
+fun TactConstDeclaration.generateDoc(): String {
     return buildString {
         append(DocumentationMarkup.DEFINITION_START)
 

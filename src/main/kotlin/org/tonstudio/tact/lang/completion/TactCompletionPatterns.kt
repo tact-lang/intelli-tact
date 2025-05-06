@@ -194,7 +194,7 @@ object TactCompletionPatterns {
                         next is TactTraitDeclaration ||
                         next is TactMessageDeclaration ||
                         next is TactImportDeclaration ||
-                        next is TactConstDefinition ||
+                        next is TactConstDeclaration ||
                         next is TactPrimitiveDeclaration ||
                         next is TactContractDeclaration
             }

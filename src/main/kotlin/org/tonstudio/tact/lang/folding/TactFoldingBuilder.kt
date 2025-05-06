@@ -44,7 +44,7 @@ class TactFoldingBuilder : FoldingBuilderEx(), DumbAware {
                 super.visitElement(el)
             }
 
-            override fun visitConstDefinition(el: TactConstDefinition) {
+            override fun visitConstDeclaration(el: TactConstDeclaration) {
                 genericFolding(el, TactTypes.LPAREN)
                 super.visitElement(el)
             }

@@ -3,7 +3,7 @@ package org.tonstudio.tact.ide.documentation
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
-import org.tonstudio.tact.lang.psi.TactConstDefinition
+import org.tonstudio.tact.lang.psi.TactConstDeclaration
 import org.tonstudio.tact.lang.psi.TactFieldDefinition
 import org.tonstudio.tact.lang.psi.TactTokenTypes
 
@@ -26,7 +26,7 @@ object CommentsConverter {
     fun getCommentsForElement(element: PsiElement?): List<PsiComment> {
         var comments = getCommentsInner(adjustElement(element))
         if (comments.isEmpty()) {
-            if (element is TactConstDefinition) {
+            if (element is TactConstDeclaration) {
                 val parent = element.parent // spec
                 comments = getCommentsInner(parent)
                 if (comments.isEmpty() && parent != null) {

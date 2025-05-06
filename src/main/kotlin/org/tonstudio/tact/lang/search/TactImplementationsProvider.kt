@@ -9,7 +9,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.search.searches.DefinitionsScopedSearch
 import org.tonstudio.tact.lang.TactTypes
-import org.tonstudio.tact.lang.psi.TactConstDefinition
+import org.tonstudio.tact.lang.psi.TactConstDeclaration
 import org.tonstudio.tact.lang.psi.TactFunctionDeclaration
 import org.tonstudio.tact.lang.psi.TactNamedElement
 import org.tonstudio.tact.lang.psi.TactTraitDeclaration
@@ -41,7 +41,7 @@ class TactImplementationsProvider : LineMarkerProviderDescriptor() {
             return processFunction(func, element, result)
         }
 
-        val constant = element.parent as? TactConstDefinition
+        val constant = element.parent as? TactConstDeclaration
         if (constant != null) {
             return processConstant(constant, element, result)
         }
@@ -79,7 +79,7 @@ class TactImplementationsProvider : LineMarkerProviderDescriptor() {
     }
 
     private fun processConstant(
-        constant: TactConstDefinition,
+        constant: TactConstDeclaration,
         element: LeafPsiElement,
         result: MutableCollection<in LineMarkerInfo<*>?>,
     ): Boolean {

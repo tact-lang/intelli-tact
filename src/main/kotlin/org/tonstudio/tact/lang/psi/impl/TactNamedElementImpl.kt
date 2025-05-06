@@ -101,7 +101,7 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
             is TactNativeFunctionDeclaration -> Icons.Function
             is TactAsmFunctionDeclaration    -> Icons.Function
             is TactVarDefinition             -> Icons.Variable
-            is TactConstDefinition           -> Icons.Constant
+            is TactConstDeclaration           -> Icons.Constant
             is TactFieldDefinition           -> Icons.Field
             is TactParamDefinition           -> Icons.Parameter
             else                             -> null
@@ -139,7 +139,7 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
         if (this is TactImportDeclaration) {
             return GlobalSearchScope.fileScope(file)
         }
-        if (this is TactVarDefinition || this is TactConstDefinition) {
+        if (this is TactVarDefinition || this is TactConstDeclaration) {
             val block = parentOfType<TactBlock>()
             if (block != null) return LocalSearchScope(block)
         }
@@ -160,7 +160,7 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
             is TactFunctionDeclaration                  -> "function"
             is TactAsmFunctionDeclaration               -> "asm function"
             is TactNativeFunctionDeclaration            -> "native function"
-            is TactConstDefinition                      -> "constant"
+            is TactConstDeclaration                      -> "constant"
             is TactVarDefinition, is TactVarDeclaration -> "variable"
             is TactParamDefinition                      -> "parameter"
             is TactImportDeclaration                    -> "import"
