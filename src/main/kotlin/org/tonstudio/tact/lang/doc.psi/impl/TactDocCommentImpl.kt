@@ -11,7 +11,6 @@ import com.intellij.psi.util.childrenOfType
 import org.tonstudio.tact.lang.doc.psi.TactDocCodeFence
 import org.tonstudio.tact.lang.doc.psi.TactDocComment
 import org.tonstudio.tact.lang.doc.psi.TactDocLinkDefinition
-import org.tonstudio.tact.lang.psi.TactFieldDefinition
 import org.tonstudio.tact.lang.psi.TactNamedElement
 
 /**

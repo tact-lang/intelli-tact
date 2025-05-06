@@ -21,7 +21,6 @@ import org.tonstudio.tact.asm.findInstruction
 import org.tonstudio.tact.asm.getStackPresentation
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asAsmInstruction
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asBraces
-import org.tonstudio.tact.ide.documentation.DocumentationUtils.asBuiltin
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asComment
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asConst
 import org.tonstudio.tact.ide.documentation.DocumentationUtils.asContract

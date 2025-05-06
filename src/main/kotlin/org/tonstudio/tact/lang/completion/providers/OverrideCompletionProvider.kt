@@ -6,7 +6,6 @@ import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.psi.util.parentOfType
 import com.intellij.util.ProcessingContext
-import fleet.util.associateByUnique
 import org.tonstudio.tact.lang.completion.TactCompletionUtil.TemplateStringInsertHandler
 import org.tonstudio.tact.lang.psi.*
 

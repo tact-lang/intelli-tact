@@ -1,10 +1,7 @@
 package org.tonstudio.tact.lang.psi.types
 
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiManager
-import org.tonstudio.tact.configurations.TactConfiguration
 
 class TactPrimitiveTypeEx(val name: TactPrimitiveTypes, anchor: PsiElement? = null) : TactBaseTypeEx(anchor) {
     var tlbType: String? = null
