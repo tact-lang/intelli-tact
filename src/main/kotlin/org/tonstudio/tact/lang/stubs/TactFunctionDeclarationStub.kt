@@ -21,9 +21,9 @@ class TactFunctionDeclarationStub : TactNamedStub<TactFunctionDeclaration> {
         parent: StubElement<*>?,
         elementType: IStubElementType<*, *>,
         name: StringRef?,
-        isPublic: Boolean,
+        isExported: Boolean,
         type: String?,
-    ) : super(parent, elementType, name, isPublic) {
+    ) : super(parent, elementType, name, isExported) {
         this.type = type
     }
 
@@ -31,12 +31,11 @@ class TactFunctionDeclarationStub : TactNamedStub<TactFunctionDeclaration> {
         parent: StubElement<*>?,
         elementType: IStubElementType<*, *>,
         name: String,
-        isPublic: Boolean,
+        isExported: Boolean,
         type: String?,
-    ) : super(parent, elementType, name, isPublic) {
+    ) : super(parent, elementType, name, isExported) {
         this.type = type
     }
-
 
     class Type(name: String) :
         TactNamedStubElementType<TactFunctionDeclarationStub, TactFunctionDeclaration>(name) {
@@ -51,7 +50,7 @@ class TactFunctionDeclarationStub : TactNamedStub<TactFunctionDeclaration> {
 
         override fun serialize(stub: TactFunctionDeclarationStub, dataStream: StubOutputStream) {
             dataStream.writeName(stub.name)
-            dataStream.writeBoolean(stub.isPublic)
+            dataStream.writeBoolean(stub.isExported)
             dataStream.writeName(stub.type)
         }
 
@@ -92,5 +91,4 @@ class TactFunctionDeclarationStub : TactNamedStub<TactFunctionDeclaration> {
             }
         }
     }
-
 }

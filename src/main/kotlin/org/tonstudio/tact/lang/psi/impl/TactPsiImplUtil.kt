@@ -309,7 +309,7 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun isPublic(o: TactFieldDefinition): Boolean = true
+    fun isExported(o: TactFieldDefinition): Boolean = true
 
     @JvmStatic
     fun getOwner(o: TactFieldDefinition): TactNamedElement {
@@ -440,7 +440,7 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun isPublic(o: TactParamDefinition): Boolean = true
+    fun isExported(o: TactParamDefinition): Boolean = true
 
     @JvmStatic
     fun getReferences(literal: TactStringLiteral): Array<out PsiReference> {
@@ -661,7 +661,7 @@ object TactPsiImplUtil {
     }
 
     @JvmStatic
-    fun isPublic(o: TactVarDefinition): Boolean = true
+    fun isExported(o: TactVarDefinition): Boolean = true
 
     @JvmStatic
     fun getReference(o: TactVarDefinition): PsiReference {

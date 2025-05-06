@@ -17,15 +17,15 @@ class TactContractDeclarationStub : TactNamedStub<TactContractDeclaration> {
         parent: StubElement<*>?,
         elementType: IStubElementType<*, *>,
         name: StringRef?,
-        isPublic: Boolean,
-    ) : super(parent, elementType, name, isPublic)
+        isExported: Boolean,
+    ) : super(parent, elementType, name, isExported)
 
     constructor(
         parent: StubElement<*>?,
         elementType: IStubElementType<*, *>,
         name: String?,
-        isPublic: Boolean,
-    ) : super(parent, elementType, name, isPublic)
+        isExported: Boolean,
+    ) : super(parent, elementType, name, isExported)
 
     class Type(name: String) : TactNamedStubElementType<TactContractDeclarationStub, TactContractDeclaration>(name) {
 
@@ -37,7 +37,7 @@ class TactContractDeclarationStub : TactNamedStub<TactContractDeclaration> {
 
         override fun serialize(stub: TactContractDeclarationStub, dataStream: StubOutputStream) {
             dataStream.writeName(stub.name)
-            dataStream.writeBoolean(stub.isPublic)
+            dataStream.writeBoolean(stub.isExported)
         }
 
         override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>?) =

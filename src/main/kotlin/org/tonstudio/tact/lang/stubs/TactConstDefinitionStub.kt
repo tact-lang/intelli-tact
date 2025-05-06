@@ -18,10 +18,10 @@ class TactConstDefinitionStub : TactNamedStub<TactConstDefinition> {
         parent: StubElement<*>?,
         elementType: IStubElementType<*, *>,
         name: StringRef?,
-        isPublic: Boolean,
+        isExported: Boolean,
         value: String,
         type: String,
-    ) : super(parent, elementType, name, isPublic) {
+    ) : super(parent, elementType, name, isExported) {
         this.value = value
         this.type = type
     }
@@ -30,10 +30,10 @@ class TactConstDefinitionStub : TactNamedStub<TactConstDefinition> {
         parent: StubElement<*>?,
         elementType: IStubElementType<*, *>,
         name: String?,
-        isPublic: Boolean,
+        isExported: Boolean,
         value: String,
         type: String,
-    ) : super(parent, elementType, name, isPublic) {
+    ) : super(parent, elementType, name, isExported) {
         this.value = value
         this.type = type
     }
@@ -50,7 +50,7 @@ class TactConstDefinitionStub : TactNamedStub<TactConstDefinition> {
 
         override fun serialize(stub: TactConstDefinitionStub, dataStream: StubOutputStream) {
             dataStream.writeName(stub.name)
-            dataStream.writeBoolean(stub.isPublic)
+            dataStream.writeBoolean(stub.isExported)
             dataStream.writeName(stub.value)
             dataStream.writeName(stub.type)
         }

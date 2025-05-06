@@ -10,11 +10,11 @@ import org.tonstudio.tact.lang.psi.impl.TactFieldDefinitionImpl
 import org.tonstudio.tact.lang.stubs.types.TactNamedStubElementType
 
 class TactFieldDefinitionStub : TactNamedStub<TactFieldDefinition> {
-    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: StringRef?, isPublic: Boolean) :
-            super(parent, elementType, name, isPublic)
+    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: StringRef?, isExported: Boolean) :
+            super(parent, elementType, name, isExported)
 
-    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: String?, isPublic: Boolean) :
-            super(parent, elementType, name, isPublic)
+    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: String?, isExported: Boolean) :
+            super(parent, elementType, name, isExported)
 
 
     class Type(name: String) : TactNamedStubElementType<TactFieldDefinitionStub, TactFieldDefinition>(name) {
@@ -28,7 +28,7 @@ class TactFieldDefinitionStub : TactNamedStub<TactFieldDefinition> {
 
         override fun serialize(stub: TactFieldDefinitionStub, dataStream: StubOutputStream) {
             dataStream.writeName(stub.name)
-            dataStream.writeBoolean(stub.isPublic)
+            dataStream.writeBoolean(stub.isExported)
         }
 
         override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>?): TactFieldDefinitionStub {

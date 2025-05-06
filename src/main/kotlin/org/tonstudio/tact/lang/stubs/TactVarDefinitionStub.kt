@@ -10,11 +10,11 @@ import org.tonstudio.tact.lang.psi.impl.TactVarDefinitionImpl
 import org.tonstudio.tact.lang.stubs.types.TactNamedStubElementType
 
 class TactVarDefinitionStub : TactNamedStub<TactVarDefinition> {
-    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: StringRef?, isPublic: Boolean) :
-            super(parent, elementType, name, isPublic)
+    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: StringRef?, isExported: Boolean) :
+            super(parent, elementType, name, isExported)
 
-    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: String?, isPublic: Boolean) :
-            super(parent, elementType, name, isPublic)
+    constructor(parent: StubElement<*>?, elementType: IStubElementType<*, *>, name: String?, isExported: Boolean) :
+            super(parent, elementType, name, isExported)
 
     class Type(name: String) : TactNamedStubElementType<TactVarDefinitionStub, TactVarDefinition>(name) {
         override fun createPsi(stub: TactVarDefinitionStub): TactVarDefinition {
@@ -27,7 +27,7 @@ class TactVarDefinitionStub : TactNamedStub<TactVarDefinition> {
 
         override fun serialize(stub: TactVarDefinitionStub, dataStream: StubOutputStream) {
             dataStream.writeName(stub.name)
-            dataStream.writeBoolean(stub.isPublic)
+            dataStream.writeBoolean(stub.isExported)
         }
 
         override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>?): TactVarDefinitionStub {

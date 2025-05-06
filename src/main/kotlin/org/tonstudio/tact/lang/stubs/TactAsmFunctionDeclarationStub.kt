@@ -16,9 +16,9 @@ class TactAsmFunctionDeclarationStub : TactNamedStub<TactAsmFunctionDeclaration>
         parent: StubElement<*>?,
         elementType: IStubElementType<*, *>,
         name: StringRef?,
-        isPublic: Boolean,
+        isExported: Boolean,
         type: String?,
-    ) : super(parent, elementType, name, isPublic) {
+    ) : super(parent, elementType, name, isExported) {
         this.type = type
     }
 
@@ -26,9 +26,9 @@ class TactAsmFunctionDeclarationStub : TactNamedStub<TactAsmFunctionDeclaration>
         parent: StubElement<*>?,
         elementType: IStubElementType<*, *>,
         name: String,
-        isPublic: Boolean,
+        isExported: Boolean,
         type: String?,
-    ) : super(parent, elementType, name, isPublic) {
+    ) : super(parent, elementType, name, isExported) {
         this.type = type
     }
 
@@ -42,7 +42,7 @@ class TactAsmFunctionDeclarationStub : TactNamedStub<TactAsmFunctionDeclaration>
 
         override fun serialize(stub: TactAsmFunctionDeclarationStub, dataStream: StubOutputStream) {
             dataStream.writeName(stub.name)
-            dataStream.writeBoolean(stub.isPublic)
+            dataStream.writeBoolean(stub.isExported)
             dataStream.writeName(stub.type)
         }
 
