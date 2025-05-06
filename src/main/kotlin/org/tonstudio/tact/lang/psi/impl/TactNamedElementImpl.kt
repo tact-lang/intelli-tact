@@ -128,11 +128,6 @@ abstract class TactNamedElementImpl<T : TactNamedStub<*>> :
         return getIdentifier()
     }
 
-    override fun getDocumentation(): TactDocComment? {
-        // TODO: use CommentsConverter?
-        return PsiTreeUtil.getPrevSiblingOfType(this, TactDocComment::class.java)
-    }
-
     override fun getUseScope(): SearchScope {
         if (!isValid) return GlobalSearchScope.EMPTY_SCOPE
         val file = containingFile

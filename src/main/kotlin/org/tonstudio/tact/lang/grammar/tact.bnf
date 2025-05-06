@@ -81,8 +81,6 @@
   implements("(Function|NativeFunction|AsmFunction)Declaration")="org.tonstudio.tact.lang.psi.TactSignatureOwner"
   implements(".*ReferenceExpression|FieldName")="org.tonstudio.tact.lang.psi.TactReferenceExpressionBase"
 
-  implements("(Struct|Function)Declaration")="org.tonstudio.tact.lang.psi.TactAttributeOwner"
-
   extends("Type|Signature|Result|Parameters|ContractParameters|TypeReferenceExpression|Attributes|Attribute|PlainAttribute|AttributeExpression|AttributeValue|AttributeKey|FieldDeclaration|ImportDeclaration|WithClause")="org.tonstudio.tact.lang.psi.impl.TactStubbedElementImpl<?>"
   extends("(Struct|Message|Trait|Contract|MessageFunction|ContractInit|Primitive|Function|NativeFunction|AsmFunction|Const)Declaration|(Var|Param|Field)Definition")="org.tonstudio.tact.lang.psi.impl.TactNamedElementImpl<?>"
 
@@ -252,6 +250,14 @@ private AssignStatement     ::= Expression AssignmentStatement semi {pin=2}
 VarDeclaration ::= let VarDefinition TypeHint? '=' Expression semi {pin=4}
 
 TypeHint ::= ':' Type
+
+DestructStatement ::= let TypeReferenceExpression "{" DestructList "}" "=" Expression semi {pin=3}
+
+private DestructList ::= DestructItem ("," DestructItem)* ("," "..")? ","? {pin=1}
+
+DestructItem ::=
+    ReferenceExpression ':' VarDefinition
+  | VarDefinition
 
 left AssignmentStatement ::= AssignOp Expression {
   pin=1
@@ -430,14 +436,6 @@ ParamDefinition ::= identifier ':' Type {
   pin=4
   stubClass="org.tonstudio.tact.lang.stubs.TactParamDefinitionStub"
 }
-
-DestructStatement ::= let TypeReferenceExpression "{" DestructList "}" "=" Expression semi {pin=3}
-
-private DestructList ::= DestructItem ("," DestructItem)* ("," "..")? ","? {pin=1}
-
-DestructItem ::=
-    ReferenceExpression ':' VarDefinition
-  | VarDefinition
 
 NativeFunctionDeclaration ::= Attributes? FunctionAttribute* native identifier Signature ';' {
   pin=3

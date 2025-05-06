@@ -220,7 +220,6 @@ public class TactVisitor extends PsiElementVisitor {
   public void visitFunctionDeclaration(@NotNull TactFunctionDeclaration o) {
     visitNamedElement(o);
     // visitSignatureOwner(o);
-    // visitAttributeOwner(o);
   }
 
   public void visitGetAttribute(@NotNull TactGetAttribute o) {
@@ -389,7 +388,6 @@ public class TactVisitor extends PsiElementVisitor {
 
   public void visitStructDeclaration(@NotNull TactStructDeclaration o) {
     visitNamedElement(o);
-    // visitAttributeOwner(o);
   }
 
   public void visitStructType(@NotNull TactStructType o) {

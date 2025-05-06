@@ -9,7 +9,7 @@ import org.tonstudio.tact.lang.stubs.TactStructDeclarationStub;
 import com.intellij.psi.ResolveState;
 import org.tonstudio.tact.lang.psi.types.TactTypeEx;
 
-public interface TactStructDeclaration extends TactNamedElement, TactAttributeOwner, StubBasedPsiElement<TactStructDeclarationStub> {
+public interface TactStructDeclaration extends TactNamedElement, StubBasedPsiElement<TactStructDeclarationStub> {
 
   @Nullable
   TactAttributes getAttributes();

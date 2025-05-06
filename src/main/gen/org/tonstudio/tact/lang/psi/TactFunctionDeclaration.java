@@ -10,7 +10,7 @@ import com.intellij.psi.ResolveState;
 import kotlin.Pair;
 import org.tonstudio.tact.lang.psi.types.TactTypeEx;
 
-public interface TactFunctionDeclaration extends TactNamedElement, TactSignatureOwner, TactAttributeOwner, StubBasedPsiElement<TactFunctionDeclarationStub> {
+public interface TactFunctionDeclaration extends TactNamedElement, TactSignatureOwner, StubBasedPsiElement<TactFunctionDeclarationStub> {
 
   @Nullable
   TactAttributes getAttributes();
