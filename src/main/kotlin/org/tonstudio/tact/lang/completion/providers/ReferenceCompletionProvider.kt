@@ -95,7 +95,7 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
                 val named = e as? TactNamedElement ?: return true
                 return allFields.any { (name) -> named.name == name }
             }
-        }, ResolveState.initial(), false)
+        }, ResolveState.initial())
 
         if (allFields.size > 1) {
             val fields = allFields.toList()

@@ -12,7 +12,6 @@ import com.intellij.psi.util.*
 import org.tonstudio.tact.compiler.crc16
 import org.tonstudio.tact.lang.TactTypes.DOT
 import org.tonstudio.tact.lang.psi.*
-import org.tonstudio.tact.lang.psi.impl.TactReferenceBase.Companion.LOCAL_RESOLVE
 import org.tonstudio.tact.lang.psi.impl.TactTypeInferer.inferVariableType
 import org.tonstudio.tact.lang.psi.types.TactBaseTypeEx.Companion.toEx
 import org.tonstudio.tact.lang.psi.types.TactFunctionTypeEx
@@ -610,20 +609,11 @@ object TactPsiImplUtil {
             CachedValuesManager.getCachedValue(expr) {
                 CachedValueProvider.Result
                     .create(
-                        expr.inferType(createContextOnElement(expr)),
+                        expr.inferType(ResolveState.initial()),
                         PsiModificationTracker.MODIFICATION_COUNT,
                     )
             }
         }
-    }
-
-    val CONTEXT = Key.create<SmartPsiElementPointer<PsiElement>>("CONTEXT")
-
-    private fun createContextOnElement(element: PsiElement): ResolveState {
-        return ResolveState.initial().put(
-            CONTEXT,
-            SmartPointerManager.getInstance(element.project).createSmartPsiElementPointer(element)
-        )
     }
 
     @JvmStatic
@@ -728,16 +718,15 @@ object TactPsiImplUtil {
     }
 
     private fun processParameters(processor: TactScopeProcessorBase, parameters: TactParameters): Boolean {
-        return processNamedElements(processor, ResolveState.initial(), parameters.paramDefinitionList, true)
+        return processNamedElements(processor, ResolveState.initial(), parameters.paramDefinitionList)
     }
 
     fun processNamedElements(
         processor: PsiScopeProcessor,
         state: ResolveState,
         elements: Collection<TactNamedElement>,
-        localResolve: Boolean,
     ): Boolean {
-        return processNamedElements(processor, state, elements, Conditions.alwaysTrue(), localResolve, false)
+        return processNamedElements(processor, state, elements, Conditions.alwaysTrue(), false)
     }
 
     fun processNamedElements(
@@ -745,7 +734,6 @@ object TactPsiImplUtil {
         state: ResolveState,
         elements: Collection<TactNamedElement>,
         condition: Condition<Any>,
-        localResolve: Boolean,
         checkContainingFile: Boolean,
     ): Boolean {
         for (definition in elements) {
@@ -753,7 +741,7 @@ object TactPsiImplUtil {
                 continue
             if (!definition.isValid || checkContainingFile)
                 continue
-            if (!processor.execute(definition, state.put(LOCAL_RESOLVE, localResolve)))
+            if (!processor.execute(definition, state))
                 return false
         }
         return true
