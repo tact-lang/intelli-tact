@@ -1,6 +1,5 @@
 package org.tonstudio.tact.configurations
 
-import com.intellij.openapi.application.AppUIExecutor
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ModalityState
 import com.intellij.openapi.application.invokeLater

@@ -45,4 +45,9 @@ public class TactInitOfExprImpl extends TactExpressionImpl implements TactInitOf
     return notNullChild(findChildByType(INIT_OF));
   }
 
+  @Override
+  public @Nullable List<@NotNull TactFieldOrParameter> resolve() {
+    return TactPsiImplUtil.resolve(this);
+  }
+
 }

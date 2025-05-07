@@ -68,8 +68,8 @@ object TactCompletionPatterns {
      */
     fun onContractTraitTopLevel(): PsiElementPattern.Capture<PsiElement> =
         psiElement()
-            .withSuperParent(4, or(instanceOf(TactTraitDeclaration::class.java), instanceOf(TactContractDeclaration::class.java)))
-            .withSuperParent(5, TactFile::class.java)
+            .withSuperParent(3, or(instanceOf(TactTraitDeclaration::class.java), instanceOf(TactContractDeclaration::class.java)))
+            .withSuperParent(4, TactFile::class.java)
             .notAfterDot()
             .notAfterLiteral()
 

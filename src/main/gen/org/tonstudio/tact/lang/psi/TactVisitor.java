@@ -202,7 +202,8 @@ public class TactVisitor extends PsiElementVisitor {
   }
 
   public void visitFieldDefinition(@NotNull TactFieldDefinition o) {
-    visitNamedElement(o);
+    visitFieldOrParameter(o);
+    // visitNamedElement(o);
   }
 
   public void visitFieldName(@NotNull TactFieldName o) {
@@ -317,7 +318,8 @@ public class TactVisitor extends PsiElementVisitor {
   }
 
   public void visitParamDefinition(@NotNull TactParamDefinition o) {
-    visitNamedElement(o);
+    visitFieldOrParameter(o);
+    // visitNamedElement(o);
   }
 
   public void visitParameters(@NotNull TactParameters o) {
@@ -465,6 +467,10 @@ public class TactVisitor extends PsiElementVisitor {
   }
 
   public void visitSemi(@NotNull TactSemi o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitFieldOrParameter(@NotNull TactFieldOrParameter o) {
     visitCompositeElement(o);
   }
 

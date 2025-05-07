@@ -9,7 +9,7 @@ import org.tonstudio.tact.lang.stubs.TactFieldDefinitionStub;
 import com.intellij.psi.ResolveState;
 import org.tonstudio.tact.lang.psi.types.TactTypeEx;
 
-public interface TactFieldDefinition extends TactNamedElement, StubBasedPsiElement<TactFieldDefinitionStub> {
+public interface TactFieldDefinition extends TactFieldOrParameter, TactNamedElement, StubBasedPsiElement<TactFieldDefinitionStub> {
 
   @Nullable
   TactDefaultFieldValue getDefaultFieldValue();

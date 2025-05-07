@@ -16,4 +16,6 @@ public interface TactInitOfExpr extends TactExpression {
   @NotNull
   PsiElement getInitOf();
 
+  @Nullable List<@NotNull TactFieldOrParameter> resolve();
+
 }
