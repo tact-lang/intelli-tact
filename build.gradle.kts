@@ -57,7 +57,7 @@ intellijPlatform {
             <li>Find all references, workspace symbol search, symbol renaming</li>
             <li>Types and documentation on hover</li>
             <li>Inlay hints for types, parameter names, and more</li>
-            <li>Lenses with usages counts and VCS author</li>
+            <li>Lenses with usages count and VCS author</li>
             <li>On-the-fly inspections with quick fixes</li>
             <li>Signature help inside calls and <code>initOf</code></li>
             <li>Build single contract or projects from <code>tact.config.json</code> via <b>Run configuration</b></li>

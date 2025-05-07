@@ -29,7 +29,7 @@ blockchain.
 - Find all references, workspace symbol search, symbol renaming
 - Types and documentation on hover
 - Inlay hints for types, parameter names, and more
-- Lenses with usages counts and VCS author
+- Lenses with usages count and VCS author
 - On-the-fly inspections with quick fixes
 - Signature help inside calls and `initOf`
 - Build single contract or projects from `tact.config.json` via Run configuration
