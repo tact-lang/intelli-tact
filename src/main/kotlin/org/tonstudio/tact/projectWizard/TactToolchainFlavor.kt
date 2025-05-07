@@ -35,8 +35,5 @@ abstract class TactToolchainFlavor {
 
         fun getApplicableFlavors(): List<TactToolchainFlavor> =
             EP_NAME.extensionList.filter { it.isApplicable() }
-
-        fun getFlavor(path: Path): TactToolchainFlavor? =
-            getApplicableFlavors().find { flavor -> flavor.isValidToolchainPath(path) }
     }
 }

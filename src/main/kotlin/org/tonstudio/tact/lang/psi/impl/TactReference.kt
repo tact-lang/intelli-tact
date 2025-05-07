@@ -3,7 +3,6 @@ package org.tonstudio.tact.lang.psi.impl
 import com.intellij.extapi.psi.StubBasedPsiElementBase
 import com.intellij.openapi.util.Conditions
 import com.intellij.openapi.util.RecursionManager
-import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.resolveFromRootOrRelative
 import com.intellij.psi.*

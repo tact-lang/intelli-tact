@@ -58,8 +58,8 @@ object CommentsConverter {
         e = element.prevSibling
         while (e != null) {
             if (e is PsiWhiteSpace) {
-                if (e.getText().contains("\n\n")) return result
-                e = e.getPrevSibling()
+                if (e.text.contains("\n\n")) return result
+                e = e.prevSibling
                 continue
             }
             if (e is PsiComment) {

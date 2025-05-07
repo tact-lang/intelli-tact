@@ -108,7 +108,7 @@ object ReferenceCompletionProvider : CompletionProvider<CompletionParameters>() 
             result.addElement(element)
         }
 
-        if (requiredFields.size > 0) {
+        if (requiredFields.isNotEmpty()) {
             val fields = requiredFields.toList()
             val element =
                 LookupElementBuilder.create("_")

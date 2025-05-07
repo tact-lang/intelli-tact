@@ -318,7 +318,7 @@ object TactCompletionUtil {
             context.editor.caretModel.moveToOffset(caretOffset)
 
             val template = TemplateManager.getInstance(context.project)
-                .createTemplate("templateInsertHandler", "tact", "\$expr\$\$END\$ ")
+                .createTemplate("templateInsertHandler", "tact", "\$expr$\$END$ ")
 
             template.addVariable("expr", ConstantNode("param"), true)
 

@@ -27,7 +27,7 @@ blockchain.
 - Go to definition, implementation, type definition
 - Find all references, workspace symbol search, symbol renaming
 - Types and documentation on hover
-- Inlay hints for types, parameter names and more
+- Inlay hints for types, parameter names, and more
 - On-the-fly inspections with quick fixes
 - Signature help inside calls
 - Formatting
@@ -52,9 +52,9 @@ blockchain.
 
 ## Community
 
-- [`@tactlang` on Telegram](https://t.me/tactlang) - Main community chat and discussion group.
+- [`@tactlang` on Telegram](https://t.me/tactlang) — Main community chat and discussion group.
 - [`@tactlang_ru` on Telegram](https://t.me/tactlang_ru) _(Russian)_
-- [`@tact_kitchen` on Telegram](https://t.me/tact_kitchen) - Channel with updates from the team.
+- [`@tact_kitchen` on Telegram](https://t.me/tact_kitchen) — Channel with updates from the team.
 - [`@tact_language` on X/Twitter](https://x.com/tact_language)
 - [`tact-lang` organization on GitHub](https://github.com/tact-lang)
 - [`@ton_studio` on Telegram](https://t.me/ton_studio)

@@ -7,7 +7,7 @@ data class TactDocLine(
     private val text: CharSequence,
     private val startOffset: Int,
     private val endOffset: Int,
-    val contentStartOffset: Int = startOffset,
+    private val contentStartOffset: Int = startOffset,
     private val contentEndOffset: Int = endOffset,
     val isLastLine: Boolean,
     val isRemoved: Boolean = false,

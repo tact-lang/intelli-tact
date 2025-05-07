@@ -15,12 +15,12 @@ class TactFunctionImplementationsSearch : QueryExecutorBase<TactFunctionDeclarat
         val func = parameters.element as? TactFunctionDeclaration ?: return
         val trait = func.getOwner() as? TactTraitDeclaration ?: return
 
-        TactImplementationsSearch().processQuery(DefinitionsScopedSearch.SearchParameters(trait), { t ->
+        TactImplementationsSearch().processQuery(DefinitionsScopedSearch.SearchParameters(trait)) { t ->
             val implementations = t.getMethodsList().filter { m -> m.name == func.name }
             for (implementation in implementations) {
                 consumer.process(implementation)
             }
             true
-        })
+        }
     }
 }

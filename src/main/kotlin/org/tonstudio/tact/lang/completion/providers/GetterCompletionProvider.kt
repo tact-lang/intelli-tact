@@ -25,7 +25,7 @@ object GetterCompletionProvider : CompletionProvider<CompletionParameters>() {
                     val start = context.startOffset
                     doc.deleteString(start, start + name.length)
                     TemplateStringInsertHandler(
-                        "get fun ${name}(): ${type.name()} {\n\treturn self.${name};\n}", true
+                        "get fun ${name}(): ${type.name()} {\n\treturn self.${name};\n}"
                     ).handleInsert(context, item)
                 }
             result.addElement(element)
@@ -42,7 +42,7 @@ object GetterCompletionProvider : CompletionProvider<CompletionParameters>() {
                     val start = context.startOffset
                     doc.deleteString(start, start + "state".length)
                     TemplateStringInsertHandler(
-                        "get fun contractState(): $name {\n\treturn self;\n}", true
+                        "get fun contractState(): $name {\n\treturn self;\n}"
                     ).handleInsert(context, item)
                 }
             result.addElement(element)

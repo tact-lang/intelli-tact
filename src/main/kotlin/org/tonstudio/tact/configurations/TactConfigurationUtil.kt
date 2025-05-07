@@ -20,7 +20,7 @@ object TactConfigurationUtil {
     const val UNDEFINED_VERSION = "N/A"
     const val STANDARD_LIB_PATH = "dist/stdlib/stdlib"
     const val COMPILER_REPO_STANDARD_LIB_PATH = "src/stdlib/stdlib"
-    val STANDARD_TACT_COMPILER = "./bin/tact.js"
+    const val STANDARD_TACT_COMPILER = "./bin/tact.js"
 
     fun getStdlibLocation(path: String): String? {
         if (path.isBlank()) {

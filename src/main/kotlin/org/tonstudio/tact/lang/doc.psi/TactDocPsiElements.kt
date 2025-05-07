@@ -156,10 +156,9 @@ interface TactDocLinkDestination : TactDocElement
 /**
  * A [Markdown code fence](https://spec.commonmark.org/0.29/#fenced-code-blocks).
  *
- * Provides specific behavior for language injections (see [TactDoctestLanguageInjector]).
+ * Provides specific behavior for language injections (see [org.tonstudio.tact.ide.injections.TactDoctestLanguageInjector]).
  *
  * [InjectionBackgroundSuppressor] is used to disable builtin background highlighting for injection.
- * We create such background manually by [TactDoctestAnnotator] (see the class docs)
  */
 interface TactDocCodeFence : TactDocElement, PsiLanguageInjectionHost, InjectionBackgroundSuppressor {
     val start: TactDocCodeFenceStartEnd

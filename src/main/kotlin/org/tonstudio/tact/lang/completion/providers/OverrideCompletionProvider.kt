@@ -41,7 +41,7 @@ object OverrideCompletionProvider : CompletionProvider<CompletionParameters>() {
                     val start = context.startOffset
                     doc.deleteString(start + lookup.length - 1, start + lookup.length)
                     TemplateStringInsertHandler(
-                        " fun ${name}${method.getSignature().text} {\$END$}", true
+                        " fun ${name}${method.getSignature().text} {\$END$}"
                     ).handleInsert(context, item)
                 }
             result.addElement(element)

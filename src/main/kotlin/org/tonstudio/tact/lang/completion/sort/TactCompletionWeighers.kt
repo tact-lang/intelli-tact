@@ -9,6 +9,7 @@ import com.intellij.codeInsight.lookup.LookupElementWeigher
 import org.tonstudio.tact.lang.completion.TactLookupElement
 import org.tonstudio.tact.lang.completion.TactLookupElementProperties
 
+@Suppress("UnstableApiUsage")
 val TACT_COMPLETION_WEIGHERS: List<Any> = listOf(
     /**
      * Based on the value passed via [com.intellij.codeInsight.completion.PrioritizedLookupElement.withPriority].
@@ -37,7 +38,7 @@ val TACT_COMPLETION_WEIGHERS: List<Any> = listOf(
 
     /**
      * Puts closer elements above more distant ones (relative to the location where completion is invoked).
-     * For example, elements from workspace packages considered closer than elements from external packages.
+     * For example, elements from workspace packages are considered closer than elements from external packages.
      * Specific rules are defined by [com.intellij.psi.util.proximity.ProximityWeigher] implementations
      * registered using `<com.intellij.weigher key="proximity">` extension point.
      * @see com.intellij.codeInsight.completion.LookupElementProximityWeigher
@@ -66,7 +67,7 @@ private fun splitIntoGroups(weighersWithAnchors: List<Any>): List<AnchoredWeighe
     val weigherIds = hashSetOf<String>()
     var currentAnchor: String = firstEntry
     var currentWeighers = mutableListOf<LookupElementWeigher>()
-    // Add "dummy weigher" in order to execute `is String ->` arm in the last iteration
+    // Add "dummy weigher" to execute `is String ->` arm in the last iteration
     for (weigherOrAnchor in weighersWithAnchors.asSequence().drop(1).plus(sequenceOf("dummy weigher"))) {
         when (weigherOrAnchor) {
             is String                -> {
