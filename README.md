@@ -24,14 +24,16 @@ blockchain.
 ## Features
 
 - Semantic syntax highlighting
-- Code completion, imports completion
+- Code completion, snippets, imports completion
 - Go to definition, implementation, type definition
 - Find all references, workspace symbol search, symbol renaming
 - Types and documentation on hover
 - Inlay hints for types, parameter names, and more
+- Lenses with usages counts and VCS author
 - On-the-fly inspections with quick fixes
 - Signature help inside calls and `initOf`
-- Formatting
+- Build single contract or projects from `tact.config.json` via Run configuration
+- Formatting with shortcut and on save
 
 ## Installation & Usage
 

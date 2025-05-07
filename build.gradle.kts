@@ -47,7 +47,22 @@ intellijPlatform {
         version = providers.gradleProperty("pluginVersion")
 
         description = """
-        Provides official support for <a href="https://tact-lang.org/">Tact</a> programming language
+        Provides official support for <a href="https://tact-lang.org/">Tact</a> programming language.
+
+        <h2>Features</h2>
+        <ul>
+            <li>Semantic syntax highlighting</li>
+            <li>Code completion, snippets, imports completion</li>
+            <li>Go to definition, implementation, type definition</li>
+            <li>Find all references, workspace symbol search, symbol renaming</li>
+            <li>Types and documentation on hover</li>
+            <li>Inlay hints for types, parameter names, and more</li>
+            <li>Lenses with usages counts and VCS author</li>
+            <li>On-the-fly inspections with quick fixes</li>
+            <li>Signature help inside calls and <code>initOf</code></li>
+            <li>Build single contract or projects from <code>tact.config.json</code> via <b>Run configuration</b></li>
+            <li>Formatting with shortcut and on save</li>
+        </ul>
         """.trimIndent()
 
         val changelog = project.changelog
