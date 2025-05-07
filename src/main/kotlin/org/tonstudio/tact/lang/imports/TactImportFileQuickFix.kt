@@ -17,10 +17,10 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiReference
 import com.intellij.ui.SimpleColoredComponent
 import com.intellij.ui.SimpleTextAttributes
-import com.intellij.ui.components.JBList
 import com.intellij.util.IncorrectOperationException
 import com.intellij.util.ui.JBUI
 import org.tonstudio.tact.ide.ui.Icons
+import org.tonstudio.tact.ide.ui.SelectionAwareListCellRenderer
 import org.tonstudio.tact.lang.psi.TactFile
 import org.tonstudio.tact.lang.psi.TactReferenceExpression
 import org.tonstudio.tact.lang.psi.TactTypeReferenceExpression
@@ -161,9 +161,7 @@ class TactImportFileQuickFix : LocalQuickFixAndIntentionActionOnPsiElement, Hint
         }
 
         if (filesToImport.size > 1 && editor != null) {
-            val list = JBList(filesToImport)
-
-            list.installCellRenderer { name ->
+            val renderer = SelectionAwareListCellRenderer<String> { name ->
                 val parts = name.split('.')
                 val shortName = parts.last()
 
@@ -175,22 +173,15 @@ class TactImportFileQuickFix : LocalQuickFixAndIntentionActionOnPsiElement, Hint
                 }
             }
 
-            @Suppress("DEPRECATION")
-            val builder = JBPopupFactory.getInstance().createListPopupBuilder(list).setRequestFocus(true)
+            val builder = JBPopupFactory.getInstance().createPopupChooserBuilder(filesToImport)
+                .setRequestFocus(true)
                 .setTitle("Files to Import")
-                .setItemChoosenCallback {
-                    val i = list.selectedIndex
-                    if (i < 0) {
-                        return@setItemChoosenCallback
-                    }
-
-                    perform(file, filesToImport[i])
+                .setRenderer(renderer)
+                .setItemChosenCallback { item ->
+                    perform(file, item)
                 }
-                .setFilteringEnabled { element: Any -> element as? String ?: element.toString() }
 
             val popup = builder.createPopup()
-            builder.scrollPane.border = null
-            builder.scrollPane.viewportBorder = null
             popup.showInBestPositionFor(editor)
             return
         }

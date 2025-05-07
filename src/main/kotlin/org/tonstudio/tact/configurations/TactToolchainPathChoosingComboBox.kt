@@ -3,6 +3,7 @@ package org.tonstudio.tact.configurations
 import com.intellij.openapi.application.AppUIExecutor
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ModalityState
+import com.intellij.openapi.application.invokeLater
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.ui.ComboBoxWithWidePopup
@@ -70,8 +71,7 @@ class TactToolchainPathChoosingComboBox(onTextChanged: () -> Unit = {}) :
             try {
                 toolchains = toolchainObtainer()
             } finally {
-                val executor = AppUIExecutor.onUiThread(ModalityState.any()).expireWith(this)
-                executor.execute {
+                invokeLater(ModalityState.any())  {
                     setBusy(false)
                     childComponent.removeAllItems()
                     toolchains.forEach(childComponent::addItem)
