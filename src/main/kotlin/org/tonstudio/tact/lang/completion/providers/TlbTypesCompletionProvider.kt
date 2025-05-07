@@ -35,7 +35,7 @@ object TlbTypesCompletionProvider : CompletionProvider<CompletionParameters>() {
 
     private val VARIADIC_INT_VARIANTS = listOf(
         "int{X}" to "\$bits$",
-        "uint{X}" to "\$bits\$"
+        "uint{X}" to "\$bits$"
     )
 
     override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {

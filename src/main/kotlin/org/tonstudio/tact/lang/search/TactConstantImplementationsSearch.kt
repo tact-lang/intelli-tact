@@ -15,12 +15,12 @@ class TactConstantImplementationsSearch : QueryExecutorBase<TactConstDeclaration
         val constant = parameters.element as? TactConstDeclaration ?: return
         val trait = constant.getOwner() as? TactTraitDeclaration ?: return
 
-        TactImplementationsSearch().processQuery(DefinitionsScopedSearch.SearchParameters(trait), { t ->
+        TactImplementationsSearch().processQuery(DefinitionsScopedSearch.SearchParameters(trait)) { t ->
             val implementations = t.getConstantsList().filter { c -> c.name == constant.name }
             for (implementation in implementations) {
                 consumer.process(implementation)
             }
             true
-        })
+        }
     }
 }

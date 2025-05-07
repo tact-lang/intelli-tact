@@ -25,7 +25,7 @@ class TactImplementationsSearch : QueryExecutorBase<TactStorageMembersOwner, Def
         if (!parameters.isCheckDeep) return
 
         val trait = parameters.element as? TactTraitDeclaration ?: return
-        TactContractsTraitsIndex.processAll(parameters.project, { el ->
+        TactContractsTraitsIndex.processAll(parameters.project) { el ->
             val elType = when (el) {
                 is TactContractDeclaration -> el.contractType
                 is TactTraitDeclaration    -> el.traitType
@@ -40,6 +40,6 @@ class TactImplementationsSearch : QueryExecutorBase<TactStorageMembersOwner, Def
                 if (!consumer.process(elType)) return@processAll false
             }
             true
-        })
+        }
     }
 }

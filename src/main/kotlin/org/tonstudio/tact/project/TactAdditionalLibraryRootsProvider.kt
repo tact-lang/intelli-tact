@@ -69,11 +69,6 @@ class TactAdditionalLibraryRootsProvider : AdditionalLibraryRootsProvider() {
             result.add(sourceRoot)
         }
 
-        val modulesRoot = TactConfiguration.getInstance(project).localModulesLocation
-        if (modulesRoot != null) {
-            result.add(modulesRoot)
-        }
-
         val stubs = getStubs(project)
         if (stubs != null) {
             result.add(stubs.sourceRoots.first())

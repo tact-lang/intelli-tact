@@ -131,7 +131,7 @@ object TactCompletionPatterns {
                 // so we need to check that prev leaf is error element or TactTypeModifiers
                 val rawPrevLeaf = PsiTreeUtil.prevLeaf(t)
 
-                // in some cases prev leaf can be literal
+                // in some cases, prev leaf can be literal
                 val prevParent = rawPrevLeaf?.parent
                 if (prevParent is TactLiteral) return true
 

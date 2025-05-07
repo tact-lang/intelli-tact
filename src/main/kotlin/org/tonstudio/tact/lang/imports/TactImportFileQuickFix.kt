@@ -186,7 +186,7 @@ class TactImportFileQuickFix : LocalQuickFixAndIntentionActionOnPsiElement, Hint
 
                     perform(file, filesToImport[i])
                 }
-                .setFilteringEnabled { element: Any -> if (element is String) element else element.toString() }
+                .setFilteringEnabled { element: Any -> element as? String ?: element.toString() }
 
             val popup = builder.createPopup()
             builder.scrollPane.border = null

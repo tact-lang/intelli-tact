@@ -10,6 +10,7 @@ import org.tonstudio.tact.lang.TactFileType
 import javax.swing.JComponent
 import javax.swing.JPanel
 
+@Suppress("UnstableApiUsage")
 open class TactBuildConfigurationEditor(private val project: Project) : SettingsEditor<TactBuildConfiguration>() {
     data class Model(
         var fileName: String = "",
