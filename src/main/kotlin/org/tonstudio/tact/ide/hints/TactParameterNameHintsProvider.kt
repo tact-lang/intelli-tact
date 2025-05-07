@@ -10,15 +10,22 @@ import org.tonstudio.tact.lang.TactLanguage
 import org.tonstudio.tact.lang.psi.*
 import kotlin.math.min
 
-@Suppress("UnstableApiUsage")
 class TactParameterNameHintsProvider : InlayParameterHintsProvider {
     override fun getHintInfo(element: PsiElement): HintInfo? {
-        if (element !is TactCallExpr) return null
+        if (element is TactCallExpr) {
+            val (signature, resolved) = element.resolveSignature() ?: return null
 
-        val (signature, resolved) = element.resolveSignature() ?: return null
+            val parameters = signature.parameters.paramDefinitionList.map { it.name ?: "_" }
+            return createMethodInfo(resolved as TactNamedElement, parameters)
+        }
 
-        val parameters = signature.parameters.paramDefinitionList.map { it.name ?: "_" }
-        return createMethodInfo(resolved as TactNamedElement, parameters)
+        if (element is TactInitOfExpr) {
+            val fields = element.resolve() ?: return null
+            val fieldNames = fields.map { it.identifier?.text ?: "unnamed" }
+            return HintInfo.MethodInfo("init", fieldNames, TactLanguage)
+        }
+
+        return null
     }
 
     private fun createMethodInfo(function: TactNamedElement, parameters: List<String>): HintInfo.MethodInfo? {
@@ -27,8 +34,13 @@ class TactParameterNameHintsProvider : InlayParameterHintsProvider {
     }
 
     override fun getParameterHints(element: PsiElement, file: PsiFile): MutableList<InlayInfo> {
-        if (element !is TactCallExpr) return mutableListOf()
-        return handleCallExpr(element)
+        if (element is TactCallExpr) {
+            return handleCallExpr(element)
+        }
+        if (element is TactInitOfExpr) {
+            return handleInitOfExpr(element)
+        }
+        return mutableListOf()
     }
 
     private fun handleCallExpr(element: TactCallExpr): MutableList<InlayInfo> {
@@ -75,6 +87,31 @@ class TactParameterNameHintsProvider : InlayParameterHintsProvider {
         if (expression !is TactReferenceExpression) return false
         expression.getQualifier() ?: return false
         return signature.withSelf()
+    }
+
+    private fun handleInitOfExpr(element: TactInitOfExpr): MutableList<InlayInfo> {
+        val hints = mutableListOf<InlayInfo>()
+        val params = element.resolve() ?: return hints
+
+        val args = element.argumentList?.expressionList ?: emptyList()
+
+        for (i in 0 until min(params.size, args.size)) {
+            val parameter = params[i]
+            val name = parameter.identifier?.text ?: continue
+            val arg = args[i]
+
+            val argResolved = arg.reference?.resolve()
+            if (argResolved is TactNamedElement) {
+                // don't show hints for obvious cases
+                if (argResolved.name == name) continue
+            }
+
+            val offset = arg.startOffset
+            val inlayInfo = InlayInfo(name, offset)
+            hints.add(inlayInfo)
+        }
+
+        return hints
     }
 
     override fun getDefaultBlackList() = setOf<String>()

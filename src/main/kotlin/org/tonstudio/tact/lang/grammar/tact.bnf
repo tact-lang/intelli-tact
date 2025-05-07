@@ -393,6 +393,7 @@ StructType ::= struct identifier '{' FieldDefinition* '}' {
 FieldDefinition ::= identifier ':' Type DefaultFieldValue? semi? {
   pin=1
   methods=[getQualifier getQualifiedName getTypeInner getOwner]
+  implements="org.tonstudio.tact.lang.psi.TactFieldOrParameter"
   stubClass="org.tonstudio.tact.lang.stubs.TactFieldDefinitionStub"
 }
 DefaultFieldValue ::= '=' Expression {pin=1}
@@ -434,6 +435,7 @@ private ParameterList ::= ParamDefinition (',' (ParamDefinition | &')'))* ','? {
 
 ParamDefinition ::= identifier ':' Type {
   pin=4
+  implements="org.tonstudio.tact.lang.psi.TactFieldOrParameter"
   stubClass="org.tonstudio.tact.lang.stubs.TactParamDefinitionStub"
 }
 
@@ -637,7 +639,7 @@ ForEachStatement ::= foreach '(' VarDefinition ',' VarDefinition in Expression '
 TryStatement ::= try Block CatchClause? {pin=1}
 CatchClause ::= catch '(' VarDefinition ')' Block {pin=1}
 
-InitOfExpr ::= 'initOf' TypeReferenceExpression ArgumentList {pin=1}
+InitOfExpr ::= 'initOf' TypeReferenceExpression ArgumentList {pin=1 methods=[resolve]}
 CodeOfExpr ::= 'codeOf' TypeReferenceExpression {pin=1}
 
 // <expr> ? <expr> : <expr>

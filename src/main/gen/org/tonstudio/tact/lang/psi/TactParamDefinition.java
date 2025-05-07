@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.StubBasedPsiElement;
 import org.tonstudio.tact.lang.stubs.TactParamDefinitionStub;
 
-public interface TactParamDefinition extends TactNamedElement, StubBasedPsiElement<TactParamDefinitionStub> {
+public interface TactParamDefinition extends TactFieldOrParameter, TactNamedElement, StubBasedPsiElement<TactParamDefinitionStub> {
 
   @NotNull
   TactType getType();

@@ -539,6 +539,24 @@ object TactPsiImplUtil {
         return signature to resolved
     }
 
+    @JvmStatic
+    fun resolve(o: TactInitOfExpr): List<TactFieldOrParameter>? {
+        val contractDecl = o.typeReferenceExpression?.resolve() as? TactContractDeclaration ?: return null
+
+        val contractParameters = contractDecl.contractType.contractParameters
+        val init = contractDecl.contractType.contractInitDeclarationList.firstOrNull()
+
+        if (contractParameters != null) {
+            return contractParameters.fieldDefinitionList
+        }
+
+        if (init != null) {
+            return init.parameters?.paramDefinitionList
+        }
+
+        return null
+    }
+
     private fun getNotNullElement(vararg elements: PsiElement?): PsiElement? {
         for (e in elements) {
             if (e != null) return e
