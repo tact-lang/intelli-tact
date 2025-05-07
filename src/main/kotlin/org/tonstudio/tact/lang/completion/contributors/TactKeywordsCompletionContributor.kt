@@ -51,7 +51,6 @@ class TactKeywordsCompletionContributor : CompletionContributor() {
                 "null",
                 "true",
                 "false",
-                needSpace = false,
             )
         )
 

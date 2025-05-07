@@ -6,7 +6,7 @@ import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.codeInsight.template.impl.ConstantNode
 import com.intellij.util.ProcessingContext
-import org.tonstudio.tact.lang.completion.TactCompletionUtil
+import org.tonstudio.tact.lang.completion.TactCompletionUtil.TemplateStringInsertHandler
 import org.tonstudio.tact.lang.psi.TactFile
 
 object ReceiversCompletionProvider : CompletionProvider<CompletionParameters>() {
@@ -23,7 +23,7 @@ object ReceiversCompletionProvider : CompletionProvider<CompletionParameters>() 
                 .bold()
                 .withTailText("(msg: <type>) {}", true)
                 .withInsertHandler(
-                    TactCompletionUtil.TemplateStringInsertHandler(
+                    TemplateStringInsertHandler(
                         "(msg: \$type$) {\$END$}",
                         true,
                         "type" to ConstantNode(messageToSuggest),
@@ -42,7 +42,7 @@ object ReceiversCompletionProvider : CompletionProvider<CompletionParameters>() 
                     val doc = context.document
                     val start = context.startOffset
                     doc.deleteString(start + name.length, start + name.length + 1)
-                    TactCompletionUtil.TemplateStringInsertHandler(
+                    TemplateStringInsertHandler(
                         "(\"\$type$\") {\$END$}",
                         true,
                         "type" to ConstantNode("")
@@ -61,9 +61,8 @@ object ReceiversCompletionProvider : CompletionProvider<CompletionParameters>() 
                     val doc = context.document
                     val start = context.startOffset
                     doc.deleteString(start + name.length, start + name.length + 1)
-                    TactCompletionUtil.TemplateStringInsertHandler(
+                    TemplateStringInsertHandler(
                         "() {\$END$}",
-                        true,
                     ).handleInsert(context, item)
                 }
 
@@ -74,7 +73,7 @@ object ReceiversCompletionProvider : CompletionProvider<CompletionParameters>() 
             .bold()
             .withTailText("(msg: <type>) {}", true)
             .withInsertHandler(
-                TactCompletionUtil.TemplateStringInsertHandler(
+                TemplateStringInsertHandler(
                     "(msg: \$type$) {\$END$}",
                     true,
                     "type" to ConstantNode(messageToSuggest),

@@ -2,7 +2,7 @@ package org.tonstudio.tact.lang.psi.types
 
 import com.intellij.openapi.project.Project
 
-class TactUnknownTypeEx private constructor() : TactBaseTypeEx(null) {
+class TactUnknownTypeEx private constructor() : TactBaseTypeEx() {
     override fun toString(): String = name()
 
     override fun name(): String = "any"
