@@ -1,6 +1,5 @@
 package org.tonstudio.tact.ide.templates
 
-import com.intellij.codeInsight.template.EverywhereContextType
 import com.intellij.codeInsight.template.TemplateActionContext
 import com.intellij.codeInsight.template.TemplateContextType
 import com.intellij.psi.PsiComment
@@ -15,13 +14,7 @@ import org.tonstudio.tact.lang.psi.TactImportDeclaration
 import org.tonstudio.tact.lang.psi.TactSimpleStatement
 import org.tonstudio.tact.utils.inside
 
-@Suppress("DEPRECATION")
-abstract class TactTemplateContextType(
-    id: String,
-    presentableName: String,
-    baseContextType: Class<out TemplateContextType>?
-) : TemplateContextType(id, presentableName, baseContextType) {
-
+abstract class TactTemplateContextType(presentableName: String) : TemplateContextType(presentableName) {
     override fun isInContext(templateActionContext: TemplateActionContext): Boolean {
         val file = templateActionContext.file
         val offset = templateActionContext.startOffset
@@ -44,8 +37,8 @@ abstract class TactTemplateContextType(
         }
 
         when {
-            element is PsiWhiteSpace                          -> return false
-            element.parentOfType<PsiComment>() != null        -> return isCommentInContext()
+            element is PsiWhiteSpace                              -> return false
+            element.parentOfType<PsiComment>() != null            -> return isCommentInContext()
             element.parentOfType<TactImportDeclaration>() != null -> return false
         }
 
@@ -56,22 +49,22 @@ abstract class TactTemplateContextType(
 
     protected open fun isCommentInContext() = false
 
-    class Generic : TactTemplateContextType("TACT_GENERIC", "Tact", EverywhereContextType::class.java) {
+    class Generic : TactTemplateContextType("Tact") {
         override fun isInContext(element: PsiElement) = element.parent is TactFile || element.parent.parent is TactFile
     }
 
-    class TopLevel : TactTemplateContextType("TACT_TOPLEVEL", "Top-level", Generic::class.java) {
+    class TopLevel : TactTemplateContextType("Top-level") {
         override fun isInContext(element: PsiElement): Boolean {
             val simpleStatement = element.parentOfType<TactSimpleStatement>() ?: return false
             return simpleStatement.parent is TactFile
         }
     }
 
-    class Statement : TactTemplateContextType("TACT_STATEMENT", "Statement", Generic::class.java) {
+    class Statement : TactTemplateContextType("Statement") {
         override fun isInContext(element: PsiElement) = element.inside<TactSimpleStatement>()
     }
 
-    class Comment : TactTemplateContextType("TACT_COMMENT", "Comment", Generic::class.java) {
+    class Comment : TactTemplateContextType("Comment") {
         override fun isInContext(element: PsiElement) = false
         override fun isCommentInContext() = true
     }

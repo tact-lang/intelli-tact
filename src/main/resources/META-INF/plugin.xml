@@ -178,10 +178,10 @@
 
         <!-- region Live Templates -->
         <defaultLiveTemplates file="/liveTemplates/Tact.xml"/>
-        <liveTemplateContext implementation="org.tonstudio.tact.ide.templates.TactTemplateContextType$Comment" contextId="TACT_COMMENT"/>
-        <liveTemplateContext implementation="org.tonstudio.tact.ide.templates.TactTemplateContextType$Generic" contextId="TACT_GENERIC"/>
-        <liveTemplateContext implementation="org.tonstudio.tact.ide.templates.TactTemplateContextType$TopLevel" contextId="TACT_TOPLEVEL"/>
-        <liveTemplateContext implementation="org.tonstudio.tact.ide.templates.TactTemplateContextType$Statement" contextId="TACT_STATEMENT"/>
+        <liveTemplateContext implementation="org.tonstudio.tact.ide.templates.TactTemplateContextType$Generic" contextId="TACT_GENERIC" baseContextId="OTHER"/>
+        <liveTemplateContext implementation="org.tonstudio.tact.ide.templates.TactTemplateContextType$Comment" contextId="TACT_COMMENT" baseContextId="TACT_GENERIC"/>
+        <liveTemplateContext implementation="org.tonstudio.tact.ide.templates.TactTemplateContextType$TopLevel" contextId="TACT_TOPLEVEL" baseContextId="TACT_GENERIC"/>
+        <liveTemplateContext implementation="org.tonstudio.tact.ide.templates.TactTemplateContextType$Statement" contextId="TACT_STATEMENT" baseContextId="TACT_GENERIC"/>
 
         <defaultTemplatePropertiesProvider
                 implementation="org.tonstudio.tact.ide.templates.TactDefaultTemplatePropertiesProvider"/>

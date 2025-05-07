@@ -41,9 +41,4 @@ open class TactGotoContributorBase<T : TactNamedElement>(
     }
 
     override fun getQualifiedNameSeparator() = "."
-
-    override fun getNames(p: Project, i: Boolean): Array<String> = ArrayUtil.EMPTY_STRING_ARRAY
-
-    override fun getItemsByName(n: String, p: String, p1: Project, i: Boolean): Array<NavigationItem> =
-        NavigationItem.EMPTY_NAVIGATION_ITEM_ARRAY
 }
