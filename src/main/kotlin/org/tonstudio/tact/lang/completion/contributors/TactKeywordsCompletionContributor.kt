@@ -240,7 +240,7 @@ class TactKeywordsCompletionContributor : CompletionContributor() {
             val element = LookupElementBuilder.create("import")
                 .withTailText(" \"\"")
                 .withInsertHandler { ctx, item ->
-                    StringInsertHandler(" \"\";", 3).handleInsert(ctx, item)
+                    StringInsertHandler(" \"\";", 2).handleInsert(ctx, item)
                     showCompletion(ctx.editor)
                 }
                 .bold()

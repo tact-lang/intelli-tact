@@ -216,33 +216,41 @@
 
         <!-- region Project -->
         <additionalLibraryRootsProvider implementation="org.tonstudio.tact.project.TactAdditionalLibraryRootsProvider"/>
-        <projectConfigurable groupId="language" instance="org.tonstudio.tact.configurations.TactProjectSettingsConfigurable"
+        <projectConfigurable groupId="language"
+                             instance="org.tonstudio.tact.configurations.TactProjectSettingsConfigurable"
                              id="MainTactSettings"
-                             dynamic="true" displayName="Tact"/>
+                             bundle="messages.TactBundle"
+                             key="settings.tact.main"
+                             dynamic="true"/>
         <projectConfigurable parentId="MainTactSettings"
                              instance="org.tonstudio.tact.configurations.TactFmtSettingsConfigurable"
                              id="org.tonstudio.tact.configurations.TactFmtSettingsConfigurable"
-                             dynamic="true" displayName="Tactfmt"/>
+                             bundle="messages.TactBundle"
+                             key="settings.tact.fmt"
+                             dynamic="true"/>
         <fileDocumentManagerListener implementation="org.tonstudio.tact.project.TactFmtWatcher$TactFmtListener"/>
         <!-- endregion Project -->
 
         <!-- region General inspections -->
         <localInspection language="tact" groupPath="Tact"
-                         groupName="General" shortName="TactUnresolvedReferenceInspection"
-                         displayName="Unresolved reference"
+                         groupKey="inspection.tact.general.group"
+                         shortName="TactUnresolvedReferenceInspection"
                          enabledByDefault="true" level="INFO"
-                         implementationClass="org.tonstudio.tact.ide.inspections.TactUnresolvedReferenceInspection"/>
+                         implementationClass="org.tonstudio.tact.ide.inspections.TactUnresolvedReferenceInspection"
+                         key="inspection.tact.unresolved.reference.inspection.display.name"/>
 
         <localInspection language="tact" groupPath="Tact"
-                         groupName="Unused" shortName="TactUnusedImportInspection"
-                         displayName="Unused import inspection"
+                         groupKey="inspection.tact.unused.group"
+                         shortName="TactUnusedImportInspection"
                          enabledByDefault="true" level="WARNING"
-                         implementationClass="org.tonstudio.tact.ide.inspections.unused.TactUnusedImportInspection"/>
+                         implementationClass="org.tonstudio.tact.ide.inspections.unused.TactUnusedImportInspection"
+                         key="inspection.tact.unused.import.inspection.display.name"/>
         <localInspection language="tact" groupPath="Tact"
-                         groupName="Unused" shortName="TactAmbiguousImportInspection"
-                         displayName="Ambiguous import"
+                         groupKey="inspection.tact.unused.group"
+                         shortName="TactAmbiguousImportInspection"
                          enabledByDefault="true" level="ERROR"
-                         implementationClass="org.tonstudio.tact.ide.inspections.TactAmbiguousImportInspection"/>
+                         implementationClass="org.tonstudio.tact.ide.inspections.TactAmbiguousImportInspection"
+                         key="inspection.tact.ambiguous.import.inspection.display.name"/>
         <!-- endregion General inspections -->
 
     </extensions>
