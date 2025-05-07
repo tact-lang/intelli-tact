@@ -6,10 +6,8 @@ import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.parentOfType
 import org.tonstudio.tact.lang.TactTypes
 import org.tonstudio.tact.lang.psi.*
-import org.tonstudio.tact.lang.psi.types.TactFunctionTypeEx
-import org.tonstudio.tact.lang.psi.types.TactTypeEx
 
-class TactParameterInfoHandler : ParameterInfoHandlerWithTabActionSupport<TactArgumentList, TactTypeEx?, TactExpression> {
+class TactParameterInfoHandler : ParameterInfoHandlerWithTabActionSupport<TactArgumentList, List<TactFieldOrParameter>, TactExpression> {
     override fun getActualParameters(list: TactArgumentList) = list.expressionList.toTypedArray()
     override fun getActualParameterDelimiterType(): IElementType = TactTypes.COMMA
     override fun getActualParametersRBraceType(): IElementType = TactTypes.RPAREN
@@ -23,15 +21,21 @@ class TactParameterInfoHandler : ParameterInfoHandlerWithTabActionSupport<TactAr
         context.setCurrentParameter(ParameterInfoUtils.getCurrentParameterIndex(list.node, context.offset, TactTypes.COMMA))
     }
 
-    override fun updateUI(type: TactTypeEx?, context: ParameterInfoUIContext) {
-        updatePresentation(type, context)
+    override fun updateUI(parameters: List<TactFieldOrParameter>, context: ParameterInfoUIContext) {
+        updatePresentation(parameters, context)
     }
 
     override fun showParameterInfo(argList: TactArgumentList, context: CreateParameterInfoContext) {
-        val parent = argList.parent as? TactCallExpr ?: return
-        val type = parent.expression!!.getType(null) as? TactFunctionTypeEx ?: return
-
-        context.itemsToShow = arrayOf(type)
+        val expr = argList.parent
+        if (expr is TactCallExpr) {
+            val (signature, _) = expr.resolveSignature() ?: return
+            val parameters = signature.parameters.paramDefinitionList
+            context.itemsToShow = arrayOf(parameters)
+        }
+        if (expr is TactInitOfExpr) {
+            val resolved = expr.resolve() ?: return
+            context.itemsToShow = arrayOf(resolved)
+        }
         context.showHint(argList, argList.textRange.startOffset, this)
     }
 
@@ -40,20 +44,8 @@ class TactParameterInfoHandler : ParameterInfoHandlerWithTabActionSupport<TactAr
     }
 
     companion object {
-        fun updatePresentation(type: TactTypeEx?, context: ParameterInfoUIContext): String? {
-            if (type == null) {
-                context.isUIComponentEnabled = false
-                return null
-            }
-
-            val signature = if (type is TactFunctionTypeEx) type.signature else null
-            if (signature == null) {
-                context.isUIComponentEnabled = false
-                return null
-            }
-
-            val isSelfMethod = if (type is TactFunctionTypeEx) type.isSelfMethod() else false
-            val parameters = signature.parameters
+        fun updatePresentation(parameters: List<TactFieldOrParameter>, context: ParameterInfoUIContext): String? {
+            val isSelfMethod = parameters.firstOrNull()?.identifier?.textMatches("self") ?: false
 
             val parametersPresentations = getParameterPresentations(parameters, isSelfMethod)
             val builder = StringBuilder()
@@ -87,15 +79,16 @@ class TactParameterInfoHandler : ParameterInfoHandlerWithTabActionSupport<TactAr
             )
         }
 
-        private fun getParameterPresentations(parameters: TactParameters, isSelfMethod: Boolean): List<String> {
+        private fun getParameterPresentations(parameters: List<TactFieldOrParameter>, isSelfMethod: Boolean): List<String> {
             val startIndex = if (isSelfMethod) 1 else 0
-            val paramDeclarations = parameters.paramDefinitionList
 
-            val paramPresentations = mutableListOf<String>()
-            for (paramDefinition in paramDeclarations.slice(startIndex..paramDeclarations.lastIndex)) {
-                paramPresentations.add(paramDefinition.name + ": " + paramDefinition.type.text)
+            val presentations = mutableListOf<String>()
+            for (param in parameters.slice(startIndex..parameters.lastIndex)) {
+                val name = param.identifier?.text ?: "unnamed"
+                val type = param.type?.text ?: "unknown"
+                presentations.add("$name: $type")
             }
-            return paramPresentations
+            return presentations
         }
     }
 }

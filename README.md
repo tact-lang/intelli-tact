@@ -29,7 +29,7 @@ blockchain.
 - Types and documentation on hover
 - Inlay hints for types, parameter names, and more
 - On-the-fly inspections with quick fixes
-- Signature help inside calls
+- Signature help inside calls and `initOf`
 - Formatting
 
 ## Installation & Usage

@@ -49,10 +49,6 @@ class TactFunctionTypeEx(val params: List<TactTypeEx>, val result: TactTypeEx?, 
         )
     }
 
-    fun isSelfMethod(): Boolean {
-        return params.isNotEmpty() && signature.parameters.paramDefinitionList[0].name?.contains("self") ?: false
-    }
-
     companion object {
         fun from(signatureOwner: TactSignatureOwner): TactFunctionTypeEx? {
             val signature = signatureOwner.getSignature() ?: return null
