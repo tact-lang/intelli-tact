@@ -48,7 +48,7 @@ open class TactBuildConfigurationEditor(private val project: Project) : Settings
         mainPanel = panel {
             row("Config File:") {
                 textFieldWithBrowseButton(
-                    FileChooserDescriptorFactory.createSingleFileDescriptor("tact.config.json").withTitle("Select Tact Config File"),
+                    FileChooserDescriptorFactory.createSingleFileDescriptor("json").withTitle("Select Tact Config File"),
                     project,
                 )
                     .align(AlignX.FILL)
