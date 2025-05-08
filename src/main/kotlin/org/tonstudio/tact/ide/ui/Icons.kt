@@ -5,6 +5,7 @@ import com.intellij.openapi.util.IconLoader
 
 object Icons {
     val Tact = IconLoader.getIcon("/icons/tact.svg", this::class.java)
+    val Boc = IconLoader.getIcon("/icons/boc.svg", this::class.java)
 
     val Test = AllIcons.RunConfigurations.TestState.Run
     val TestGreen = AllIcons.RunConfigurations.TestState.Green2
