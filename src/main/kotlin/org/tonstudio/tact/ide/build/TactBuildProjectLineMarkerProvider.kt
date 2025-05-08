@@ -22,6 +22,9 @@ class TactBuildProjectLineMarkerProvider : RunLineMarkerContributor() {
         val parent = element.parent.parent
         if (parent is JsonProperty) {
             if (parent.name == "name") {
+                val file = element.containingFile?.virtualFile ?: return null
+                if (file.name != "tact.config.json") return null
+
                 val projectName = parent.value as? JsonStringLiteral ?: return null
                 return Info(AllIcons.Toolwindows.ToolWindowBuild, contextActions) { "Build project \"${projectName.value}\"" }
             }
