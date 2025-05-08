@@ -14,6 +14,7 @@ Developed by [TON Studio](https://tonstudio.io), powered by the community.
 [![Telegram](https://img.shields.io/badge/Community_Chat-white?logo=telegram&style=flat)](https://t.me/tactlang)
 [![Telegram](https://img.shields.io/badge/Tact_Kitchen_🥣-white?logo=telegram&style=flat)](https://t.me/tact_kitchen)
 [![](https://img.shields.io/badge/JetBrains%20Marketplace-white?logo=jetbrains&logoColor=black)](https://plugins.jetbrains.com/plugin/27290-tact)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/27290-tact.svg?color=white&labelColor=white&logo=jetbrains&logoColor=black)](https://plugins.jetbrains.com/plugin/27290-tact)
 
 ---
 
