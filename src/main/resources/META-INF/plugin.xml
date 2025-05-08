@@ -253,11 +253,22 @@
 
         <fileType name="TON BoC File"
                   implementationClass="org.tonstudio.tact.boc.TonBocFileType"
-                  fieldName="INSTANCE"
                   language="TonBoc"
                   extensions="boc"/>
 
         <fileEditorProvider implementation="org.tonstudio.tact.boc.TonBocEditorProvider"/>
+
+        <fileType
+                name="Tact Contract ABI"
+                language="JSON"
+                implementationClass="org.tonstudio.tact.smalllangs.AbiFileType"
+                extensions="abi"/>
+
+        <fileType
+                name="Tact Package Config"
+                language="JSON"
+                implementationClass="org.tonstudio.tact.smalllangs.PkgFileType"
+                extensions="pkg"/>
     </extensions>
 
     <actions>
