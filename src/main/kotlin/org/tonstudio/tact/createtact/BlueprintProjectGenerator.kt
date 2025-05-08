@@ -49,7 +49,7 @@ class CreateTactProjectGenerator() : NpmPackageProjectGenerator() {
             "--contractName",
             "Main",
             "--skipDepsInstallation",
-            "false",
+            "true", // we install deps later
             "--initializeGitRepository",
             initGit.toString(),
             workingDir
