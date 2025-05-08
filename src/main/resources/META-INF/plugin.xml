@@ -251,6 +251,13 @@
                          key="inspection.tact.ambiguous.import.inspection.display.name"/>
         <!-- endregion General inspections -->
 
+        <fileType name="TON BoC File"
+                  implementationClass="org.tonstudio.tact.boc.TonBocFileType"
+                  fieldName="INSTANCE"
+                  language="TonBoc"
+                  extensions="boc"/>
+
+        <fileEditorProvider implementation="org.tonstudio.tact.boc.TonBocEditorProvider"/>
     </extensions>
 
     <actions>
