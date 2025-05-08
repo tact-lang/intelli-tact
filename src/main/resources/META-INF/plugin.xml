@@ -158,8 +158,8 @@
         <!-- endregion Injection -->
 
         <!-- region Formatter -->
-        <!-- TODO: lang.formatter -->
-        <!-- TODO: langCodeStyleSettingsProvider -->
+        <lang.formatter language="tact"
+                        implementationClass="org.tonstudio.tact.lang.formatter.TactFormattingModelBuilder"/>
         <formattingService implementation="org.tonstudio.tact.lang.formatter.TactFormattingService"/>
         <!-- endregion Formatter -->
 
@@ -189,8 +189,6 @@
 
         <!-- region Editor -->
         <postStartupActivity implementation="org.tonstudio.tact.ide.TactPostStartupActivity"/>
-        <lang.formatter language="tact"
-            implementationClass="org.tonstudio.tact.lang.formatter.TactFormattingModelBuilder"/>
         <breadcrumbsInfoProvider implementation="org.tonstudio.tact.ide.editor.TactBreadcrumbsInfoProvider"/>
         <!-- endregion Editor -->
 
