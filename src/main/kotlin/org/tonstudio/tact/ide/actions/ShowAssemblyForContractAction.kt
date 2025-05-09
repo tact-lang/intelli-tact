@@ -35,7 +35,7 @@ class ShowAssemblyForContractAction : SelectionBasedPsiElementAction<TactComposi
             val disasmFile = runReadAction { createFile(project, disassembledText) }
             val disasmVirtualFile = disasmFile?.virtualFile ?: return@builcContract
 
-            openFileInRightTab(project, disasmVirtualFile) { openedEditorWindow, _ -> }
+            openFileInRightTab(project, disasmVirtualFile) { _, _ -> }
         }
 
         handler.startNotify()
