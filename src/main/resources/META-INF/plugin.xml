@@ -275,6 +275,12 @@
         <action id="tact.new.file" class="org.tonstudio.tact.ide.actions.CreateTactFileAction">
             <add-to-group group-id="NewGroup"/>
         </action>
+
+        <action id="org.tonstudio.tact.ide.actions.ShowAssemblyForContract"
+                class="org.tonstudio.tact.ide.actions.ShowAssemblyForContractAction"
+                text="Show contract assembly">
+            <add-to-group group-id="EditorPopupMenu"/>
+        </action>
     </actions>
 
     <extensions defaultExtensionNs="org.tonstudio.tact">
