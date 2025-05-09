@@ -6,6 +6,7 @@ import org.tonstudio.tact.lang.psi.TactFieldDefinition
 import org.tonstudio.tact.lang.psi.TactFunctionDeclaration
 import org.tonstudio.tact.lang.psi.TactNamedElement
 import org.tonstudio.tact.lang.psi.TactStorageMembersOwner
+import org.tonstudio.tact.lang.psi.constants
 import org.tonstudio.tact.lang.psi.fields
 import org.tonstudio.tact.lang.psi.methods
 
@@ -34,6 +35,10 @@ abstract class StorageMembersOwnerTy<T : TactNamedElement>(private val name: Str
 
     fun fields(): List<TactFieldDefinition> {
         return owner()?.fields() ?: emptyList()
+    }
+
+    fun constants(): List<TactConstDeclaration> {
+        return owner()?.constants() ?: emptyList()
     }
 
     private fun owner(): TactStorageMembersOwner? {

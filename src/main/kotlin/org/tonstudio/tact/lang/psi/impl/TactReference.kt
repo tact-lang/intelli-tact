@@ -178,7 +178,7 @@ class TactReference(el: TactReferenceExpressionBase, val forTypes: Boolean = fal
         if (typ is StorageMembersOwnerTy<*>) {
             if (!processNamedElements(processor, state, typ.ownFields())) return false
             if (!processNamedElements(processor, state, typ.methods())) return false
-            if (!processNamedElements(processor, state, typ.ownConstants())) return false
+            if (!processNamedElements(processor, state, typ.constants())) return false
 
             if (typ.name() != "BaseTrait") {
                 val baseTrait = TactNamesIndex.find("BaseTrait", project, null).firstOrNull() as? TactTraitDeclaration ?: return true
