@@ -1,0 +1,5 @@
+<idea-plugin>
+  <extensions defaultExtensionNs="com.intellij">
+    <directoryProjectGenerator implementation="org.tonstudio.tact.createtact.CreateTactProjectGenerator"/>
+  </extensions>
+</idea-plugin>
