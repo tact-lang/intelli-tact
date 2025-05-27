@@ -270,6 +270,7 @@
                 language="JSON"
                 implementationClass="org.tonstudio.tact.smalllangs.PkgFileType"
                 extensions="pkg"/>
+      <consoleFilterProvider implementation="org.tonstudio.tact.ide.run.TactConsoleFilterProvider"/>
     </extensions>
 
     <actions>
