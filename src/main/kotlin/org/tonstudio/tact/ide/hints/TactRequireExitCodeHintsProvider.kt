@@ -20,7 +20,7 @@ class TactRequireExitCodeHintsProvider : InlayHintsProvider {
             val secondArgument = element.arguments.lastOrNull() ?: return
             val stringLiteral = secondArgument as? TactStringLiteral ?: return
             val stringContent = stringLiteral.contents
-            val exitCode = requireFunctionExitCode(stringContent, ExitCodeFormat.HEX)
+            val exitCode = requireFunctionExitCode(stringContent, ExitCodeFormat.DECIMAL)
 
             sink.addPresentation(
                 InlineInlayPosition(element.textRange.endOffset, true),
