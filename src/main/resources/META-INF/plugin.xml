@@ -258,6 +258,7 @@
                   extensions="boc"/>
 
         <fileEditorProvider implementation="org.tonstudio.tact.boc.TonBocEditorProvider"/>
+        <fileEditorProvider implementation="org.tonstudio.tact.boc.TonBocHexEditorProvider"/>
 
         <fileType
                 name="Tact Contract ABI"
