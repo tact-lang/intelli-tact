@@ -625,8 +625,8 @@ SetLiteral ::= SetType '{' SetEntries? '}'
 private SetEntries ::= SetEntry (',' SetEntry)* ','?
 SetEntry ::= Expression
 
-WhileStatement ::= while Expression Block {pin=1}
-RepeatStatement ::= repeat Expression Block {pin=1}
+WhileStatement ::= while '(' Expression ')' Block {pin=1}
+RepeatStatement ::= repeat '(' Expression ')' Block {pin=1}
 UntilStatement ::= do Block until Expression semi {pin=1}
 ForEachStatement ::= foreach '(' VarDefinition ',' VarDefinition in Expression ')' Block {
   pin=1
