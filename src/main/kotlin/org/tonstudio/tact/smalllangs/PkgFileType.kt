@@ -7,7 +7,7 @@ import javax.swing.Icon
 
 object PkgFileType : LanguageFileType(JsonLanguage.INSTANCE) {
     override fun getName(): String = "Tact Package Config"
-    override fun getDescription(): String = "Tact Package Config file"
+    override fun getDescription(): String = "Tact package config file"
     override fun getDefaultExtension(): String = "pkg"
-    override fun getIcon(): Icon = JsonFileType.INSTANCE.icon
+    override fun getIcon(): Icon = JsonFileType.INSTANCE.icon!!
 }
