@@ -9,5 +9,5 @@ object AbiFileType : LanguageFileType(JsonLanguage.INSTANCE) {
     override fun getName(): String = "Tact Contract ABI"
     override fun getDescription(): String = "Tact Contract ABI file"
     override fun getDefaultExtension(): String = "abi"
-    override fun getIcon(): Icon = JsonFileType.INSTANCE.icon
+    override fun getIcon(): Icon = JsonFileType.INSTANCE.icon!!
 }
